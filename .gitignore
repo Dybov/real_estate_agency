@@ -4,3 +4,6 @@
 #For editors temporary files
 *~
 *.swp
+
+#For nano's emergency files
+*.save
