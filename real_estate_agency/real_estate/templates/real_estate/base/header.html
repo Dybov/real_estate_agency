@@ -1,0 +1,30 @@
+<header>
+    <div class='col-xs-12 hidden-xs' id='default-header'>
+        <section class='cols-sm-12 col-md-5 '>
+            <div class='col-xs-6 text-right'>
+                <a href='{% url "real_estate:index" %}' ><img alt='Логотип компании ДОМУС' src='media/logo/logo.svg' width='162'></a>
+            </div>
+            <div class='col-xs-6 text-left'>
+                <span id='link_vk'>
+                    vk
+                </span>
+                <span id='link_instagram'>
+                    instagram
+                </span>                
+            </div>
+        </section>
+        <section class='col-md-7 hidden-sm hidden-xs'>
+            <div class='col-xs-8 text-right'>
+                <p>Звоните ежедневно с 8:00 до 22:00<br>
+                <a href='tel:+7 (3452) 58-98-81' id='header-phone'>+7 (3452) 58-98-81</a>
+                </p>
+            </div>
+            <div class='col-xs-4 text-left'>
+                <button type='button' class='btn btn-warning btn-lg'>Заказать звонок</button>
+            </div>
+        </section>
+    </div>
+ 
+        {% block navigation %}{% include 'real_estate/base/navigation.html' %}{% endblock %}
+
+</header>

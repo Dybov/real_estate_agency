@@ -7,3 +7,6 @@
 
 #For nano's emergency files
 *.save
+
+#For django media files
+real_estate_agency/media/*

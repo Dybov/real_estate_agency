@@ -1,0 +1,32 @@
+@import url(https://fonts.googleapis.com/css?family=Roboto|Open+Sans&subset=latin,cyrillic);
+body {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 12px;
+}
+#default-header {
+    background-color: #D5F2EF;
+    height:  70px;
+    padding-top: 10px;
+}
+#header-phone {
+    font-size: 30px;
+    color: black;
+    line-height: 1;
+}
+/* If customers wanted it'll be useful
+.btn-real-estate, .btn-real-estate:visited, .btn-real-estate:hover, .btn-real-estate:focus, .btn-real-estate:active {
+    width: 90%;
+    height: 45px;
+    color: white;
+    background-color: #FF8256;
+    font-weight: bold;
+}*/
+.navbar {border-radius: 0px;}
+
+.navbar .container-fluid, .navbar-collapse {
+    padding-left:0;
+    
+}
+.navbar-collapse.in, .navbar-collapse.collapsing{
+    padding-left:30px;
+}
