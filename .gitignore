@@ -10,3 +10,7 @@
 
 #For django media files
 real_estate_agency/media/*
+
+#For sublime files
+*.sublime-project
+*.sublime-workspace

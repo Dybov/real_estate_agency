@@ -7,7 +7,6 @@ body {
 
 /*Header*/
 #default-header {
-    background-color: #D5F2EF;
     height:  70px;
     padding-top: 10px;
 }
@@ -16,6 +15,7 @@ body {
     color: black;
     line-height: 1;
 }
+
 /* If customers wanted it'll be useful
 .btn-real-estate, .btn-real-estate:visited, .btn-real-estate:hover, .btn-real-estate:focus, .btn-real-estate:active {
     width: 90%;
@@ -26,14 +26,15 @@ body {
 }*/
 
 /*Nav panel*/
-.navbar {
+.navbar, footer  {
+    border: none;
     border-radius: 0px;
     background: #6e7783;
     margin: 0;
-    
 }
-.navbar .container-fluid,
-.navbar-collapse {padding-left:0;}
+
+.navbar .container-fluid, .navbar-collapse {padding-left:0;}
+
 .navbar-collapse.in, .navbar-collapse.collapsing{padding-left:30px;}
 
 .nav a {
@@ -46,12 +47,11 @@ body {
     transition: all 0.25s ease;
     text-transform: uppercase;
 }
+
 .nav a:hover {background-color: #78818C !important;}
 .nav a:visited { }
 .nav a:active { }
 .nav .active a { color:#ff8256 !important;}
-
-
 
 @media (max-width: 992px) {
     .navbar-header {
@@ -65,10 +65,10 @@ body {
         box-shadow: inset 0 1px 0 rgba(255,255,255,0.1);
     }
     .navbar-collapse.collapse {
-        display: none!important;
+        display: none !important;
     }
     .navbar-nav {
-        float: none!important;
+        float: none !important;
         margin: 7.5px -15px;
     }
     .navbar-nav>li {
@@ -81,4 +81,45 @@ body {
     .collapse.in{
   		display:block !important;
 	}
+}
+
+/*Footer*/
+footer{
+    color: white;
+    height: 320px;
+    text-align: center;
+}
+.signature{
+    font-size: 14px;
+    position:absolute;
+    bottom:10px;
+    width: 100%;
+}
+.signature a{
+    color: white;
+}
+.footer-nav {
+    float:none;
+    margin: 20px;
+    display: block;
+}
+
+.footer-nav > li {
+    display: inline-block;
+    float:none;
+}
+.footer-nav > li > a {
+    padding-top: 15px;
+    padding-bottom: 15px;
+}
+.policy{
+    font-size: 18px;
+    max-width: 800px;
+    margin: auto;
+}
+.policy li {
+    list-style-type: none;
+}
+.policy li:before {
+    content: "- ";
 }

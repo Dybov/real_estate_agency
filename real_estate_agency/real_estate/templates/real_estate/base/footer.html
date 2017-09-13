@@ -1,0 +1,17 @@
+<footer class='col-xs-12'>
+    <nav class="navbar" role="navigation">
+        <div class="container-fluid">
+            <ul class="nav footer-nav">
+                <li><a href="{% url 'real_estate:index' %}">Главная</a></li>
+                <li><a href="#">Новостройки</a></li>
+                <li><a href="#">Ипотека</a></li>
+                <li><a href="#">Контакты</a></li>
+            </ul>
+        </div>
+    </nav>
+    <a href='{% url "real_estate:index" %}' ><img alt='Логотип компании ДОМУС' src='media/logo/logo_gray.svg' width='162'></a>
+    <div class='signature'>
+        <p>© 2017 Информационные материалы и цены, размещенные на сайте, не являются публичной офертой</p>
+        <a href='{% url "real_estate:privacy-policy" %}'><u>Политика конфиденциальности</u></a>
+    </div>
+</footer>
