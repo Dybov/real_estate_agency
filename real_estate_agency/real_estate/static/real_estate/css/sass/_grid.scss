@@ -1,0 +1,106 @@
+/* _grid.scss*/
+
+$devices: "xs", "sm", "md", "lg";
+$device-min-width: $xs, $sm, $md, $lg;
+$max-cols: 12;
+
+html {
+	-webkit-text-size-adjust: 100%;
+	-ms-text-size-adjust: 100%;
+	line-height: 1.42857143;
+}
+body {
+	margin:0;
+}
+*, *:before, *:after {
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+}
+.wrapper {
+	@if $debug{
+		border: solid;
+	}
+	// display: -webkit-flex;
+	// display: -ms-flexbox;
+	// display: flex;
+	// -webkit-flex-wrap: wrap;
+	// -ms-flex-wrap: wrap;
+	// flex-wrap: wrap;
+	position: relative;
+	width: 100%;
+	float:left;
+}
+
+%col {
+	@if $debug{
+		border: dotted;
+		background-color: yellow;
+	}
+	position: relative;
+	min-height: 1px;
+	padding-right: 15px;
+	padding-left: 15px;
+	// display: -webkit-flex;
+	// display: -ms-flexbox;
+	// display: flex;
+}
+
+@mixin grid_loop($base_class_name, $extends:false) {
+	@for $i from 1 through $max-cols {
+		#{$base_class_name}-#{$i} {
+			@if $extends {
+				@extend %col;
+			}
+			@else {
+				width: percentage($i/$max-cols);
+				float: left;
+			}
+
+		}
+	}	
+}
+
+@for $i from 1 through 4 {
+	$device: nth($devices,$i);
+	$min_device_width: nth($device-min-width,$i);
+	$base_class_name:".col-#{$device}";
+	@include grid_loop($base_class_name,true);
+	@if $min_device_width==0px {
+		@include grid_loop($base_class_name);
+	}
+	@else if $min_device_width > 0 {
+		@media (min-width: $min_device_width) {
+			@include grid_loop($base_class_name);
+		}		
+	}
+}
+
+@mixin hidden_device($device) {
+	.hidden-#{$device}{
+			display: none;
+		}
+}
+
+@for $i from 1 through 3 {
+	$device: nth($devices,$i);
+	$min_device_width: nth($device-min-width,$i);
+	$max_device_width: nth($device-min-width,$i+1);
+	@media (min-width: $min_device_width) and (max-width: $max_device_width) {
+		@include hidden_device($device);
+	}
+	@media (min-width: $min_device_width){
+		@include hidden_device("#{$device}-up");
+	} 
+	@media (max-width: $max_device_width){
+		@include hidden_device("#{$device}-down");
+	} 
+}
+
+@media (min-width: $lg){
+	@include hidden_device("lg");
+}
+
+.without-padding{
+	padding:0px;
+}

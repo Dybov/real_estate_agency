@@ -1,0 +1,56 @@
+/*Devices:            xs,    sm,    md,     lg;
+  Devices-min-width: 0px, 768px, 992px, 1200px;*/
+$debug: false;
+// $debug: true;
+$xs:    0px;
+$sm:  768px;
+$md:  992px;
+$lg: 1200px;
+
+$default-text-color-1: black;
+$default-text-color-2: white;
+
+@import url(https://fonts.googleapis.com/css?family=Roboto|Open+Sans&subset=latin,cyrillic);
+$default-text-font-h: "Roboto", sans-serif;
+$default-text-font-p: "Open Sans", sans-serif;
+
+/*Declaration ends/*
+
+/*Base styles*/
+a{
+	color: inherit;
+	text-decoration: none;
+}
+header{
+	min-height:70px;
+	padding-top:10px;
+	p{
+		margin: 0;
+	}
+}
+#header-phone{
+	font-size: 30px;
+    line-height: 1;
+}
+nav, footer, .index>div:nth-child(odd) {
+	color: white;
+    background-color: #6e7783;
+    margin: 0px;
+}
+footer {
+	padding-bottom:10px;
+}
+.waiting-for-call{
+	background-image: url(../images/index/new-building.jpg);
+	height: 85vh;
+}
+/*Starts import*/
+@import "grid";
+
+@import "text";
+
+@import "nav";
+
+@import "btn";
+
+@import "privacy-policy";

@@ -4,17 +4,10 @@
 <meta charset="utf-8">
 <!-- Latest compiled and minified CSS from Twitter Bootstrap -->
 {% block meta %}
-    <!-- Latest compiled and minified CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
-          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
-          crossorigin="anonymous">
-    
-    <!-- Latest compiled and minified JavaScript -->
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
-            integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
-            crossorigin="anonymous"></script>
+    <link rel="shortcut icon" href='{% static "real_estate/images/logo/favicon.ico" %}' type="image/x-icon">
     <link rel='stylesheet' href='{% static "real_estate/css/base.css" %}'>
+    {# <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"> #}
+    <script src='{% static "real_estate/js/jquery.min.js" %}'></script>
     <!--For mobile phones-->
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!--[if lt IE 9]> <script src="//html5shiv.
@@ -23,5 +16,6 @@
 {% endblock %}
 {% block extra_meta %}{% endblock %}
 {% block header %}{% include "real_estate/base/header.html" %}{% endblock %}
+{% block navigation %}{% include 'real_estate/base/navigation.html' %}{% endblock %}
 {% block content %}{% endblock %}
 {% block footer %}{% include "real_estate/base/footer.html" %}{% endblock %}

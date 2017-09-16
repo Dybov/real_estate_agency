@@ -1,0 +1,38 @@
+/* _text.scss */
+
+body {
+	font: 12px $default-text-font-p;
+}
+h1, h2, h3, h4, h5, h5, strong {
+	font-family: $default-text-font-h;
+}
+
+.text-left {
+  text-align: left;
+}
+.text-right {
+  text-align: right;
+}
+.text-center {
+  text-align: center;
+}
+.text-justify {
+  text-align: justify;
+}
+.text-nowrap {
+  white-space: nowrap;
+}
+.text-lowercase {
+  text-transform: lowercase;
+}
+.text-uppercase {
+  text-transform: uppercase;
+}
+.text-capitalize {
+  text-transform: capitalize;
+}
+.text-block {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}

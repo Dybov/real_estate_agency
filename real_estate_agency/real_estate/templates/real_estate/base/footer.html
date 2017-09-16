@@ -1,5 +1,6 @@
-<footer class='col-xs-12'>
-    <nav class="navbar" role="navigation">
+{% load static %}
+<footer class='wrapper text-center'>
+    <nav class="navbar col-xs-12" role="navigation">
         <div class="container-fluid">
             <ul class="nav footer-nav">
                 <li><a href="{% url 'real_estate:index' %}">Главная</a></li>
@@ -9,8 +10,12 @@
             </ul>
         </div>
     </nav>
-    <a href='{% url "real_estate:index" %}' ><img alt='Логотип компании ДОМУС' src='media/logo/logo_gray.svg' width='162'></a>
-    <div class='signature'>
+    <div class="col-xs-12">
+    <a href='{% url "real_estate:index" %}' >
+    <img alt='Логотип компании ДОМУС' src='{% static "real_estate/images/logo/logo-gray.svg" %}' width='162' class="text-block">
+    </a>
+    </div>
+    <div class='signature col-xs-12'>
         <p>© 2017 Информационные материалы и цены, размещенные на сайте, не являются публичной офертой</p>
         <a href='{% url "real_estate:privacy-policy" %}'><u>Политика конфиденциальности</u></a>
     </div>

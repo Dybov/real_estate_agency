@@ -1,26 +1,27 @@
 {% extends 'real_estate/base/base.html' %}
+{% load static %}
 {% block content %}
-<div>
-    asd
-</div>
-<html>
-<head><script>
-function move(id) {
-div=document.getElementById(id);
-if(parseInt(div.style.right)<200) {
-div.style.right=parseInt(div.style.right)+2+"px";
-setTimeout("move('"+id+"')",1);
-}
-}
-</script>
-</head>
-<body onLoad="move('d')">
-<input type="button" value="Йа кнопко" onLoad="move('d')"/>
-<div id="d" style="position:absolute;right: 100px;border:1px solid #000;width:100px;text-align:center;">
-Я бегу бегу бегу
-</div> </body></html>
-<p>asd</p>
-<p>asd</p>
-<p>asd</p>
-<p>asd</p><p>asd</p><p>asd</p><p>asd</p><p>asd</p><p>asd</p><p>asd</p>
+<main class="index">
+	<div class="waiting-for-call">1</div>
+	<div>2</div>
+	<div>3</div>
+	<div>4</div>
+	<div>5</div>
+	<script>
+	function move(id) {
+	div=document.getElementById(id);
+	if(parseInt(div.style.right)<200) {
+		div.style.right=parseInt(div.style.right)+2+"px";
+		setTimeout("move('"+id+"')",2);
+		}
+	}
+	</script>
+	<div>
+	<input type="button" value="button" onclick="move('d')"/>
+	<div id="d" style="position:absolute;right: 10px;border:1px solid #000;width:100px;text-align:center; color:red;">
+	666666666666666
+	</div> 
+	</div>
+	<div>7</div>
+</main>
 {% endblock %}
