@@ -1,27 +1,54 @@
 {% extends 'real_estate/base/base.html' %}
 {% load static %}
 {% block content %}
-<main class="index">
-	<div class="waiting-for-call">1</div>
-	<div>2</div>
-	<div>3</div>
-	<div>4</div>
-	<div>5</div>
-	<script>
-	function move(id) {
-	div=document.getElementById(id);
-	if(parseInt(div.style.right)<200) {
-		div.style.right=parseInt(div.style.right)+2+"px";
-		setTimeout("move('"+id+"')",2);
-		}
-	}
-	</script>
-	<div>
-	<input type="button" value="button" onclick="move('d')"/>
-	<div id="d" style="position:absolute;right: 10px;border:1px solid #000;width:100px;text-align:center; color:red;">
-	666666666666666
-	</div> 
+<main class="index wrapper text-center" onload="start()">
+	<div class="waiting-for-call text-center-full">
+		<div>
+			<h1 class="h1-index">Помогаем купить квартиру в новостройке<br><b>без комиссии за 2 дня!</b></h1>
+			<p>Напишите свой телефон, и мы вам перезвоним в течении 10 минут</p>
+			<form class="input-index" action="#" method="post">{% csrf_token %}
+				<input type="text" placeholder="Ваше имя" class="form-control" required>
+				<input type="text" placeholder="Ваш телефон" class="form-control" required>
+				<button type="submit" class="btn" id='btn-waiting-for-call'>Жду звонка</button>
+			</form>
+			<p>Нажимая на кнопку, вы даете согласие на обработку своих персональных данных</p>
+			<a href='{% url "real_estate:privacy-policy" %}'><u>Пользовательское соглашение</u></a>
+		</div>
 	</div>
-	<div>7</div>
+	<div class="advantages col-xs-12">
+		<h1>Наши преимущества</h1>
+
+		<section class="col-xs-12">
+			<img src='{% static "real_estate/images/index/wallet.png" %}'>
+			<h2 class="strong">Без комиссии</h2><br>
+			<p>Мы являемся представителями застройщиков, поэтому наши услуги <strong>бесплатны</strong></p>
+		</section>
+		<section class="col-md-4">
+			<img src='{% static "real_estate/images/index/house.png" %}'>
+			<h2 class="strong">Бронирование</h2><br>
+			<p>Мы <strong>бесплатно</strong> забронируем для вас квартиру в новостройке</p>
+		</section>
+		<section class="col-md-4">
+			<img src='{% static "real_estate/images/index/people.png" %}'>
+			<h2 class="strong">Персональный менеджер</h2><br>
+			<p>У вас будет персональный специалист по недвижимости который поможет вам с оформлением квартиры</strong></p>
+		</section>
+		<section class="col-md-4">
+			<img src='{% static "real_estate/images/index/transport.png" %}'>
+			<h2 class="strong">Экскурсии</h2><br>
+			<p>Мы предоставим вам трансфер по всем новостройкам</p>
+		</section>
+	</div>
+	<div class="col-xs-12">
+		<h1>Мы любим наших клиентов</h1><br>
+		<p>Именно поэтому мы ищем идивидуальный подход к каждому</p>
+	</div>
+	<div class="col-xs-12">
+	<input type="button" value="button" onclick="move('d')"/>
+		<div id="d" style="position:absolute;right: 10px;border:1px solid #000;width:100px;text-align:center; color:red;">
+		666666666666666
+		</div> 
+	</div>
+	<div class="col-xs-12">asdds</div>
 </main>
 {% endblock %}

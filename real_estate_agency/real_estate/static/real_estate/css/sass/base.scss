@@ -17,10 +17,6 @@ $default-text-font-p: "Open Sans", sans-serif;
 /*Declaration ends/*
 
 /*Base styles*/
-a{
-	color: inherit;
-	text-decoration: none;
-}
 header{
 	min-height:70px;
 	padding-top:10px;
@@ -40,10 +36,7 @@ nav, footer, .index>div:nth-child(odd) {
 footer {
 	padding-bottom:10px;
 }
-.waiting-for-call{
-	background-image: url(../images/index/new-building.jpg);
-	height: 85vh;
-}
+
 /*Starts import*/
 @import "grid";
 
@@ -51,6 +44,8 @@ footer {
 
 @import "nav";
 
-@import "btn";
+@import "forms";
+
+@import "index";
 
 @import "privacy-policy";

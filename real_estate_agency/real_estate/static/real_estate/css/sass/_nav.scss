@@ -1,6 +1,9 @@
 /* _nav.scss*/
 
-nav{
+.navbar{
+	position: relative;
+	min-height: 50px;
+	border: 1px solid transparent ;
 	ul{
 		padding: 0px;
 		margin: 9px 0px;
@@ -12,26 +15,24 @@ nav{
 		margin-left: 15px;
 		margin-right: 15px;
 		padding: 5px;
-		>a{
-			line-height: 20px;
-			font-family: 'Roboto', sans-serif;
-			font-weight: bold;
-			text-transform: uppercase;
-		}
+
 	}
+
 	li.active{
 		color:#ff8256;
 	}
 	li:hover{
 		background-color: #78818C;
 	}
-}
-
-.navbar {
-	position: relative;
-	min-height: 50px;
-	margin-bottom: 20px;
-	border: 1px solid transparent ;
+	a{
+		line-height: 20px;
+		font-family: 'Roboto', sans-serif;
+		font-weight: bold;
+		text-transform: uppercase;
+	}
+	a:hover{
+		text-decoration: none;
+	}
 }
 
 @media (max-width: $md) {
