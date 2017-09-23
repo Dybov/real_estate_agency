@@ -1,6 +1,6 @@
 {% load static %}
-<header class="hidden-sm-down">
-    <div class='wrapper col-md-12'>
+<header class="row visible-lg">
+    <div class='col-md-12'>
         <div class='col-md-2'>
             <a href='{% url "real_estate:index" %}' ><img alt='Логотип компании ДОМУС' src='{% static "real_estate/images/logo/logo.svg" %}' width='162'></a>
         </div>
@@ -14,11 +14,11 @@
         </div>
         <div class='col-md-7 text-right'>
             <p>Звоните ежедневно с 8:00 до 22:00<br>
-            <a href='tel:+73452589881' id='header-phone'>+7 (3452) 58-98-81</a>
+            <a href='tel:+73452589881'>+7 (3452) 58-98-81</a>
             </p>
         </div>
-        <div class='col-md-2 text-left without-padding'>
-            <button type='button' class='btn btn-block'><b>Заказать звонок</b></button>
+        <div class='col-md-2'>
+            <button type='button' class='btn btn-primary btn-block'><b>Заказать звонок</b></button>
         </div>
     </div>
 </header>

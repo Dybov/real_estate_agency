@@ -1,51 +1,27 @@
-/*Devices:            xs,    sm,    md,     lg;
-  Devices-min-width: 0px, 768px, 992px, 1200px;*/
-$debug: false;
-// $debug: true;
-$xs:    0px;
-$sm:  768px;
-$md:  992px;
-$lg: 1200px;
-
-$default-text-color-1: black;
-$default-text-color-2: white;
-
-@import url(https://fonts.googleapis.com/css?family=Roboto|Open+Sans&subset=latin,cyrillic);
-$default-text-font-h: "Roboto", sans-serif;
-$default-text-font-p: "Open Sans", sans-serif;
-
-/*Declaration ends/*
-
-/*Base styles*/
-header{
-	min-height:70px;
-	padding-top:10px;
-	p{
-		margin: 0;
-	}
-}
-#header-phone{
-	font-size: 30px;
-    line-height: 1;
-}
-nav, footer, .index>div:nth-child(odd) {
-	color: white;
-    background-color: #6e7783;
-    margin: 0px;
-}
-footer {
-	padding-bottom:10px;
+// .navbar {
+// 	.navbar-nav {
+// 	  display: inline-block;
+// 	  float: none;
+// 	  vertical-align: middle;
+// 	}
+// 	li{
+// 		margin: 20px;
+// 	}
+// 	li:hover{
+// 		background-color:red !important;
+// 	}
+// 	a{
+// 		padding: 0px !important;
+// 	}
+// }
+.navbar a{
+	transition: all 0.5s ease;
 }
 
-/*Starts import*/
-@import "grid";
-
-@import "text";
-
-@import "nav";
-
-@import "forms";
-
-@import "index";
-
-@import "privacy-policy";
+.inverse{
+		background-color: lighten(#000, 46.7%);
+		color: white;
+		a{
+			color: white;
+		}
+}

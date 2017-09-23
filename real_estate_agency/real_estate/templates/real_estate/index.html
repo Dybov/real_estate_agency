@@ -1,15 +1,15 @@
 {% extends 'real_estate/base/base.html' %}
 {% load static %}
 {% block content %}
-<main class="index wrapper text-center" onload="start()">
-	<div class="waiting-for-call text-center-full">
+<main class="index row text-center">
+	<div class="waiting-for-call inverse">
 		<div>
 			<h1 class="h1-index">Помогаем купить квартиру в новостройке<br><b>без комиссии за 2 дня!</b></h1>
 			<p>Напишите свой телефон, и мы вам перезвоним в течении 10 минут</p>
 			<form class="input-index" action="#" method="post">{% csrf_token %}
 				<input type="text" placeholder="Ваше имя" class="form-control" required>
 				<input type="text" placeholder="Ваш телефон" class="form-control" required>
-				<button type="submit" class="btn" id='btn-waiting-for-call'>Жду звонка</button>
+				<button type="submit" class="btn btn-primary" id='btn-waiting-for-call'>Жду звонка</button>
 			</form>
 			<p>Нажимая на кнопку, вы даете согласие на обработку своих персональных данных</p>
 			<a href='{% url "real_estate:privacy-policy" %}'><u>Пользовательское соглашение</u></a>
@@ -39,7 +39,7 @@
 			<p>Мы предоставим вам трансфер по всем новостройкам</p>
 		</section>
 	</div>
-	<div class="col-xs-12 text-center">
+	<div class="col-xs-12 inverse">
 		<h1>Мы любим наших клиентов</h1><br>
 		<p>Именно поэтому мы ищем идивидуальный подход к каждому</p>
 		<section class="col-md-4">
@@ -57,6 +57,9 @@
 			<h2 class="strong">Рассрочка</h2><br>
 			<p>С нами вы можете купить любую квартиру в новостройке с беспроцентной рассрочкой.</p>
 		</section>
+	</div>
+	<div class="col-xs-12 new-buildings">
+		here will be new buildings
 	</div>
 </main>
 {% endblock %}
