@@ -1,0 +1,10 @@
+.navbar a {
+  transition: all 0.5s ease; }
+
+.inverse {
+  background-color: #777777;
+  color: white; }
+  .inverse a {
+    color: white; }
+
+/*# sourceMappingURL=base.css.map */

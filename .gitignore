@@ -7,3 +7,13 @@
 
 #For nano's emergency files
 *.save
+
+#For django media files
+real_estate_agency/media/*
+
+#For sublime files
+*.sublime-project
+*.sublime-workspace
+
+#For sass cache files
+*.sass-cache

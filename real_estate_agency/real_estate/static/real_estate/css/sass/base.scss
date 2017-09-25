@@ -1,0 +1,27 @@
+// .navbar {
+// 	.navbar-nav {
+// 	  display: inline-block;
+// 	  float: none;
+// 	  vertical-align: middle;
+// 	}
+// 	li{
+// 		margin: 20px;
+// 	}
+// 	li:hover{
+// 		background-color:red !important;
+// 	}
+// 	a{
+// 		padding: 0px !important;
+// 	}
+// }
+.navbar a{
+	transition: all 0.5s ease;
+}
+
+.inverse{
+		background-color: lighten(#000, 46.7%);
+		color: white;
+		a{
+			color: white;
+		}
+}
