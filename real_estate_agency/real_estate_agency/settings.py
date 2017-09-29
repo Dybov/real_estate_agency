@@ -24,14 +24,13 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'real_estate',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    
-    'real_estate',
 ]
 
 MIDDLEWARE = [
@@ -70,13 +69,15 @@ WSGI_APPLICATION = 'real_estate_agency.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'real_estate_db',
-        'USER': 'admin',
-        #Do not try this password at production :)
-        'PASSWORD': 'Rr%5Tt66',
-        'HOST': 'localhost',
-        'PORT': '',
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        # 'ENGINE': 'django.db.backends.postgresql',
+        # 'NAME': 'real_estate_db',
+        # 'USER': 'admin',
+        # #Do not try this password at production :)
+        # 'PASSWORD': 'Rr%5Tt66',
+        # 'HOST': 'localhost',
+        # 'PORT': '',
     }
 }
 
