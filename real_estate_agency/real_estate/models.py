@@ -51,7 +51,12 @@ class Apartment(models.Model):
 
 	def __str__(self):
 		return _("%s кв. %s") % (self.address, self.apartment_number)
-	
+
+	def link_to_residentalcomplex(self):
+		return self.address.link_to_residentalcomplex()
+	link_to_residentalcomplex.allow_tags = True
+	link_to_residentalcomplex.short_description = _("ЖК")
+
 	class Meta:
 		verbose_name = _('квартира')
 		verbose_name_plural  = _('квартиры')

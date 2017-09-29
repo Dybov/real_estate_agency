@@ -1,28 +1,18 @@
-#from django.contrib import admin
-from django.contrib.admin import AdminSite
-from django.contrib.admin import ModelAdmin
+from django.contrib import admin
 from .models import ResidentalComplex, Apartment, Address
 
 from django.utils.translation import ugettext as _
 
-class MyAdminSite(AdminSite):
-    site_header = _('Администрирование DОМУС')
-    site_title  = _('DОМУС')
-
-admin = MyAdminSite(name='admin')
-
-# Register your models here.
-
-class ResidentalComplexAdmin(ModelAdmin):
+class ResidentalComplexAdmin(admin.ModelAdmin):
 	list_display =  ('name', 'active','link_to_address')
 	list_editable = ('active',)
 
-class AddressAdmin(ModelAdmin):
-	list_display =  ('__str__','link_to_residentalcomplex',)
+class AddressAdmin(admin.ModelAdmin):
+	list_display =  ('__str__','link_to_residentalcomplex')
 
-class ApartmentAdmin(ModelAdmin):
-	list_display =  ('apartment_number','rooms', 'address', )
+class ApartmentAdmin(admin.ModelAdmin):
+	list_display =  ('apartment_number','rooms', 'address','link_to_residentalcomplex')
 
-admin.register(ResidentalComplex, ResidentalComplexAdmin)
-admin.register(Address, AddressAdmin)
-admin.register(Apartment, ApartmentAdmin)
+admin.site.register(ResidentalComplex, ResidentalComplexAdmin)
+admin.site.register(Address, AddressAdmin)
+admin.site.register(Apartment, ApartmentAdmin)
