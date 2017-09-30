@@ -17,3 +17,6 @@ real_estate_agency/media/*
 
 #For sass cache files
 *.sass-cache
+
+#For temporary db (for development)
+real_estate_agency/db.sqlite3
