@@ -11,13 +11,14 @@ from django.utils.translation import ugettext as _
 class PropertyImage(models.Model):
     #property = models.ForeignKey('BasePropertyModel', related_name='images')
     image = models.ImageField(verbose_name='изображения')
+
     def __str__(self):
         return _('изображение')
-    class Meta:
-        abstract =True
-        verbose_name='файл'
-        verbose_name_plural='файлы'
 
+    class Meta:
+        abstract = True
+        verbose_name = 'файл'
+        verbose_name_plural = 'файлы'
 
 
 class BasePropertyModel(models.Model):
@@ -90,9 +91,11 @@ class BasePropertyModel(models.Model):
                                   )
     date_added = models.DateTimeField(auto_now_add=True)
     last_modification = models.DateTimeField(auto_now=True)
+
     def __str__(self):
-        return "%s_%s" %(self.TYPE,self.id)
+        return "%s_%s" % (self.TYPE, self.id)
         return "%s по адресу %s" % (self.TYPE.capitalize(), self.address)
+
     class Meta:
         abstract = True
         verbose_name = _('объект недвижимости')
@@ -100,31 +103,33 @@ class BasePropertyModel(models.Model):
 
 # https://djbook.ru/rel1.8/ref/forms/validation.html#cleaning-and-validating-fields-that-depend-on-each-other
 
-class Apartment(BasePropertyModel):#, BaseUniqueModel):
+
+class Apartment(BasePropertyModel):  # , BaseUniqueModel):
     TYPE = 'Apartment'
     BACHELOR = 'B'
-    ONEROOM  = '1'
-    TWOROOM  = '2'
-    THREEROOM  = '3'
+    ONEROOM = '1'
+    TWOROOM = '2'
+    THREEROOM = '3'
     FOURROOM = '4'
     ROOMS_CHOICES = (
-            (BACHELOR, _('студия')),
-            (ONEROOM, _('1')),
-            (TWOROOM, _('2')),
-            (THREEROOM, _('3')),
-            (FOURROOM, _('4')),
-        )
+        (BACHELOR, _('студия')),
+        (ONEROOM, _('1')),
+        (TWOROOM, _('2')),
+        (THREEROOM, _('3')),
+        (FOURROOM, _('4')),
+    )
     is_primary = False
     apartment_number = models.IntegerField(verbose_name=_('Номер квартиры'))
     rooms = models.CharField(max_length=1,
                              choices=ROOMS_CHOICES,
                              default=ONEROOM,
                              verbose_name=_('количество комнат'),
-                             help_text=_('Если вы не нашли нужного пункта - обратитесь к администратору'),
+                             help_text=_(
+                                 'Если вы не нашли нужного пункта - обратитесь к администратору'),
                              )
-    floor   = models.PositiveIntegerField(verbose_name=_('этаж'), default=1)
+    floor = models.PositiveIntegerField(verbose_name=_('этаж'), default=1)
 
     class Meta:
         abstract = True
         verbose_name = _('квартиры')
-        verbose_name_plural  = _('квартиры')
+        verbose_name_plural = _('квартиры')

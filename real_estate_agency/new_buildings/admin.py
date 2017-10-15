@@ -1,8 +1,19 @@
 from django.contrib import admin
+#from django import forms
 
-# Register your models here.
-# class ResidentalComplexAdmin(admin.ModelAdmin):
-# 	list_display =  ('name', 'active','link_to_address')
-# 	list_editable = ('active',)
+from .models import ResidentalComplex, Building, Builder
 
-#admin.site.register(ResidentalComplex, ResidentalComplexAdmin)
+
+class BuildingInline(admin.StackedInline):
+    model = Building
+    extra = 1
+
+
+class ResidentalComplexAdmin(admin.ModelAdmin):
+    inlines = [BuildingInline, ]
+    list_display = ('name', 'active')
+    list_editable = ('active',)
+
+admin.site.register(ResidentalComplex, ResidentalComplexAdmin)
+admin.site.register(Builder)
+admin.site.register(Building)
