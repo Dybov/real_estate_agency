@@ -13,7 +13,7 @@ class NewApartment(Apartment):
                                  verbose_name=_('строение'),
                                  on_delete=models.CASCADE,
                                  )
-    stocks = None # Many to many fields
+    stocks = None  # Many to many fields
 
 
 # class Building(Address):
@@ -54,11 +54,11 @@ class NewBuilding(models.Model):
         validators=[MinValueValidator(1)],
     )
     date_of_start_of_construction = models.DateField(verbose_name=_('дата начала стройки'),
-                                            null=True,
-                                            blank=True,
-                                            help_text=_(
-                                                'Важно указать только месяц'),
-                                            )
+                                                     null=True,
+                                                     blank=True,
+                                                     help_text=_(
+        'Важно указать только месяц'),
+    )
     date_of_construction = models.DateField(verbose_name=_('дата постройки'),
                                             null=True,
                                             blank=True,
@@ -88,15 +88,15 @@ class ResidentalComplex(models.Model):
                             max_length=127,
                             unique=True,
                             )
-    description =  models.TextField(verbose_name=_('описание ЖК'),)
+    description = models.TextField(verbose_name=_('описание ЖК'),)
     builder = models.ForeignKey('Builder',
                                 verbose_name=_('застройщик'),
                                 on_delete=models.PROTECT,
                                 )
-    # one to many "photos" 
+    # one to many "photos"
     characteristics = models.ManyToManyField('ResidentalComplexСharacteristic',
-                                             verbose_name=_('характеристики ЖК'),
-                                             null=True,
+                                             verbose_name=_(
+                                                 'характеристики ЖК'),
                                              blank=True,)
     # one to many "features"
     # one to many "houses"
@@ -108,7 +108,7 @@ class ResidentalComplex(models.Model):
                                     null=True,
                                     blank=True,
                                     )
-    # one to many "documents_for_construction" 
+    # one to many "documents_for_construction"
     active = models.BooleanField(verbose_name=_('отображать в новостройках'),
                                  default=False,
                                  )
@@ -126,6 +126,7 @@ class ResidentalComplex(models.Model):
     #             minimum = _property.annotate(Min('price'))[0].price
     #             minimums.append(minimum)
     #     return min(minimums)
+
     def __str__(self):
         return self.name
 
@@ -152,10 +153,10 @@ class Builder(models.Model):
 
     def __str__(self):
         return self.name
+
     class Meta:
         verbose_name = _('застройщик')
         verbose_name_plural = _('застройщики')
-
 
 
 class ResidentalComplexСharacteristic(models.Model):
