@@ -1,11 +1,11 @@
 from django.contrib import admin
 #from django import forms
 
-from .models import ResidentalComplex, Building, Builder
+from .models import ResidentalComplex, NewBuilding, Builder
 
 
 class BuildingInline(admin.StackedInline):
-    model = Building
+    model = NewBuilding
     extra = 1
 
 
@@ -16,4 +16,4 @@ class ResidentalComplexAdmin(admin.ModelAdmin):
 
 admin.site.register(ResidentalComplex, ResidentalComplexAdmin)
 admin.site.register(Builder)
-admin.site.register(Building)
+# admin.site.register(NewBuilding)
