@@ -4,7 +4,7 @@ from django.core.validators import MinValueValidator
 from django.utils.translation import ugettext as _
 
 from real_estate.models import PropertyImage, Apartment
-#from address import Address
+from address.models import Address
 
 
 class NewApartment(Apartment):
@@ -16,8 +16,7 @@ class NewApartment(Apartment):
     stocks = None  # Many to many fields
 
 
-# class Building(Address):
-class NewBuilding(models.Model):
+class NewBuilding(Address):
     """it is building with concrete address,
     but it also has a name in ResidentalComlex area
     """
@@ -57,24 +56,26 @@ class NewBuilding(models.Model):
                                                      null=True,
                                                      blank=True,
                                                      help_text=_(
-        'Важно указать только месяц'),
+        'Важен только месяц'),
     )
     date_of_construction = models.DateField(verbose_name=_('дата постройки'),
                                             null=True,
                                             blank=True,
                                             help_text=_(
-                                                'Важно указать только месяц'),
+                                                'Важен только месяц'),
                                             )
     feed_link = models.URLField(verbose_name=_('ссылка на фид'),
                                 max_length=255,
                                 null=True,
                                 blank=True,
                                 )
-
+    active = models.BooleanField(verbose_name=_('отображать на сайте'),
+                                 default=True,
+                                 )
     def __str__(self):
         return '%s' % (self.name, )
 
-    class Meta:
+    class Meta(Address.Meta):
         verbose_name = _('дом')
         verbose_name_plural = _('дома')
         # unique_together = ('street', 'building', 'building_block')#,

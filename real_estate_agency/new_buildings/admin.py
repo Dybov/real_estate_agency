@@ -7,6 +7,7 @@ from .models import ResidentalComplex, NewBuilding, Builder
 class BuildingInline(admin.StackedInline):
     model = NewBuilding
     extra = 1
+    exclude = ['city', 'country']
 
 
 class ResidentalComplexAdmin(admin.ModelAdmin):

@@ -97,5 +97,5 @@ class Address(BaseUniqueModel):
         return address
 
     class Meta:
-    	abstract = True
+        abstract = True
         unique_together = ('street', 'building', 'building_block') # for future also - 'country','city',
