@@ -5,10 +5,9 @@ from django.contrib.auth.models import User
 from django.core.validators import MinValueValidator
 from django.utils.translation import ugettext as _
 
-# from address.models import Address, BaseUniqueModel
 
-
-class PropertyImage(models.Model):
+class BasePropertyImage(models.Model):
+    """Abstract model for all real estate pictures"""
     #property = models.ForeignKey('BasePropertyModel', related_name='images')
     image = models.ImageField(verbose_name='изображения')
 
@@ -55,7 +54,7 @@ class BasePropertyModel(models.Model):
                                      )
     description = models.TextField(verbose_name=_('описание'))
     # one to many to "images" - will be tabular inline in admin
-    # many to many "layout" (image) - will be tabular inline in admin too
+    # "layout" (image) - will add later. Type depends on app
     celling_height = models.DecimalField(_('высота потолка (м)'),
                                          decimal_places=1,
                                          max_digits=2,
