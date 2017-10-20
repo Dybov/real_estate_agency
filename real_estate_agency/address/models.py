@@ -4,8 +4,10 @@ from django.core.validators import MinValueValidator
 
 
 class BaseUniqueModel(models.Model):
+
     class Meta:
         abstract = True
+
     def clean(self):
         """
         Check for instances with null values in unique_together fields.
@@ -51,7 +53,8 @@ class Address(BaseUniqueModel):
         (TYUMEN, _('Тюмень')),
     )
 
-    # Neighbourhood choices. It will depends on City object, when business will grow
+    # Neighbourhood choices. It will depends on City object, when business
+    # will grow
     MMS = 'MMS'
     MYS = 'MYS'
     NEIGHBOURGOOD_CHOICES = (
@@ -69,9 +72,9 @@ class Address(BaseUniqueModel):
                             default=TYUMEN,
                             )
     neighbourhood = models.CharField(verbose_name=_('район'),
-                                   max_length=127,
-                                   choices=NEIGHBOURGOOD_CHOICES,
-                                   )
+                                     max_length=127,
+                                     choices=NEIGHBOURGOOD_CHOICES,
+                                     )
     street = models.CharField(verbose_name=_('улица'),
                               max_length=127,
                               )
@@ -82,7 +85,8 @@ class Address(BaseUniqueModel):
                                          null=True,
                                          blank=True,
                                          validators=[MinValueValidator(1)],
-                                         help_text=_('оставьте пустым, если поле не имеет смысла'),
+                                         help_text=_(
+                                             'оставьте пустым, если поле не имеет смысла'),
                                          )
     zip_code = models.CharField(verbose_name=_('почтовый индекс'),
                                 max_length=127,
@@ -102,4 +106,5 @@ class Address(BaseUniqueModel):
 
     class Meta:
         abstract = True
-        unique_together = (('street', 'building', 'building_block'),) # for future also - 'country','city',
+        # for future also - 'country','city',
+        unique_together = (('street', 'building', 'building_block'),)
