@@ -1,9 +1,11 @@
+import datetime
+
 from django.db import models
 from django.contrib.auth.models import User
 from django.core.validators import MinValueValidator
 from django.utils.translation import ugettext as _
 
-from real_estate.models import PropertyImage, Apartment
+from real_estate.models import Apartment, get_file_path
 from address.models import Address
 
 
@@ -13,7 +15,14 @@ class NewApartment(Apartment):
                                  verbose_name=_('строение'),
                                  on_delete=models.CASCADE,
                                  )
-    stocks = None  # Many to many fields
+    layout = models.ImageField(verbose_name='планировка',
+                               upload_to=get_file_path,
+                               )
+    def __str__(self):
+        if self.rooms == self.BACHELOR:
+            return _("квартира-студия")
+        return _("{rooms_integer}-комнатная квартира").format(rooms_integer=self.rooms)
+    # Many to many fields "stocks" will appear in future
 
 
 class NewBuilding(Address):
@@ -58,7 +67,7 @@ class NewBuilding(Address):
                                                      help_text=_(
         'Важен только месяц'),
     )
-    date_of_construction = models.DateField(verbose_name=_('дата постройки'),
+    date_of_construction = models.DateField(verbose_name=_('дата окончания постройки'),
                                             null=True,
                                             blank=True,
                                             help_text=_(
@@ -72,14 +81,20 @@ class NewBuilding(Address):
     active = models.BooleanField(verbose_name=_('отображать на сайте'),
                                  default=True,
                                  )
+
     def __str__(self):
         return '%s' % (self.name, )
 
     class Meta(Address.Meta):
         verbose_name = _('дом')
         verbose_name_plural = _('дома')
-        # unique_together = ('street', 'building', 'building_block')#,
+        unique_together = Address.Meta.unique_together + (('name', 'residental_complex'), )
 
+    def is_built(self):
+        if self.date_of_construction:
+            return self.date_of_construction<=datetime.date.today()
+    is_built.short_description = _('Готовность дома')
+    is_built.boolean = True
 
 class ResidentalComplex(models.Model):
     """ it is aggregate of houses.
