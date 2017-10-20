@@ -75,10 +75,14 @@ class Address(BaseUniqueModel):
     street = models.CharField(verbose_name=_('улица'),
                               max_length=127,
                               )
-    building = models.IntegerField(verbose_name=_('дом'))
+    building = models.IntegerField(verbose_name=_('дом'),
+                                   validators=[MinValueValidator(1)]
+                                   )
     building_block = models.IntegerField(verbose_name=_('корпус'),
                                          null=True,
                                          blank=True,
+                                         validators=[MinValueValidator(1)],
+                                         help_text=_('оставьте пустым, если поле не имеет смысла'),
                                          )
     zip_code = models.CharField(verbose_name=_('почтовый индекс'),
                                 max_length=127,
@@ -98,4 +102,4 @@ class Address(BaseUniqueModel):
 
     class Meta:
         abstract = True
-        unique_together = ('street', 'building', 'building_block') # for future also - 'country','city',
+        unique_together = (('street', 'building', 'building_block'),) # for future also - 'country','city',
