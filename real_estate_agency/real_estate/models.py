@@ -6,10 +6,21 @@ from django.core.validators import MinValueValidator
 from django.utils.translation import ugettext as _
 
 
+def get_file_path(instance, filename):
+    import uuid
+    app = instance._meta.app_label
+    model_name = instance._meta.model_name
+    id_ = instance.id
+    ext = filename.split('.')[-1]
+    filename = "%s.%s" % (uuid.uuid4(), ext)
+    return 'uploads/%s/%s/%s' % (app, model_name, filename)
+
+
 class BasePropertyImage(models.Model):
     """Abstract model for all real estate pictures"""
     #property = models.ForeignKey('BasePropertyModel', related_name='images')
-    image = models.ImageField(verbose_name='изображения')
+    image = models.ImageField(verbose_name='изображение',
+                              upload_to=get_file_path)
 
     def __str__(self):
         return _('изображение')
@@ -146,21 +157,24 @@ class Apartment(BasePropertyModel):  # , BaseUniqueModel):
                                                    ],
                                        )
     floor = models.PositiveIntegerField(verbose_name=_('этаж'), default=1)
-    section = models.PositiveIntegerField(verbose_name=_('подъезд/секция'), 
+    section = models.PositiveIntegerField(verbose_name=_('подъезд/секция'),
                                           validators=[MinValueValidator(1)],
                                           default=1)
     balcony_area = models.DecimalField(_('площадь балкона (м2)'),
-                                       default=10,
+                                       default=None,
                                        decimal_places=2,
                                        max_digits=5,
                                        validators=[MinValueValidator(
-                                                   Decimal('10.00')
+                                                   Decimal('0.00')
                                                    ),
                                                    ],
                                        help_text=_(
                                            'Если балкона нет - оставьте поле пустым'),
+                                       null=True,
+                                       blank=True,
                                        )
+
     class Meta:
         abstract = True
-        verbose_name = _('квартиры')
+        verbose_name = _('объект "квартира"')
         verbose_name_plural = _('квартиры')
