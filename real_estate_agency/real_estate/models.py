@@ -3,10 +3,16 @@ from decimal import Decimal
 from django.db import models
 from django.contrib.auth.models import User
 from django.core.validators import MinValueValidator
+# Prepare for future translations and localizations:
 from django.utils.translation import ugettext as _
 
 
 def get_file_path(instance, filename):
+    """Gets file name for uploaded files
+    Specific folder uses app_name, model_name
+    Also used uuid number for file_name
+    uuid - (https://en.wikipedia.org/wiki/Universally_unique_identifier)
+    """
     import uuid
     app = instance._meta.app_label
     model_name = instance._meta.model_name
@@ -17,8 +23,9 @@ def get_file_path(instance, filename):
 
 
 class BasePropertyImage(models.Model):
-    """Abstract model for all real estate pictures"""
-    #property = models.ForeignKey('BasePropertyModel', related_name='images')
+    """Abstract model for all real estate pictures
+    Helps to use django inlines with pictures.
+    """
     image = models.ImageField(verbose_name='изображение',
                               upload_to=get_file_path)
 
@@ -27,8 +34,8 @@ class BasePropertyImage(models.Model):
 
     class Meta:
         abstract = True
-        verbose_name = 'файл'
-        verbose_name_plural = 'файлы'
+        verbose_name = _('файл')
+        verbose_name_plural = _('файлы')
 
 
 class BasePropertyModel(models.Model):
@@ -49,12 +56,9 @@ class BasePropertyModel(models.Model):
                                     _('улучшенная черновая')),
                                    (UNFURNISHED, _('черновая')),
                                    )
-
-    # columns of the table
-    # address = models.ForeignKey(Address,
-    #                             on_delete=models.PROTECT,
-    #                             verbose_name=_('адрес'),
-    #                             )
+    layout = models.ImageField(verbose_name='планировка',
+                               upload_to=get_file_path,
+                               )
     total_area = models.DecimalField(_('общая площадь (м2)'),
                                      decimal_places=2,
                                      max_digits=5,
@@ -63,23 +67,11 @@ class BasePropertyModel(models.Model):
                                                  ),
                                                  ],
                                      )
-    description = models.TextField(verbose_name=_('описание'))
-    # one to many to "images" - will be tabular inline in admin
-    # "layout" (image) - will add later. Type depends on app
-    celling_height = models.DecimalField(_('высота потолка (м)'),
-                                         decimal_places=1,
-                                         max_digits=2,
-                                         validators=[MinValueValidator(
-                                                     Decimal('2.0')
-                                                     ),
-                                                     ],
-                                         )
     interior_decoration = models.CharField(verbose_name=_('вид отделки'),
                                            max_length=31,
                                            choices=INTERIOR_DECORATION_CHOICES,
                                            default=UNFURNISHED,
                                            )
-    # many to many "transactions" for future releases will replace the price
     price = models.DecimalField(verbose_name=_('цена, рб'),
                                 default=1000000,
                                 decimal_places=0,
@@ -89,7 +81,20 @@ class BasePropertyModel(models.Model):
                                             ),
                                             ],
                                 )
-    is_active = models.BooleanField(verbose_name=_('доступно на рынке'),
+    description = models.TextField(verbose_name=_('описание'),
+                                   blank=True,
+                                   null=True,
+                                   )
+    celling_height = models.DecimalField(_('высота потолка (м)'),
+                                         decimal_places=1,
+                                         max_digits=2,
+                                         default=2.7,
+                                         validators=[MinValueValidator(
+                                                     Decimal('2.0')
+                                                     ),
+                                                     ],
+                                         )
+    is_active = models.BooleanField(verbose_name=_('отображать на сайте'),
                                     default=True,
                                     )
     posted_by = models.ForeignKey(User,
@@ -106,6 +111,13 @@ class BasePropertyModel(models.Model):
                                              auto_now=True,
                                              )
 
+    # need to add: one to many to "images" - will be tabular inline in admin
+    @property
+    def images(self):
+        raise NotImplementedError
+
+    # many to many "transactions" will be added in future releases and will
+    # replace the price
     def __str__(self):
         return "%s_%s" % (self.TYPE, self.id)
         return "%s по адресу %s" % (self.TYPE.capitalize(), self.address)
@@ -114,8 +126,6 @@ class BasePropertyModel(models.Model):
         abstract = True
         verbose_name = _('объект недвижимости')
         verbose_name_plural = _('объекты недвижимости')
-
-# https://djbook.ru/rel1.8/ref/forms/validation.html#cleaning-and-validating-fields-that-depend-on-each-other
 
 
 class Apartment(BasePropertyModel):  # , BaseUniqueModel):
@@ -139,7 +149,6 @@ class Apartment(BasePropertyModel):  # , BaseUniqueModel):
         (SEVENROOMS, _('7')),
     )
     is_primary = False
-    apartment_number = models.IntegerField(verbose_name=_('Номер квартиры'))
     rooms = models.CharField(max_length=1,
                              choices=ROOMS_CHOICES,
                              default=ONEROOM,
@@ -147,32 +156,27 @@ class Apartment(BasePropertyModel):  # , BaseUniqueModel):
                              help_text=_(
                                  'Если вы не нашли нужного пункта - обратитесь к администратору'),
                              )
+    floor = models.PositiveIntegerField(verbose_name=_('этаж'), default=1)
+    section = models.PositiveIntegerField(verbose_name=_('подъезд/секция'),
+                                          validators=[MinValueValidator(1)],
+                                          default=1)
     kitchen_area = models.DecimalField(_('площадь кухни (м2)'),
                                        default=10,
                                        decimal_places=2,
                                        max_digits=5,
                                        validators=[MinValueValidator(
-                                                   Decimal('10.00')
-                                                   ),
-                                                   ],
-                                       )
-    floor = models.PositiveIntegerField(verbose_name=_('этаж'), default=1)
-    section = models.PositiveIntegerField(verbose_name=_('подъезд/секция'),
-                                          validators=[MinValueValidator(1)],
-                                          default=1)
-    balcony_area = models.DecimalField(_('площадь балкона (м2)'),
-                                       default=None,
-                                       decimal_places=2,
-                                       max_digits=5,
-                                       validators=[MinValueValidator(
-                                                   Decimal('0.00')
-                                                   ),
-                                                   ],
-                                       help_text=_(
-                                           'Если балкона нет - оставьте поле пустым'),
-                                       null=True,
-                                       blank=True,
-                                       )
+                                           Decimal('10.00')
+                                       ),
+    ],
+    )
+    balcony_area = models.PositiveIntegerField(verbose_name=_('количество балконов'),
+                                               default=0,
+                                               )
+
+    def __str__(self):
+        if self.rooms == self.BACHELOR:
+            return _("квартира-студия")
+        return _("{rooms_integer}-комнатная квартира").format(rooms_integer=self.rooms)
 
     class Meta:
         abstract = True
