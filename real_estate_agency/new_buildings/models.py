@@ -5,23 +5,17 @@ from django.contrib.auth.models import User
 from django.core.validators import MinValueValidator
 from django.utils.translation import ugettext as _
 
-from real_estate.models import Apartment, get_file_path
+from real_estate.models import Apartment, get_file_path, BasePropertyImage
 from address.models import Address
 
 
 class NewApartment(Apartment):
+    """ It will be objects of layouts for now """
     is_primary = True
     building = models.ForeignKey('NewBuilding',
                                  verbose_name=_('строение'),
                                  on_delete=models.CASCADE,
                                  )
-    layout = models.ImageField(verbose_name='планировка',
-                               upload_to=get_file_path,
-                               )
-    def __str__(self):
-        if self.rooms == self.BACHELOR:
-            return _("квартира-студия")
-        return _("{rooms_integer}-комнатная квартира").format(rooms_integer=self.rooms)
     # Many to many fields "stocks" will appear in future
 
 
@@ -78,9 +72,12 @@ class NewBuilding(Address):
                                 null=True,
                                 blank=True,
                                 )
-    active = models.BooleanField(verbose_name=_('отображать на сайте'),
-                                 default=True,
-                                 )
+    is_active = models.BooleanField(verbose_name=_('отображать на сайте'),
+                                    default=True,
+                                    )
+
+    def get_apartments(self):
+        return self.newapartment_set.filter(is_active=True)
 
     def __str__(self):
         return '%s' % (self.name, )
@@ -88,18 +85,47 @@ class NewBuilding(Address):
     class Meta(Address.Meta):
         verbose_name = _('дом')
         verbose_name_plural = _('дома')
-        unique_together = Address.Meta.unique_together + (('name', 'residental_complex'), )
+        unique_together = Address.Meta.unique_together + \
+            (('name', 'residental_complex'), )
 
     def is_built(self):
         if self.date_of_construction:
-            return self.date_of_construction<=datetime.date.today()
+            return self.date_of_construction <= datetime.date.today()
     is_built.short_description = _('Готовность дома')
     is_built.boolean = True
+
+
+class TypeOfComplex(models.Model):
+    """ it prefixes for ResidentalComplexes.
+    Such as 'Жилой комплекс' or 'Микрорайон', which depends on builder policy
+    """
+    name = models.CharField(verbose_name=_('тип комплекса'),
+                            max_length=127,
+                            unique=True,
+                            help_text=_(
+                                'Необходимо писать в нижнем регистре. Преобразование к верхнему регистру происходит автоматически'),
+                            )
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name = _('тип комплекса')
+        verbose_name_plural = _('типы комплексов')
+
 
 class ResidentalComplex(models.Model):
     """ it is aggregate of houses.
     They are built in the same style by the same builder.
     """
+    type_of_complex = models.ForeignKey(TypeOfComplex,
+                                        verbose_name=_('тип комплекса'),
+                                        default=1,
+                                        help_text=_(
+                                            'Жилой комплекс/Мирорайон/...'),
+                                        on_delete=models.PROTECT,
+                                        )
+
     name = models.CharField(verbose_name=_('название'),
                             max_length=127,
                             unique=True,
@@ -114,6 +140,9 @@ class ResidentalComplex(models.Model):
                                              verbose_name=_(
                                                  'характеристики ЖК'),
                                              blank=True,)
+    front_image = models.ImageField(verbose_name=_('Основное изображение'),
+                                    upload_to=get_file_path,
+                                    )
     # one to many "features"
     # one to many "houses"
     video_link = models.URLField(verbose_name=_('ссылка на видео'),
@@ -125,30 +154,52 @@ class ResidentalComplex(models.Model):
                                     blank=True,
                                     )
     # one to many "documents_for_construction"
-    active = models.BooleanField(verbose_name=_('отображать в новостройках'),
-                                 default=False,
-                                 )
-    # def lowest_price(self):
-    #     from django.db.models import Min
-    #     if not self.address_set:
-    #         return 0
-    #     addresses = self.address_set.all()
-    #     if len(addresses)==0:
-    #         return
-    #     minimums = []
-    #     for address in addresses:
-    #         _property = address.property_set.all()
-    #         if _property:
-    #             minimum = _property.annotate(Min('price'))[0].price
-    #             minimums.append(minimum)
-    #     return min(minimums)
+    is_active = models.BooleanField(verbose_name=_('отображать на сайте'),
+                                    default=False,
+                                    )
+    def get_features(self):
+        return self.features.all()
+
+    def building_type(self):
+        buildings = self.get_new_buildings()
+        if buildings:
+            return buildings[0].get_building_type_display()
+        return '-'
+
+    def get_new_buildings(self):
+        return self.newbuilding_set.filter(is_active=True)
+
+    def count_flats(self):
+        count = 0
+        for building in self.get_new_buildings():
+            count += len(building.get_apartments())
+        return count
+
+    def count_buildings(self):
+        return len(self.get_new_buildings())
+
+    def get_nearest_date_of_building(self):
+        from django.db.models import Min
+        buildings = self.newbuilding_set.all()
+        if buildings:
+            return buildings.annotate(Min('date_of_construction'))[0].date_of_construction
+
+    def get_latest_date_of_building(self):
+        from django.db.models import Max
+        buildings = self.newbuilding_set.all()
+        if buildings:
+            return buildings.annotate(Max('date_of_construction'))[0].date_of_construction
+
+    def get_title_photo_url(self):
+        if self.photos.all():
+            return self.front_image.url
 
     def __str__(self):
         return self.name
 
     class Meta:
-        verbose_name = _('жилой комплекс')
-        verbose_name_plural = _('жилые комплексы')
+        verbose_name = _('комплекс')
+        verbose_name_plural = _('комплексы')
 
 
 class Builder(models.Model):
@@ -176,4 +227,41 @@ class Builder(models.Model):
 
 
 class ResidentalComplexСharacteristic(models.Model):
-    pass
+    characteristic = models.CharField(verbose_name=_('характеристика'),
+                                      max_length=127,
+                                      unique=True,
+                                      )
+    icon = models.ImageField(verbose_name=_('иконка'))
+
+    def __str__(self):
+        return self.characteristic
+
+    class Meta:
+        verbose_name=_('характеристика')
+        verbose_name_plural = _('характеристики')
+
+class ResidentalComplexFeature(models.Model):
+    title = models.CharField(verbose_name=_('заголовок'),
+                             max_length=127,
+                             )
+    description = models.TextField(verbose_name=_('описание'),
+                                   max_length=500,
+                                   )
+    image = models.ImageField(verbose_name=_('изображение'))
+    residental_complex = models.ForeignKey(ResidentalComplex,
+                                           on_delete=models.CASCADE,
+                                           related_name='features',
+                                           )
+    def __str__(self):
+        return self.title
+
+    class Meta:
+        verbose_name=_('особенность комплекса')
+        verbose_name_plural = _('особенности комплекса')
+
+
+class ResidentalComplexImage(BasePropertyImage):
+    residental_complex = models.ForeignKey(ResidentalComplex,
+                                           on_delete=models.CASCADE,
+                                           related_name='photos',
+                                           )
