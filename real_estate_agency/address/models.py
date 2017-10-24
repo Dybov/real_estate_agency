@@ -4,9 +4,16 @@ from django.core.validators import MinValueValidator
 
 
 class BaseUniqueModel(models.Model):
+    ITS_CLASSES = []
 
     class Meta:
         abstract = True
+
+    def raiseValidationErrorUnique(self, unique_fields):
+        from django.core.exceptions import ValidationError
+        msg = self.unique_error_message(
+            self.__class__, tuple(unique_fields))
+        raise ValidationError(msg)
 
     def clean(self):
         """
@@ -16,6 +23,8 @@ class BaseUniqueModel(models.Model):
         from django.core.exceptions import ValidationError
 
         super(BaseUniqueModel, self).clean()
+
+        BaseUniqueModel.ITS_CLASSES.append(self)
 
         for field_tuple in self._meta.unique_together[:]:
             unique_filter = {}
@@ -29,6 +38,25 @@ class BaseUniqueModel(models.Model):
                 else:
                     unique_filter['%s' % field_name] = field_value
                     unique_fields.append(field_name)
+
+            # that is my part for checking unique fields in inline forms
+            for its_cls in BaseUniqueModel.ITS_CLASSES:
+                if its_cls == self:
+                    continue
+                other_forms_fields_status = []
+                for field_name in field_tuple:
+                    other_forms_fields_status.append(
+                        getattr(its_cls, field_name) == getattr(
+                            self, field_name)
+                    )
+                if set(other_forms_fields_status) == set([True]):
+                    # clean it for blocking recursive errors for all post
+                    # requests
+                    BaseUniqueModel.ITS_CLASSES = [its_cls]
+                    its_cls.raiseValidationErrorUnique(unique_fields)
+                    self.raiseValidationErrorUnique(unique_fields)
+            # end of mine part
+
             if null_found:
                 unique_queryset = self.__class__.objects.filter(
                     **unique_filter
