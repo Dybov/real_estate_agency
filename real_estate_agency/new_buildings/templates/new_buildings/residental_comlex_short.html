@@ -1,0 +1,18 @@
+<div class="col-md-6 col-xs-12">
+	<a href='{% url "new_buildings:residental-complex-detail" pk=residental_complex.pk %}' class="item">
+		<div class="item-images" style="background-image: url({{ residental_complex.get_title_photo_url }});">
+			<div class="item-filter">
+				<p class="item-headline">
+					{{ residental_complex }}
+				</p>
+				<p class="item-description">
+					{{ residental_complex.description }}
+				</p>
+				<div class="item-info-hover">
+					<p class="item-info-text">Срок сдачи: {{ residental_complex.get_latest_date_of_building|date:"F Y"}}</p>
+					<p class="item-info-btn">Выбрать квартиру</p>
+				</div>
+		</div>
+		</div>
+		</a>
+</div>

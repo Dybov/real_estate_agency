@@ -19,7 +19,7 @@ from django.conf.urls import url, include
 from django.conf.urls.static import static
 
 urlpatterns = [
-    url(r'^', include('real_estate.urls')),
+    url(r'^', include('new_buildings.urls')),
     url(r'^admin/', admin.site.urls, name='admin'),
 ]
 

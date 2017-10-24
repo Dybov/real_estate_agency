@@ -1,0 +1,17 @@
+<div class="col-md-3 col-xs-12">
+	<div class="item_rooms">
+	<div class="item_rooms_plan" style="background-image: url({{ apartment.layout.url }});">
+		
+	</div>
+	<div class="item_rooms_info">
+		<div class="item_rooms_price">
+			{{ apartment.price }} ₽
+		</div>
+		<div class="item_rooms_description">
+			Площадь <span> {{ apartment.total_area }}м2</span>
+			<br>
+			Срок сдачи <span> {{ apartment.building.date_of_construction|date:"F Y" }}</span>
+		</div>
+	</div>
+</div>
+</div>
