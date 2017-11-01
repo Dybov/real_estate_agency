@@ -5,12 +5,20 @@ from django.contrib import admin
 from django.utils.translation import ugettext as _
 
 from real_estate.admin import DontShowInAdmin
-from .models import ResidentalComplex, NewBuilding, Builder, NewApartment, ResidentalComplexImage
 from .forms import TabularInlineWithImageWidgetInline, standart_formfield_overrides
 from .admin_filters import BuildingIsBuiltFilter, BuildingResidentalComplexFilter
-
+from .models import (ResidentalComplex,
+                     NewBuilding,
+                     Builder,
+                     NewApartment,
+                     ResidentalComplexImage,
+                     TypeOfComplex,
+                     ResidentalComplexСharacteristic,
+                     ResidentalComplexFeature,
+                     )
 
 admin.site.register(Builder)
+admin.site.register(TypeOfComplex)
 
 
 class NewApartmentInline(TabularInlineWithImageWidgetInline):
@@ -48,10 +56,26 @@ class ResidentalComplexImageInline(admin.TabularInline):
     min_num = 1
 
 
+class ResidentalComplexFeatureInline(admin.TabularInline):
+    model = ResidentalComplexFeature
+    extra = 0
+    min_num = 1
+    formfield_overrides = standart_formfield_overrides
+
+
 @admin.register(ResidentalComplex)
 class ResidentalComplexAdmin(admin.ModelAdmin):
-    inlines = [BuildingInline, ResidentalComplexImageInline]
+    inlines = [ResidentalComplexFeatureInline,
+               BuildingInline, 
+               ResidentalComplexImageInline,
+               ]
     list_display = ('name', 'is_active')
     list_editable = ('is_active',)
     list_filter = ['is_active']
     search_fields = ['name']
+    filter_horizontal = ['characteristics']
+
+
+@admin.register(ResidentalComplexСharacteristic)
+class ResidentalComplexСharacteristicAdmin(DontShowInAdmin):
+    pass
