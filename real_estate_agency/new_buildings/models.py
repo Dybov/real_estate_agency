@@ -160,6 +160,9 @@ class ResidentalComplex(models.Model):
     def get_features(self):
         return self.features.all()
 
+    def get_characteristic(self):
+        return self.characteristics.all()
+
     def building_type(self):
         buildings = self.get_new_buildings()
         if buildings:
@@ -231,14 +234,16 @@ class ResidentalComplexСharacteristic(models.Model):
                                       max_length=127,
                                       unique=True,
                                       )
-    icon = models.ImageField(verbose_name=_('иконка'))
+    icon = models.ImageField(verbose_name=_('иконка'),
+                             upload_to=get_file_path,
+                             )
 
     def __str__(self):
         return self.characteristic
 
     class Meta:
-        verbose_name=_('характеристика')
-        verbose_name_plural = _('характеристики')
+        verbose_name=_('характеристика комплекса')
+        verbose_name_plural = _('характеристики комплексов')
 
 class ResidentalComplexFeature(models.Model):
     title = models.CharField(verbose_name=_('заголовок'),

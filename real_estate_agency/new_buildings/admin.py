@@ -77,5 +77,5 @@ class ResidentalComplexAdmin(admin.ModelAdmin):
 
 
 @admin.register(ResidentalComplexСharacteristic)
-class ResidentalComplexСharacteristicAdmin(DontShowInAdmin):
+class ResidentalComplexСharacteristicAdmin(admin.ModelAdmin):#DontShowInAdmin):
     pass
