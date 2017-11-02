@@ -32,6 +32,7 @@
 </head>
 
 <body>
+{% block header %}{% include 'new_buildings/base/header.html' %}{% endblock %}
 {% block content %}{% endblock %}
 	<link rel="stylesheet" href='{% static "new_buildings/css/main.min.css"%}'>
 	<script src='{% static "new_buildings/js/scripts.min.js"%}'></script>

@@ -1,4 +1,4 @@
-{% extends 'new_buildings/base.html'%}
+{% extends 'new_buildings/base/base.html'%}
 {% load static %}
 {% block content %}
 <header>
@@ -74,9 +74,13 @@
 
 			</div>
 		</div>
+		<h2 class="zhk_description_headline">Характеристики комплекса</h2>
+		{% include "new_buildings/residental_complex_characteristic.html"%}
+		<br><br><br>
+		
 	</div>
-
-	<div class="zhk_slider scrollyeah" data-shadows="false" >
+	
+<!--	<div class="zhk_slider scrollyeah" data-shadows="false" >
 		<div class="slider_item" style="background-image: url(img/catalog-bg.png);">
 			<div class="slider_item_hover">
 				 <div class="slider_icon_search">
@@ -84,7 +88,7 @@
 				 </div>
 			</div>			
 		</div>						
-	</div>
+	</div> -->
 
 	<div class="container">
 		<div class="row">
