@@ -66,7 +66,7 @@ class ResidentalComplexFeatureInline(admin.TabularInline):
 @admin.register(ResidentalComplex)
 class ResidentalComplexAdmin(admin.ModelAdmin):
     inlines = [ResidentalComplexFeatureInline,
-               BuildingInline, 
+               BuildingInline,
                ResidentalComplexImageInline,
                ]
     list_display = ('name', 'is_active')
@@ -74,8 +74,20 @@ class ResidentalComplexAdmin(admin.ModelAdmin):
     list_filter = ['is_active']
     search_fields = ['name']
     filter_horizontal = ['characteristics']
+    fieldsets = (
+        (None, {
+            'fields': ('type_of_complex', 'name', 'is_active', 'builder', 'characteristics', 'number_of_flats')
+        }),
+        (_('ДОКУМЕНТЫ'), {
+            'fields': ('building_permit', 'project_declarations', 'other_documents'),
+        }),
+        (_('МЕДИА'), {
+            'fields': ('front_image', 'video_link', 'presentation'),
+        })
+    )
 
 
 @admin.register(ResidentalComplexСharacteristic)
-class ResidentalComplexСharacteristicAdmin(admin.ModelAdmin):#DontShowInAdmin):
+# DontShowInAdmin):
+class ResidentalComplexСharacteristicAdmin(admin.ModelAdmin):
     pass

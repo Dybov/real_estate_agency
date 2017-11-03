@@ -16,6 +16,11 @@ class NewApartment(Apartment):
                                  verbose_name=_('строение'),
                                  on_delete=models.CASCADE,
                                  )
+    def get_residental_complex(self):
+        building = self.building
+        if building:
+            return building.residental_complex
+
     # Many to many fields "stocks" will appear in future
 
 
@@ -157,6 +162,34 @@ class ResidentalComplex(models.Model):
     is_active = models.BooleanField(verbose_name=_('отображать на сайте'),
                                     default=False,
                                     )
+    number_of_flats = models.PositiveIntegerField(verbose_name=_('количество квартир в комплексе'),
+                                                  help_text=_(
+                                                      'оставьте пустым для автоматического подсчета'),
+                                                  default=None,
+                                                  null=True,
+                                                  blank=True,
+                                                  )
+    building_permit = models.FileField(verbose_name=_('разрешение на строительство'),
+                                       null=True,
+                                       default=None,
+                                       blank=True,
+                                       upload_to=get_file_path,
+                                       )
+    project_declarations = models.FileField(verbose_name=_('проектные декларации'),
+                                            help_text=_('загрузите архив'),
+                                            null=True,
+                                            default=None,
+                                            blank=True,
+                                            upload_to=get_file_path,
+                                            )
+    other_documents = models.FileField(verbose_name=_('остальные документы'),
+                                       help_text=_('загрузите архив'),
+                                       null=True,
+                                       default=None,
+                                       blank=True,
+                                       upload_to=get_file_path,
+                                       )
+
     def get_features(self):
         return self.features.all()
 
@@ -173,6 +206,8 @@ class ResidentalComplex(models.Model):
         return self.newbuilding_set.filter(is_active=True)
 
     def count_flats(self):
+        if self.number_of_flats:
+            return self.number_of_flats
         count = 0
         for building in self.get_new_buildings():
             count += len(building.get_apartments())
@@ -242,8 +277,9 @@ class ResidentalComplexСharacteristic(models.Model):
         return self.characteristic
 
     class Meta:
-        verbose_name=_('характеристика комплекса')
+        verbose_name = _('характеристика комплекса')
         verbose_name_plural = _('характеристики комплексов')
+
 
 class ResidentalComplexFeature(models.Model):
     title = models.CharField(verbose_name=_('заголовок'),
@@ -257,11 +293,12 @@ class ResidentalComplexFeature(models.Model):
                                            on_delete=models.CASCADE,
                                            related_name='features',
                                            )
+
     def __str__(self):
         return self.title
 
     class Meta:
-        verbose_name=_('особенность комплекса')
+        verbose_name = _('особенность комплекса')
         verbose_name_plural = _('особенности комплекса')
 
 
