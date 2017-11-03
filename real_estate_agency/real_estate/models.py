@@ -19,7 +19,7 @@ def get_file_path(instance, filename):
     id_ = instance.id
     ext = filename.split('.')[-1]
     filename = "%s.%s" % (uuid.uuid4(), ext)
-    return 'uploads/%s/%s/%s' % (app, model_name, filename)
+    return 'uploads/%s/%s/%s/%s' % (app, model_name, ext, filename)
 
 
 class BasePropertyImage(models.Model):
@@ -34,8 +34,8 @@ class BasePropertyImage(models.Model):
 
     class Meta:
         abstract = True
-        verbose_name = _('файл')
-        verbose_name_plural = _('файлы')
+        verbose_name = _('изображение')
+        verbose_name_plural = _('изображения')
 
 
 class BasePropertyModel(models.Model):
