@@ -38,7 +38,7 @@ class BuildingAdmin(admin.ModelAdmin):
     list_display = ['__str__', 'is_built', 'residental_complex']
     empty_value_display = _('Неизвестно')
     list_filter = [BuildingIsBuiltFilter, BuildingResidentalComplexFilter]
-    initial_exclude = ['city', 'country', 'zip_code', 'feed_link', ]
+    initial_exclude = ['country', 'zip_code', 'feed_link',]
     exclude = initial_exclude + ['residental_complex']
 
 

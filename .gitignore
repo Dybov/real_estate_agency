@@ -19,4 +19,4 @@ real_estate_agency/media/*
 *.sass-cache
 
 #For temporary db (for development)
-real_estate_agency/db.sqlite3
+*/db.sqlite3

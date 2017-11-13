@@ -6,7 +6,7 @@ from django.core.validators import MinValueValidator
 from django.utils.translation import ugettext as _
 
 from real_estate.models import Apartment, get_file_path, BasePropertyImage
-from address.models import Address
+from address.models import AbstractAddressModel
 
 
 class NewApartment(Apartment):
@@ -24,7 +24,7 @@ class NewApartment(Apartment):
     # Many to many fields "stocks" will appear in future
 
 
-class NewBuilding(Address):
+class NewBuilding(AbstractAddressModel):
     """it is building with concrete address,
     but it also has a name in ResidentalComlex area
     """
@@ -87,10 +87,10 @@ class NewBuilding(Address):
     def __str__(self):
         return '%s' % (self.name, )
 
-    class Meta(Address.Meta):
+    class Meta(AbstractAddressModel.Meta):
         verbose_name = _('дом')
         verbose_name_plural = _('дома')
-        unique_together = Address.Meta.unique_together + \
+        unique_together = AbstractAddressModel.Meta.unique_together + \
             (('name', 'residental_complex'), )
 
     def is_built(self):
@@ -175,20 +175,12 @@ class ResidentalComplex(models.Model):
                                        blank=True,
                                        upload_to=get_file_path,
                                        )
-    project_declarations = models.FileField(verbose_name=_('проектные декларации'),
-                                            help_text=_('загрузите архив'),
+    project_declarations = models.FileField(verbose_name=_('проектная декларация'),
                                             null=True,
                                             default=None,
                                             blank=True,
                                             upload_to=get_file_path,
                                             )
-    other_documents = models.FileField(verbose_name=_('остальные документы'),
-                                       help_text=_('загрузите архив'),
-                                       null=True,
-                                       default=None,
-                                       blank=True,
-                                       upload_to=get_file_path,
-                                       )
 
     def get_features(self):
         return self.features.all()
@@ -250,11 +242,10 @@ class Builder(models.Model):
                                null=True,
                                blank=True,
                                )
-    contact = models.ForeignKey(User,
-                                on_delete=models.PROTECT,
-                                verbose_name=_('контактное лицо'),
-                                )
-    logo = models.ImageField(verbose_name=_('логотип компании'))
+    logo = models.ImageField(verbose_name=_('логотип компании'),
+                             blank=True,
+                             null=True,
+                             )
 
     def __str__(self):
         return self.name
