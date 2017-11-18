@@ -19,7 +19,8 @@ from django.conf.urls import url, include
 from django.conf.urls.static import static
 
 urlpatterns = [
-    url(r'^', include('new_buildings.urls')),
+    url(r'^', include('new_buildings.urls'), name='new_buildings'),
+    url(r'^address/', include('address.urls'), name='address'),
     url(r'^admin/', admin.site.urls, name='admin'),
 ]
 
