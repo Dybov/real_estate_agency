@@ -1,11 +1,16 @@
-from datetime import date
-
 from django.db import models
 from django.contrib import admin
 from django.utils.translation import ugettext as _
+from django.forms.models import BaseInlineFormSet
 
 from real_estate.admin import DontShowInAdmin
-from .forms import TabularInlineWithImageWidgetInline, standart_formfield_overrides
+
+from address.forms import FormWithAddressAutocomplete
+
+from .forms import (TabularInlineWithImageWidgetInline,
+                    standart_formfield_overrides,
+                    PhotoAdminForm,
+                    )
 from .admin_filters import BuildingIsBuiltFilter, BuildingResidentalComplexFilter
 from .models import (ResidentalComplex,
                      NewBuilding,
@@ -19,6 +24,7 @@ from .models import (ResidentalComplex,
 
 admin.site.register(Builder)
 admin.site.register(TypeOfComplex)
+admin.site.register(ResidentalComplexСharacteristic)
 
 
 class NewApartmentInline(TabularInlineWithImageWidgetInline):
@@ -33,16 +39,19 @@ class NewApartmentInline(TabularInlineWithImageWidgetInline):
 
 
 @admin.register(NewBuilding)
-class BuildingAdmin(admin.ModelAdmin):
+class BuildingAdmin(DontShowInAdmin):
+    # class BuildingAdmin(admin.ModelAdmin):
+    form = FormWithAddressAutocomplete
     inlines = [NewApartmentInline]
     list_display = ['__str__', 'is_built', 'residental_complex']
     empty_value_display = _('Неизвестно')
     list_filter = [BuildingIsBuiltFilter, BuildingResidentalComplexFilter]
-    initial_exclude = ['country', 'zip_code', 'feed_link',]
+    initial_exclude = ['zip_code', 'feed_link', ]
     exclude = initial_exclude + ['residental_complex']
 
 
 class BuildingInline(admin.TabularInline):
+    form = FormWithAddressAutocomplete
     model = NewBuilding
     extra = 0
     exclude = BuildingAdmin.initial_exclude + ['is_active']
@@ -50,21 +59,35 @@ class BuildingInline(admin.TabularInline):
     show_change_link = True
 
 
+# Prototype of loading multiple images from inline
+class SomeInlineFormSet(BaseInlineFormSet):
+
+    def save_new(self, form, commit=True):
+        form.save()
+        return super(SomeInlineFormSet, self).save_new(form, commit=commit)
+
+    def save_existing(self, form, instance, commit=True):
+        return form.save(commit=commit)
+
+
 class ResidentalComplexImageInline(admin.TabularInline):
     model = ResidentalComplexImage
+    form = PhotoAdminForm
     extra = 0
-    min_num = 1
+    min_num = 0
+    formset = SomeInlineFormSet
 
 
 class ResidentalComplexFeatureInline(admin.TabularInline):
     model = ResidentalComplexFeature
     extra = 0
-    min_num = 1
+    min_num = 0
     formfield_overrides = standart_formfield_overrides
 
 
 @admin.register(ResidentalComplex)
 class ResidentalComplexAdmin(admin.ModelAdmin):
+    form = FormWithAddressAutocomplete
     inlines = [ResidentalComplexFeatureInline,
                BuildingInline,
                ResidentalComplexImageInline,
@@ -76,18 +99,17 @@ class ResidentalComplexAdmin(admin.ModelAdmin):
     filter_horizontal = ['characteristics']
     fieldsets = (
         (None, {
-            'fields': ('type_of_complex', 'name', 'is_active', 'builder', 'characteristics', 'number_of_flats')
+            'fields': ('type_of_complex', 'name', 'neighbourhood', 'is_active', 'builder', 'characteristics', 'number_of_flats')
         }),
         (_('ДОКУМЕНТЫ'), {
-            'fields': ('building_permit', 'project_declarations', 'other_documents'),
+            'fields': ('building_permit', 'project_declarations'),
         }),
         (_('МЕДИА'), {
             'fields': ('front_image', 'video_link', 'presentation'),
-        })
+        }),
     )
 
 
-@admin.register(ResidentalComplexСharacteristic)
-# DontShowInAdmin):
-class ResidentalComplexСharacteristicAdmin(admin.ModelAdmin):
-    pass
+@admin.register(ResidentalComplexImage)
+class PhotoOfResidentalComplexAdminTemporary(admin.ModelAdmin):
+    form = PhotoAdminForm

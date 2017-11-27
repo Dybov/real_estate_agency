@@ -1,68 +1,71 @@
-from django.shortcuts import render
+from django.shortcuts import render, render_to_response
 from django.views.generic import ListView, DetailView
-from .models import ResidentalComplex, NewBuilding, NewApartment
+from django.views.generic.edit import FormMixin
 
-class ResidentalComplexList(ListView):
+from .models import ResidentalComplex, NewBuilding, NewApartment
+from .forms import SearchForm
+
+
+class ResidentalComplexList(FormMixin, ListView):
+    form_class = SearchForm
     model = ResidentalComplex
     context_object_name = 'residental_complexes'
     template_name = 'new_buildings/residental_complex_list.html'
     queryset = model.objects.filter(is_active=True)
 
+    def filterApartment(self, fieldname=None, filter_name=None, filter_condition_by_value=None):
+        if self.form.is_valid() and fieldname and filter_name:
+            data = self.form.cleaned_data[fieldname]
+            if data:
+                self.apartment_list = self.apartment_list.filter(
+                    **{filter_name: data})
+
+    def get(self, request, *args, **kwargs):
+        # From ProcessFormMixin
+        form_class = self.get_form_class()
+        self.form = form_class(getattr(request, request.method))
+
+        # From BaseListView
+        self.apartment_list = NewApartment.objects.all()
+        self.object_list = self.get_queryset()
+
+        if self.form.is_valid():
+            self.filterApartment(fieldname='price_from',
+                                 filter_name='price__gte')
+            self.filterApartment(fieldname='price_to',
+                                 filter_name='price__lte')
+            self.filterApartment(fieldname='area_from',
+                                 filter_name='total_area__gte')
+            self.filterApartment(fieldname='area_to',
+                                 filter_name='total_area__lte')
+            # self.filterApartment(fieldname='rooms', filter_name='rooms__in')
+            # print(self.form.cleaned_data['rooms'])
+            settlement_before = self.form.cleaned_data['settlement_before']
+
+            # any_text = form.cleaned_data['any_text']
+            building_id_list = [
+                x.get('building') for x in self.apartment_list.values('building').distinct()]
+            buildings = NewBuilding.objects.filter(id__in=building_id_list)
+            if settlement_before:
+                buildings = buildings.filter(
+                    date_of_construction__lte=settlement_before)
+            residental_complexes_id_list = [x.get(
+                'residental_complex') for x in buildings.values('residental_complex').distinct()]
+            self.object_list = self.object_list.filter(
+                id__in=residental_complexes_id_list)
+
+        allow_empty = self.get_allow_empty()
+        if not allow_empty and len(self.object_list) == 0:
+            raise Http404(_(u"Empty list and '%(class_name)s.allow_empty' is False.")
+                          % {'class_name': self.__class__.__name__})
+
+        context = self.get_context_data(
+            object_list=self.object_list, form=self.form)
+        return self.render_to_response(context)
+
     def post(self, request, *args, **kwargs):
+        return self.get(request, *args, **kwargs)
 
-        price_from = request.POST.get('search_price_from')
-        price_to = request.POST.get('search_price_to')
-        print(price_from,price_to)
-        if price_from:
-            try:
-                price_from = float(price_from)
-            except:
-                price_from = None
-        if price_to:
-            try:
-                price_to = float(price_to)
-            except:
-                price_to = None
-        if price_from and price_to:
-            if price_from > price_to:
-                price_from = None
-        print(price_from,price_to)
-        print('-'*15)
-        queryset = NewApartment.objects.all()
-        if price_to:
-            print(1)
-            queryset = queryset.filter(price__lte=price_to)
-        if price_from:
-            print(1)
-            queryset = queryset.filter(price__gte=price_from)
-        _complexes = []
-
-        search_area_from = request.POST.get('search_area_from')
-        search_area_to = request.POST.get('search_area_to')
-        print(search_area_from,search_area_to)
-        try:
-            if search_area_from:
-                search_area_from = float(search_area_from)
-            if search_area_to:
-                search_area_to = float(search_area_to)
-        except:
-            search_area_from = None
-            search_area_to = None
-        if search_area_from and search_area_to:
-            if search_area_from > search_area_to:
-                search_area_from = None
-
-        if search_area_to:
-            queryset = queryset.filter(total_area__lte=search_area_to)
-        if search_area_from:
-            queryset = queryset.filter(total_area__gte=search_area_from)
-        print(queryset)
-        for apartment in queryset:
-            _complex = apartment.get_residental_complex()
-            if _complex not in _complexes:
-                _complexes.append(_complex)
-        print(_complexes)
-        return render(request, self.template_name, {self.context_object_name: _complexes})
 
 class ResidentalComplexDetail(DetailView):
     model = ResidentalComplex

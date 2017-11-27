@@ -6,7 +6,7 @@ from django.core.validators import MinValueValidator
 from django.utils.translation import ugettext as _
 
 from real_estate.models import Apartment, get_file_path, BasePropertyImage
-from address.models import AbstractAddressModel
+from address.models import AbstractAddressModelWithoutNeighbourhood, NeighbourhoodModel
 
 
 class NewApartment(Apartment):
@@ -16,6 +16,7 @@ class NewApartment(Apartment):
                                  verbose_name=_('строение'),
                                  on_delete=models.CASCADE,
                                  )
+
     def get_residental_complex(self):
         building = self.building
         if building:
@@ -24,7 +25,7 @@ class NewApartment(Apartment):
     # Many to many fields "stocks" will appear in future
 
 
-class NewBuilding(AbstractAddressModel):
+class NewBuilding(AbstractAddressModelWithoutNeighbourhood):
     """it is building with concrete address,
     but it also has a name in ResidentalComlex area
     """
@@ -87,10 +88,10 @@ class NewBuilding(AbstractAddressModel):
     def __str__(self):
         return '%s' % (self.name, )
 
-    class Meta(AbstractAddressModel.Meta):
+    class Meta(AbstractAddressModelWithoutNeighbourhood.Meta):
         verbose_name = _('дом')
         verbose_name_plural = _('дома')
-        unique_together = AbstractAddressModel.Meta.unique_together + \
+        unique_together = AbstractAddressModelWithoutNeighbourhood.Meta.unique_together + \
             (('name', 'residental_complex'), )
 
     def is_built(self):
@@ -112,7 +113,7 @@ class TypeOfComplex(models.Model):
                             )
 
     def __str__(self):
-        return self.name
+        return self.name.capitalize()
 
     class Meta:
         verbose_name = _('тип комплекса')
@@ -127,7 +128,7 @@ class ResidentalComplex(models.Model):
                                         verbose_name=_('тип комплекса'),
                                         default=1,
                                         help_text=_(
-                                            'Жилой комплекс/Мирорайон/...'),
+                                            'Жилой комплекс/Микрорайон/...'),
                                         on_delete=models.PROTECT,
                                         )
 
@@ -145,7 +146,7 @@ class ResidentalComplex(models.Model):
                                              verbose_name=_(
                                                  'характеристики ЖК'),
                                              blank=True,)
-    front_image = models.ImageField(verbose_name=_('Основное изображение'),
+    front_image = models.ImageField(verbose_name=_('основное изображение'),
                                     upload_to=get_file_path,
                                     )
     # one to many "features"
@@ -181,6 +182,10 @@ class ResidentalComplex(models.Model):
                                             blank=True,
                                             upload_to=get_file_path,
                                             )
+    neighbourhood = models.ForeignKey(NeighbourhoodModel,
+                                      verbose_name=_('район'),
+                                      on_delete=models.PROTECT,
+                                      )
 
     def get_features(self):
         return self.features.all()
@@ -221,8 +226,7 @@ class ResidentalComplex(models.Model):
             return buildings.annotate(Max('date_of_construction'))[0].date_of_construction
 
     def get_title_photo_url(self):
-        if self.photos.all():
-            return self.front_image.url
+        return self.front_image.url
 
     def __str__(self):
         return self.name

@@ -1,0 +1,76 @@
+<div class="header emerge search_place" style="background-image: url(https://news.vsemetri.com/files/posts/2016/07/07/577de54b4579e.jpg);">
+    
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <h1 class="main_header_headline">Новостройки от застройщика в Тюмени</h1>
+                <h2 class="main_header_headline_2">Бесплатный поиск квартир в новостройках</h2>
+            </div>
+        </div>
+
+        <form action="" method="get">{# {% csrf_token %}  #}
+        <div class="row emerge" data-effect="slide" data-expose="true">
+            <div class="col-md-12">
+                <div class="search_room-flex col-md-12">
+                    <div class="search-form-room-flex">
+                        <div class="search-form-name">Количество комнат</div>
+                        <div class="btn-group search-room-btn-flex" data-toggle="buttons">
+                            {{ form.rooms.errors }}
+                            {% for room in form.rooms %}
+                                {{forloop.counter0 }} 
+                                |{{ room.value }}|
+                                {{ room.values }}
+                                <label class="btn btn-primary {% if room.value != '' %}active{% endif %}">
+                                    {{room}}
+                                </label>
+                            {% endfor %}
+                        </div>
+                    </div>
+
+
+                    <div class="search_price-flex search_price-flex-border-right-none">
+                        <label for="{{ form.price_from.id_for_label }}" class="search-form-name">Стоимость</label>
+                        <div class="search_form_price_container search_price-flex-border-bottom">
+                            <div class="search_form_price">
+                                {{ form.price_from }}
+                            </div>
+                            <div class="search_form_price">
+                                {{ form.price_to }}
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="search_price-flex">
+                        <label for="{{ form.area_from.id_for_label }}" class="search-form-name">Площадь, м2</label>
+                        <div class="search_form_price_container ">
+                            <div class="search_form_price">
+                                {{ form.area_from }}
+                            </div>
+                            <div class="search_form_price">
+                                {{ form.area_to }}
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="select_home-flex">
+                        <label for="{{form.settlement_before.id_for_label}}" class="search-form-name">Заселение до</label>
+                        <div class="search_form_select">
+                            {{ form.settlement_before }}
+                        </div>
+                    </div>
+
+                </div>  
+                <div class="col-md-10"> 
+                    {# <input type="text" placeholder="Название улицы, района, или жилого комплекса" class="search_place_input "> #}
+                    {{form.any_text}}
+                </div>  
+                <div class="col-md-2 col-md-pull-1"> 
+                    <button class="btn_large" type="submit">Найти</button>
+                </div>
+            </div>
+        </div>
+        </form>
+    </div>  
+</div>

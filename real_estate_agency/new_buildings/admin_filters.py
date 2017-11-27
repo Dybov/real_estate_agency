@@ -1,3 +1,5 @@
+from datetime import date
+
 from django.contrib.admin import SimpleListFilter
 from django.utils.translation import ugettext as _
 

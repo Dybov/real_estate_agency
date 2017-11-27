@@ -2,77 +2,7 @@
 {% load static %}
 {% block content %}
 <section>
-	<form action="" method="post">{% csrf_token %} 
-	<div class="header emerge" style="background-image: url(https://news.vsemetri.com/files/posts/2016/07/07/577de54b4579e.jpg);">
-		<div class="container">
-			<div class="row">
-				<div class="col-md-12">
-					<h1 class="main_header_headline">Новостройки от застройщика в Тюмени</h1>
-					<h2 class="main_header_headline_2">Бесплатный поиск квартир в новостройках</h2>
-				</div>
-			</div>
-			<div class="row emerge" data-effect="slide" data-expose="true">
-				<div class="col-md-12">
-					<div class="search_room-flex">
-						<div class="search-form-room-flex">
-							<div class="search-form-name">Количество комнат</div>
-								<div class="search-room-btn-flex">
-									<button class="search-btn">1</button>
-									<button class="search-btn">2</button>
-									<button class="search-btn">3</button>
-									<button class="search-btn">4+</button>
-								</div>
-							</div>
-							<div class="search_price-flex search_price-flex-border-right-none">
-								<div class="search-form-name">Стоимость</div>
-								<div class="search_form_price_container search_price-flex-border-bottom">
-									<div class="search_form_price">
-										<input type="text" value="" name="search_price_from" class="" placeholder="от">
-									</div>
-									<div class="search_form_price">
-										<input type="text" value="" name="search_price_to" class="" placeholder="до" >
-									</div>
-								</div>
-							</div>
-						<div class="search_price-flex">
-						<div class="search-form-name">Количество метров</div>
-						<div class="search_form_price_container ">
-						<div class="search_form_price">
-
-						<input type="text" value="" name="search_area_from" class="" placeholder="от">
-					</div>
-						<div class="search_form_price">
-						<input type="text" value="" name="search_area_to" class="" placeholder="до" >
-						</div>
-						</div>
-					</div>
-
-
-					<div class="select_home-flex">
-					<div class="search-form-name">Заселение</div>
-						<div class="search_form_select">
-						<div> до 2018г. <i class="fa fa-sort" aria-hidden="true"></i></div>
-						</div>
-						</div>
-
-				</div>	
-							<div class="search_place">
-
-					
-						<input type="text" placeholder="Название улицы, района, или жилого комплекса" class="search_place_input">
-						<button class="btn_large" type="submit"> Найти</button>
-					
-
-			</div>		
-			</div>
-
-		</div>
-
-
-
-</div>		
-	</div>
-	</form>
+	{% include 'new_buildings/forms/search.html' %}
 </section>
 
 
