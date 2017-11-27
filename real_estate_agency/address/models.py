@@ -106,7 +106,7 @@ class AbstractAddressModelWithoutNeighbourhood(BaseUniqueModel):
                                verbose_name=_('улица'),
                                on_delete=models.PROTECT,
                                )
-    building = models.IntegerField(verbose_name=_('дом'),
+    building = models.IntegerField(verbose_name=_('номер дома'),
                                    validators=[MinValueValidator(1)]
                                    )
     building_block = models.IntegerField(verbose_name=_('корпус'),
