@@ -18,10 +18,15 @@
                             {{ form.rooms.errors }}
                             {% for room in form.rooms %}
                                 {{forloop.counter0 }} 
-                                |{{ room.value }}|
-                                {{ room.values }}
                                 <label class="btn btn-primary {% if room.value != '' %}active{% endif %}">
                                     {{room}}
+                        <!-- 
+                            <label>
+                                <input type="checkbox" class="checkbox">
+                                <div class="search-btn">5</div>                         
+                            </label>
+
+                        -->
                                 </label>
                             {% endfor %}
                         </div>
