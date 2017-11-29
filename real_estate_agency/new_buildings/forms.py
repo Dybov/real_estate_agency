@@ -164,7 +164,9 @@ class SearchForm(forms.Form):
         **params_for_decimal_to
     )
     rooms = forms.MultipleChoiceField(
-        widget=forms.CheckboxSelectMultiple,
+        widget=forms.CheckboxSelectMultiple(attrs={
+            #"class": "checkbox"
+        }),
         choices=ROOMS_CHOICES,
         required=False,
     )
