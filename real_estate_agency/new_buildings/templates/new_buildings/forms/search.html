@@ -11,7 +11,7 @@
         <form action="" method="get">{# {% csrf_token %}  #}
         <div class="row emerge" data-effect="slide" data-expose="true">
             <div class="col-md-12">
-                <div class="search_room-flex col-md-12">
+                <div class="search_room-flex">
                     <div class="search-form-room-flex">
                         <div class="search-form-name">Количество комнат</div>
                         <div class="btn-group search-room-btn-flex" data-toggle="buttons">
@@ -62,11 +62,9 @@
                     </div>
 
                 </div>  
-                <div class="col-md-10"> 
+                <div class="search_place">
                     {# <input type="text" placeholder="Название улицы, района, или жилого комплекса" class="search_place_input "> #}
                     {{form.any_text}}
-                </div>  
-                <div class="col-md-2 col-md-pull-1"> 
                     <button class="btn_large" type="submit">Найти</button>
                 </div>
             </div>

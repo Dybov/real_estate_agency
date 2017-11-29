@@ -169,7 +169,9 @@ class SearchForm(forms.Form):
         required=False,
     )
     settlement_before = forms.ChoiceField(
-        widget=forms.Select(),
+        widget=forms.Select(attrs={
+            "class": "search_form_select-select ",
+        }),
         choices=SETTLEMENT_CHOICES,
         required=False,
     )
