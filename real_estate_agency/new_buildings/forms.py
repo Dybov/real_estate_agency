@@ -165,7 +165,7 @@ class SearchForm(forms.Form):
     )
     rooms = forms.MultipleChoiceField(
         widget=forms.CheckboxSelectMultiple(attrs={
-            #"class": "checkbox"
+            "class": "checkbox"
         }),
         choices=ROOMS_CHOICES,
         required=False,

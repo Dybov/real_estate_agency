@@ -17,7 +17,7 @@
                         <div class="btn-group search-room-btn-flex" data-toggle="buttons">
                             {{ form.rooms.errors }}
                             {% for room in form.rooms %}
-                                <label class="btn btn-primary {% if room.is_checked %}active{% endif %}">
+                                <label class="search-btn {% if room.is_checked %}active{% endif %}">
                                     {{room}}
 <!--
 Важно, чтобы при нажатии кнопки input становился selected. Это я уже организовал выше.
