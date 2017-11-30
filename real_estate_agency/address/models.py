@@ -142,3 +142,5 @@ class AbstractAddressModel(AbstractAddressModelWithoutNeighbourhood):
                                       verbose_name=_('район'),
                                       on_delete=models.PROTECT,
                                       )
+    class Meta(AbstractAddressModelWithoutNeighbourhood.Meta):
+        pass
