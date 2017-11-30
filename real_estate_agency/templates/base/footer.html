@@ -1,0 +1,43 @@
+{% load static %}
+ <footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+            <div class="menu_footer">
+                <div class="menu_logo_footer">
+                <img src="{% static 'real_estate/images/logo/logo.svg' %}" alt="" class="img-responsive">
+                </div>
+
+            <ul class="menu_footer_container">
+                <li><a href="{% url 'new_buildings:residental-complex-list' %}">Новостройки</a></li>
+                <li><a href="">Ипотека</a></li>
+                <li><a href="">Копротивная программа</a></li>
+                <li><a href="">Отзывы</a></li>
+                <li><a href="{% url 'about' %}">О компани</a></li>
+                <li><a href="">Контакты</a></li>
+            </ul>
+
+        </div>
+        <div class="footer_info">
+                <div class="info_text">
+                                <div class="info_1">
+                ©<span class="old_year">2016</span> — 2017 Информационные материалы и цены, размещенные на сайте, не являются публичной офертой
+            </div>
+            <div class="info_1">
+                <a href="">Политика конфиденциальности</a>
+            </div>
+                </div>
+
+            <div class="company_social_nework">
+                
+                    <a class="social_link_company" href="https://vk.com/domus_72"  target="_blank"><img src="{% static 'img/icon/002-vk.svg' %}" alt="" width="30px" height="30px"></a>
+
+
+                    <a class="social_link_company" href="https://www.instagram.com/domus_72/" target="_blank"><img src="{% static 'img/icon/001-instagram.svg' %}" alt="" width="30px" height="30px"></a>
+
+            </div>
+        </div>
+            </div>
+        </div>
+    </div>
+</footer>
