@@ -17,25 +17,8 @@
                         <div class="btn-group search-room-btn-flex" data-toggle="buttons">
                             {{ form.rooms.errors }}
                             {% for room in form.rooms %}
-                                <label class="search-btn {% if room.is_checked %}active{% endif %}">
+                                <label class="search-btn {% if room.is_checked %}active-checkbox{% endif %}">
                                     {{room}}
-<!--
-Важно, чтобы при нажатии кнопки input становился selected. Это я уже организовал выше.
-Также я обернул input в обертку кнопку btn btn-primary, которые работают как надо при влюченных bootstrap.min.css, jquery.min.js и bootstrap.min.js
-Тебе надо заменить основной стиль данной кнопки, а также стиль active (для нажатой) - на те, что ты добавил к кнопке ниже.
-При нажатии можешь инициализировать простую функцию jquery - добавление класса active. А в css - сделать такой переход плавным. Тогда будет все тоже самое, что и кнопкой ниже.
-class active - иметь также важно для того, чтобы после запроса активные кнопки оставались активными. 
-
-На всякий случай передаю класс checkbox в input rooms
--->
-
-                        <!-- 
-                            <label>
-                                <input type="checkbox" class="checkbox">
-                                <div class="search-btn">5</div>                         
-                            </label>
-
-                        -->
                                 </label>
                             {% endfor %}
                         </div>

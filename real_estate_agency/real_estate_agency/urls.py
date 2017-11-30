@@ -25,7 +25,7 @@ urlpatterns = [
     url(r'^', include('new_buildings.urls'), name='new_buildings'),
     url(r'^address/', include('address.urls'), name='address'),
     url(r'^admin/', admin.site.urls, name='admin'),
-    url(r'about/', about, name='about')
+    url(r'^about/', about, name='about')
 ]
 
 #For using this path at dev machines

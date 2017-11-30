@@ -35,6 +35,9 @@
 
 <body>
 {% block header %}{% include 'base/header.html' %}{% endblock %}
+{% block popups %}
+	<!--попапы сюда-->
+{% endblock %}
 {% block content %}{% endblock %}
 {% block footer %}{% include 'base/footer.html' %}{% endblock %}
 	<link rel="stylesheet" href='{% static "css/main.min.css"%}'>
