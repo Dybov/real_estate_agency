@@ -5,11 +5,11 @@
             <div class="col-md-12">
             <div class="menu_footer">
                 <div class="menu_logo_footer">
-                <img src="{% static 'real_estate/images/logo/logo.svg' %}" alt="" class="img-responsive">
+                <a href="{% url 'new_buildings:residental-complex-list' %}"><img src="{% static 'real_estate/images/logo/logo.svg' %}" alt="" class="img-responsive"></a>
                 </div>
 
             <ul class="menu_footer_container">
-                <li><a href="{% url 'new_buildings:residental-complex-list' %}">Новостройки</a></li>
+                <li><a href="{% url 'new_buildings:residental-complex-list' %}">Новостройки</li>
                 <li><a href="">Ипотека</a></li>
                 <li><a href="">Копротивная программа</a></li>
                 <li><a href="">Отзывы</a></li>
