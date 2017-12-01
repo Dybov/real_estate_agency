@@ -20,3 +20,4 @@ real_estate_agency/media/*
 
 #For temporary db (for development)
 */db.sqlite3
+real_estate_agency/static/img/.DS_Store
