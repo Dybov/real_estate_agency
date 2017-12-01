@@ -118,7 +118,7 @@ params_for_decimal_to['widget'] = forms.NumberInput(
 
 def SETTLEMENT_CHOICES():
     yield ('', _('Не важно'))
-    yield (True, _('Уже'))
+    yield (datetime.date.today(), _('Уже'))
 
     def last_day_of_month(any_day):
         next_month = any_day.replace(
