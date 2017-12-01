@@ -1,4 +1,5 @@
-<div class="header emerge search_place" style="background-image: url(https://news.vsemetri.com/files/posts/2016/07/07/577de54b4579e.jpg);">
+{% load static %}
+<div class="header" style="background-image: url({% static 'new_buildings/img/background.jpg' %});">
     
     <div class="container">
         <div class="row">
@@ -8,14 +9,14 @@
             </div>
         </div>
 
-        <form action="" method="get">{# {% csrf_token %}  #}
+        <form action="" method="get">
         <div class="row emerge" data-effect="slide" data-expose="true">
             <div class="col-md-12">
                 <div class="search_room-flex">
                     <div class="search-form-room-flex">
                         <div class="search-form-name">Количество комнат</div>
+                        {{ form.rooms.errors }}
                         <div class="btn-group search-room-btn-flex" data-toggle="buttons">
-                            {{ form.rooms.errors }}
                             {% for room in form.rooms %}
                                 <label class="search-btn {% if room.is_checked %}active-checkbox{% endif %}">
                                     {{room}}
@@ -29,9 +30,11 @@
                         <label for="{{ form.price_from.id_for_label }}" class="search-form-name">Стоимость</label>
                         <div class="search_form_price_container search_price-flex-border-bottom">
                             <div class="search_form_price">
+                                {{ form.price_from.errors }}
                                 {{ form.price_from }}
                             </div>
                             <div class="search_form_price">
+                                {{ form.price_to.errors }}
                                 {{ form.price_to }}
                             </div>
                         </div>
@@ -42,9 +45,11 @@
                         <label for="{{ form.area_from.id_for_label }}" class="search-form-name">Площадь, м2</label>
                         <div class="search_form_price_container ">
                             <div class="search_form_price">
+                                {{ form.area_from.errors }}
                                 {{ form.area_from }}
                             </div>
                             <div class="search_form_price">
+                                {{ form.area_to.errors }}
                                 {{ form.area_to }}
                             </div>
                         </div>
@@ -53,6 +58,7 @@
 
                     <div class="select_home-flex">
                         <label for="{{form.settlement_before.id_for_label}}" class="search-form-name">Заселение до</label>
+                        {{ form.settlement_before.errors }}
                         <div class="search_form_select">
                             {{ form.settlement_before }}
                         </div>
@@ -60,7 +66,7 @@
 
                 </div>  
                 <div class="search_place">
-                    {# <input type="text" placeholder="Название улицы, района, или жилого комплекса" class="search_place_input "> #}
+                    {{form.any_text.errors}}
                     {{form.any_text}}
                     <button class="btn_large" type="submit">Найти</button>
                 </div>
