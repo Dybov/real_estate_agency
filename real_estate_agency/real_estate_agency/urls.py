@@ -18,14 +18,23 @@ from django.conf import settings
 from django.conf.urls import url, include
 from django.conf.urls.static import static
 
-from .views import about
+from .views import (about,
+                    mortgage,
+                    feedback,
+                    corporation_benefit_plan,
+                    contacts,
+                    )
 
 
 urlpatterns = [
     url(r'^', include('new_buildings.urls'), name='new_buildings'),
     url(r'^address/', include('address.urls'), name='address'),
     url(r'^admin/', admin.site.urls, name='admin'),
-    url(r'^about/', about, name='about')
+    url(r'^about/', about, name='about'),
+    url(r'^mortgage/', mortgage, name='mortgage'),
+    url(r'^feedback/', feedback, name='feedback'),
+    url(r'^corporation_benefit_plan/', corporation_benefit_plan, name='corporation_benefit_plan'),
+    url(r'^contacts/', contacts, name='contacts'),
 ]
 
 #For using this path at dev machines
