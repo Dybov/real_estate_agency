@@ -1,10 +1,15 @@
+import re
+
 from django.shortcuts import render, render_to_response
 from django.views.generic import ListView, DetailView
 from django.views.generic.edit import FormMixin
+from django.db.models import Q
+
 
 from .models import ResidentalComplex, NewBuilding, NewApartment
 from .forms import SearchForm
 
+REGEX_FOR_ANY_TEXT_FIELD = re.compile(r'[^\w]', re.I|re.U)
 
 class ResidentalComplexList(FormMixin, ListView):
     form_class = SearchForm
@@ -12,6 +17,31 @@ class ResidentalComplexList(FormMixin, ListView):
     context_object_name = 'residental_complexes'
     template_name = 'new_buildings/residental_complex_list.html'
     queryset = model.objects.filter(is_active=True)
+
+
+    def filterAparmentByAnyText(self, fieldname=None, model_fields=[]):
+        # in developing. Think anout using Manager
+        # https://stackoverflow.com/questions/2276768/django-query-filtering-from-model-method
+        if type(model_fields) not in (list, tuple):
+            raise Exception('model fields must be list or tuple')
+        combined_query = Q()
+        values = REGEX_FOR_ANY_TEXT_FIELD.split(self.form.cleaned_data[fieldname])
+        for model_field in model_fields:
+            for value in values:
+                combined_query = combined_query | Q(**{'%s__icontains' % model_field:value})
+        if combined_query:
+            self.apartment_list = self.apartment_list.filter(combined_query)
+
+    def filterApartmentCheckbox(self, fieldname=None):
+        combined_query = Q() 
+        for value in self.form.cleaned_data[fieldname]:
+            if value<'4':
+                combined_query = combined_query | Q(**{'%s__exact' % fieldname:value})
+            else:
+                combined_query = combined_query | Q(**{'%s__gte' % fieldname:value})
+        if combined_query:
+            self.apartment_list = self.apartment_list.filter(combined_query)
+        
 
     def filterApartment(self, fieldname=None, filter_name=None, filter_condition_by_value=None):
         if self.form.is_valid() and fieldname and filter_name:
@@ -23,13 +53,15 @@ class ResidentalComplexList(FormMixin, ListView):
     def get(self, request, *args, **kwargs):
         # From ProcessFormMixin
         form_class = self.get_form_class()
-        self.form = form_class(getattr(request, request.method))
+        data = getattr(request, request.method)
+
+        self.form = form_class(data)
 
         # From BaseListView
         self.apartment_list = NewApartment.objects.all()
         self.object_list = self.get_queryset()
 
-        if self.form.is_valid():
+        if data and self.form.is_valid():
             self.filterApartment(fieldname='price_from',
                                  filter_name='price__gte')
             self.filterApartment(fieldname='price_to',
@@ -38,11 +70,12 @@ class ResidentalComplexList(FormMixin, ListView):
                                  filter_name='total_area__gte')
             self.filterApartment(fieldname='area_to',
                                  filter_name='total_area__lte')
-            # self.filterApartment(fieldname='rooms', filter_name='rooms__in')
-            # print(self.form.cleaned_data['rooms'])
+            self.filterApartmentCheckbox(fieldname='rooms')
+            # self.filterAparmentByAnyText(fieldname='any_text', 
+            #                              model_fields=['get_neighbourhood'],
+            #                              )
             settlement_before = self.form.cleaned_data['settlement_before']
 
-            # any_text = form.cleaned_data['any_text']
             building_id_list = [
                 x.get('building') for x in self.apartment_list.values('building').distinct()]
             buildings = NewBuilding.objects.filter(id__in=building_id_list)
