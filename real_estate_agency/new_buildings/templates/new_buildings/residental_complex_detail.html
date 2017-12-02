@@ -100,11 +100,15 @@
 
 			</div>
 		</div>
-
-	{% include "new_buildings/residental_complex_feature.html"%}
-
-
 <div class="row">
+	<div class="col-md-12 col-xs-12">
+				{% include "new_buildings/residental_complex_feature.html"%}
+	</div>
+</div>
+
+
+
+<div class="row" style="margin-top: 50px;">
 	<div class="col-md-12 col-xs-12">
 		<div href="#" class="zhk_video" style="background-image: url(img/catalog-bg.png);">
 			<div class="zhk_video_filter">
@@ -127,7 +131,8 @@
 <section class="cta">
 	<div class="container">
 		<div class="row">
-			<div class="col-md-8 col-xs-12" style="border-right: 1px solid #c2c4d0;">
+			<div class="col-md-8 col-xs-12 big_cta_form" >
+				<div class="">
 				<div class="cta_headline">
 					Задать вопросы о жилом комплексе
 				</div>
@@ -137,6 +142,11 @@
 					<input type="text" placeholder="Телефон">
 					<button class="btn_large">Жду звонка</button>
 				</form>
+									<div class="info_form">
+		Нажимая на кнопку, вы даете согласие на обработку своих персональных данных<br>
+<a href="">Пользовательское соглашение</a>
+	</div>
+				</div>
 			</div>
 			<div class="col-md-4 col-xs-12">
 				<p class="cta_text" style="margin-bottom: 0 ;">Позвонить по телефону </p>
@@ -145,11 +155,11 @@
 				</p>
 				<div class="cta_messenger">
 				<p class="cta_text" style="margin-top: 37px ; margin-bottom: 0;">Написать менеджеру в чат</p>
-				<a href="" class="socil_messenger"><img src="img/icon/fb.svg"
+				<a href="" class="socil_messenger"><img src="static/img/icon/fb.svg"
 		 class="fb"></a>
-				<a href="" class="socil_messenger"><img src="img/icon/vk.svg"
+				<a href="" class="socil_messenger"><img src="static/img/icon/vk.svg"
 		 class="vk"></a>
-				<a href="" class="socil_messenger"><img src="img/icon/tg.svg"
+				<a href="" class="socil_messenger"><img src="static/img/icon/tg.svg"
 		 class="tg"></a>
 				</div>
 			</div>
@@ -218,23 +228,24 @@
 	</div>
 
 		<div class="container">
-				<div class="search_room">
+
 			<div class="row">
-				<div class="col-md-3">
-						<div class="search-form-room">
+				<div class="col-md-12">
+									<div class="search_room-flex">
+						<div class="search-form-room-flex">
 						<div class="search-form-name">Количество комнат</div>
-						<div class="search-room-btn">
+						<div class="search-room-btn-flex">
 						<button class="search-btn">1</button>
 						<button class="search-btn">2</button>
 						<button class="search-btn">3</button>
 						<button class="search-btn">4+</button>
 						</div>
 					</div>
-				</div>
-				<div class="col-md-3">
-						<div class="search_price">
+
+
+						<div class="search_price-flex search_price-flex-border-right-none">
 						<div class="search-form-name">Стоимость</div>
-						<div class="search_form_price_container">
+						<div class="search_form_price_container search_price-flex-border-bottom">
 						<div class="search_form_price">
 
 						<input type="text" value="" name="" class="" placeholder="от">
@@ -244,11 +255,11 @@
 						</div>
 						</div>
 					</div>
-				</div>
-				<div class="col-md-3">
-						<div class="search_price">
+
+
+						<div class="search_price-flex">
 						<div class="search-form-name">Количество метров</div>
-						<div class="search_form_price_container">
+						<div class="search_form_price_container ">
 						<div class="search_form_price">
 
 						<input type="text" value="" name="" class="" placeholder="от">
@@ -258,19 +269,19 @@
 						</div>
 						</div>
 					</div>
-				</div>
-				<div class="col-md-3">
-					<div class="select_home">
+
+
+					<div class="select_home-flex">
 					<div class="search-form-name">Выбор дома</div>
 						<div class="search_form_select">
-						ГП — 18<br>
-						<span>Срок сдачи 2018г. <i class="fa fa-sort" aria-hidden="true"></i></span>
+						ГП — 18
+						<div>Срок сдачи 2018г. <i class="fa fa-sort" aria-hidden="true"></i></div>
 						</div>
 						</div>
-				</div>				
+
+				</div>			
 			</div>
 		</div>
-
 	</div>
 </div>
 	<div class="container">

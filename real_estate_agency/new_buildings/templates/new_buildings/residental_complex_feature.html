@@ -1,17 +1,21 @@
 {% for feature in residental_complex.get_features %}
-    <div class="row" style="margin: 50px 0;">
-    <div class="col-md-7 col-xs-12 {% cycle 'col-md-push-7' '' %}">
-        <img src="{{ feature.image.url }}" alt="Изображение {{ feature.title }}" class="img-responsive" width="260" height="260">
-    </div>
-    <div class="col-md-5 col-xs-12 {% cycle 'col-md-pull-7' '' %}">
-        <div class="zhk_description_headline">
-        {{ feature.title }}
-    </div>
-    <div class="zhk_description_text">
-        {{ feature.description }}
-    </div>
-    </div>      
-</div> 
+
+            <div class="features">
+                <div class="features_img">
+                    <img src="{{ feature.image.url }}" alt="Изображение {{ feature.title }}" class="img-responsive">
+                </div>
+                <div class="features_description">
+                    <div class="zhk_description_headline">
+                         {{ feature.title }}
+                    </div>
+                    <div class="zhk_description_text">
+                         {{ feature.description }}
+                    </div>
+                </div>
+            </div>
+
 {% empty %}
 <p>Описание особенностей будет добавлено позднее</p>
 {% endfor %}
+
+
