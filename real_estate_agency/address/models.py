@@ -127,9 +127,9 @@ class AbstractAddressModelWithoutNeighbourhood(BaseUniqueModel):
 
     @property
     def full_address(self):
-        address = _('Ул. %(street)s, д. %(building)s.').format(street=self.street, building=self.building)
+        address = _('Ул. {street}, д. {building}.').format(street=self.street, building=self.building)
         if self.building_block:
-            address += _('/%(block)s').format(block=self.building_block)
+            address += _('/{block}').format(block=self.building_block)
         return address
 
     class Meta:
