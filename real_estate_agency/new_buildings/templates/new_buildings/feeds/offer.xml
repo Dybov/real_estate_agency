@@ -1,0 +1,47 @@
+  <offer internal-id="{{ apartment.id }}">
+    <type>продажа</type>
+    <property-type>жилая</property-type>
+    <category>квартира</category>
+    <creation-date>{% now 'c' %}</creation-date>
+    <location>
+      <country>Россия</country>
+      <locality-name>Тюмень</locality-name>
+      <address>{{ apartment.get_address }}</address>
+    </location>
+    <price>
+      <value>{{ apartment.price }}</value>
+      <currency>RUR</currency>
+    </price>
+    <sales-agent>
+      <name>Задачин Игорь</name>
+      <phone>+79224561348</phone>
+      <organization>ООО "DОМУС"</organization>
+      <url>http:/domus72.ru/</url>
+      <category>agency</category>
+      <!--photo>http://www.developer.ru/company/logo</photo-->
+    </sales-agent>
+    <rooms>{{ apartment.rooms }}</rooms>
+    <new-flat>1</new-flat>
+    <!--bathroom-unit>раздельный</bathroom-unit-->
+    <balcony>балкон</balcony>
+    <floor>13</floor>
+    <floors-total>15</floors-total>
+    <building-name>Северная фантазия</building-name>
+    <building-section>Корпус 1</building-section>
+    <building-state>unfinished</building-state>
+    <ready-quarter>3</ready-quarter>
+    <built-year>2018</built-year>
+    <building-phase>3</building-phase>
+    <image>{{ apartment.layout.url }}</image>
+    {% if apartment.description %}
+      <description>{{ apartment.description }}</description>
+    {% endif %}
+    <area>
+      <value>{{ apartment.total_area }}</value>
+      <unit>кв. м</unit>
+    </area>
+  </offer>
+
+
+<!--offer internal-id="17465">
+  <type>продажа</type><category>коммерческая</category><commercial-type>retail</commercial-type><url>http://geometri.recrm.ru/17465</url><creation-date>2017-06-19T17:19:02+05:00</creation-date><last-update-date>2017-12-03T01:35:50+05:00</last-update-date><location><country>Россия</country><region>Москва</region><locality-name>Москва</locality-name><sub-locality-name>Пресненский</sub-locality-name><address>Кудринская площадь, 1</address><metro><name>Краснопресненская</name><time-on-foot>3</time-on-foot></metro><latitude>55.7591520000000</latitude><longitude>37.5808400000000</longitude></location><sales-agent><phone>89175155339</phone><name>Сергей Дяченко</name><category>агентство</category><organization>ФАН "Геометрия"</organization><url>http://geometri.recrm.ru</url><email>ooo-vks@mail.ru</email><photo>http://storage.recrm.ru/Static/9815_bf285e/23/SIMG/164_148_I_MC_png_W/resources/logo/logo_header_0005.png?44D8EF334CB0C2A561E3FDBBE9F2DBDF</photo></sales-agent><price><value>99000000</value><currency>RUR</currency></price><image>http://storage.recrm.ru/Static/9815_bf285e/23/WSIMG/700_525_I_MC_jpg_W/resources/properties/17445/picture_0016.jpg?8F3CF1F00A6B0C853F6AF15F7C4B6CD9</image><image>http://storage.recrm.ru/Static/9815_bf285e/23/WSIMG/700_525_I_MC_jpg_W/resources/properties/17445/picture_0004.jpg?8BA1D57CF8E371F9491CF0CDCB4F93FF</image><image>http://storage.recrm.ru/Static/9815_bf285e/23/WSIMG/700_525_I_MC_jpg_W/resources/properties/17445/picture_0020.jpg?AEF3AC8D5CADB2640391CC311DB699E7</image><image>http://storage.recrm.ru/Static/9815_bf285e/23/WSIMG/700_525_I_MC_jpg_W/resources/properties/17445/picture_0001.jpg?8BDC53ACF702DC74FD846D8C723FC2AA</image><image>http://storage.recrm.ru/Static/9815_bf285e/23/WSIMG/700_525_I_MC_jpg_W/resources/properties/17445/picture_0002.jpg?6CDD5C77E7CFEF15BE72243B94DDE36A</image><image>http://storage.recrm.ru/Static/9815_bf285e/23/WSIMG/700_525_I_MC_jpg_W/resources/properties/17445/picture_0003.jpg?FA6AAB45CF812DB70A253A17582C1240</image><image>http://storage.recrm.ru/Static/9815_bf285e/23/WSIMG/700_525_I_MC_jpg_W/resources/properties/17445/picture_0006.jpg?45A321FC83C072FF4D9AC78E3F51B8A7</image><image>http://storage.recrm.ru/Static/9815_bf285e/23/WSIMG/700_525_I_MC_jpg_W/resources/properties/17445/picture_0007.jpg?825A7C537BAFE9BD44B1434263287564</image><image>http://storage.recrm.ru/Static/9815_bf285e/23/WSIMG/700_525_I_MC_jpg_W/resources/properties/17445/picture_0008.jpg?57225DBE7917F7EAF05E5C07168A30EA</image><image>http://storage.recrm.ru/Static/9815_bf285e/23/WSIMG/700_525_I_MC_jpg_W/resources/properties/17445/picture_0009.jpg?A342D3C908FFB3F2D6FD937095546BDA</image><image>http://storage.recrm.ru/Static/9815_bf285e/23/WSIMG/700_525_I_MC_jpg_W/resources/properties/17445/picture_0010.jpg?A0B8CD1DD9556C15B33FE118877DF044</image><image>http://storage.recrm.ru/Static/9815_bf285e/23/WSIMG/700_525_I_MC_jpg_W/resources/properties/17445/picture_0011.jpg?25C1EDE2AE7B919F02F34A7701A32B0D</image><image>http://storage.recrm.ru/Static/9815_bf285e/23/WSIMG/700_525_I_MC_jpg_W/resources/properties/17445/picture_0013.jpg?A039EC8E706B02D1AF1F1EE2E5686705</image><image>http://storage.recrm.ru/Static/9815_bf285e/23/WSIMG/700_525_I_MC_jpg_W/resources/properties/17445/picture_0014.jpg?E98E62D2EAC4A6FB6183B29EF0F4BCBF</image><image>http://storage.recrm.ru/Static/9815_bf285e/23/WSIMG/700_525_I_MC_jpg_W/resources/properties/17445/picture_0015.jpg?57610DC40ABC331E55BD7B3B0792A658</image><image>http://storage.recrm.ru/Static/9815_bf285e/23/WSIMG/700_525_I_MC_jpg_W/resources/properties/17445/picture_0019.jpg?0C65FFB3C6A765F97159EA4CCE39FE4C</image><description>Предлагается вашему вниманию уникальное с учетом дома( всего 7 таких высоток ), высоты потолков, местом расположения, 6-комнатное помещение в центре Москвы(потолки 4.40м), в одной из семи сталинских высоток, находящейся в 3-х минутах от станции метро Краснопресненская и Баррикадная. Вся инфраструктура в шаговой доступности, магазины, зоопарк, торговые центры, кинотеатры, школы, детские сады, и много много всего. Торг, бонус агенту.</description><area><value>173.0</value><unit>кв. м</unit></area><floor>1</floor><entrance-type>common</entrance-type><air-conditioner>да</air-conditioner><ventilation>да</ventilation><fire-alarm>да</fire-alarm></offer-->

@@ -12,4 +12,8 @@ urlpatterns = [
         views.ResidentalComplexDetail.as_view(),
         name='residental-complex-detail',
         ),
+    url(r'^feeds/yandex-new-buildings$',
+        views.NewApartmentsFeed.as_view(),
+        name='new-aparments-feed',
+        ),
 ]

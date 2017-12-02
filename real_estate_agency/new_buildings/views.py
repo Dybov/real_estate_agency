@@ -107,3 +107,17 @@ class ResidentalComplexDetail(DetailView):
     model = ResidentalComplex
     context_object_name = 'residental_complex'
     template_name = 'new_buildings/residental_complex_detail.html'
+
+
+class NewApartmentsFeed(ListView):
+    model = NewApartment
+    context_object_name = 'apartments'
+    template_name = 'new_buildings/feeds/yrl-yandex-feed-for-new-apartments.xml'
+    content_type="application/xhtml+xml"
+    queryset = model.objects.prefetch_related('building')\
+        .prefetch_related('building__residental_complex')\
+        .filter(
+            is_active=True,
+            building__is_active=True,
+            building__residental_complex__is_active=True,
+    )

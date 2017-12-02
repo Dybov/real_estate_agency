@@ -21,7 +21,10 @@ class NewApartment(Apartment):
         building = self.building
         if building:
             return building.residental_complex
-
+    
+    
+    def get_address(self):
+        return self.building.full_address
     # Many to many fields "stocks" will appear in future
 
 
