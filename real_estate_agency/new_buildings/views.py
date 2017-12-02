@@ -4,6 +4,7 @@ from django.shortcuts import render, render_to_response
 from django.views.generic import ListView, DetailView
 from django.views.generic.edit import FormMixin
 from django.db.models import Q
+from django.utils.translation import ugettext as _
 
 
 from .models import ResidentalComplex, NewBuilding, NewApartment
@@ -35,7 +36,9 @@ class ResidentalComplexList(FormMixin, ListView):
     def filterApartmentCheckbox(self, fieldname=None):
         combined_query = Q() 
         for value in self.form.cleaned_data[fieldname]:
-            if value<'4':
+            if value=='0':
+                combined_query = combined_query | Q(**{'%s__exact' % fieldname:"B"})
+            elif value<'4':
                 combined_query = combined_query | Q(**{'%s__exact' % fieldname:value})
             else:
                 combined_query = combined_query | Q(**{'%s__gte' % fieldname:value})
@@ -104,4 +107,3 @@ class ResidentalComplexDetail(DetailView):
     model = ResidentalComplex
     context_object_name = 'residental_complex'
     template_name = 'new_buildings/residental_complex_detail.html'
-    #queryset = model.objects.filter(active=True)

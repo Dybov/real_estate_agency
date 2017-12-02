@@ -146,6 +146,7 @@ def SETTLEMENT_CHOICES():
 
 class SearchForm(forms.Form):
     ROOMS_CHOICES = (
+        ('0', _('С')),
         ('1', '1'),
         ('2', '2'),
         ('3', '3'),
@@ -169,6 +170,7 @@ class SearchForm(forms.Form):
         }),
         choices=ROOMS_CHOICES,
         required=False,
+        help_text=_('С - студия'),
     )
     settlement_before = forms.ChoiceField(
         widget=forms.Select(attrs={
