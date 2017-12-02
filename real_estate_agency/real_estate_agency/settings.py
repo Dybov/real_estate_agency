@@ -29,6 +29,7 @@ INSTALLED_APPS = [
     'address',
     'real_estate',
     'new_buildings',
+    'mortgage',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
