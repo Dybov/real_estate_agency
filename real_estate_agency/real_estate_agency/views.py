@@ -4,9 +4,6 @@ from django.shortcuts import render
 def about(request):
     return render(request, 'about.html')
 
-def mortgage(request):
-    return render(request, 'mortgage.html')
-
 def feedback(request):
     return render(request, 'feedback.html')
 
@@ -15,3 +12,6 @@ def corporation_benefit_plan(request):
 
 def contacts(request):
     return render(request, 'contacts.html')
+
+def index(request):
+    return render(request, 'index.html')

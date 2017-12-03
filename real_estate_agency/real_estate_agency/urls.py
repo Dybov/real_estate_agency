@@ -19,14 +19,15 @@ from django.conf.urls import url, include
 from django.conf.urls.static import static
 
 from .views import (about,
-                    mortgage,
                     feedback,
                     corporation_benefit_plan,
                     contacts,
+                    index,
                     )
 
 
 urlpatterns = [
+    url(r'^$', index, name='index'),
     url(r'^new-buildings/', include('new_buildings.urls', namespace='new_buildings')),
     url(r'^address/', include('address.urls', namespace='address')),
     url(r'^admin/', admin.site.urls, name='admin'),
