@@ -18,13 +18,13 @@ class NewApartment(Apartment):
                                  )
 
     def get_residental_complex(self):
-        building = self.building
-        if building:
-            return building.residental_complex
-    
-    
+        return self.building.residental_complex
+
     def get_address(self):
         return self.building.full_address
+
+    def get_neighbourhood(self):
+        self.building
     # Many to many fields "stocks" will appear in future
 
 
@@ -32,12 +32,15 @@ class NewBuilding(AbstractAddressModelWithoutNeighbourhood):
     """it is building with concrete address,
     but it also has a name in ResidentalComlex area
     """
+    # Type of building material
     TYPE_BRICK = 'BRICK'
     TYPE_MONOLITHIC = 'MONO'
     TYPE_FRAME = 'FRAME'
     TYPE_PANEL = 'PANEL'
     TYPE_MONOLITHIC_FRAME = 'MFRAME'
     TYPE_BRICK_PANEL = 'BPANEL'
+    TYPE_REINFORCED_CONCRETE_BLOCKS = 'RCBLOCK'
+    TYPE_SILICAT_BLOCK = "SBLOCK"
     BUILDING_TYPE_CHOICES = (
         (TYPE_BRICK, _('кирпичный')),
         (TYPE_MONOLITHIC, _('монолитный')),
@@ -45,6 +48,8 @@ class NewBuilding(AbstractAddressModelWithoutNeighbourhood):
         (TYPE_PANEL, _('панельный')),
         (TYPE_MONOLITHIC_FRAME, _('монолитно-каркасный')),
         (TYPE_BRICK_PANEL, _('панельный-кирпичный')),
+        (TYPE_REINFORCED_CONCRETE_BLOCKS, _('блоки железобетоные')),
+        (TYPE_SILICAT_BLOCK, _('cиликатный блок')),
     )
 
     name = models.CharField(verbose_name=_('имя дома'),
@@ -68,8 +73,8 @@ class NewBuilding(AbstractAddressModelWithoutNeighbourhood):
                                                      null=True,
                                                      blank=True,
                                                      help_text=_(
-        'Важен только месяц'),
-    )
+                                                         'Важен только месяц'),
+                                                     )
     date_of_construction = models.DateField(verbose_name=_('дата окончания постройки'),
                                             null=True,
                                             blank=True,
@@ -106,7 +111,8 @@ class NewBuilding(AbstractAddressModelWithoutNeighbourhood):
 
 class TypeOfComplex(models.Model):
     """ it prefixes for ResidentalComplexes.
-    Such as 'Жилой комплекс' or 'Микрорайон', which depends on builder policy
+    Such as 'Жилой комплекс' or 'Микрорайон'.
+    Which depends on builder policy in refer to concrete RC.
     """
     name = models.CharField(verbose_name=_('тип комплекса'),
                             max_length=127,

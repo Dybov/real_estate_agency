@@ -7,7 +7,7 @@ class MortgageForm(forms.Form):
         label=_('Цена недвижимости, руб'),
         min_value=300000,
         decimal_places=1,
-        widget =forms.NumberInput(attrs={'step': 10000}),
+        widget =forms.NumberInput(attrs={'step': 1}),
     )
     initial_fee_percentage = forms.DecimalField(
         label=_('Первоначальный взнос, %'),

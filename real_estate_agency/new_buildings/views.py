@@ -20,7 +20,7 @@ class ResidentalComplexList(FormMixin, ListView):
     queryset = model.objects.filter(is_active=True)
 
 
-    def filterAparmentByAnyText(self, fieldname=None, model_fields=[]):
+    def filterAparmentByAnyTextIContains(self, fieldname=None, model_fields=[]):
         # in developing. Think anout using Manager
         # https://stackoverflow.com/questions/2276768/django-query-filtering-from-model-method
         if type(model_fields) not in (list, tuple):
@@ -31,7 +31,11 @@ class ResidentalComplexList(FormMixin, ListView):
             for value in values:
                 combined_query = combined_query | Q(**{'%s__icontains' % model_field:value})
         if combined_query:
-            self.apartment_list = self.apartment_list.filter(combined_query)
+            new_filter = self.apartment_list.filter(combined_query)
+            print(new_filter)
+            if new_filter:
+                self.apartment_list = new_filter
+
 
     def filterApartmentCheckbox(self, fieldname=None):
         combined_query = Q() 
@@ -44,7 +48,7 @@ class ResidentalComplexList(FormMixin, ListView):
                 combined_query = combined_query | Q(**{'%s__gte' % fieldname:value})
         if combined_query:
             self.apartment_list = self.apartment_list.filter(combined_query)
-        
+
 
     def filterApartment(self, fieldname=None, filter_name=None, filter_condition_by_value=None):
         if self.form.is_valid() and fieldname and filter_name:
@@ -74,9 +78,14 @@ class ResidentalComplexList(FormMixin, ListView):
             self.filterApartment(fieldname='area_to',
                                  filter_name='total_area__lte')
             self.filterApartmentCheckbox(fieldname='rooms')
-            # self.filterAparmentByAnyText(fieldname='any_text', 
-            #                              model_fields=['get_neighbourhood'],
-            #                              )
+            self.filterAparmentByAnyTextIContains(
+                fieldname='any_text',
+                model_fields=[
+                    'building__residental_complex__neighbourhood__name',
+                    'building__residental_complex__name',
+                    'building__street__name',
+                ],
+            )
             settlement_before = self.form.cleaned_data['settlement_before']
 
             building_id_list = [
