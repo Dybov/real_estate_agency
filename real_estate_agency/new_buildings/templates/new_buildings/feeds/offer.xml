@@ -16,7 +16,7 @@
       <name>Задачин Игорь</name>
       <phone>+79224561348</phone>
       <organization>ООО "DОМУС"</organization>
-      <url>http:/domus72.ru/</url>
+      <url>{{ site }}</url>
       <category>agency</category>
       <!--photo>http://www.developer.ru/company/logo</photo-->
     </sales-agent>
@@ -32,7 +32,7 @@
     <ready-quarter>3</ready-quarter>
     <built-year>2018</built-year>
     <building-phase>3</building-phase>
-    <image>{{ apartment.layout.url }}</image>
+    <image>{{ site }}{{ apartment.layout.url }}</image>
     {% if apartment.description %}
       <description>{{ apartment.description }}</description>
     {% endif %}
