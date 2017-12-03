@@ -134,7 +134,7 @@ class ResidentalComplexDetail(DetailView):
     model = ResidentalComplex
     context_object_name = 'residental_complex'
     template_name = 'new_buildings/residental_complex_detail.html'
-
+    queryset = model.objects.filter(is_active=True)
 
 class NewApartmentsFeed(ListView):
     model = NewApartment
