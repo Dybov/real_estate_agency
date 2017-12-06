@@ -1,18 +1,96 @@
 {% extends 'base/base.html' %}
 {% block content %}
-<div class="container">
-<form action="{% url 'mortgage:index' %}" method="get">
-    <table>
-        {{ form.as_table }}
-        <tr>
-            <th></th>
-            <td><input type="submit" value="Рассчитать"></td>
-        </tr>
-        <tr>
-            <th>Ежемесячный платеж</th>
-            <td><b>{{monthly_payment|floatformat:2}}</b></td>
-        </tr>
-    </table>
-</form>
-</div>
+
+<!--
+    Сейчас когда нажимаешь расчитать, происходит обновление страницы,
+    и страница показывается с начала, нужно чтобы она оставалась на своем месте. 
+    так же нужно выводить еще процентную ставку, в зависимости от той по которой была расчитана ипотека. 
+    И сумму кредита нужно тоже считать. 
+ -->
+
+<section class="calc" style="margin: 50px 0px;">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="zhk_headline">
+                    Калькулятор ипотеки
+                </div>
+            </div>
+            <div class="col-md-12">
+                <form action="{% url 'mortgage:index' %}" method="get">
+                        <div class="calc_flex">
+                        <div class="search_price-flex search_price-flex-border-right-none">
+                        <div class="search-form-name">Стоимость жилья</div>
+                        <div class="search_form_price_container search_price-flex-border-bottom">
+                        <div class="search_form_price">
+
+                        {{form.full_price}}
+                    </div>
+                        </div>
+                    </div>
+                        <div class="search_price-flex search_price-flex-border-right-none">
+                        <div class="search-form-name">Первоначальный взнос</div>
+                        <div class="search_form_price_container search_price-flex-border-bottom">
+                        <div class="search_form_price">
+
+                        {{form.initial_fee_percentage}}
+                    </div>
+                        </div>
+                    </div>  
+
+                        <div class="search_price-flex search_price-flex-border-right-none" style="border-right: none;">
+                        <div class="search-form-name">Срок кредита</div>
+                        <div class="search_form_price_container search_price-flex-border-bottom">
+                        <div class="search_form_price">
+
+                        {{form.years}}
+                        
+                        </div>
+                        </div>
+                    </div>   
+                    <div class="cal_flex_btn">
+                        <input type="submit" value="Рассчитать">
+                    </div>                               
+                </div>
+
+
+
+                </form>
+
+                <div class="calc_flex_result">
+                    <div class="calc_felx_result_item">
+                        <div class="calc_felx_result_item-headline">
+                            Ежемесячный платеж
+                        </div>
+                        <div id="finale_price" class="calc_felx_result_item-result">
+                            <span class="price_mouth">{{monthly_payment|floatformat:0}}</span> <span>₽</span>
+                        </div>
+                    </div>
+
+                    <div class="calc_felx_result_item">
+                        <div class="calc_felx_result_item-headline">
+                            Ипотечная ставка
+                        </div>
+                        <div class="calc_felx_result_item-result">
+                            7,4 %
+                        </div>
+                    </div>
+
+                    <div class="calc_felx_result_item">
+                        <div class="calc_felx_result_item-headline">
+                            Сумма кредита
+                        </div>
+                        <div class="calc_felx_result_item-result">
+                            5 000 000 <span>₽</span>
+                        </div>
+                    </div>                  
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
 {% endblock %}
