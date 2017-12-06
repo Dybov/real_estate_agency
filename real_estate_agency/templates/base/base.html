@@ -36,6 +36,9 @@
 <body>
 {% block header %}{% include 'base/header.html' %}{% endblock %}
 {% block popups %}
+<div class="hidden"> <!-- POPUPCALLBACK -->
+{% include 'base/pop_up_callback.html' %}
+</div>
 	<!--попапы сюда-->
 {% endblock %}
 {% block content %}{% endblock %}
