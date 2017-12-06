@@ -1,5 +1,38 @@
 {% extends 'base/base.html'%}
 {% load static %}
 {% block content %}
-Contacts
+<header>
+	<section class="rewiews_header" style="background-image: url({% static 'img/contact.png' %});">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-12"> 
+					<div class="rewiews_header_headline_flex">
+						<h1 class="rewiews_header_headline">Контакты</h1>
+					</div>
+					
+
+				</div>
+			</div>
+		</div>
+	</section>
+
+<section>
+	<div class="container">
+		<div class="row">
+			<div class="col-md-6">
+				<div class="contact_info">
+									<p>АДРЕС ОФИСА ПРОДАЖ: Г.ТЮМЕНЬ УЛ. РЕСПУБЛИКИ 83<br />
+2&nbsp;ЭТАЖ, ОФИС 207<br />
+ТЕЛЕФОН: + 7 (3452) 58-98-81<br />
+E-MAIL: DOMUS72@BK.RU</p>
+				</div>
+
+			</div>
+			<div class="col-md-6">
+				<iframe src="https://yandex.ru/map-widget/v1/?um=constructor%3Aafafb8c73a55e5a0011faa2b7632fd0cf96f075e1d73469dd9c0e859f0ed9a15&amp;source=constructor" width="100%" height="400" frameborder="0"></iframe>
+			</div>
+		</div>
+	</div>
+</section>
+
 {% endblock %}
