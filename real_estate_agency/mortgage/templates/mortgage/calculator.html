@@ -1,4 +1,9 @@
 {% extends 'base/base.html' %}
+{% load django_bootstrap_breadcrumbs %}
+{% block breadcrumbs %}
+    {{ block.super }}
+    {% breadcrumb "Ипотека" "mortgage:index" %}
+{% endblock %}
 {% block content %}
 
 <!--

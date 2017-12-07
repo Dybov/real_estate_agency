@@ -24,18 +24,19 @@ ALLOWED_HOSTS = []
 # Application definition
 # dal is django-autocomplete-light https://github.com/yourlabs/django-autocomplete-light
 INSTALLED_APPS = [
-    'dal',
-    'dal_select2',
-    'address',
-    'real_estate',
-    'new_buildings',
-    'mortgage',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'dal',
+    'dal_select2',
+    'address',
+    'real_estate',
+    'new_buildings',
+    'mortgage',
+    'django_bootstrap_breadcrumbs',
     'django_cleanup',
 ]
 

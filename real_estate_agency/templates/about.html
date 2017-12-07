@@ -1,5 +1,10 @@
 {% extends 'base/base.html'%}
 {% load static %}
+{% load django_bootstrap_breadcrumbs %}
+{% block breadcrumbs %}
+    {{ block.super }}
+    {% breadcrumb "О нас" "about" %}
+{% endblock %}
 {% block content %}
 <header>
 	<section class="rewiews_header" style="background-image: url({% static 'img/about.png' %});">

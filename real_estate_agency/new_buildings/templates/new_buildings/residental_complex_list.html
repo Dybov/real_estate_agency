@@ -1,5 +1,10 @@
 {% extends 'base/base.html'%}
 {% load static %}
+{% load django_bootstrap_breadcrumbs %}
+{% block breadcrumbs %}
+    {{ block.super }}
+    {% breadcrumb "Новостройки" "new_buildings:residental-complex-list" %}
+{% endblock %}
 {% block content %}
 <section>
 	{% include 'new_buildings/forms/search.html' %}

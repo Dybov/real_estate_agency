@@ -1,5 +1,10 @@
-{% extends 'base/base.html'%}
+{% extends 'new_buildings/residental_complex_list.html'%}
 {% load static %}
+{% load django_bootstrap_breadcrumbs %}
+{% block breadcrumbs %}
+    {{ block.super }}
+    {% breadcrumb residental_complex "new_buildings:residental-complex-detail" residental_complex.id %}
+{% endblock %}
 {% block content %}
 <header>
 	<div class="header_zhk">
@@ -82,7 +87,7 @@
 	</div>
 	
 <!--	<div class="zhk_slider scrollyeah" data-shadows="false" >
-		<div class="slider_item" style="background-image: url(img/catalog-bg.png);">
+		<div class="slider_item" style="background-image: url({% static 'img/catalog-bg.png' %});">
 			<div class="slider_item_hover">
 				 <div class="slider_icon_search">
 						<i class="fa fa-search-plus fa-3x " aria-hidden="true"></i>
