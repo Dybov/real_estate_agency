@@ -1,7 +1,14 @@
 from django.db import models
 from django.utils.translation import ugettext as _
+from django.utils.functional import cached_property
+from django.utils.safestring import mark_safe
 from django.core.validators import MinValueValidator
 from django.core.exceptions import ObjectDoesNotExist, ValidationError
+
+
+
+import geocoder
+
 
 class BaseUniqueModel(models.Model):
     ITS_CLASSES = []
@@ -41,7 +48,8 @@ class BaseUniqueModel(models.Model):
                     unique_filter['%s' % field_name] = field_value
                     unique_fields.append(field_name)
 
-            # that is Andrew Dybov part for checking unique fields in inline forms
+            # that is Andrew Dybov part for checking unique fields in inline
+            # forms
             for its_cls in BaseUniqueModel.ITS_CLASSES:
                 if its_cls == self:
                     continue
@@ -71,16 +79,21 @@ class BaseUniqueModel(models.Model):
                     raise ValidationError(msg)
 
 
+# for now city is always Tyumen so define
+class City(object):
+    name = _('Тюмень')
 
-# for now city is always Tyumen
 # in the future add CityModel with city name and code ISO 3166-2
 # NeighbourhoodModel and StreetModel must be chained with city
 # django-smart-select is great desicion for that in future
+
+
 class NeighbourhoodModel(models.Model):
     name = models.CharField(verbose_name=_('название района'),
-                                     max_length=127,
-                                     unique=True,
-                                     )
+                            max_length=127,
+                            unique=True,
+                            )
+
     def __str__(self):
         return self.name
 
@@ -88,11 +101,13 @@ class NeighbourhoodModel(models.Model):
         verbose_name = _('район')
         verbose_name_plural = _('районы')
 
+
 class StreetModel(models.Model):
     name = models.CharField(verbose_name=_('улица'),
-                              max_length=127,
-                              unique=True,
-                              )
+                            max_length=127,
+                            unique=True,
+                            )
+
     def __str__(self):
         return self.name
 
@@ -102,6 +117,7 @@ class StreetModel(models.Model):
 
 
 class AbstractAddressModelWithoutNeighbourhood(BaseUniqueModel):
+    city = City()
     street = models.ForeignKey(StreetModel,
                                verbose_name=_('улица'),
                                on_delete=models.PROTECT,
@@ -121,20 +137,49 @@ class AbstractAddressModelWithoutNeighbourhood(BaseUniqueModel):
                                 null=True,
                                 blank=True,
                                 )
+    coordinates = models.CharField(editable=False,
+                                   max_length=127,
+                                   null=True,
+                                   blank=True,
+                                   )
 
     def __str__(self):
-        return self.full_address
+        return self.address
 
-    @property
-    def full_address(self):
-        address = _('{street}, {building}').format(street=self.street, building=self.building)
+    @cached_property
+    def coordinates_as_list(self):
+        if self.coordinates:
+            return self.coordinates.split(',')
+        return None, None
+    @cached_property
+    def coordinates_as_json(self):
+        import json
+        return mark_safe(json.dumps(self.coordinates_as_list))
+
+
+    @cached_property
+    def address_short(self):
+        address = _('{street}, {building}').format(
+            street=self.street, building=self.building)
+        return address
+
+    @cached_property
+    def address(self):
+        address = self.address_short
         if self.building_block:
             address += _('/{block}').format(block=self.building_block)
         return address
 
+    def save(self, *args, **kwargs):
+        location = geocoder.yandex(self.city.name+", "+self.address_short)
+        if not location.ok:
+            location = geocoder.yandex(self.city.name)
+        self.coordinates = ",".join(location.latlng)
+        super().save(*args, **kwargs)
+
     class Meta:
         abstract = True
-        unique_together = (('street', 'building', 'building_block', ), )#'city'),)
+        unique_together = (('street', 'building', 'building_block', ), )
 
 
 class AbstractAddressModel(AbstractAddressModelWithoutNeighbourhood):
@@ -142,5 +187,6 @@ class AbstractAddressModel(AbstractAddressModelWithoutNeighbourhood):
                                       verbose_name=_('район'),
                                       on_delete=models.PROTECT,
                                       )
+
     class Meta(AbstractAddressModelWithoutNeighbourhood.Meta):
         pass

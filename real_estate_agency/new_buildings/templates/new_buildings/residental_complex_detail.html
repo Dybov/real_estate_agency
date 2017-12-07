@@ -9,7 +9,7 @@
 					<div class="row">
 						<div class="col-md-12">
 							<div class="header_zhk_name">
-							<h1>{{ residental_complex }}»</h1>
+							<h1>{{ residental_complex }}</h1>
 							<h2>Застройщик {{ residental_complex.builder }}</h2>
 							</div>
 
@@ -43,7 +43,8 @@
 
 
 			<div class="map">
-				<script type="text/javascript" charset="utf-8" async src="https://api-maps.yandex.ru/services/constructor/1.0/js/?um=constructor%3Ac3e789654f6d2829b8fe6d72bdeff6bca03a750d7b5d822e802b4d117dd85020&amp;width=100%25&amp;height=270&amp;lang=ru_RU&amp;scroll=false"></script>
+				<!--script type="text/javascript" charset="utf-8" async src="https://api-maps.yandex.ru/services/constructor/1.0/js/?um=constructor%3Ac3e789654f6d2829b8fe6d72bdeff6bca03a750d7b5d822e802b4d117dd85020&amp;width=100%25&amp;height=270&amp;lang=ru_RU&amp;scroll=false"></script-->
+				{% include 'new_buildings/api-yandex-map.html' %}
 			</div>
 
 

@@ -3,4 +3,5 @@ psycopg2==2.7.3.1
 Pillow==4.3.0
 django-ajax-selects==1.6.1
 django-cleanup==1.0.1
-django-autocomplete-light-3.2.10
+django-autocomplete-light==3.2.10
+geocoder==1.33.0

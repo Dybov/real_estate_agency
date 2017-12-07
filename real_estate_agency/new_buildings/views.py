@@ -1,11 +1,13 @@
+import json
 import re
+from statistics import median
 
 from django.shortcuts import render, render_to_response, Http404
 from django.views.generic import ListView, DetailView
 from django.views.generic.edit import FormMixin
 from django.db.models import Q
 from django.utils.translation import ugettext as _
-
+from django.utils.safestring import mark_safe
 
 from .models import ResidentalComplex, NewBuilding, NewApartment
 from .forms import SearchForm
@@ -135,6 +137,21 @@ class ResidentalComplexDetail(DetailView):
     context_object_name = 'residental_complex'
     template_name = 'new_buildings/residental_complex_detail.html'
     queryset = model.objects.filter(is_active=True)
+
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
+        lats = []
+        lngs = []
+        for builings in context[self.context_object_name].get_new_buildings():
+            lat, lng = builings.coordinates_as_list
+            if lat and lng:
+                lats.append(lat)
+                lngs.append(lng)
+        if lats and lngs:
+            lats = [float(i) for i in lats]
+            lngs = [float(i) for i in lngs]
+            context['yandex_grid_center_json'] = mark_safe(json.dumps([median(lats), median(lngs)]))
+        return context
 
 class NewApartmentsFeed(ListView):
     model = NewApartment
