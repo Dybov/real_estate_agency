@@ -23,6 +23,7 @@ from .views import (about,
                     corporation_benefit_plan,
                     contacts,
                     index,
+                    privacy_policy
                     )
 
 
@@ -36,6 +37,7 @@ urlpatterns = [
     url(r'^feedback/', feedback, name='feedback'),
     url(r'^corporation_benefit_plan/', corporation_benefit_plan, name='corporation_benefit_plan'),
     url(r'^contacts/', contacts, name='contacts'),
+    url(r'^privacy-policy/', privacy_policy, name='privacy-policy'),   
 ]
 
 #For using this path at dev machines
