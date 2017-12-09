@@ -1,14 +1,19 @@
-<ul class="breadcrumb container row">
-    {% if breadcrumbs|length > 1 %}
-        {% for url, label in breadcrumbs %}
-            <!-- Надо добавить стили и класс сюда-->
-            <li class="breadcrumb {% ifequal forloop.counter breadcrumbs_total %} active{% endifequal %}">
-                {% if url and forloop.counter != breadcrumbs_total %}
-                    <a href="{{ url }}">{{ label|safe }}</a>&nbsp;>&nbsp;
-                {% else %}
-                    {{ label|safe }}
+<div class="container">
+    <div class="row">
+        <div class="col-md-12 col-xs-12">
+            <ul class="breadcrumb_list">
+                {% if breadcrumbs|length > 1 %}
+                    {% for url, label in breadcrumbs %}
+                        <li class="breadcrumb_item {% ifequal forloop.counter breadcrumbs_total %} breadcrumb_item-active{% endifequal %}">
+                            {% if url and forloop.counter != breadcrumbs_total %}
+                                <a href="{{ url }}">{{ label|safe }}</a>&nbsp;>&nbsp;
+                            {% else %}
+                                {{ label|safe }}
+                            {% endif %}
+                        </li>
+                    {% endfor %}
                 {% endif %}
-            </li>
-        {% endfor %}
-    {% endif %}
-</ul>
+            </ul>
+        </div>
+    </div>
+</div>
