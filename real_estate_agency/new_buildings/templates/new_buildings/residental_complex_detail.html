@@ -80,15 +80,20 @@
 		<h2 class="zhk_description_headline">Характеристики комплекса</h2>
 		{% include "new_buildings/residental_complex_characteristic.html"%}
 		<br><br><br>
-<!--<div class="zhk_slider scrollyeah" data-shadows="false" >
-		<div class="slider_item" style="background-image: url({% static 'img/catalog-bg.png' %});">
-			<div class="slider_item_hover">
-				 <div class="slider_icon_search">
-						<i class="fa fa-search-plus fa-3x " aria-hidden="true"></i>
-				 </div>
-			</div>			
-		</div>						
-	</div> -->
+		
+		<!-- JS, который срабатывает при нажатии должен подхватывать url тот же, что и ниже -->
+		<div class="zhk_slider scrollyeah" data-shadows="false" >
+			{% for photo_obj in residental_complex.photos.all %}
+				<div class="slider_item" style="background-image: url({{photo_obj.image.url}});">
+					<div class="slider_item_hover">
+						 <div class="slider_icon_search">
+								<i class="fa fa-search-plus fa-3x " aria-hidden="true"></i>
+						 </div>
+					</div>
+				</div>
+			{% endfor %}
+		</div>
+
 		<div class="row">
 			<div class="col-md-8 col-xs-12">
 				<div class="zhk_description_headline">

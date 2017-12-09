@@ -72,10 +72,10 @@ class PhotoAdminForm(forms.ModelForm):
             rc_name = "%s-%s" % (self.prefix, rc_name)
             id_ = "%s-%s" % (self.prefix, id_)
 
-        self.files.__dict__[image_name_initial] = self.data[image_name]
+        #self.files.__dict__[image_name_initial] = self.data[image_name]
         files_list = self.files.getlist(image_name_initial)
         print(self.files.getlist(image_name))
-        # print(self)
+
         print('\n--------')
         print(self.data[rc_name])
         answer = super().save(*args, **kwargs)
