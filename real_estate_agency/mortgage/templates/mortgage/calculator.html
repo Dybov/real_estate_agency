@@ -28,6 +28,7 @@
                             <div class="search-form-name">Стоимость жилья</div>
                             <div class="search_form_price_container search_price-flex-border-bottom">
                                 <div class="search_form_price">
+                                    {{form.full_price.errors}}
                                     {{form.full_price}}
                                 </div>
                             </div>
@@ -36,6 +37,7 @@
                             <div class="search-form-name">Первоначальный взнос, %</div>
                             <div class="search_form_price_container search_price-flex-border-bottom">
                                 <div class="search_form_price">
+                                    {{form.initial_fee_percentage.errors}}
                                     {{form.initial_fee_percentage}}
                                 </div>
                             </div>
@@ -43,7 +45,9 @@
                         <div class="search_price-flex search_price-flex-border-right-none" style="border-right: none;">
                             <div class="search-form-name">Срок кредита</div>
                             <div class="search_form_price_container search_price-flex-border-bottom">
+                            
                                 <div class="search_form_price">
+                                    {{form.years.errors}}
                                     {{form.years}}
                                 </div>
                             </div>
