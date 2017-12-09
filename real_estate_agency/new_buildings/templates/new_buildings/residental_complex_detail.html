@@ -117,44 +117,9 @@
 
 </section>
 
-<section class="cta">
-	<div class="container">
-		<div class="row">
-			<div class="col-md-8 col-xs-12 big_cta_form" >
-				<div class="">
-				<div class="cta_headline">
-					Задать вопросы о жилом комплексе
-				</div>
-				<p class="cta_text" style="margin: 60px 0 5px;">Заказать обратный звонок</p>
-				<form action="" class="cta_form">
-
-					<input type="text" placeholder="Телефон">
-					<button class="btn_large">Жду звонка</button>
-				</form>
-									<div class="info_form">
-		Нажимая на кнопку, вы даете согласие на обработку своих персональных данных<br>
-<a href="">Пользовательское соглашение</a>
-	</div>
-				</div>
-			</div>
-			<div class="col-md-4 col-xs-12">
-				<p class="cta_text" style="margin-bottom: 0 ;">Позвонить по телефону </p>
-				<p class="cta_telephone">
-					+ 7 (999) 999 99 99
-				</p>
-				<div class="cta_messenger">
-				<p class="cta_text" style="margin-top: 37px ; margin-bottom: 0;">Написать менеджеру в чат</p>
-				<a href="" class="socil_messenger"><img src="{% static '/img/icon/fb.svg' %}"
-		 class="fb"></a>
-				<a href="" class="socil_messenger"><img src="{% static '/img/icon/vk.svg' %}"
-		 class="vk"></a>
-				<a href="" class="socil_messenger"><img src="{% static '/img/icon/tg.svg' %}"
-		 class="tg"></a>
-				</div>
-			</div>
-		</div>
-	</div>
-</section>
+{% with callback_form_title='Задать вопросы о жилом комплексе' %}
+	{% include 'contacts/callback_form.html' %}
+{% endwith %}
 
 <section class="special_offers">
 	<div class="container">
@@ -376,42 +341,9 @@
 	</div>
 </section>
 
-<section class="cta">
-	<div class="container">
-		<div class="row">
-			<div class="col-md-8 col-xs-12 big_cta_form">
-				<div class="cta_headline">
-					Задать вопросы о ипотеке
-				</div>
-				<p class="cta_text" style="margin: 60px 0 5px;">Заказать обратный звонок</p>
-				<form action="" class="cta_form">
-
-					<input type="text" placeholder="Телефон">
-					<button class="btn_large">Жду звонка</button>
-				</form>
-					<div class="info_form">
-		Нажимая на кнопку, вы даете согласие на обработку своих персональных данных<br>
-<a href="">Пользовательское соглашение</a>
-	</div>
-			</div>
-			<div class="col-md-4 col-xs-12">
-				<p class="cta_text" style="margin-bottom: 0 ;">Позвонить по телефону </p>
-				<p class="cta_telephone">
-					+ 7 (999) 999 99 99
-				</p>
-				<div class="cta_messenger">
-				<p class="cta_text" style="margin-top: 37px ; margin-bottom: 0;">Написать менеджеру в чат</p>
-				<a href="" class="socil_messenger"><img src="img/icon/fb.svg"
-		 class="fb"></a>
-				<a href="" class="socil_messenger"><img src="img/icon/vk.svg"
-		 class="vk"></a>
-				<a href="" class="socil_messenger"><img src="img/icon/tg.svg"
-		 class="tg"></a>
-				</div>
-			</div>
-		</div>
-	</div>
-</section>
+{% with callback_form_title='Задать вопросы о ипотеке' %}
+	{% include 'contacts/callback_form.html' %}
+{% endwith %}
 
 <section class="soc_prog" style="background-image: url({% static 'img/shutterstock_450844792.jpg' %});">
 	<div class="container">

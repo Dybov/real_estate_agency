@@ -30,6 +30,7 @@ INSTALLED_APPS = [
     'real_estate',
     'new_buildings',
     'mortgage',
+    'contacts',
     'django_bootstrap_breadcrumbs',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -63,6 +64,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'contacts.views.default_contacts_processor'
             ],
         },
     },
