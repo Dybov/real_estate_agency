@@ -238,6 +238,19 @@ class ResidentalComplex(models.Model):
     def get_title_photo_url(self):
         return self.front_image.url
 
+    @cached_property
+    def youtube_frame_link(self):
+        if not self.video_link:
+            return None
+        
+        import re
+        link = re.sub(r'(.*youtube.com/)(watch\?v=)(.*)',
+                      r'\1embed/\3',
+                      self.video_link,
+                      re.U|re.I,
+                      )
+        return link
+
     def __str__(self):
         return self.name
 

@@ -6,7 +6,7 @@
     {% breadcrumb residental_complex "new_buildings:residental-complex-detail" residental_complex.id %}
 {% endblock %}
 {% block content %}
-<header>
+<div>
 	<div class="header_zhk">
 		<div class="header_zhk_img" style='background-image: url({{ residental_complex.get_title_photo_url }});'>
 			<div class="header_zhk_filter" style="	background-image: linear-gradient(to bottom, rgba(60, 61, 73, 0.27), rgba(0, 0, 0, 0.0));">
@@ -42,7 +42,7 @@
 
 		</div>
 	</div>
-</header>
+</div>
 
 <section class="map_and_cta"> 
 	<div class="map">
@@ -80,10 +80,7 @@
 		<h2 class="zhk_description_headline">Характеристики комплекса</h2>
 		{% include "new_buildings/residental_complex_characteristic.html"%}
 		<br><br><br>
-		
-	</div>
-	
-<!--	<div class="zhk_slider scrollyeah" data-shadows="false" >
+<!--<div class="zhk_slider scrollyeah" data-shadows="false" >
 		<div class="slider_item" style="background-image: url({% static 'img/catalog-bg.png' %});">
 			<div class="slider_item_hover">
 				 <div class="slider_icon_search">
@@ -92,42 +89,24 @@
 			</div>			
 		</div>						
 	</div> -->
-
-	<div class="container">
 		<div class="row">
 			<div class="col-md-8 col-xs-12">
-		
 				<div class="zhk_description_headline">
 					Особенности жилого комплекса «{{residental_complex}}»
 				</div>
-
+			</div>
+			<div class="col-md-12 col-xs-12">
+						{% include "new_buildings/residental_complex_feature.html"%}
 			</div>
 		</div>
-<div class="row">
-	<div class="col-md-12 col-xs-12">
-				{% include "new_buildings/residental_complex_feature.html"%}
-	</div>
-</div>
 
-
-
-<div class="row" style="margin-top: 50px;">
-	<div class="col-md-12 col-xs-12">
-		<a href="https://www.youtube.com/watch?v=aJHgU68h_es" class="popup_video">
-		<div  class="zhk_video" style="background-image: url({{ residental_complex.get_title_photo_url }});">
-			<div class="zhk_video_filter">
-				<div class="zhk_video_headline">
-					Посмотрите видео о жилом комплексе «{{residental_complex}}»
-				</div>
-				<div class="zhk_video_cta">
-					Смотреть видео <i class="fa fa-play-circle-o" aria-hidden="true"></i>
-
+		{% if residental_complex.youtube_frame_link %}
+			<div class="row" style="margin-top: 50px;">
+				<div class="col-md-12 col-xs-12">
+					<iframe width="100%" height="315" src="{{ residental_complex.youtube_frame_link }}?rel=0&amp;{# controls=0&amp; #}showinfo=0" frameborder="0" gesture="media" allow="encrypted-media" allowfullscreen></iframe>
 				</div>
 			</div>
-		</div>
-	</a>
-	</div>
-</div>
+		{% endif %}
 
 	</div>
 
