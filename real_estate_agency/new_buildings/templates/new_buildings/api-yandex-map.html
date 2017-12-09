@@ -10,7 +10,7 @@ function init(){
         center: center,
         zoom: 15
     });
-    {% for buiding in residental_complex.get_new_buildings %}
+    {% for buiding in residental_complex.new_buildings %}
     myPlacemark = new ymaps.Placemark({{buiding.coordinates_as_json}}, { 
         hintContent: "{{buiding.name}}", 
         balloonContent: "{{buiding.name}} | {{buiding.address}}"

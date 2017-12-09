@@ -25,7 +25,7 @@
 								<div class="container">
 								<div class="header_zhk_description ">
 								<div class="header_zhk_description_item-frist">
-									<p class="header_zhk_description_p">Материал стен<br> <span> {{ residental_complex.building_type }}</span></p>
+									<p class="header_zhk_description_p">Материал стен<br> <span> {{ building_types }}</span></p>
 								</div>
 								<div class="header_zhk_description_item">
 <p class="header_zhk_description_p">Квартир в ЖК<br> <span>{{ residental_complex.count_flats }}</span></p>
@@ -43,28 +43,25 @@
 		</div>
 	</div>
 </header>
+
 <section class="map_and_cta"> 
-
-
-
-			<div class="map">
-				<!--script type="text/javascript" charset="utf-8" async src="https://api-maps.yandex.ru/services/constructor/1.0/js/?um=constructor%3Ac3e789654f6d2829b8fe6d72bdeff6bca03a750d7b5d822e802b4d117dd85020&amp;width=100%25&amp;height=270&amp;lang=ru_RU&amp;scroll=false"></script-->
-				{% include 'new_buildings/api-yandex-map.html' %}
-			</div>
-
-
-			<div class="cta_header">
-				<p class="cta_header_headline">
-					Записаться на экскурсию
-				</p>
-				<form action="">
-				<input type="text" class="medium_input" placeholder="Телефон">
-				<br>
-				<button class="cta_header_btn"> Записатьcя</button>
-				</form>
+	<div class="map">
+		{% if yandex_grid_center_json %}
+			{% include 'new_buildings/api-yandex-map.html' %}
+		{% else %}
+			<h2>Местоположение не доступно</h2>
+		{% endif %}
 	</div>
-
-
+	<div class="cta_header">
+		<p class="cta_header_headline">
+			Записаться на экскурсию
+		</p>
+		<form action="">
+			<input type="text" class="medium_input" placeholder="Телефон">
+			<br>
+			<button class="cta_header_btn"> Записатьcя</button>
+		</form>
+	</div>
 </section>
 
 <section class="zhk_description">
@@ -294,9 +291,12 @@
 </div>
 	<div class="container">
 		<div class="row">
-		{% for apartment in residental_complex.get_new_buildings.0.get_apartments %}
-			{% include "new_buildings/apartment_short.html"%}
-		{% endfor %}																		
+		{% for building in residental_complex.new_buildings %}
+			{{building}}
+			{% for apartment in building.get_apartments %}
+				{% include "new_buildings/apartment_short.html"%}
+			{% endfor %}
+		{% endfor %}
 		</div>
 	</div>
 

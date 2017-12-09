@@ -142,15 +142,26 @@ class ResidentalComplexDetail(DetailView):
         context = super().get_context_data(*args, **kwargs)
         lats = []
         lngs = []
-        for builings in context[self.context_object_name].get_new_buildings():
-            lat, lng = builings.coordinates_as_list
+        building_types = []
+        for buildings in context[self.context_object_name].new_buildings:
+            lat, lng = buildings.coordinates_as_list
             if lat and lng:
                 lats.append(lat)
                 lngs.append(lng)
+            building_type = buildings.get_building_type_display().lower()
+            if not building_type in building_types:
+                building_types.append(building_type)
+        
         if lats and lngs:
             lats = [float(i) for i in lats]
             lngs = [float(i) for i in lngs]
             context['yandex_grid_center_json'] = mark_safe(json.dumps([median(lats), median(lngs)]))
+        
+        if building_types:
+            context['building_types'] = '/'.join(building_types)
+        else:
+            context['building_types'] = '-'
+
         return context
 
 class NewApartmentsFeed(ListView):
