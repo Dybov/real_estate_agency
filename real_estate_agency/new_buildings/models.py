@@ -4,6 +4,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.core.validators import MinValueValidator
 from django.utils.translation import ugettext as _
+from django.utils.functional import cached_property
 
 from real_estate.models import Apartment, get_file_path, BasePropertyImage
 from address.models import AbstractAddressModelWithoutNeighbourhood, NeighbourhoodModel
@@ -202,37 +203,37 @@ class ResidentalComplex(models.Model):
     def get_characteristic(self):
         return self.characteristics.all()
 
-    def building_type(self):
-        buildings = self.get_new_buildings()
-        if buildings:
-            return buildings[0].get_building_type_display()
-        return '-'
-
-    def get_new_buildings(self):
-        return self.newbuilding_set.filter(is_active=True)
+    @cached_property
+    def new_buildings(self):
+        return self.newbuilding_set.filter(is_active=True).prefetch_related('newapartment_set')
 
     def count_flats(self):
         if self.number_of_flats:
             return self.number_of_flats
         count = 0
-        for building in self.get_new_buildings():
+        for building in self.new_buildings:
             count += len(building.get_apartments())
         return count
 
     def count_buildings(self):
-        return len(self.get_new_buildings())
+        return len(self.new_buildings)
+
+    @cached_property
+    def min_and_max_dates(self):
+        from django.db.models import Min, Max
+        buildings = self.newbuilding_set.all()
+        if buildings:
+            return buildings.aggregate(
+                min_date_of_construction=Min('date_of_construction'),
+                max_date_of_construction=Max('date_of_construction'),
+                )
+        return {}
 
     def get_nearest_date_of_building(self):
-        from django.db.models import Min
-        buildings = self.newbuilding_set.all()
-        if buildings:
-            return buildings.annotate(Min('date_of_construction'))[0].date_of_construction
+        return self.min_and_max_dates.get('min_date_of_construction')
 
     def get_latest_date_of_building(self):
-        from django.db.models import Max
-        buildings = self.newbuilding_set.all()
-        if buildings:
-            return buildings.annotate(Max('date_of_construction'))[0].date_of_construction
+        return self.min_and_max_dates.get('max_date_of_construction')
 
     def get_title_photo_url(self):
         return self.front_image.url
