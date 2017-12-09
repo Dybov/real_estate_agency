@@ -13,6 +13,8 @@
     И сумму кредита нужно тоже считать. 
  -->
 
+
+
 <section class="calc" style="margin: 50px 0px;">
     <div class="container">
         <div class="row">
@@ -30,6 +32,7 @@
                                 <div class="search_form_price">
                                     {{form.full_price.errors}}
                                     {{form.full_price}}
+                                    <div class="slider_price_home"></div>
                                 </div>
                             </div>
                         </div>
@@ -39,6 +42,7 @@
                                 <div class="search_form_price">
                                     {{form.initial_fee_percentage.errors}}
                                     {{form.initial_fee_percentage}}
+                                    <div class="slider_price_one"></div>
                                 </div>
                             </div>
                         </div>  
@@ -49,6 +53,7 @@
                                 <div class="search_form_price">
                                     {{form.years.errors}}
                                     {{form.years}}
+                                    <div class="slider_price_year"></div>
                                 </div>
                             </div>
                         </div>   
@@ -73,7 +78,7 @@
                             Ипотечная ставка
                         </div>
                         <div class="calc_felx_result_item-result">
-                            {{mortgage_percentage|floatformat:1}}<span>%</span>
+                            <span class="actual_prestnt">{{mortgage_percentage|floatformat:1}}</span><span>%</span>
                         </div>
                     </div>
 
@@ -82,7 +87,7 @@
                             Сумма кредита
                         </div>
                         <div class="calc_felx_result_item-result">
-                            {{amount_of_mortgage|floatformat:0}} <span>₽</span>
+                            <span class="all_price">{{amount_of_mortgage|floatformat:0}}</span><span>₽</span>
                         </div>
                     </div>                  
 
@@ -91,6 +96,8 @@
         </div>
     </div>
 </section>
+
+
 
 
 
