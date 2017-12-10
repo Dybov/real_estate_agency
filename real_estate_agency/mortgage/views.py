@@ -51,5 +51,5 @@ class index(FormView):
             (1 - Decimal(mpow(1 + monthly_mortgage_proportion, -months)))
         return {'monthly_payment': monthly_payment,
                 'mortgage_percentage': mortgage_percentage,
-                'amount_of_mortgage': price,
+                'amount_of_mortgage': monthly_payment*12*years,
                 }
