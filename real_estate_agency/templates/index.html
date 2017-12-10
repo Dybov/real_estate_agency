@@ -1,5 +1,6 @@
 {% extends 'base/base.html'%}
 {% load static %}
+{% load real_estate_extras %}
 {% block content %}
 
 <section class="company emerge" data-effect="slide" data-expose="true">
@@ -33,30 +34,31 @@
 						<div class="col-md-4 col-sm-4">
 				<div class="numbers_item border-rigth">
 					<div class="numbers_item_big">
-						47
+						{{number_of_builders}}
 					</div>
 					<div class="numbers_item_small">
-						Застройщиков
+						{{number_of_builders|rupluralize:"Застройщик,Застройщика,Застройщиков"}}
 					</div>
 				</div>
 			</div>
 			<div class="col-md-4 col-sm-4">
 				<div class="numbers_item border-rigth">
 					<div class="numbers_item_big">
-						79
+						{{number_of_residental_complexes}}
 					</div>
 					<div class="numbers_item_small">
-						Жилых комплексов
+						{{number_of_residental_complexes|rupluralize:"Жилой комплекс,Жилых комплекса,Жилых комплексов"}}
 					</div>
 				</div>
 			</div>
 									<div class="col-md-4 col-sm-4">
 				<div class="numbers_item ">
 					<div class="numbers_item_big">
-						10 000
+						{{number_of_apartments}}
 					</div>
 					<div class="numbers_item_small">
-						Вариантов квартир
+						{{number_of_apartments|rupluralize:"Вариант квартир,Варианта квартир,Вариантов квартир"}}
+						
 					</div>
 				</div>
 			</div>	
@@ -212,87 +214,15 @@
 				</div>
 			</div>
 		</div>
+
 		<div class="row">
-			<div class="col-md-6 col-xs-12">
-				<a href="new_home.html" class="item">
-					<div class="item-images" style="background-image: url({% static 'img/catalog-bg.png' %});">
-						<div class="item-filter">
-							<p class="item-headline">
-								Жилой комплекс «Криталл»
-							</p>
-							<p class="item_price"> <span style="font-size: 14px;">от</span> 1 800 000 ₽</p>
-							<p class="item-description">
-								Квартиры от 1,2 млн руб.
-							</p>
-							<div class="item-info-hover">
-								<p class="item-info-text">Срок сдачи: 4 кв. 2018</p>
-								<p class="item-info-btn">Выбрать квартиру</p>
-							</div>
-					</div>
-					</div>
-					</a>
-				</div>
-							<div class="col-md-6 col-xs-12">
-				<a href="new_home.html" class="item">
-					<div class="item-images" style="background-image: url({% static 'img/catalog-bg.png' %});">
-						<div class="item-filter">
-							<p class="item-headline">
-								Жилой комплекс «Криталл»
-							</p>
-							<p class="item_price"> <span style="font-size: 14px;">от</span> 1 800 000 ₽</p>
-							<p class="item-description">
-								Квартиры от 1,2 млн руб.
-							</p>
-							<div class="item-info-hover">
-								<p class="item-info-text">Срок сдачи: 4 кв. 2018</p>
-								<p class="item-info-btn">Выбрать квартиру</p>
-							</div>
-					</div>
-					</div>
-					</a>
-				</div>
-							<div class="col-md-6 col-xs-12">
-				<a href="new_home.html" class="item">
-					<div class="item-images" style="background-image: url({% static 'img/catalog-bg.png' %});">
-						<div class="item-filter">
-							<p class="item-headline">
-								Жилой комплекс «Криталл»
-							</p>
-							<p class="item_price"> <span style="font-size: 14px;">от</span> 1 800 000 ₽</p>
-							<p class="item-description">
-								Квартиры от 1,2 млн руб.
-							</p>
-							<div class="item-info-hover">
-								<p class="item-info-text">Срок сдачи: 4 кв. 2018</p>
-								<p class="item-info-btn">Выбрать квартиру</p>
-							</div>
-					</div>
-					</div>
-					</a>
-				</div>
-							<div class="col-md-6 col-xs-12">
-				<a href="new_home.html" class="item">
-					<div class="item-images" style="background-image: url({% static 'img/catalog-bg.png' %});">
-						<div class="item-filter">
-							<p class="item-headline">
-								Жилой комплекс «Криталл»
-							</p>
-							<p class="item_price"> <span style="font-size: 14px;">от</span> 1 800 000 ₽</p>
-							<p class="item-description">
-								Квартиры от 1,2 млн руб.
-							</p>
-							<div class="item-info-hover">
-								<p class="item-info-text">Срок сдачи: 4 кв. 2018</p>
-								<p class="item-info-btn">Выбрать квартиру</p>
-							</div>
-					</div>
-					</div>
-					</a>
-				</div>
+				{% for residental_complex in residental_complexes %}
+					{% include "new_buildings/residental_complex_short.html" %}
+				{% endfor %}
 
 			<div class="col-md-12 col-xs-12" style="text-align: center;">
 				<div class="btn_all_newhome">
-				<a href="new_home_search.html" class="all_newhome">Посмотреть все новостройки</a>	
+				<a href="{% url 'new_buildings:residental-complex-list' %}" class="all_newhome">Посмотреть все новостройки</a>	
 				</div>
 				
 			</div>

@@ -99,7 +99,7 @@ class ResidentalComplexAdmin(admin.ModelAdmin):
     filter_horizontal = ['characteristics']
     fieldsets = (
         (None, {
-            'fields': ('type_of_complex', 'name', 'neighbourhood', 'is_active', 'builder', 'characteristics', 'number_of_flats')
+            'fields': ('type_of_complex', 'name', 'neighbourhood', 'is_active', 'is_popular', 'builder', 'characteristics', 'number_of_flats')
         }),
         (_('ДОКУМЕНТЫ'), {
             'fields': ('building_permit', 'project_declarations'),

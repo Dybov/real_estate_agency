@@ -170,9 +170,12 @@ class ResidentalComplex(models.Model):
                                     blank=True,
                                     )
     # one to many "documents_for_construction"
-    is_active = models.BooleanField(verbose_name=_('отображать на сайте'),
+    is_active = models.BooleanField(verbose_name=_('отображать в новостройках'),
                                     default=False,
                                     )
+    is_popular = models.BooleanField(verbose_name=_('отображать на главной'),
+                                     default=False,
+                                     )
     number_of_flats = models.PositiveIntegerField(verbose_name=_('количество квартир в комплексе'),
                                                   help_text=_(
                                                       'оставьте пустым для автоматического подсчета'),
@@ -222,13 +225,12 @@ class ResidentalComplex(models.Model):
     def min_and_max_dates(self):
         from django.db.models import Min, Max
 
-
         buildings = self.new_buildings
         if buildings:
             return buildings.aggregate(
                 min_date_of_construction=Min('date_of_construction'),
                 max_date_of_construction=Max('date_of_construction'),
-                )
+            )
         return {}
 
     def get_nearest_date_of_building(self):
@@ -244,12 +246,12 @@ class ResidentalComplex(models.Model):
     def youtube_frame_link(self):
         if not self.video_link:
             return None
-        
+
         import re
         link = re.sub(r'(.*youtube.com/)(watch\?v=)(.*)',
                       r'\1embed/\3',
                       self.video_link,
-                      re.U|re.I,
+                      re.U | re.I,
                       )
         return link
 
@@ -257,8 +259,7 @@ class ResidentalComplex(models.Model):
     def min_and_max_prices(self):
         from django.db.models import Min, Max
 
-
-        #For union all combines querysets
+        # For union all combines querysets
         apartments = None
 
         buildings = self.new_buildings
@@ -272,7 +273,7 @@ class ResidentalComplex(models.Model):
                 return apartments.aggregate(
                     min_price=Min('price'),
                     max_price=Max('price'),
-                    )
+                )
         return {}
 
     def get_lowest_price(self):
@@ -284,6 +285,10 @@ class ResidentalComplex(models.Model):
     def __str__(self):
         return self.name
 
+    def get_absolute_url(self):
+        from django.core.urlresolvers import reverse
+        return reverse('new_buildings:residental-complex-detail', args=[self.id])
+        
     class Meta:
         verbose_name = _('комплекс')
         verbose_name_plural = _('комплексы')
