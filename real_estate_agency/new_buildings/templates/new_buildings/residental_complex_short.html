@@ -5,7 +5,12 @@
 				<p class="item-headline">
 					{{ residental_complex }}
 				</p>
-				<p class="item_price"> <span style="font-size: 14px;">от</span> 1 800 000 ₽</p> <!-- Сюда надо вывести минимальную цену -->
+				<!-- Условие, чтобы не показывало что попало вместо цены, если данных нет-->
+				{% if residental_complex.get_lowest_price %}
+					<p class="item_price">
+						<span style="font-size: 14px;">от</span>{{ residental_complex.get_lowest_price }} ₽
+					</p>
+				{% endif %}
 				<p class="item-description">
 					{{ residental_complex.description }}
 				</p>

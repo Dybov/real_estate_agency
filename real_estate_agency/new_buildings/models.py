@@ -221,7 +221,9 @@ class ResidentalComplex(models.Model):
     @cached_property
     def min_and_max_dates(self):
         from django.db.models import Min, Max
-        buildings = self.newbuilding_set.all()
+
+
+        buildings = self.new_buildings
         if buildings:
             return buildings.aggregate(
                 min_date_of_construction=Min('date_of_construction'),
@@ -250,6 +252,34 @@ class ResidentalComplex(models.Model):
                       re.U|re.I,
                       )
         return link
+
+    @cached_property
+    def min_and_max_prices(self):
+        from django.db.models import Min, Max
+
+
+        #For union all combines querysets
+        apartments = None
+
+        buildings = self.new_buildings
+        if buildings:
+            for building in buildings:
+                if not apartments:
+                    apartments = building.get_apartments()
+                else:
+                    apartments.union(building.get_apartments())
+            if apartments:
+                return apartments.aggregate(
+                    min_price=Min('price'),
+                    max_price=Max('price'),
+                    )
+        return {}
+
+    def get_lowest_price(self):
+        return self.min_and_max_prices.get('min_price')
+
+    def get_highest_price(self):
+        return self.min_and_max_prices.get('max_price')
 
     def __str__(self):
         return self.name
