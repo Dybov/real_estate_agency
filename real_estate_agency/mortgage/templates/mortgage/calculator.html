@@ -27,31 +27,30 @@
                 <form action="{% url 'mortgage:index' %}" method="get">
                     <div class="calc_flex">
                         <div class="search_price-flex search_price-flex-border-right-none">
-                            <div class="search-form-name">Стоимость жилья</div>
+                            <div class="search-form-name">{{form.full_price.label_tag}}</div>
                             <div class="search_form_price_container search_price-flex-border-bottom">
+                                {{form.full_price.errors}}
                                 <div class="search_form_price">
-                                    {{form.full_price.errors}}
                                     {{form.full_price}}
                                     <div class="slider_price_home"></div>
                                 </div>
                             </div>
                         </div>
                         <div class="search_price-flex search_price-flex-border-right-none">
-                            <div class="search-form-name">Первоначальный взнос, %</div>
+                            <div class="search-form-name">{{form.initial_fee.label_tag}}</div>
                             <div class="search_form_price_container search_price-flex-border-bottom">
+                                {{form.initial_fee.errors}}
                                 <div class="search_form_price">
-                                    {{form.initial_fee_percentage.errors}}
-                                    {{form.initial_fee_percentage}}
+                                    {{form.initial_fee}}
                                     <div class="slider_price_one"></div>
                                 </div>
                             </div>
                         </div>  
                         <div class="search_price-flex search_price-flex-border-right-none" style="border-right: none;">
-                            <div class="search-form-name">Срок кредита</div>
+                            <div class="search-form-name">{{form.years.label_tag}}</div>
                             <div class="search_form_price_container search_price-flex-border-bottom">
-                            
+                                {{form.years.errors}}
                                 <div class="search_form_price">
-                                    {{form.years.errors}}
                                     {{form.years}}
                                     <div class="slider_price_year"></div>
                                 </div>
