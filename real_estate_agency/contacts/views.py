@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.template import RequestContext
 
+from .forms import CallbackForm
 
 def default_contacts_processor(request):
     "A context processor that provides contacts such as number, email, social_network_links..."
@@ -16,4 +17,5 @@ def default_contacts_processor(request):
             'instagram':'https://www.instagram.com/domus_72/',
             },
         'global_email': 'domus72@bk.ru',
+        'callback_form': CallbackForm(),
         }

@@ -8,13 +8,13 @@ class MortgageForm(forms.Form):
         label=_('Стоимость жилья, руб'),
         min_value=300000,
         decimal_places=1,
-        widget =forms.NumberInput(attrs={'step': 1}),
+        widget=forms.NumberInput(attrs={'step': 1}),
     )
     initial_fee = forms.DecimalField(
         label=_('Первоначальный взнос, руб'),
         min_value=0,
         decimal_places=1,
-        widget =forms.NumberInput(attrs={'step': 1}),
+        widget=forms.NumberInput(attrs={'step': 1}),
     )
     years = forms.IntegerField(
         label=_('Срок кредитования, г'),
@@ -30,6 +30,7 @@ class MortgageForm(forms.Form):
             full_price = cleaned_data.get('full_price')
             if initial_fee >= full_price:
                 raise ValidationError(
-                    {'initial_fee': [_('Убедитесь, что это значение меньше стоимости жилья'), ]}
+                    {'initial_fee': [
+                        _('Убедитесь, что это значение меньше стоимости жилья'), ]}
                 )
         return cleaned_data
