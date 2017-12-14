@@ -59,23 +59,11 @@ class BuildingInline(admin.TabularInline):
     show_change_link = True
 
 
-# Prototype of loading multiple images from inline
-class SomeInlineFormSet(BaseInlineFormSet):
-
-    def save_new(self, form, commit=True):
-        form.save()
-        return super(SomeInlineFormSet, self).save_new(form, commit=commit)
-
-    def save_existing(self, form, instance, commit=True):
-        return form.save(commit=commit)
-
-
 class ResidentalComplexImageInline(admin.TabularInline):
     model = ResidentalComplexImage
     form = PhotoAdminForm
     extra = 0
     min_num = 0
-    formset = SomeInlineFormSet
 
 
 class ResidentalComplexFeatureInline(admin.TabularInline):

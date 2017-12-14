@@ -61,39 +61,39 @@ class PhotoAdminForm(forms.ModelForm):
         fields = '__all__'
 
     def save(self, *args, **kwargs):
+        from django.utils.datastructures import MultiValueDict
+        """ Override for multiupload images """
+
+        # Set output names in forms and formsets
         image_name_initial = 'image'
         image_name = image_name_initial
+
         rc_name_initial = 'residental_complex'
         rc_name = rc_name_initial
+
         id_initial = 'id'
         id_ = id_initial
+
+        # For formsets
         if self.prefix:
             image_name = "%s-%s" % (self.prefix, image_name)
             rc_name = "%s-%s" % (self.prefix, rc_name)
             id_ = "%s-%s" % (self.prefix, id_)
-
-        #self.files.__dict__[image_name_initial] = self.data[image_name]
+        
+            self.files = MultiValueDict({image_name_initial:self.files.getlist(image_name)})
+            self.data[rc_name_initial] = self.data[rc_name]
+            self.data[id_initial] = self.data[id_]
+        
         files_list = self.files.getlist(image_name_initial)
-        print(self.files.getlist(image_name))
-
-        print('\n--------')
-        print(self.data[rc_name])
         answer = super().save(*args, **kwargs)
-        self.data[rc_name_initial] = self.data[rc_name]
-        self.data[id_initial] = self.data[id_]
-        #self.files.__dict__[image_name_initial]= self.data[image_name]
-        print('\n--------')
-        print('"%s"' % self.data[rc_name_initial])
-        print('\n--------3')
-        # print(self.image)
-        print('\n--------')
+        
         if len(files_list) > 1:
             files_list.pop()
 
             img = self.cleaned_data.get(image_name)
-            # fields, self.files)
+            # For saving each file from multiupload
             new_form = PhotoAdminForm(self.data, self.files)
-            new_form.image = self.files.get(image_name)
+            # new_form.image = self.files.get(image_name)
             if new_form.is_valid():
                 new_form.save()
             else:
@@ -102,7 +102,8 @@ class PhotoAdminForm(forms.ModelForm):
                     for error in field.errors:
                         print(error)
                 print(new_form.non_field_errors())
-                raise Exception()
+                # Breaks if not valid image
+                return
         return answer
 
 
