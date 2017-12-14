@@ -1,0 +1,10 @@
+{% extends 'contacts/index.html'%}
+{% load static %}
+{% load django_bootstrap_breadcrumbs %}
+{% block breadcrumbs %}
+    {{ block.super }}
+    {% breadcrumb "Обратный звонок" "contacts:callback" %}
+{% endblock %}
+{% block content %}
+    {% include 'contacts/pop_up_callback.html' %}
+{% endblock %}

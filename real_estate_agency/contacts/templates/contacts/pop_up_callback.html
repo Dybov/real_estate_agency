@@ -2,9 +2,19 @@
 	<div class="modal_callback zhk_headline">
 		Заказать обратный звонок
 	</div>
-	<form action="" class="cta_form" target="_blank">
-		{{callback_form.errors}}
-		{{callback_form}}
+	<form class="cta_form" method="post">
+		{% csrf_token %}
+		{{ callback_form.non_field_errors }}
+		<div class="col-xs-12">
+			{{ callback_form.name.errors }}
+			{{ callback_form.name.label_tag }}
+			{{ callback_form.name }}
+		</div>
+		<div class="col-xs-12">
+			{{ callback_form.phone_number.errors }}
+			{{ callback_form.phone_number.label_tag }}
+			{{ callback_form.phone_number }}
+		</div>
 		<button type="submit" class="btn_large">Заказать</button>
 	</form>
 	<div class="info_form">

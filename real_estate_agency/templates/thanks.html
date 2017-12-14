@@ -1,0 +1,13 @@
+{% extends 'base/base.html'%}
+{% load static %}
+{% load django_bootstrap_breadcrumbs %}
+{% block breadcrumbs %}
+    {{ block.super }}
+    {% breadcrumb "Спасибо" "/" %}
+{% endblock %}
+{% block content %}
+<div class="container">
+    <h1>Спасибо за заявку</h1>
+    <p>Мы перезвоним Вам позже</p>
+</div>
+{% endblock %}

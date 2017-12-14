@@ -21,9 +21,9 @@ from django.conf.urls.static import static
 from .views import (about,
                     feedback,
                     corporation_benefit_plan,
-                    contacts,
                     index,
-                    privacy_policy
+                    privacy_policy,
+                    thanks
                     )
 
 
@@ -36,8 +36,9 @@ urlpatterns = [
     url(r'^mortgage/', include('mortgage.urls', namespace='mortgage')),
     url(r'^feedback/', feedback, name='feedback'),
     url(r'^corporation_benefit_plan/', corporation_benefit_plan, name='corporation_benefit_plan'),
-    url(r'^contacts/', contacts, name='contacts'),
-    url(r'^privacy-policy/', privacy_policy, name='privacy-policy'),   
+    url(r'^contacts/', include('contacts.urls', namespace='contacts')),
+    url(r'^privacy-policy/', privacy_policy, name='privacy-policy'), 
+    url(r'^thanks/', thanks, name='thanks'), 
 ]
 
 #For using this path at dev machines

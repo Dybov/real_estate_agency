@@ -15,10 +15,6 @@ def corporation_benefit_plan(request):
     return render(request, 'corporation_benefit_plan.html')
 
 
-def contacts(request):
-    return render(request, 'contacts.html')
-
-
 def index(request):
     # create request for RC and all related flats in only 3 queries
     residental_complex_objects = ResidentalComplex.objects.filter(is_active=True).prefetch_related(
@@ -44,3 +40,7 @@ def index(request):
 
 def privacy_policy(request):
     return render(request, 'privacy_policy.html')
+
+
+def thanks(request):
+    return render(request, 'thanks.html')
