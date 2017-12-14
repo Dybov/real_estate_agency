@@ -6,7 +6,7 @@ from django.views.generic import FormView
 from .forms import MortgageForm
 
 
-class index(FormView):
+class Index(FormView):
     form_class = MortgageForm
     template_name = 'mortgage/calculator.html'
     success_url = '...'
