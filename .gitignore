@@ -29,5 +29,8 @@ package.json
 real_estate_agency/static/less
 
 #For server logs
-*/error.log
-*/logs
+*.log
+*/logs/*
+
+#For server settings
+real_estate_agency/real_estate_agency/settings/production.py
