@@ -82,8 +82,9 @@ class PhotoAdminForm(forms.ModelForm):
         
             self.files = MultiValueDict({image_name_initial:self.files.getlist(image_name)})
             self.data[rc_name_initial] = self.data[rc_name]
+            #self.data['id_'+rc_name_initial] = self.data[rc_name]
             self.data[id_initial] = self.data[id_]
-        
+
         files_list = self.files.getlist(image_name_initial)
         answer = super().save(*args, **kwargs)
         

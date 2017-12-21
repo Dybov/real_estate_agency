@@ -58,12 +58,46 @@ class BuildingInline(admin.TabularInline):
     formfield_overrides = standart_formfield_overrides
     show_change_link = True
 
+class SomeInlineFormSet(BaseInlineFormSet):
+
+    # def save_new(self, form, commit=True):
+    #     form.save()
+    #     return super(SomeInlineFormSet, self).save_new(form, commit=False)
+
+    # def save_existing(self, form, instance, commit=True):
+    #     return form.save(commit=commit)
+    
+    def save_new(self, form, commit=True):
+        # Ensure the latest copy of the related instance is present on each
+        # form (it may have been saved after the formset was originally
+        # instantiated).
+        setattr(form.instance, self.fk.name, self.instance)
+        # Use commit=False so we can assign the parent key afterwards, then
+        # save the object.
+        pk_value = getattr(self.instance, self.fk.remote_field.field_name)
+        att_name = self.fk.get_attname()
+        form.data[form.prefix + '-' + att_name] = getattr(pk_value, 'pk', pk_value)
+        if att_name.endswith('_id'):
+            form.data[form.prefix + '-' + att_name[:-3]] = getattr(pk_value, 'pk', pk_value)
+        
+        obj = form.save(commit=False)
+        setattr(obj, att_name, getattr(pk_value, 'pk', pk_value))
+        if commit:
+            obj.save()
+        # form.save_m2m() can be called via the formset later on if commit=False
+        if commit and hasattr(form, 'save_m2m'):
+            form.save_m2m()
+        return obj
+
+    def save_existing(self, form, instance, commit=True):
+        return form.save(commit=commit)
 
 class ResidentalComplexImageInline(admin.TabularInline):
     model = ResidentalComplexImage
     form = PhotoAdminForm
     extra = 0
     min_num = 0
+    formset = SomeInlineFormSet
 
 
 class ResidentalComplexFeatureInline(admin.TabularInline):
