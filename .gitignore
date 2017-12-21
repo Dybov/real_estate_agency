@@ -25,7 +25,7 @@ real_estate_agency/static/img/.DS_Store
 #For gulp files
 gulpfile.js
 package.json
-/node_modules
+*/node_modules
 real_estate_agency/static/less
 
 #For server logs
