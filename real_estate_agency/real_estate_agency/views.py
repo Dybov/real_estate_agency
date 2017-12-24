@@ -2,13 +2,10 @@ from django.shortcuts import render
 
 from new_buildings.models import Builder, ResidentalComplex, NewApartment
 
+from feedback.models import Feedback
 
 def about(request):
     return render(request, 'about.html')
-
-
-def feedback(request):
-    return render(request, 'feedback.html')
 
 
 def corporation_benefit_plan(request):
@@ -23,6 +20,8 @@ def index(request):
         is_popular=True
     )
 
+    feedbacks = Feedback.objects.all()[:4]
+
     # count number of apartments, using db field of RC (implements in
     # count_flats method)
     number_of_apartments = 0
@@ -34,6 +33,7 @@ def index(request):
         'number_of_residental_complexes': residental_complex_objects.count(),
         'number_of_apartments': number_of_apartments,
         'residental_complexes': residental_complexes_for_output,
+        'feedbacks': feedbacks,
     }
     return render(request, 'index.html', context)
 

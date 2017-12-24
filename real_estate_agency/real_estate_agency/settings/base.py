@@ -26,6 +26,7 @@ INSTALLED_APPS = [
     'new_buildings',
     'mortgage',
     'contacts',
+    'feedback',
     'phonenumber_field',
     'django_bootstrap_breadcrumbs',
     'django.contrib.admin',

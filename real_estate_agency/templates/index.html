@@ -129,71 +129,9 @@
 		<div class="row">
 			<div class="col-md-12 col-xs-12">
 				<div class="reviews_slider" data-flickity>
-				<div class="reviews_item">
-					<div class="reviews_item_photo" style="background-image: url(https://static.tildacdn.com/tild3537-3665-4663-a163-306665323338/fab48e7714fe49708adc.jpg);">
-						
-					</div>
-										<div class="reviews_item_text">
-						Выражаю благодарность Игорю Задачину за профессионализм, высокие деловые качества, работоспособность, умение внимательно и тактично общаться с клиентами.
-Желаю компании " ДОМУС " дальнейшего благополучия и процветания.
-					<div class="reviews_item_description">
-						Анастасия Скворцова <span><a href=""><i class="fa fa-vk " aria-hidden="true"></i></a></span> <br>
-						<span style="font-size: 14px; font-weight: 300;">Место работы: Леруа Мерлен г. Тюмень </span><br> 
-Приобрела квартиру в ЖК «Звездный городок»
-					</div>
-					</div>
-
-
-				</div>
-
-				<div class="reviews_item">
-					<div class="reviews_item_photo" style="background-image: url(https://static.tildacdn.com/tild3537-3665-4663-a163-306665323338/fab48e7714fe49708adc.jpg);">
-						
-					</div>
-										<div class="reviews_item_text">
-						Выражаю благодарность Игорю Задачину за профессионализм, высокие деловые качества, работоспособность, умение внимательно и тактично общаться с клиентами.
-Желаю компании " ДОМУС " дальнейшего благополучия и процветания.
-					<div class="reviews_item_description">
-					Анастасия Скворцова <span><a href=""><i class="fa fa-vk " aria-hidden="true"></i></a></span> <br>
-						<span style="font-size: 14px; font-weight: 300;">Место работы: Леруа Мерлен г. Тюмень </span><br> 
-Приобрела квартиру в ЖК «Звездный городок»
-					</div>
-					</div>
-
-
-				</div>
-				<div class="reviews_item">
-					<div class="reviews_item_photo" style="background-image: url(https://static.tildacdn.com/tild3537-3665-4663-a163-306665323338/fab48e7714fe49708adc.jpg);">
-						
-					</div>
-										<div class="reviews_item_text">
-						Выражаю благодарность Игорю Задачину за профессионализм, высокие деловые качества, работоспособность, умение внимательно и тактично общаться с клиентами.
-Желаю компании " ДОМУС " дальнейшего благополучия и процветания.
-					<div class="reviews_item_description">
-						Анастасия Скворцова <span><a href=""><i class="fa fa-vk " aria-hidden="true"></i></a></span> <br>
-						<span style="font-size: 14px; font-weight: 300;">Место работы: Леруа Мерлен г. Тюмень </span><br> 
-Приобрела квартиру в ЖК «Звездный городок»
-					</div>
-					</div>
-
-
-				</div>
-				<div class="reviews_item">
-					<div class="reviews_item_photo" style="background-image: url(https://static.tildacdn.com/tild3537-3665-4663-a163-306665323338/fab48e7714fe49708adc.jpg);">
-						
-					</div>
-										<div class="reviews_item_text">
-						Выражаю благодарность Игорю Задачину за профессионализм, высокие деловые качества, работоспособность, умение внимательно и тактично общаться с клиентами.
-Желаю компании " ДОМУС " дальнейшего благополучия и процветания.
-					<div class="reviews_item_description">
-						Анастасия Скворцова <span><a href=""><i class="fa fa-vk " aria-hidden="true"></i></a></span> <br>
-						<span style="font-size: 14px; font-weight: 300;">Место работы: Леруа Мерлен г. Тюмень </span><br> 
-Приобрела квартиру в ЖК «Звездный городок»
-					</div>
-					</div>
-
-
-				</div>												
+				{% for feedback in feedbacks %}
+					{% include 'feedback/feedback_detail.html' %}
+				{% endfor %}									
 				</div>
 			</div>
 		</div>

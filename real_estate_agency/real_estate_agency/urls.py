@@ -19,7 +19,6 @@ from django.conf.urls import url, include
 from django.conf.urls.static import static
 
 from .views import (about,
-                    feedback,
                     corporation_benefit_plan,
                     index,
                     privacy_policy,
@@ -34,7 +33,7 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls, name='admin'),
     url(r'^about/', about, name='about'),
     url(r'^mortgage/', include('mortgage.urls', namespace='mortgage')),
-    url(r'^feedback/', feedback, name='feedback'),
+    url(r'^feedback/', include('feedback.urls', namespace='feedback')),
     url(r'^corporation_benefit_plan/', corporation_benefit_plan, name='corporation_benefit_plan'),
     url(r'^contacts/', include('contacts.urls', namespace='contacts')),
     url(r'^privacy-policy/', privacy_policy, name='privacy-policy'), 
