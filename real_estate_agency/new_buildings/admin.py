@@ -40,7 +40,6 @@ class NewApartmentInline(TabularInlineWithImageWidgetInline):
 
 @admin.register(NewBuilding)
 class BuildingAdmin(DontShowInAdmin):
-    # class BuildingAdmin(admin.ModelAdmin):
     form = FormWithAddressAutocomplete
     inlines = [NewApartmentInline]
     list_display = ['__str__', 'is_built', 'residental_complex']
@@ -59,14 +58,6 @@ class BuildingInline(admin.TabularInline):
     show_change_link = True
 
 class SomeInlineFormSet(BaseInlineFormSet):
-
-    # def save_new(self, form, commit=True):
-    #     form.save()
-    #     return super(SomeInlineFormSet, self).save_new(form, commit=False)
-
-    # def save_existing(self, form, instance, commit=True):
-    #     return form.save(commit=commit)
-    
     def save_new(self, form, commit=True):
         # Ensure the latest copy of the related instance is present on each
         # form (it may have been saved after the formset was originally
@@ -76,6 +67,9 @@ class SomeInlineFormSet(BaseInlineFormSet):
         # save the object.
         pk_value = getattr(self.instance, self.fk.remote_field.field_name)
         att_name = self.fk.get_attname()
+
+        # For the multiupload images. If form won't be saved - it'll be 500 error
+        # So it is better have FK field be completed when form is saved
         form.data[form.prefix + '-' + att_name] = getattr(pk_value, 'pk', pk_value)
         if att_name.endswith('_id'):
             form.data[form.prefix + '-' + att_name[:-3]] = getattr(pk_value, 'pk', pk_value)
@@ -84,6 +78,7 @@ class SomeInlineFormSet(BaseInlineFormSet):
         setattr(obj, att_name, getattr(pk_value, 'pk', pk_value))
         if commit:
             obj.save()
+        
         # form.save_m2m() can be called via the formset later on if commit=False
         if commit and hasattr(form, 'save_m2m'):
             form.save_m2m()

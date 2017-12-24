@@ -26,7 +26,7 @@ standart_formfield_overrides = {
 }
 
 
-class AdminImageWidget(AdminFileWidget):
+class AdminThumbnailImageWidget(AdminFileWidget):
     ''' it base widget which allows to show loaded image near to the 'browse' button '''
 
     def render(self, name, value, attrs=None):
@@ -48,7 +48,7 @@ class TabularInlineWithImageWidgetInline(TabularInline):
     def formfield_for_dbfield(self, db_field, **kwargs):
         if db_field.name in self.image_fields:
             request = kwargs.pop("request", None)
-            kwargs['widget'] = AdminImageWidget
+            kwargs['widget'] = AdminThumbnailImageWidget
             return db_field.formfield(**kwargs)
         return super(TabularInlineWithImageWidgetInline, self).formfield_for_dbfield(db_field, **kwargs)
 
