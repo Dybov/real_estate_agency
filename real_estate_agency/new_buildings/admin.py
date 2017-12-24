@@ -38,24 +38,44 @@ class NewApartmentInline(TabularInlineWithImageWidgetInline):
     show_change_link = True
 
 
-@admin.register(NewBuilding)
-class BuildingAdmin(DontShowInAdmin):
-    form = FormWithAddressAutocomplete
-    inlines = [NewApartmentInline]
-    list_display = ['__str__', 'is_built', 'residental_complex']
-    empty_value_display = _('Неизвестно')
-    list_filter = [BuildingIsBuiltFilter, BuildingResidentalComplexFilter]
-    initial_exclude = ['zip_code', 'feed_link', ]
-    exclude = initial_exclude + ['residental_complex']
-
-
-class BuildingInline(admin.TabularInline):
+class BuildingInline(admin.StackedInline):
     form = FormWithAddressAutocomplete
     model = NewBuilding
     extra = 0
-    exclude = BuildingAdmin.initial_exclude + ['is_active']
     formfield_overrides = standart_formfield_overrides
-    show_change_link = True
+    fields = ('name',
+              'street',
+              'building',
+              'building_block',
+              'building_type',
+              'number_of_storeys',
+              'date_of_start_of_construction',
+              'date_of_construction',
+              'building_permit',
+              'project_declarations'
+    )
+    # Keep it for winds of change
+    # exclude = ['zip_code', 'feed_link', ]
+    # show_change_link = True
+    # fieldsets = (
+    #     (None, {
+    #         'fields': ('name',
+    #                    'street',
+    #                    'building',
+    #                    'building_block',
+    #                    'building_type',
+    #                    'number_of_storeys',
+    #                    )
+    #     }),
+    #     (_('Даты'), {
+    #         'fields': ('date_of_start_of_construction',
+    #                    'date_of_construction',
+    #                    )
+    #     }),
+    #     (_('Документы'), {
+    #         'fields': ('building_permit', 'project_declarations'),
+    #     }),
+    # )
 
 class SomeInlineFormSet(BaseInlineFormSet):
     def save_new(self, form, commit=True):
@@ -118,15 +138,7 @@ class ResidentalComplexAdmin(admin.ModelAdmin):
         (None, {
             'fields': ('type_of_complex', 'name', 'neighbourhood', 'is_active', 'is_popular', 'builder', 'characteristics', 'number_of_flats')
         }),
-        (_('ДОКУМЕНТЫ'), {
-            'fields': ('building_permit', 'project_declarations'),
-        }),
         (_('МЕДИА'), {
             'fields': ('front_image', 'video_link', 'presentation'),
         }),
     )
-
-
-@admin.register(ResidentalComplexImage)
-class PhotoOfResidentalComplexAdminTemporary(admin.ModelAdmin):
-    form = PhotoAdminForm

@@ -728,6 +728,10 @@ a.deletelink:focus, a.deletelink:hover {
     color: #fff;
 }
 
+.object-tools a.addlink {
+    background-color: #3b7a3b;
+}
+
 .object-tools a:focus, .object-tools a:hover {
     background-color: #777777;
 }

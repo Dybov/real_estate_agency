@@ -90,7 +90,18 @@ class NewBuilding(AbstractAddressModelWithoutNeighbourhood):
     is_active = models.BooleanField(verbose_name=_('отображать на сайте'),
                                     default=True,
                                     )
-
+    building_permit = models.FileField(verbose_name=_('разрешение на строительство'),
+                                       null=True,
+                                       default=None,
+                                       blank=True,
+                                       upload_to=get_file_path,
+                                       )
+    project_declarations = models.FileField(verbose_name=_('проектная декларация'),
+                                            null=True,
+                                            default=None,
+                                            blank=True,
+                                            upload_to=get_file_path,
+                                            )
     def get_apartments(self):
         return self.newapartment_set.filter(is_active=True)
 
@@ -183,18 +194,7 @@ class ResidentalComplex(models.Model):
                                                   null=True,
                                                   blank=True,
                                                   )
-    building_permit = models.FileField(verbose_name=_('разрешение на строительство'),
-                                       null=True,
-                                       default=None,
-                                       blank=True,
-                                       upload_to=get_file_path,
-                                       )
-    project_declarations = models.FileField(verbose_name=_('проектная декларация'),
-                                            null=True,
-                                            default=None,
-                                            blank=True,
-                                            upload_to=get_file_path,
-                                            )
+
     neighbourhood = models.ForeignKey(NeighbourhoodModel,
                                       verbose_name=_('район'),
                                       on_delete=models.PROTECT,

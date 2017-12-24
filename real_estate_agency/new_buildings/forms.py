@@ -21,8 +21,8 @@ standart_formfield_overrides = {
     models.CharField: {'widget': TextInput(attrs={'size': '10'})},
     models.PositiveSmallIntegerField: {'widget': NumberInput(attrs={'size': '3'})},
     models.IntegerField: {'widget': NumberInput(attrs={'style': 'width:6ch', })},
-    models.DecimalField: {'widget': NumberInput(attrs={'style': 'width:12ch', })},
-    models.TextField: {'widget': Textarea(attrs={'cols': 2, 'rows': 2})},
+    models.DecimalField: {'widget': NumberInput(attrs={'style': 'width:6ch', })},
+    models.TextField: {'widget': Textarea(attrs={'cols': 80, 'rows': 3})},
 }
 
 
