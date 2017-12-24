@@ -18,7 +18,7 @@ def corporation_benefit_plan(request):
 def index(request):
     # create request for RC and all related flats in only 3 queries
     residental_complex_objects = ResidentalComplex.objects.filter(is_active=True).prefetch_related(
-        'newbuilding_set').prefetch_related('newbuilding_set__newapartment_set')
+        'newbuilding_set').prefetch_related('newapartment_set')
     residental_complexes_for_output = residental_complex_objects.filter(
         is_popular=True
     )

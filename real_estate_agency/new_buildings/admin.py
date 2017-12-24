@@ -8,6 +8,7 @@ from real_estate.admin import DontShowInAdmin
 from address.forms import FormWithAddressAutocomplete
 
 from .forms import (TabularInlineWithImageWidgetInline,
+                    StackedInlineWithImageWidgetInline,
                     standart_formfield_overrides,
                     PhotoAdminForm,
                     )
@@ -27,7 +28,7 @@ admin.site.register(TypeOfComplex)
 admin.site.register(ResidentalComplexСharacteristic)
 
 
-class NewApartmentInline(TabularInlineWithImageWidgetInline):
+class NewApartmentInline(StackedInlineWithImageWidgetInline):
     model = NewApartment
     extra = 0
     exclude = ['description']
@@ -127,6 +128,7 @@ class ResidentalComplexAdmin(admin.ModelAdmin):
     form = FormWithAddressAutocomplete
     inlines = [ResidentalComplexFeatureInline,
                BuildingInline,
+               NewApartmentInline,
                ResidentalComplexImageInline,
                ]
     list_display = ('name', 'is_active')

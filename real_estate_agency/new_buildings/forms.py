@@ -2,7 +2,7 @@ import datetime
 
 from django import forms
 from django.db import models
-from django.contrib.admin import TabularInline
+from django.contrib.admin import TabularInline, StackedInline
 from django.contrib.admin.widgets import AdminFileWidget
 from django.forms.widgets import (TextInput,
                                   NumberInput,
@@ -23,6 +23,7 @@ standart_formfield_overrides = {
     models.IntegerField: {'widget': NumberInput(attrs={'style': 'width:6ch', })},
     models.DecimalField: {'widget': NumberInput(attrs={'style': 'width:6ch', })},
     models.TextField: {'widget': Textarea(attrs={'cols': 80, 'rows': 3})},
+    models.ManyToManyField: {'widget': forms.CheckboxSelectMultiple},
 }
 
 
@@ -51,6 +52,20 @@ class TabularInlineWithImageWidgetInline(TabularInline):
             kwargs['widget'] = AdminThumbnailImageWidget
             return db_field.formfield(**kwargs)
         return super(TabularInlineWithImageWidgetInline, self).formfield_for_dbfield(db_field, **kwargs)
+
+
+class StackedInlineWithImageWidgetInline(StackedInline, TabularInlineWithImageWidgetInline):
+    image_fields = []
+
+    def formfield_for_dbfield(self, db_field, **kwargs):
+        return super(StackedInlineWithImageWidgetInline, self).formfield_for_dbfield(db_field, **kwargs)
+    # def formfield_for_dbfield(self, db_field, **kwargs):
+    #     if db_field.name in self.image_fields:
+    #         request = kwargs.pop("request", None)
+    #         kwargs['widget'] = AdminThumbnailImageWidget
+    #         return db_field.formfield(**kwargs)
+    #     return super(StackedInlineWithImageWidgetInline, self).formfield_for_dbfield(db_field, **kwargs)
+
 
 
 class PhotoAdminForm(forms.ModelForm):

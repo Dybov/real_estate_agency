@@ -169,10 +169,10 @@ class NewApartmentsFeed(ListView):
     context_object_name = 'apartments'
     template_name = 'new_buildings/feeds/yrl-yandex-feed-for-new-apartments.xml'
     content_type = "application/xhtml+xml"
-    queryset = model.objects.prefetch_related('building')\
-        .prefetch_related('building__residental_complex')\
+    queryset = model.objects.prefetch_related('buildings')\
+        .prefetch_related('buildings__residental_complex')\
         .filter(
             is_active=True,
-            building__is_active=True,
-            building__residental_complex__is_active=True,
+            buildings__is_active=True,
+            buildings__residental_complex__is_active=True,
     )

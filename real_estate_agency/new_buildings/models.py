@@ -13,19 +13,22 @@ from address.models import AbstractAddressModelWithoutNeighbourhood, Neighbourho
 class NewApartment(Apartment):
     """ It will be objects of layouts for now """
     is_primary = True
-    building = models.ForeignKey('NewBuilding',
-                                 verbose_name=_('строение'),
-                                 on_delete=models.CASCADE,
-                                 )
+    buildings = models.ManyToManyField('NewBuilding',
+                                       verbose_name=_('планировка присутсвует в домах'),
+                                       )
+    residental_complex = models.ForeignKey('ResidentalComplex',
+                                           verbose_name=_('комплекс'),
+                                           )
 
     def get_residental_complex(self):
-        return self.building.residental_complex
-
-    def get_address(self):
-        return self.building.full_address
+        return self.residental_complex
 
     def get_neighbourhood(self):
-        self.building
+        self.residental_complex.neighbourhood
+
+    class Meta:
+        verbose_name = _('объект "планировка"')
+        verbose_name_plural = _('планировки')
     # Many to many fields "stocks" will appear in future
 
 
