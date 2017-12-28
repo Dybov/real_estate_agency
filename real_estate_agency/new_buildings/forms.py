@@ -187,7 +187,6 @@ class SearchForm(forms.Form):
         }),
         choices=ROOMS_CHOICES,
         required=False,
-        help_text=_('С - студия'),
     )
     settlement_before = forms.ChoiceField(
         widget=forms.Select(attrs={

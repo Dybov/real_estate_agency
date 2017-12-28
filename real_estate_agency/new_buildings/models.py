@@ -10,11 +10,19 @@ from real_estate.models import Apartment, get_file_path, BasePropertyImage
 from address.models import AbstractAddressModelWithoutNeighbourhood, NeighbourhoodModel
 
 
+def get_json_object(_object, props=[]):
+    from django.core.serializers import serialize
+    from .serializers import ExtJsonSerializer
+    from django.utils.safestring import mark_safe
+    return mark_safe(ExtJsonSerializer().serialize(_object, props=props))
+
+
 class NewApartment(Apartment):
     """ It will be objects of layouts for now """
     is_primary = True
     buildings = models.ManyToManyField('NewBuilding',
-                                       verbose_name=_('планировка присутсвует в домах'),
+                                       verbose_name=_(
+                                           'планировка присутсвует в домах'),
                                        )
     residental_complex = models.ForeignKey('ResidentalComplex',
                                            verbose_name=_('комплекс'),
@@ -24,7 +32,10 @@ class NewApartment(Apartment):
         return self.residental_complex
 
     def get_neighbourhood(self):
-        self.residental_complex.neighbourhood
+        return self.residental_complex.neighbourhood
+
+    def get_buildings(self):
+        return self.buildings.filter(is_active=True)
 
     class Meta:
         verbose_name = _('объект "планировка"')
@@ -105,8 +116,19 @@ class NewBuilding(AbstractAddressModelWithoutNeighbourhood):
                                             blank=True,
                                             upload_to=get_file_path,
                                             )
+
     def get_apartments(self):
         return self.newapartment_set.filter(is_active=True)
+
+    @property
+    def get_quarter_of_construction(self):
+        if self.date_of_construction:
+            return _('{quarter} квартал {year}').format(
+                quarter=(self.date_of_construction.month-1)//3+1, 
+                year=self.date_of_construction.year
+            )
+        else:
+            return ''
 
     def __str__(self):
         return '%s' % (self.name, )
@@ -210,25 +232,35 @@ class ResidentalComplex(models.Model):
         return self.characteristics.all()
 
     @cached_property
-    def new_buildings(self):
+    def get_new_apartments(self):
+        return self.newapartment_set.filter(is_active=True)
+
+    def get_new_apartments_json(self):
+        return get_json_object(self.get_new_apartments)
+
+    @cached_property
+    def get_new_buildings(self):
         return self.newbuilding_set.filter(is_active=True).prefetch_related('newapartment_set')
+
+    def get_new_buildings_json(self):
+        return get_json_object(self.get_new_buildings, props=['get_quarter_of_construction'])
 
     def count_flats(self):
         if self.number_of_flats:
             return self.number_of_flats
         count = 0
-        for building in self.new_buildings:
+        for building in self.get_new_buildings:
             count += len(building.get_apartments())
         return count
 
     def count_buildings(self):
-        return len(self.new_buildings)
+        return len(self.get_new_buildings)
 
     @cached_property
     def min_and_max_dates(self):
         from django.db.models import Min, Max
 
-        buildings = self.new_buildings
+        buildings = self.get_new_buildings
         if buildings:
             return buildings.aggregate(
                 min_date_of_construction=Min('date_of_construction'),
@@ -265,7 +297,7 @@ class ResidentalComplex(models.Model):
         # For union all combines querysets
         apartments = None
 
-        buildings = self.new_buildings
+        buildings = self.get_new_buildings
         if buildings:
             for building in buildings:
                 if not apartments:
@@ -291,7 +323,7 @@ class ResidentalComplex(models.Model):
     def get_absolute_url(self):
         from django.core.urlresolvers import reverse
         return reverse('new_buildings:residental-complex-detail', args=[self.id])
-        
+
     class Meta:
         verbose_name = _('комплекс')
         verbose_name_plural = _('комплексы')

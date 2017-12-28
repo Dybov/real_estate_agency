@@ -90,9 +90,9 @@ class ResidentalComplexList(FormMixin, ListView):
             self.filterAparmentByAnyTextIContains(
                 fieldname='any_text',
                 model_fields=[
-                    'building__residental_complex__neighbourhood__name',
-                    'building__residental_complex__name',
-                    'building__street__name',
+                    'buildings__residental_complex__neighbourhood__name',
+                    'buildings__residental_complex__name',
+                    'buildings__street__name',
                 ],
             )
 
@@ -101,7 +101,7 @@ class ResidentalComplexList(FormMixin, ListView):
 
             # For getting ResidentalComplex objects
             building_id_list = [
-                x.get('building') for x in self.apartment_list.values('building').distinct()]
+                x.get('buildings') for x in self.apartment_list.values('buildings').distinct()]
             buildings = NewBuilding.objects.filter(
                 id__in=building_id_list, 
                 is_active=True,
@@ -143,7 +143,7 @@ class ResidentalComplexDetail(DetailView):
         lats = []
         lngs = []
         building_types = []
-        for buildings in context[self.context_object_name].new_buildings:
+        for buildings in context[self.context_object_name].get_new_buildings:
             lat, lng = buildings.coordinates_as_list
             if lat and lng:
                 lats.append(lat)

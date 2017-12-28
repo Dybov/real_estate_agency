@@ -1,17 +1,18 @@
-<div class="col-md-3 col-xs-12" building="{{building}}" > <!-- другие поля для фильтра тоже вставь рядом с building и подпиши, что это за поля-->
+<div class="col-md-3 col-xs-12 element-item rooms-{{ apartment.rooms }} building-{{building.id}} price-{{apartment.price}} total-area-{{apartment.total_area|floatformat:0}}" id='apartment-{{apartment.id}}'> 
 	<div class="item_rooms">
-	<div class="item_rooms_plan" style="background-image: url({{ apartment.layout.url }});">
-		
-	</div>
-	<div class="item_rooms_info">
-		<div class="item_rooms_price">
-			{{ apartment.price }} ₽
+		<div class='rooms' hidden>{{ apartment.rooms }}</div>
+		<div class="item_rooms_plan" style="background-image: url({{ apartment.layout.url }});"></div>
+		<div class="item_rooms_info">
+			<div class="item_rooms_price">
+				<span class="item-price">{{ apartment.price }}</span> ₽
+			</div>
+			<div class="item_rooms_description">
+				Площадь <span class="total_area"> {{ apartment.total_area }}</span> м2<br>
+				Количество комнат:<span>{{apartment.get_rooms_display}}</span><br>
+				{% if apartment.get_buildings|length > 1 %}
+				Доступно в<span> {{ apartment.get_buildings|join:", " }}</span>
+				{% endif %}
+			</div>
 		</div>
-		<div class="item_rooms_description">
-			Площадь <span> {{ apartment.total_area }}м2</span>
-			<br>
-			Срок сдачи <span> {{ apartment.building.date_of_construction|date:"F Y" }}</span>
-		</div>
 	</div>
-</div>
 </div>
