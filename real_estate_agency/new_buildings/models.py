@@ -161,6 +161,18 @@ class TypeOfComplex(models.Model):
     def __str__(self):
         return self.name.capitalize()
 
+    def get_cased(self, case):
+        from real_estate.templatetags.real_estate_extras import morphy_by_case
+        return morphy_by_case(self.name, case)
+
+    @cached_property
+    def get_loct(self):
+        return self.get_cased('loct')
+
+    @cached_property
+    def get_gent(self):
+        return self.get_cased('gent')
+
     class Meta:
         verbose_name = _('тип комплекса')
         verbose_name_plural = _('типы комплексов')
