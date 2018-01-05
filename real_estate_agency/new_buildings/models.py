@@ -2,6 +2,7 @@ import datetime
 
 from django.db import models
 from django.contrib.auth.models import User
+from django.contrib.staticfiles.templatetags.staticfiles import static
 from django.core.validators import MinValueValidator
 from django.utils.translation import ugettext as _
 from django.utils.functional import cached_property
@@ -206,6 +207,7 @@ class ResidentalComplex(models.Model):
                                              blank=True,)
     front_image = models.ImageField(verbose_name=_('основное изображение'),
                                     upload_to=get_file_path,
+                                    blank=True, null=True,
                                     )
     # one to many "features"
     # one to many "houses"
@@ -287,7 +289,9 @@ class ResidentalComplex(models.Model):
         return self.min_and_max_dates.get('max_date_of_construction')
 
     def get_title_photo_url(self):
-        return self.front_image.url
+        if self.front_image:
+            return self.front_image.url
+        return static('img/main.jpg') 
 
     @cached_property
     def youtube_frame_link(self):

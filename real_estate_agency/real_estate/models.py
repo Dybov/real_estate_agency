@@ -156,22 +156,31 @@ class Apartment(BasePropertyModel):  # , BaseUniqueModel):
                              help_text=_(
                                  'Если вы не нашли нужного пункта - обратитесь к администратору'),
                              )
-    floor = models.PositiveIntegerField(verbose_name=_('этаж'), default=1)
+    floor = models.CharField(verbose_name=_('этаж'), 
+                             default=1,
+                             max_length=127)
     section = models.PositiveIntegerField(verbose_name=_('подъезд/секция'),
                                           validators=[MinValueValidator(1)],
                                           default=1)
     kitchen_area = models.DecimalField(_('площадь кухни (м2)'),
-                                       default=10,
+                                       default=5,
                                        decimal_places=2,
                                        max_digits=5,
                                        validators=[MinValueValidator(
-                                           Decimal('10.00')
+                                           Decimal('5.00')
                                        ),
     ],
     )
-    balcony_area = models.PositiveIntegerField(verbose_name=_('количество балконов'),
-                                               default=0,
-                                               )
+    balcony_area = models.DecimalField(verbose_name=_('площадь балкона (м2)'),
+                                       default=0,
+                                       decimal_places=2,
+                                       max_digits=5,
+                                       validators=[MinValueValidator(
+                                           Decimal('0.00')
+                                           )
+                                       ],
+                                       blank=True, null=True,
+                                       )
 
     def __str__(self):
         if self.rooms == self.BACHELOR:

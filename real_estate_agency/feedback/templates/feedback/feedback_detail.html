@@ -7,7 +7,7 @@
             {% if feedback.work_at %}
                 <span style="font-size: 14px; font-weight: 300;">Место работы: {{feedback.work_at}} </span>
             {% endif %} <br>
-            Приобретена квартира в ЖК {{feedback.bought}}<br>
+            Приобретена квартира в {{feedback.bought.type_of_complex.get_loct}} {{feedback.bought}}<br>
             {% for social in feedback.get_social_media_links %}
                 <a href="{{social.url}}" target="_blank"><img src='{{social.get_img.url}}' width="16px" height="16px" t]>{{social.get_type}}</a><br>
             {% endfor %}

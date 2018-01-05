@@ -37,7 +37,14 @@ class NewApartmentInline(StackedInlineWithImageWidgetInline):
     formfield_overrides = standart_formfield_overrides
     # if it will be registred then show link
     show_change_link = True
-
+    def formfield_for_manytomany(self, db_field, request, **kwargs):
+        if db_field.name == "buildings":
+            try:
+                parent_obj_id = request.resolver_match.args[0]
+                kwargs["queryset"] = NewBuilding.objects.filter(residental_complex=parent_obj_id)
+            except IndexError:
+                pass
+        return super(NewApartmentInline, self).formfield_for_foreignkey(db_field, request, **kwargs)
 
 class BuildingInline(admin.StackedInline):
     form = FormWithAddressAutocomplete
@@ -139,7 +146,15 @@ class ResidentalComplexAdmin(admin.ModelAdmin):
     filter_horizontal = ['characteristics']
     fieldsets = (
         (None, {
-            'fields': ('type_of_complex', 'name', 'neighbourhood', 'is_active', 'is_popular', 'builder', 'characteristics', 'number_of_flats')
+            'fields': ('type_of_complex',
+                       'name',
+                       'neighbourhood',
+                       'is_active',
+                       'is_popular',
+                       'builder',
+                       'description',
+                       'characteristics',
+                       'number_of_flats')
         }),
         (_('МЕДИА'), {
             'fields': ('front_image', 'video_link', 'presentation'),

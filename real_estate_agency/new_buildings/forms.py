@@ -18,11 +18,12 @@ from .models import ResidentalComplexImage, ResidentalComplex, NewBuilding
 
 # it is new sizes for widgets in Inlines
 standart_formfield_overrides = {
-    models.CharField: {'widget': TextInput(attrs={'size': '10'})},
-    models.PositiveSmallIntegerField: {'widget': NumberInput(attrs={'size': '3'})},
-    models.IntegerField: {'widget': NumberInput(attrs={'style': 'width:6ch', })},
-    models.DecimalField: {'widget': NumberInput(attrs={'style': 'width:6ch', })},
-    models.TextField: {'widget': Textarea(attrs={'cols': 80, 'rows': 3})},
+    # Changed because of using StackedInline insead of Tabular
+    # models.CharField: {'widget': TextInput(attrs={'size': '10'})},
+    # models.PositiveSmallIntegerField: {'widget': NumberInput(attrs={'size': '3'})},
+    # models.IntegerField: {'widget': NumberInput(attrs={'style': 'width:6ch', })},
+    # models.DecimalField: {'widget': NumberInput(attrs={'style': 'width:6ch', })},
+    # models.TextField: {'widget': Textarea(attrs={'cols': 80, 'rows': 3})},
     models.ManyToManyField: {'widget': forms.CheckboxSelectMultiple},
 }
 
