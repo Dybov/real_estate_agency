@@ -5,12 +5,12 @@ from django.forms.models import BaseInlineFormSet
 
 from real_estate.admin import DontShowInAdmin
 
-from address.forms import FormWithAddressAutocomplete
-
 from .forms import (TabularInlineWithImageWidgetInline,
                     StackedInlineWithImageWidgetInline,
                     standart_formfield_overrides,
                     PhotoAdminForm,
+                    NewBuildingForm,
+                    ResidentalComplexForm
                     )
 from .admin_filters import BuildingIsBuiltFilter, BuildingResidentalComplexFilter
 from .models import (ResidentalComplex,
@@ -47,7 +47,7 @@ class NewApartmentInline(StackedInlineWithImageWidgetInline):
         return super(NewApartmentInline, self).formfield_for_foreignkey(db_field, request, **kwargs)
 
 class BuildingInline(admin.StackedInline):
-    form = FormWithAddressAutocomplete
+    form = NewBuildingForm
     model = NewBuilding
     extra = 0
     formfield_overrides = standart_formfield_overrides
@@ -133,7 +133,7 @@ class ResidentalComplexFeatureInline(admin.TabularInline):
 
 @admin.register(ResidentalComplex)
 class ResidentalComplexAdmin(admin.ModelAdmin):
-    form = FormWithAddressAutocomplete
+    form = ResidentalComplexForm
     inlines = [ResidentalComplexFeatureInline,
                BuildingInline,
                NewApartmentInline,

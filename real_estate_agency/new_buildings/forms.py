@@ -15,6 +15,8 @@ from django.utils.translation import ugettext as _
 
 from .models import ResidentalComplexImage, ResidentalComplex, NewBuilding
 
+from address.forms import FormWithAddressAutocomplete
+
 
 # it is new sizes for widgets in Inlines
 standart_formfield_overrides = {
@@ -204,3 +206,10 @@ class SearchForm(forms.Form):
         ),
         required=False,
     )
+
+class NewBuildingForm(FormWithAddressAutocomplete):
+    pass
+
+class ResidentalComplexForm(FormWithAddressAutocomplete):
+    class Media:
+        js = ['real_estate/js/jquery.min.js', 'js/collapsed_stacked_inlines.js',]
