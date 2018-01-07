@@ -32,7 +32,7 @@
 <p class="header_zhk_description_p">Квартир в ЖК<br> <span>{{ residental_complex.count_flats }}</span></p>
 								</div>
 								<div class="header_zhk_description_item">
-<p class="header_zhk_description_p">Срок сдачи<br> <span> {{ residental_complex.get_latest_date_of_building|date:"F Y"}}</span></p>
+<p class="header_zhk_description_p">Срок сдачи<br> <span> {{ residental_complex.get_latest_date_of_building}}</span></p>
 								</div>
 								<div class="header_zhk_description_item-last">
 <p class="header_zhk_description_p">Количесво домов<br> <span>{{ residental_complex.count_buildings }}</span></p>
@@ -254,6 +254,7 @@
 
 					<div class="select_home-flex">
 					<select class='building-selects'>
+						<option value="">Все дома</option>
 						{% for building in residental_complex.get_new_buildings %}
 							<option value="{{building.id}}">
 								{{building}}
@@ -289,6 +290,11 @@
 	</div>
 
 </section>
+
+{% for building in residental_complex.get_new_buildings %}
+	{% include "new_buildings/building_documents.html"%}
+{% endfor %}
+
 <section class="ipoteka" style="background-image: url({% static 'img/ipoteka.png' %});">
 	<div class="container">
 		<div class="row">
@@ -361,38 +367,6 @@
 			</div>
 		</div>
 	</div>
-</section>
-
-<section class="documents">
-<div class="container">
-	<div class="row">
-		<div class="col-md-12">
-				<div class="zhk_headline">
-		Документы на строительство
-	</div>
-		</div>
-	</div>
-		<div class="row">
-			<div class="col-md-6 col-xs-12">
-				<a href="{{residental_complex.get_new_buildings.0.building_permit}}" class="documents_item" download>
-				<div class="documents_icon">
-					<img src="{% static 'img/icon/file.svg' %}" width="70px" height="70px">
-				</div>
-				<div class="documents_headline">Разрешение на&nbsp;стрительство</div>
-				</a>
-			</div>
-
-			<div class="col-md-6 col-xs-12">
-				<a href="{{residental_complex.get_new_buildings.0.project_declarations}}" class="documents_item" download>
-				<div class="documents_icon">
-					<img src="{% static 'img/icon/file.svg' %}" width="70px" height="70px">
-				</div>
-				<div class="documents_headline">Проектные Деларации</div>
-				</a>
-			</div>         
-		</div>
-	</div>
-</div>
 </section>
 
 {% include 'new_buildings/residental_complex_detail_popup.html' %}

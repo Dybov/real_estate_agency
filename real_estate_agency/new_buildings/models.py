@@ -7,6 +7,9 @@ from django.core.validators import MinValueValidator
 from django.utils.translation import ugettext as _
 from django.utils.functional import cached_property
 
+from .helpers import get_quarter
+
+
 from real_estate.models import Apartment, get_file_path, BasePropertyImage
 from address.models import AbstractAddressModelWithoutNeighbourhood, NeighbourhoodModel
 
@@ -124,10 +127,7 @@ class NewBuilding(AbstractAddressModelWithoutNeighbourhood):
     @property
     def get_quarter_of_construction(self):
         if self.date_of_construction:
-            return _('{quarter} квартал {year}').format(
-                quarter=(self.date_of_construction.month-1)//3+1, 
-                year=self.date_of_construction.year
-            )
+            return get_quarter(self.date_of_construction)['verbose_name']
         else:
             return ''
 
@@ -282,11 +282,23 @@ class ResidentalComplex(models.Model):
             )
         return {}
 
-    def get_nearest_date_of_building(self):
-        return self.min_and_max_dates.get('min_date_of_construction')
+    def get_nearest_date_of_building(self, use_quarter=True):
+        date=self.min_and_max_dates.get('min_date_of_construction')
+        if not date:
+            return ''
+        if use_quarter:
+            qrtr = get_quarter(date)   
+            return qrtr['verbose_name']
+        return date
 
-    def get_latest_date_of_building(self):
-        return self.min_and_max_dates.get('max_date_of_construction')
+    def get_latest_date_of_building(self, use_quarter=True):
+        date=self.min_and_max_dates.get('max_date_of_construction')
+        if not date:
+            return ''
+        if use_quarter:
+            qrtr = get_quarter(date)
+            return qrtr['verbose_name']
+        return date
 
     def get_title_photo_url(self):
         if self.front_image:

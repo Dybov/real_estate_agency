@@ -1,0 +1,33 @@
+{% load static %}
+{% if building.building_permit and building.project_declarations %}
+<section class='documents' id='building-{{building.id}}'>
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+                <div class="zhk_headline">Документы на строительство {{building}}<br>
+        {% if building.get_quarter_of_construction %}Срок сдачи: {{building.get_quarter_of_construction}}{% endif %}
+    </div>
+        </div>
+    </div>
+        <div class="row">
+            <div class="col-md-6 col-xs-12">
+                <a href="{{building.building_permit}}" class="" download>
+                <div class="documents_headline">
+                    <img src="{% static 'img/icon/file.svg' %}" width="70px" height="70px">
+                Разрешение на&nbsp;строительство</div>
+                </a>
+            </div>
+
+            <div class="col-md-6 col-xs-12">
+                <a href="{{building.project_declarations}}" class="" download>
+                <div class="documents_headline">
+                    <img src="{% static 'img/icon/file.svg' %}" width="70px" height="70px">
+                Проектные Деларации</div>
+                </a>
+            </div>         
+        </div>
+    </div>
+</div>
+</section>
+<br>
+{% endif %}

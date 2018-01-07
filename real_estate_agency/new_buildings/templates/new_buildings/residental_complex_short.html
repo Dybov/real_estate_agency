@@ -16,7 +16,9 @@
 					{{ residental_complex.description }}
 				</p>
 				<div class="item-info-hover">
-					<p class="item-info-text">Срок сдачи: {{ residental_complex.get_latest_date_of_building|date:"F Y"}}</p>
+					{% if residental_complex.get_latest_date_of_building %}
+					<p class="item-info-text">Срок сдачи: {{ residental_complex.get_latest_date_of_building}}</p>
+					{% endif %}
 					<p class="item-info-btn">Выбрать квартиру</p>
 				</div>
 		</div>
