@@ -4,6 +4,7 @@ from django import forms
 from django.db import models
 from django.contrib.admin import TabularInline, StackedInline
 from django.contrib.admin.widgets import AdminFileWidget
+from django.forms import widgets
 from django.forms.widgets import (TextInput,
                                   NumberInput,
                                   Textarea,
@@ -14,6 +15,7 @@ from django.utils.safestring import mark_safe
 from django.utils.translation import ugettext as _
 
 from .models import ResidentalComplexImage, ResidentalComplex, NewBuilding
+from .helpers import last_day_of_month, get_quarter
 
 from address.forms import FormWithAddressAutocomplete
 
@@ -67,8 +69,8 @@ class StackedInlineWithImageWidgetInline(StackedInline, TabularInlineWithImageWi
     #         request = kwargs.pop("request", None)
     #         kwargs['widget'] = AdminThumbnailImageWidget
     #         return db_field.formfield(**kwargs)
-    #     return super(StackedInlineWithImageWidgetInline, self).formfield_for_dbfield(db_field, **kwargs)
-
+    # return super(StackedInlineWithImageWidgetInline,
+    # self).formfield_for_dbfield(db_field, **kwargs)
 
 
 class PhotoAdminForm(forms.ModelForm):
@@ -97,15 +99,16 @@ class PhotoAdminForm(forms.ModelForm):
             image_name = "%s-%s" % (self.prefix, image_name)
             rc_name = "%s-%s" % (self.prefix, rc_name)
             id_ = "%s-%s" % (self.prefix, id_)
-        
-            self.files = MultiValueDict({image_name_initial:self.files.getlist(image_name)})
+
+            self.files = MultiValueDict(
+                {image_name_initial: self.files.getlist(image_name)})
             self.data[rc_name_initial] = self.data[rc_name]
             #self.data['id_'+rc_name_initial] = self.data[rc_name]
             self.data[id_initial] = self.data[id_]
 
         files_list = self.files.getlist(image_name_initial)
         answer = super().save(*args, **kwargs)
-        
+
         if len(files_list) > 1:
             files_list.pop()
 
@@ -140,11 +143,6 @@ def SETTLEMENT_CHOICES():
     yield ('', _('Не важно'))
     yield (datetime.date.today(), _('Уже'))
 
-    def last_day_of_month(any_day):
-        next_month = any_day.replace(
-            day=28) + datetime.timedelta(days=4)  # this will never fail
-        return next_month - datetime.timedelta(days=next_month.day)
-
     QUARTER_1 = 1
     QUARTER_2 = 2
     QUARTER_3 = 3
@@ -156,7 +154,8 @@ def SETTLEMENT_CHOICES():
         for QUARTER in QUARTERS:
             optgroup_choices.append(
                 (
-                    last_day_of_month(datetime.date(optgroup, QUARTER*3, 1)),
+                    # QUARTER,
+                    last_day_of_month(datetime.date(optgroup, QUARTER*3, 1)).strftime("%Y-%m-%d"),
                     (_("%(number_of_quarter)s квартал %(year)s") % {'number_of_quarter': QUARTER,
                                                                     'year': optgroup})
                 )
@@ -207,9 +206,60 @@ class SearchForm(forms.Form):
         required=False,
     )
 
+
+class DateSelectorWidget(widgets.MultiWidget):
+
+    def __init__(self, attrs=None):
+        # create choices for quarters and years
+        # years = [(year, year) for year in (2011, 2012, 2013)]
+        quarters = [(None, '---'), ]
+        quarters += [(qrtr, _('{qrtr} квартал').format(qrtr=qrtr))
+                    for qrtr in range(1, 5)]
+        _widgets = (
+            widgets.Select(attrs=attrs, choices=quarters),
+            # widgets.Select(attrs=attrs, choices=years),
+            widgets.NumberInput(attrs={'min': 2000, 'max': 2050}),
+        )
+        super(DateSelectorWidget, self).__init__(_widgets, attrs)
+
+    def decompress(self, value):
+        if value:
+            return [get_quarter(value)['quarter'], value.year]
+        return [None, None] # datetime.datetime.now().year]
+
+    def format_output(self, rendered_widgets):
+        return ''.join(rendered_widgets)
+
+    def value_from_datadict(self, data, files, name):
+        datelist = [
+            widget.value_from_datadict(data, files, name + '_%s' % i)
+            for i, widget in enumerate(self.widgets)]
+        
+        try:
+            D = last_day_of_month(datetime.date(day=1, month=int(datelist[0])*3,
+                                                year=int(datelist[1])))
+        except:
+            return None
+        else:
+            return D
+
+
 class NewBuildingForm(FormWithAddressAutocomplete):
-    pass
+    date_of_construction = forms.DateField(widget=DateSelectorWidget(), 
+                                           help_text=_(
+                                            'выберите квартал, впишите год'),
+                                           label=_('дата окончания постройки'),
+                                           required=False,
+                                           )
+    date_of_start_of_construction = forms.DateField(widget=DateSelectorWidget(), 
+                                                    help_text=_(
+                                                     'выберите квартал, впишите год'),
+                                                    label=_('дата начала стройки'),
+                                                    required=False,
+                                                    )
 
 class ResidentalComplexForm(FormWithAddressAutocomplete):
+
     class Media:
-        js = ['real_estate/js/jquery.min.js', 'js/collapsed_stacked_inlines.js',]
+        js = ['real_estate/js/jquery.min.js',
+              'js/collapsed_stacked_inlines.js', ]
