@@ -414,6 +414,13 @@ body {
 .reviews_item_description {
   margin-top: 15px;
   font-weight: 700;
+  display: -webkit-box;
+display: -ms-flexbox;
+display: flex;
+-webkit-box-orient: vertical;
+-webkit-box-direction: normal;
+    -ms-flex-direction: column;
+        flex-direction: column;
 }
 .carousel-cell {
   width: 100%;
@@ -787,7 +794,7 @@ body {
 }
 .header_zhk_name h1 {
   font-family: Open Sans;
-  font-size: 60px;
+  font-size: 50px;
   font-weight: 800;
   margin-bottom: 0px;
   text-align: left;
@@ -854,7 +861,7 @@ body {
   -webkit-border-radius: 0 23px 23px 0 ;
           border-radius: 0 23px 23px 0 ;
   border-right: 1px solid #c2c4d0;
-  height: 100%;
+  
 }
 .map_and_cta {
   display: -webkit-box;
@@ -1110,7 +1117,7 @@ body {
 .item_characteristics_icon {
   margin-right: 5px;
 }
-.item_characteristics_icon {
+.item_characteristics_text {
   font-size: 18px;
 }
 .zhk_slider {

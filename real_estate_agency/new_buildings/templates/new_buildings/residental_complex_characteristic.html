@@ -1,10 +1,14 @@
-<div class="row">
+
     {% for characteristic in residental_complex.get_characteristic %}
-        <div class="col-xs-3">
-            <img src="{{ characteristic.icon.url }}" width="16" height="16">
-            <span>{{ characteristic }}</span>
-        </div>   
+    	<div class="item_characteristics">
+					<div class="item_characteristics_icon">
+						<img src="{{ characteristic.icon.url }}" width="16" height="16">
+					</div>
+					<div class="item_characteristics_text">
+						{{ characteristic }}
+					</div>
+			</div>
+
     {% empty %}
     <p>Описание характеристик будет добавлено позднее</p>
     {% endfor %}
-</div>
