@@ -199,8 +199,9 @@
 					<div class="search_room-flex">
 						<div class="search-form-room-flex">
 						<div class="search-form-name">Количество комнат</div>
-						<div class="search-room-btn-flex">
-						<label class="search-btn button">
+<<<<<<< HEAD
+						<div class="btn-group search-room-btn-flex">
+						<label class="search-btn">
 							<label for="id_rooms_B">
 								<input name="rooms" value="B" id="id_rooms_B" class="checkbox" type="checkbox"/>
 								C
@@ -253,23 +254,18 @@
 
 
 					<div class="select_home-flex">
-					<select class='building-selects'>
-						<option value="">Все дома</option>
-						{% for building in residental_complex.get_new_buildings %}
-							<option value="{{building.id}}">
-								{{building}}
-							</option>
-						{% endfor %}
-					</select>
-					
-
 					<div class="search-form-name">Выбор дома</div>
-						<div class="search_form_select building-select">
-							<span id="building-name">{{building.name}}</span>
-							<div><p>Срок сдачи: <span id="date-of-construction">{{building.get_quarter_of_construction}}</span> <i class="fa fa-sort" aria-hidden="true"></i></p></div>
-							</div>
+						<div class="search_form_select">
+							<select class='search_form_select-select building-selects'>
+								<option value="">Все дома</option>
+								{% for building in residental_complex.get_new_buildings %}
+									<option value="{{building.id}}">
+										{{building}}
+									</option>
+								{% endfor %}
+							</select>
 						</div>
-
+					</div>
 				</div>          
 			</div>
 		</div>
