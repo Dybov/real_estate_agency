@@ -63,7 +63,7 @@ class BasePropertyModel(models.Model):
                                      decimal_places=2,
                                      max_digits=5,
                                      validators=[MinValueValidator(
-                                                 Decimal('20.00')
+                                                 Decimal('15.00')
                                                  ),
                                                  ],
                                      )

@@ -291,10 +291,6 @@
 
 </section>
 
-{% for building in residental_complex.get_new_buildings %}
-	{% include "new_buildings/building_documents.html"%}
-{% endfor %}
-
 <section class="ipoteka" style="background-image: url({% static 'img/ipoteka.png' %});">
 	<div class="container">
 		<div class="row">
@@ -368,6 +364,10 @@
 		</div>
 	</div>
 </section>
+
+{% for building in residental_complex.get_new_buildings %}
+	{% include "new_buildings/building_documents.html"%}
+{% endfor %}
 
 {% include 'new_buildings/residental_complex_detail_popup.html' %}
 <script type="text/javascript">

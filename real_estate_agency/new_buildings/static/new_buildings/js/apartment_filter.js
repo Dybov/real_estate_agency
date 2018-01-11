@@ -57,18 +57,18 @@ $(document).ready( function(){
     $('.building-selects').change(function(){
         filterApartments();
         appropriate_building = parseInt($('.building-selects').val());
-        $('.documents').hide()
+        // $('.documents').hide()
         if (isNaN(appropriate_building)){
             $('#date-of-construction').text('');
             $('#building-name').text('');
-            $('.documents').fadeIn('slow','easeOutBack')
+            // $('.documents').fadeIn('slow','easeOutBack')
             return;
         }
         buildings_json.forEach(function(building) {
             if (building.pk == appropriate_building){
                 $('#date-of-construction').text(building.fields.get_quarter_of_construction);
                 $('#building-name').text(building.fields.name);
-                $('#building-' + appropriate_building).fadeIn('slow','easeOutBack');
+                // $('#building-' + appropriate_building).fadeIn('slow','easeOutBack');
             }
         });
     })
