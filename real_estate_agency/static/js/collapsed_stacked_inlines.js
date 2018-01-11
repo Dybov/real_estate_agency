@@ -6,15 +6,21 @@
             h3 = $(this).find('h3:first')
 
             // Don't collapse if fieldset contains errors
-            if (fs.find('div').hasClass('errors'))
+            errors = h3.parent('div').find('.errorlist')
+            // console.log(errors);
+            if (errors.length>0){
                 fs.addClass('stacked_collapse');
-            else
+                h3.prepend('<a class="stacked_collapse-toggle" href="#">(' + gettext('Hide') + ')</a> ');
+            }
+            else {
                 fs.addClass('stacked_collapse collapsed');
+                h3.prepend('<a class="stacked_collapse-toggle" href="#">(' + gettext('Show') + ')</a> ');                
+            }
+            
             
             // Add toggle link
-            h3.prepend('<a class="stacked_collapse-toggle" href="#">(' + gettext('Show') + ')</a> ');
             h3.find('a.stacked_collapse-toggle').bind("click", function(){
-                fs = $(this).parent('h3').next('fieldset');
+                fs = $(this).parent('h3').parent('div').children('fieldset:first');
                 if (!fs.hasClass('collapsed'))
                 {
                     fs.addClass('collapsed');
