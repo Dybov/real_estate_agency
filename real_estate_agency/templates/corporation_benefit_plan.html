@@ -6,5 +6,54 @@
     {% breadcrumb "Корпоративная программа" "corporation_benefit_plan" %}
 {% endblock %}
 {% block content %}
-Corporation benefit plan
+<header>
+	<section class="rewiews_header" style="background-image: url({% static '/img/contact.png' %});">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-12"> 
+					<div class="rewiews_header_headline_flex">
+						<h1 class="rewiews_header_headline">Корпоративная программа</h1>
+
+					</div>
+					
+
+				</div>
+			</div>
+		</div>
+	</section>
+
+<section>
+<div class="container">
+	<div class="row">
+		<div class="col-md-12">
+			<div class="zhk_headline">
+				Цель программы
+			</div>
+			<div class="corporate_text">
+				Улучшить жилищные условия, с максимальной экономией времени и денежных средств
+			</div>
+		</div>
+	</div>
+</div>
+</section>
+
+<section style="margin-bottom: 100px;">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12">
+				<div class="zhk_headline">
+					Наши партнеры
+				</div>
+			</div>
+			<div class="col-md-3">
+				<div class="logo_parter_corporate">
+					<img src="https://static.tildacdn.com/tild3530-6261-4738-b261-396532663362/_ingosstrah.jpg" alt="" class="img-responsive">
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+{% with callback_form_title='Чтобы съкономить' %}
+	{% include 'contacts/callback_form_implemented.html' %}
+{% endwith %}
 {% endblock %}
