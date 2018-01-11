@@ -4,11 +4,12 @@
 		<div class="item_rooms_plan" style="background-image: url({{ apartment.layout.url }});"></div>
 		<div class="item_rooms_info">
 			<div class="item_rooms_price">
-				<span class="item-price">{{ apartment.price }}</span> ₽
+				{{ apartment.price }} руб.
 			</div>
 			<div class="item_rooms_description">
-				Площадь <span class="total_area"> {{ apartment.total_area }}</span> м2<br>
-				Количество комнат:<span>{{apartment.get_rooms_display}}</span><br>
+				Кол-во комнат <span>{{apartment.get_rooms_display}}</span>
+				<br>
+				Площадь <span>{{ apartment.total_area }}</span> м2<br>
 				{% if apartment.get_buildings|length > 1 %}
 				Доступно в<span> {{ apartment.get_buildings|join:", " }}</span>
 				{% endif %}
