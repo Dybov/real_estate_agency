@@ -46,8 +46,40 @@ class NewApartmentInline(StackedInlineWithImageWidgetInline):
                 pass
         return super(NewApartmentInline, self).formfield_for_foreignkey(db_field, request, **kwargs)
 
+class BuildingInlineFormSet(BaseInlineFormSet):
+    def clean(self):
+        '''Checks if there are no two Forms with the same values at unique_together.'''
+        if any(self.errors):
+            return
+
+        unique_together_values = []
+        unique_together = NewBuilding._meta.unique_together
+
+        def checkIfUnique(_form, unique_names):
+            output = []
+            for val_name in unique_names:
+                if type(val_name) in (tuple, list):
+                    return checkIfUnique(_form, val_name)
+                value = form.cleaned_data[val_name]
+                output.append(value)
+
+            if output in unique_together_values:
+                if 'name' in unique_names:
+                    form.add_error(None, _('Поля "Имя дома" и в данном жк должны быть уникальны'))
+                else:
+                    form.add_error(None, _('Совокупность полей "Улица", "Номер дома" и "Корпус" должна быть уникальна для всех домов'))
+            else:
+                unique_together_values.append(output)
+        
+        
+        for form in self.forms:
+            if form.cleaned_data:
+                checkIfUnique(form, unique_together)
+                    
+
 class BuildingInline(admin.StackedInline):
     form = NewBuildingForm
+    formset = BuildingInlineFormSet
     model = NewBuilding
     extra = 0
     formfield_overrides = standart_formfield_overrides
@@ -63,28 +95,7 @@ class BuildingInline(admin.StackedInline):
               'building_permit',
               'project_declarations'
     )
-    # Keep it for winds of change
-    # exclude = ['zip_code', 'feed_link', ]
-    # show_change_link = True
-    # fieldsets = (
-    #     (None, {
-    #         'fields': ('name',
-    #                    'street',
-    #                    'building',
-    #                    'building_block',
-    #                    'building_type',
-    #                    'number_of_storeys',
-    #                    )
-    #     }),
-    #     (_('Даты'), {
-    #         'fields': ('date_of_start_of_construction',
-    #                    'date_of_construction',
-    #                    )
-    #     }),
-    #     (_('Документы'), {
-    #         'fields': ('building_permit', 'project_declarations'),
-    #     }),
-    # )
+
 
 class SomeInlineFormSet(BaseInlineFormSet):
     def save_new(self, form, commit=True):
