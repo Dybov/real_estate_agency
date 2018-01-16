@@ -4,16 +4,19 @@
 {% block admin_change_form_document_ready %}
 {{ block.super }}
 <script type="text/javascript">
-    var formset_name = 'newbuilding_set';
-    var formset_name2 = 'newapartment_set';
-    exceptions = [];
-    (function($) {
+var formsets_must_be_copied = ['newbuilding_set', 'newapartment_set'];
+
+(function($) {
     $(document).on('formset:added', function(event, $row, formsetName) {
-        if (formsetName==formset_name ){
+        if (formsets_must_be_copied.indexOf(formsetName)>-1){
             var id = $row.attr('id')
-            var id_number = id.replace(formset_name+'-', '');
-            var formset_id_prefix = 'id_' + formset_name + '-';
-            // console.log(formsetName);
+            // var id_number = id.replace(formsetName+'-', '');
+
+            // there is no possibility to be exception
+            var id_number = id.match(/-(\d+)/i)[1];
+
+            var formset_id_prefix = 'id_' + formsetName + '-';
+
             $row.find("input[type!='hidden'], select[type!='hidden']").each(function(){
                 var local_id = $(this).attr('id');
                 $(this).val($('#'+local_id.replace(id_number, id_number-1)).val());
@@ -28,8 +31,6 @@
                 $(this).attr('title', value);
                 $(this).append(value);
             });
-            console.log(formsetName);
-            
         }
     });
 
