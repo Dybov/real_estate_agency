@@ -1,0 +1,35 @@
+{% load real_estate_extras %}
+
+<div class="row numbers">
+    <div class="col-md-4 col-sm-4">
+        <div class="numbers_item border-rigth">
+            <div class="numbers_item_big">
+            {{number_of_builders}}
+            </div>
+            <div class="numbers_item_small">
+            {{number_of_builders|rupluralize:"Застройщик,Застройщика,Застройщиков"}}
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4 col-sm-4">
+        <div class="numbers_item border-rigth">
+            <div class="numbers_item_big">
+                {{number_of_residental_complexes}}
+            </div>
+            <div class="numbers_item_small">
+                {{number_of_residental_complexes|rupluralize:"Жилой комплекс,Жилых комплекса,Жилых комплексов"}}
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4 col-sm-4">
+        <div class="numbers_item ">
+            <div class="numbers_item_big">
+                {{number_of_apartments}}
+            </div>
+            <div class="numbers_item_small">
+                {{number_of_apartments|rupluralize:"Вариант квартир,Варианта квартир,Вариантов квартир"}}
+                
+            </div>
+        </div>
+    </div>  
+</div>

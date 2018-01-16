@@ -18,8 +18,7 @@ from django.conf import settings
 from django.conf.urls import url, include
 from django.conf.urls.static import static
 
-from .views import (about,
-                    corporation_benefit_plan,
+from .views import (corporation_benefit_plan,
                     index,
                     privacy_policy,
                     thanks
@@ -31,7 +30,7 @@ urlpatterns = [
     url(r'^new-buildings/', include('new_buildings.urls', namespace='new_buildings')),
     url(r'^address/', include('address.urls', namespace='address')),
     url(r'^admin/', admin.site.urls, name='admin'),
-    url(r'^about/', about, name='about'),
+    url(r'^about/', include('company.urls', namespace='company')),
     url(r'^mortgage/', include('mortgage.urls', namespace='mortgage')),
     url(r'^feedback/', include('feedback.urls', namespace='feedback')),
     url(r'^corporation_benefit_plan/', corporation_benefit_plan, name='corporation_benefit_plan'),

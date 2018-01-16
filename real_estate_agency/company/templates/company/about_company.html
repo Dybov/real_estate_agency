@@ -8,15 +8,12 @@
 {% block content %}
 <header>
 	<section class="rewiews_header" style="background-image: url({% static 'img/about.png' %});">
-		<!-- такая вложенность обязательна? мне кажется нет. А от bootsrtap только сетка подгружается?-->
 		<div class="container">
 			<div class="row">
 				<div class="col-md-12"> 
 					<div class="rewiews_header_headline_flex">
 						<h1 class="rewiews_header_headline">О компании</h1>
 					</div>
-					
-
 				</div>
 			</div>
 		</div>
@@ -26,16 +23,6 @@
 	<div class="container">
 		<div class="row">
 			<div class="col-md-8 ">
-<!--
-Символы как &laquo уже давно можно не использовать. Мы в unicode работаем и с стандартом HTML 5
-
-Какие-то стремные sgv внизу. вынеси их в отдельный файл и положи в статику.
-Эти файлы же статичны? Не меняются?
-
--->
-
-
-
 				<p><b>Компания &laquo;Домус&raquo;</b>&nbsp;&mdash; официальный представитель ведущих строительных компаний г.&nbsp;Тюмени.</p>
 <p><b>Название &laquo;Домус&raquo;</b> выбрано не&nbsp;случайно&nbsp;&mdash; в&nbsp;переводе с&nbsp;латинского означает дом, особняк. Самое главное в&nbsp;жизни человека&nbsp;&mdash; это место, где любят и&nbsp;ждут, где царит идеальная гармония, куда хочется возвращаться каждый день. Своим клиентам мы&nbsp;предлагаем помощь в&nbsp;решении жилищного вопроса, предлагая новый уровень качественных услуг. </p>
 <p><b>Миссия:</b> Мы&nbsp;помогаем найти и&nbsp;приобрести квартиру вашей мечты.</p>
@@ -127,38 +114,7 @@
 			<div class="row">
 				<div class="col-md-12"> <div class="zhk_headline"> Цифры компании</div></div>
 			</div>
-					<div class="row numbers">
-						<div class="col-md-4 col-sm-4">
-				<div class="numbers_item border-rigth">
-					<div class="numbers_item_big">
-						47
-					</div>
-					<div class="numbers_item_small">
-						Застройщиков
-					</div>
-				</div>
-			</div>
-			<div class="col-md-4 col-sm-4">
-				<div class="numbers_item border-rigth">
-					<div class="numbers_item_big">
-						79
-					</div>
-					<div class="numbers_item_small">
-						Жилых комплексов
-					</div>
-				</div>
-			</div>
-									<div class="col-md-4 col-sm-4">
-				<div class="numbers_item ">
-					<div class="numbers_item_big">
-						10 000
-					</div>
-					<div class="numbers_item_small">
-						Вариантов квартир
-					</div>
-				</div>
-			</div>	
-</div>
+				{% include 'company/company_statistics.html' %}
 		<div class="row numbers">
 						<div class="col-md-4 col-sm-4">
 				<div class="numbers_item border-rigth ">
