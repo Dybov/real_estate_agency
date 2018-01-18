@@ -9,12 +9,10 @@
 				<!-- Условие, чтобы не показывало что попало вместо цены, если данных нет-->
 				{% if residental_complex.get_lowest_price %}
 					<p class="item_price">
-						<span style="font-size: 14px;">от</span>{{ residental_complex.get_lowest_price }} ₽
+						<span style="font-size: 14px;">от </span>{{ residental_complex.get_lowest_price }} ₽
 					</p>
 				{% endif %}
-				<p class="item-description">
-					{{ residental_complex.description }}
-				</p>
+
 				<div class="item-info-hover">
 					{% if residental_complex.get_latest_date_of_building %}
 					<p class="item-info-text">Срок сдачи: {{ residental_complex.get_latest_date_of_building}}</p>
