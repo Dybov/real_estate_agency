@@ -343,7 +343,7 @@ body {
   background-repeat: no-repeat;
   -webkit-background-size: cover;
           background-size: cover;
-  background-attachment: fixed;
+  
 }
 .main_header_headline {
   font-size: 63px;
@@ -700,7 +700,6 @@ display: flex;
           box-shadow: 0 2px 10px 0 rgba(163, 163, 163, 0.5);
 }
 .item-headline {
-  font-family: OpenSans;
   font-size: 25px;
   font-weight: bold;
   line-height: 1.12;
@@ -710,7 +709,6 @@ display: flex;
   margin-bottom: 0;
 }
 .item-description {
-  font-family: OpenSans;
   font-weight: 100;
   font-size: 12px;
   line-height: 2.33;
@@ -738,7 +736,6 @@ display: flex;
 }
 .item-info-text {
   display: inline-block;
-  font-family: OpenSans;
   font-size: 12px;
   text-align: left;
   color: #3c3d49;
@@ -749,7 +746,6 @@ display: flex;
 }
 .item-info-btn {
   display: inline-block;
-  font-family: OpenSans;
   font-size: 12px;
   text-align: left;
   color: #fff;

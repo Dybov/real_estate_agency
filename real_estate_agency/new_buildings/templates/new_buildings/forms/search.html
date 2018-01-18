@@ -1,5 +1,5 @@
 {% load static %}
-<div class="header" style="background-image: url({% static 'new_buildings/img/background.jpg' %});">
+
     
     <div class="container">
         <div class="row">
@@ -9,9 +9,10 @@
             </div>
         </div>
 
-        <form action="" method="get">
-        <div class="row emerge" data-effect="slide" data-expose="true">
+       
+        <div class="row">
             <div class="col-md-12">
+                 <form action="" method="get">
                 <div class="search_room-flex">
                     <div class="search-form-room-flex">
                         <div class="search-form-name">Количество комнат</div>
@@ -70,8 +71,9 @@
                     {{form.any_text}}
                     <button class="btn_large" type="submit">Найти</button>
                 </div>
+                </form>
             </div>
         </div>
-        </form>
+        
     </div>  
 </div>
