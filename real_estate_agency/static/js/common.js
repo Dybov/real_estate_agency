@@ -61,7 +61,8 @@ $('.calc').mousemove(function(event) {
 $(document).ready(function() {
 
   $(".checkbox").click(function(e) {
-    e.preventDefault();
+    // Не надо preventDefault, т.к. там устанавливается значение checked
+    // e.preventDefault();
 $(this).parent(this).parent(this).toggleClass('active-checkbox')
   })
 

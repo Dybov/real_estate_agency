@@ -4,12 +4,12 @@
 		<div class="item-images" style="background-image: url({{ residental_complex.get_title_photo_url }});">
 			<div class="item-filter">
 				<p class="item-headline">
-					{{ residental_complex }}
+					{{residental_complex.type_of_complex}} {{ residental_complex }}
 				</p>
 				<!-- Условие, чтобы не показывало что попало вместо цены, если данных нет-->
 				{% if residental_complex.get_lowest_price %}
 					<p class="item_price">
-						<span style="font-size: 14px;">от </span>{{ residental_complex.get_lowest_price }} ₽
+						<span style="font-size: 14px;">от </span>{{ residental_complex.get_lowest_price }} руб.
 					</p>
 				{% endif %}
 

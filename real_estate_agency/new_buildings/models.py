@@ -20,6 +20,8 @@ def get_json_object(_object, props=[]):
     from django.utils.safestring import mark_safe
     return mark_safe(ExtJsonSerializer().serialize(_object, props=props))
 
+def get_quoted(_str):
+    return "«" + _str + "»"
 
 class NewApartment(Apartment):
     """ It will be objects of layouts for now """
@@ -346,11 +348,22 @@ class ResidentalComplex(models.Model):
         return self.min_and_max_prices.get('max_price')
 
     def __str__(self):
-        return self.name
+        return self.get_quoted_name()
+
+    def get_quoted_name(self):
+        return get_quoted(self.name)
 
     def get_absolute_url(self):
         from django.core.urlresolvers import reverse
         return reverse('new_buildings:residental-complex-detail', args=[self.id])
+
+    def get_all_photos_url(self):
+        urls = []
+        if self.front_image:
+            urls.append(self.get_title_photo_url())
+        for photo in self.photos.all():
+            urls.append(photo.image.url)
+        return urls
 
     class Meta:
         verbose_name = _('комплекс')
@@ -373,7 +386,10 @@ class Builder(models.Model):
                              )
 
     def __str__(self):
-        return self.name
+        return self.get_quoted_name()
+
+    def get_quoted_name(self):
+        return get_quoted(self.name)
 
     class Meta:
         verbose_name = _('застройщик')

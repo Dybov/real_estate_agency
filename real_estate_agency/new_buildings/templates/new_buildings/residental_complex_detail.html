@@ -92,8 +92,8 @@
 		<!-- JS, который срабатывает при нажатии должен подхватывать url тот же, что и ниже -->
 
 	<div class="carousel zhk_slider"   data-flickity='{"wrapAround": true }'>
-		{% for photo_obj in residental_complex.photos.all %}
-		<a href="{{photo_obj.image.url}}" class="slider_item" style="background-image: url({{photo_obj.image.url}});">
+		{% for img_url in residental_complex.get_all_photos_url %}
+		<a href="{{img_url}}" class="slider_item" style="background-image: url({{img_url}});">
 			<div class="slider_item_hover">
 				 <div class="slider_icon_search">
 						Увеличить фотографию <br><i class="fa fa-search-plus " aria-hidden="true"></i>          
@@ -367,9 +367,7 @@
 	</div>
 </section>
 
-{% for building in residental_complex.get_new_buildings %}
-	{% include "new_buildings/building_documents.html"%}
-{% endfor %}
+{% include "new_buildings/building_documents.html"%}
 
 {% include 'new_buildings/residental_complex_detail_popup.html' %}
 <script type="text/javascript">

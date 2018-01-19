@@ -1,7 +1,9 @@
 {% extends 'base/base.html'%}
 {% load static %}
 {% block content %}
-
+<section class="header" style="background-image: url({% static 'new_buildings/img/background.jpg' %});">
+	{% include 'new_buildings/forms/search.html' %}
+</section>
 <section class="company emerge" data-effect="slide" data-expose="true">
 	<div class="container">
 		<div class="row">
