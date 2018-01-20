@@ -249,7 +249,9 @@ class ResidentalComplex(models.Model):
 
     @cached_property
     def get_new_apartments(self):
-        return self.newapartment_set.filter(is_active=True)
+        return self.newapartment_set.filter(is_active=True,
+                                            buildings__is_active=True,
+                                            )
 
     def get_new_apartments_json(self):
         return get_json_object(self.get_new_apartments)
@@ -323,22 +325,12 @@ class ResidentalComplex(models.Model):
     @cached_property
     def min_and_max_prices(self):
         from django.db.models import Min, Max
-
-        # For union all combines querysets
-        apartments = None
-
-        buildings = self.get_new_buildings
-        if buildings:
-            for building in buildings:
-                if not apartments:
-                    apartments = building.get_apartments()
-                else:
-                    apartments.union(building.get_apartments())
-            if apartments:
-                return apartments.aggregate(
-                    min_price=Min('price'),
-                    max_price=Max('price'),
-                )
+        apartments = self.get_new_apartments
+        if apartments:
+            return apartments.aggregate(
+                min_price=Min('price'),
+                max_price=Max('price'),
+            )
         return {}
 
     def get_lowest_price(self):
@@ -368,7 +360,7 @@ class ResidentalComplex(models.Model):
     class Meta:
         verbose_name = _('комплекс')
         verbose_name_plural = _('комплексы')
-
+        ordering = ('-is_popular',)
 
 class Builder(models.Model):
     name = models.CharField(max_length=127,
