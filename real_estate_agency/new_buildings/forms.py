@@ -81,8 +81,8 @@ class PhotoAdminForm(forms.ModelForm):
         fields = '__all__'
 
     def save(self, *args, **kwargs):
-        from django.utils.datastructures import MultiValueDict
         """ Override for multiupload images """
+        from django.utils.datastructures import MultiValueDict
 
         # Set output names in forms and formsets
         image_name_initial = 'image'
@@ -105,27 +105,30 @@ class PhotoAdminForm(forms.ModelForm):
             self.data[rc_name_initial] = self.data[rc_name]
             #self.data['id_'+rc_name_initial] = self.data[rc_name]
             self.data[id_initial] = self.data[id_]
-
         files_list = self.files.getlist(image_name_initial)
-        answer = super().save(*args, **kwargs)
 
-        if len(files_list) > 1:
-            files_list.pop()
-
-            img = self.cleaned_data.get(image_name)
-            # For saving each file from multiupload
-            new_form = PhotoAdminForm(self.data, self.files)
-            # new_form.image = self.files.get(image_name)
-            if new_form.is_valid():
-                new_form.save()
-            else:
-                for field in new_form:
-                    print(field)
-                    for error in field.errors:
-                        print(error)
-                print(new_form.non_field_errors())
-                # Breaks if not valid image
-                return
+        # If multiupload
+        if len(files_list)>1:
+            for file in files_list:
+                print(file)
+                new_form = PhotoAdminForm(
+                    self.data,
+                    MultiValueDict(
+                        {image_name_initial: [file]}),
+                )
+                if new_form.is_valid():
+                    # print('file valid', file)
+                    answer = new_form.save()
+                else:
+                    print('file invalid', file)
+                    for field in new_form:
+                        print(field)
+                        for error in field.errors:
+                            print(error)
+                            pass
+                    print(new_form.non_field_errors())
+        else:
+            answer = super().save(*args, **kwargs)
         return answer
 
 
