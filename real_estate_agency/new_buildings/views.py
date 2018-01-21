@@ -174,5 +174,5 @@ class NewApartmentsFeed(ListView):
         .filter(
             is_active=True,
             buildings__is_active=True,
-            buildings__residental_complex__is_active=True,
+            residental_complex__is_active=True,
     )

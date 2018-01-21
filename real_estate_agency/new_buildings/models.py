@@ -46,6 +46,7 @@ class NewApartment(Apartment):
     class Meta:
         verbose_name = _('объект "планировка"')
         verbose_name_plural = _('планировки')
+        ordering = ('rooms',)
     # Many to many fields "stocks" will appear in future
 
 

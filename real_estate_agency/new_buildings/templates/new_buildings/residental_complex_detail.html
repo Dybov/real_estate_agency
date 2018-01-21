@@ -194,7 +194,7 @@
 	<div class="container">
 		<div class="row">
 			<div class="col-md-12 col-xs-12">
-				<div class="zhk_headline">Выбрать кваритру в <!--жилом комплексе--> {{residental_complex.type_of_complex.get_loct}} {{residental_complex}}</div>
+				<div class="zhk_headline">Выбрать квартиру в <!--жилом комплексе--> {{residental_complex.type_of_complex.get_loct}}<br>{{residental_complex}}</div>
 			</div>
 		</div>
 	</div>
@@ -280,10 +280,8 @@
 	{# <p id="output">--</p> #}
 	<div class="container">
 		<div class="row grid">
-		{% for building in residental_complex.get_new_buildings %}
-			{% for apartment in building.get_apartments %}
-				{% include "new_buildings/apartment_short.html"%}
-			{% endfor %}
+		{% for apartment in residental_complex.get_new_apartments %}
+			{% include "new_buildings/apartment_short.html"%}
 		{% endfor %}
 		<div class="col-xs-12 element-item" id="empty-filter-result" hidden>
 			<p>Подходящие квартиры не найдены</p>
