@@ -116,6 +116,10 @@ class BasePropertyModel(models.Model):
     def images(self):
         raise NotImplementedError
 
+    @property
+    def price_per_square_meter(self):
+        return self.price/self.total_area 
+
     # many to many "transactions" will be added in future releases and will
     # replace the price
     def __str__(self):

@@ -368,8 +368,8 @@
 </section>
 
 {% include "new_buildings/building_documents.html"%}
+{% include 'new_buildings/popups/residental_complex_detail_popup.html' %}
 
-{% include 'new_buildings/residental_complex_detail_popup.html' %}
 <script type="text/javascript">
 	var apartments_json = {{ residental_complex.get_new_apartments_json }};
 	var buildings_json = {{ residental_complex.get_new_buildings_json }};
