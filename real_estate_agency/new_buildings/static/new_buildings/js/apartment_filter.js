@@ -19,7 +19,7 @@ $(document).ready( function(){
             return this.value;
         }).get();
 
-        appropriate_buildings = parseInt($('.building-selects').val());
+        appropriate_buildings = parseInt($('select.building-selects').val());
         price_from = parseFloat($('#price_from').val());
         price_to = parseFloat($('#price_to').val());
         area_from = parseFloat($('#total_area_from').val());
