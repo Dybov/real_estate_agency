@@ -1564,7 +1564,7 @@ display: flex;
   -webkit-flex-basis: 23%;
       -ms-flex-preferred-size: 23%;
           flex-basis: 23%;
-  margin-right: 21px;
+
 }
 .pop_up_plan:hover {
   text-decoration: none;
@@ -1644,7 +1644,7 @@ display: flex;
   display: flex;
 }
 .modal_plan_img {
-  width: 100%;
+  width: 60%;
   height: auto;
   -webkit-background-size: contain;
           background-size: contain;
