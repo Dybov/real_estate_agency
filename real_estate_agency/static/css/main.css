@@ -3279,6 +3279,14 @@ footer {
   .installment {
     border: none;
   }
+  
+  .features:nth-of-type(even) {
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -webkit-flex-direction: column;
+        -ms-flex-direction: column;
+            flex-direction: column;
+}
   .features {
     -webkit-box-orient: vertical;
     -webkit-box-direction: normal;
