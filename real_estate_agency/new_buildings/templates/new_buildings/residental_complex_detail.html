@@ -236,10 +236,10 @@
 						<div class="search_form_price_container search_price-flex-border-bottom">
 						<div class="search_form_price">
 
-						<input id="price_from" type="number" step="any" name='price' placeholder="от">
+						<input id="price_from" type="text" name='price' placeholder="от">
 					</div>
 						<div class="search_form_price">
-							<input id="price_to" type="number" step="any" name='price' placeholder="до">
+							<input id="price_to" type="text" name='price' placeholder="до">
 						</div>
 						</div>
 					</div>
@@ -250,10 +250,10 @@
 						<div class="search_form_price_container ">
 						<div class="search_form_price">
 
-						<input type="number" id='total_area_from' name='area' class="" placeholder="от" step="any" >
+						<input type="text" id='total_area_from' name='area' class="" placeholder="от">
 					</div>
 						<div class="search_form_price">
-						<input type="number" id='total_area_to' name='area' class="" placeholder="до" step="any" >
+						<input type="text" id='total_area_to' name='area' class="" placeholder="до">
 						</div>
 						</div>
 					</div>
@@ -370,7 +370,6 @@
 
 <script type="text/javascript">
 	var apartments_json = {{ residental_complex.get_new_apartments_json }};
-	var buildings_json = {{ residental_complex.get_new_buildings_json }};
 </script>
 <script src='{% static "new_buildings/js/apartment_filter.js"%}'></script>
 {% endblock %}

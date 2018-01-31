@@ -1,8 +1,32 @@
 $(document).ready( function(){
     var price_from;
     var price_to;
+    var area_from;
+    var area_to;
     var amount_of_rooms;
     var appropriate_buildings;
+
+    var price_from_autonumeric;
+    var price_to_autonumeric;
+    var area_from_autonumeric;
+    var area_to_autonumeric;
+
+    [price_from_autonumeric, price_to_autonumeric] = new AutoNumeric.multiple('input[name="price"]', {
+        digitGroupSeparator: ' ',
+        decimalCharacter: ',',
+        minimumValue: 0,
+        maximumValue: 100000000,
+        currencySymbol: ' руб',
+        currencySymbolPlacement: 's'
+    });
+    [area_from_autonumeric, area_to_autonumeric] = new AutoNumeric.multiple('input[name="area"]', {
+        digitGroupSeparator: ' ',
+        decimalCharacter: ',',
+        minimumValue: 0,
+        maximumValue: 1000,
+        currencySymbol: ' м3',
+        currencySymbolPlacement: 's'
+    });
 
     function filterApartments() {
         // read filter params
@@ -20,10 +44,10 @@ $(document).ready( function(){
         }).get();
 
         appropriate_buildings = parseInt($('select.building-selects').val());
-        price_from = parseFloat($('#price_from').val());
-        price_to = parseFloat($('#price_to').val());
-        area_from = parseFloat($('#total_area_from').val());
-        area_to = parseFloat($('#total_area_to').val());
+        price_from = price_from_autonumeric.getNumber();
+        price_to = price_to_autonumeric.getNumber();
+        area_from = area_from_autonumeric.getNumber();
+        area_to = area_to_autonumeric.getNumber();
 
         appropriate_buildings_is_used = isNaN(appropriate_buildings)? false : true;
         amount_of_rooms_is_used = amount_of_rooms.length > 0 ? true: false;
@@ -51,26 +75,8 @@ $(document).ready( function(){
         }
     }
     // filterApartments();
-    $('input[name="rooms"]').add('input[name="area"]').add('input[name="price"]').change(function(){
+    $('input[name="rooms"]').add('input[name="area"]').add('input[name="price"]').add('.building-selects').change(function(){
         filterApartments();
     });
-    $('.building-selects').change(function(){
-        filterApartments();
-        appropriate_building = parseInt($('.building-selects').val());
-        // $('.documents').hide()
-        if (isNaN(appropriate_building)){
-            $('#date-of-construction').text('');
-            $('#building-name').text('');
-            // $('.documents').fadeIn('slow','easeOutBack')
-            return;
-        }
-        buildings_json.forEach(function(building) {
-            if (building.pk == appropriate_building){
-                $('#date-of-construction').text(building.fields.get_quarter_of_construction);
-                $('#building-name').text(building.fields.name);
-                // $('#building-' + appropriate_building).fadeIn('slow','easeOutBack');
-            }
-        });
-    })
-    $('.building-selects').change();
+    filterApartments();
 });
