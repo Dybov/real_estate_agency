@@ -1,4 +1,5 @@
 {% extends 'base/base.html' %}
+{% load static %}
 {% load django_bootstrap_breadcrumbs %}
 {% block breadcrumbs %}
     {{ block.super }}
@@ -56,9 +57,11 @@
                                 </div>
                             </div>
                         </div>   
-                        <div class="cal_flex_btn">
-                            <input type="submit" value="Рассчитать">
-                        </div>                               
+                        <noscript>
+                            <div class="cal_flex_btn">
+                                <input type="submit" value="Рассчитать">
+                            </div>
+                        </noscript>                     
                     </div>
                 </form>
 
@@ -68,7 +71,7 @@
                             Ежемесячный платеж
                         </div>
                         <div id="finale_price" class="calc_felx_result_item-result">
-                            <span class="price_mouth">{{monthly_payment|floatformat:0}}</span> <span>₽</span>
+                            <span class="price_mouth">{{monthly_payment|floatformat:0}}</span> <span>руб.</span>
                         </div>
                     </div>
 
@@ -86,7 +89,7 @@
                             Сумма кредита
                         </div>
                         <div class="calc_felx_result_item-result">
-                            <span class="all_price">{{amount_of_mortgage|floatformat:0}}</span><span>₽</span>
+                            <span class="all_price">{{amount_of_mortgage|floatformat:0}}</span><span>руб.</span>
                         </div>
                     </div>                  
 
@@ -95,9 +98,5 @@
         </div>
     </div>
 </section>
-
-
-
-
-
+<script src='{% static "mortgage/mortgage_calculator.js" %}'></script>
 {% endblock %}

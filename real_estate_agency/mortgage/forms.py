@@ -8,18 +8,19 @@ class MortgageForm(forms.Form):
         label=_('Стоимость жилья, руб'),
         min_value=300000,
         decimal_places=1,
-        widget=forms.NumberInput(attrs={'step': 1}),
+        widget=forms.TextInput(),
     )
     initial_fee = forms.DecimalField(
         label=_('Первоначальный взнос, руб'),
         min_value=0,
         decimal_places=1,
-        widget=forms.NumberInput(attrs={'step': 1}),
+        widget=forms.TextInput(),
     )
     years = forms.IntegerField(
         label=_('Срок кредитования, г'),
         min_value=5,
         max_value=30,
+        widget=forms.TextInput(),
     )
 
     def clean(self):
