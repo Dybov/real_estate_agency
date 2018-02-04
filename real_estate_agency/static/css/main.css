@@ -2279,6 +2279,13 @@ footer {
   width: 28%;
   margin-right: 10px;
 }
+.slider_diplom_item img { 
+
+  webkit-box-shadow: 10px 22px 66px -36px rgba(102,102,102,1);
+-moz-box-shadow: 10px 22px 66px -36px rgba(102,102,102,1);
+box-shadow: 10px 22px 66px -36px rgba(102,102,102,1);
+
+ }
 .team_item {
   text-align: center;
   margin-top: 30px;
@@ -2713,6 +2720,12 @@ footer {
       -ms-flex-preferred-size: 40%;
           flex-basis: 40%;
 }
+
+.team_item_photo { 
+    height: 500px;
+    background-size: cover;
+    background-position: center;
+ }
 .team_item_desc-flex {
   display: -webkit-box;
   display: -webkit-flex;
