@@ -1772,6 +1772,16 @@ display: flex;
   background-position: center center;
   background-repeat: no-repeat;
 }
+
+.ui-slider .ui-slider-handle { 
+    border-radius: 30px;
+    top: -7px;
+    width: 30px !important;
+    height: 15px !important;
+    background-color: #ff8256;
+    border-color: #ff8256 !important;
+ }
+
 .ipoteka .zhk_headline {
   margin-top: 25px;
 }
@@ -2443,8 +2453,15 @@ footer {
       -ms-flex-preferred-size: 50%;
           flex-basis: 50%;
 }
+
+.calc_flex .search_form_price input { 
+  width: 99%;
+  margin-right: 20px;
+ }
+
 .calc_flex .search_form_price {
   border-bottom: none;
+  padding-right: 30px;
 }
 .calc_felx_result_item-headline {
   font-size: 26px;
@@ -2473,11 +2490,6 @@ footer {
 .ui-slider .ui-slider-handle {
   position: absolute;
   z-index: 2;
-  width: 13px;
-  /* Задаем нужную ширину */
-  height: 13px;
-  /* и высоту */
-  border: 1px solid red;
   cursor: pointer;
 }
 .ui-slider .ui-slider-range {
@@ -3226,6 +3238,9 @@ footer {
 /* Medium Devices, Desktops */
 @media only screen and (max-width: 992px) {
   /**/
+  .calc_flex { 
+      -webkit-box-orient: vertical;-webkit-box-direction: normal;-ms-flex-direction: column;flex-direction: column;
+   }
   .menu_container {
     -webkit-flex-wrap: wrap;
         -ms-flex-wrap: wrap;
@@ -3871,6 +3886,8 @@ footer {
   .search-btn:last-of-type {
     margin-right: 0;
   }
+
+
   .search_form_price_container {
     display: -webkit-box;
     display: -webkit-flex;
@@ -3878,6 +3895,21 @@ footer {
     display: flex;
     margin-top: 15px;
   }
+
+.calc_flex  .search_form_price_container {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    margin-top: 15px;
+    width: 100%;
+  }
+
+.calc_flex .search_form_price:first-of-type {
+    border-right: none;
+    width: 99%;
+  }
+
   .search_price-flex {
     border-right: none;
   }
