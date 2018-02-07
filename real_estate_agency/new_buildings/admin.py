@@ -87,6 +87,7 @@ class BuildingInline(admin.StackedInline):
               'street',
               'building',
               'building_block',
+              'coordinates',
               'is_active',
               'building_type',
               'number_of_storeys',

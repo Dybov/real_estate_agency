@@ -113,7 +113,7 @@ class AbstractAddressModelWithoutNeighbourhood(BaseUniqueModel):
                                 null=True,
                                 blank=True,
                                 )
-    coordinates = models.CharField(editable=False,
+    coordinates = models.CharField(verbose_name=_('широта,долгота'),
                                    max_length=127,
                                    null=True,
                                    blank=True,
@@ -147,11 +147,14 @@ class AbstractAddressModelWithoutNeighbourhood(BaseUniqueModel):
         return address
 
     def save(self, *args, **kwargs):
-        location = geocoder.yandex(self.city.name+", "+self.address_short)
-        if not location.ok:
-            location = geocoder.yandex(self.city.name)
-        self.coordinates = ",".join(location.latlng)
+        if self.pk is None:
+            self.define_coordinates()
         super().save(*args, **kwargs)
+
+    def define_coordinates(self):
+        location = geocoder.yandex(self.city.name+", "+self.address)
+        if location.ok:
+            self.coordinates = ",".join(location.latlng) 
 
     class Meta:
         abstract = True

@@ -14,23 +14,25 @@ var formsets_must_be_copied = ['newbuilding_set', 'newapartment_set'];
 
             // there is no possibility to be exception
             var id_number = id.match(/-(\d+)/i)[1];
+            if (id_number>0){
+                console.log(id_number);
+                var formset_id_prefix = 'id_' + formsetName + '-';
 
-            var formset_id_prefix = 'id_' + formsetName + '-';
+                $row.find("input[type!='hidden'], select[type!='hidden']").each(function(){
+                    var local_id = $(this).attr('id');
+                    $(this).val($('#'+local_id.replace(id_number, id_number-1)).val());
+                });
+                $row.find('#id_'+ id +'-street').append(
+                    $('#' + formset_id_prefix + (id_number-1)+'-street option[value!=""]').clone(true)
+                );
 
-            $row.find("input[type!='hidden'], select[type!='hidden']").each(function(){
-                var local_id = $(this).attr('id');
-                $(this).val($('#'+local_id.replace(id_number, id_number-1)).val());
-            });
-            $row.find('#id_'+ id +'-street').append(
-                $('#' + formset_id_prefix + (id_number-1)+'-street option[value!=""]').clone(true)
-            );
-
-            $row.find('.select2-selection__rendered').each(function(){
-                var local_id = $(this).attr('id')
-                var value = $('#'+local_id.replace(id_number, id_number-1)).attr('title')
-                $(this).attr('title', value);
-                $(this).append(value);
-            });
+                $row.find('.select2-selection__rendered').each(function(){
+                    var local_id = $(this).attr('id')
+                    var value = $('#'+local_id.replace(id_number, id_number-1)).attr('title')
+                    $(this).attr('title', value);
+                    $(this).append(value);
+                });
+            }
         }
     });
 

@@ -19,6 +19,7 @@ DATABASES = {
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
+
 try:
     import debug_toolbar
 except ImportError:
@@ -26,4 +27,4 @@ except ImportError:
 else:
     INSTALLED_APPS += ['debug_toolbar']
     MIDDLEWARE += ['debug_toolbar.middleware.DebugToolbarMiddleware']
-    INTERNAL_IPS = ['127.0.0.1','31.163.110.185']
+    INTERNAL_IPS = ['127.0.0.1', '37.79.152.158']
