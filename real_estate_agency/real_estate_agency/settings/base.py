@@ -29,6 +29,7 @@ INSTALLED_APPS = [
     'feedback',
     'company',
     'phonenumber_field',
+    'django_unused_media',
     'django_bootstrap_breadcrumbs',
     'django.contrib.admin',
     'django.contrib.auth',
