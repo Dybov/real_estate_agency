@@ -17,6 +17,13 @@ $(document).ready( function(){
     $one_pay_slider = $('.slider_price_one')
     $years_slider = $('.slider_price_year')
 
+    function setFormat(value, dec=0){
+        return AutoNumeric.format(value, {
+            digitGroupSeparator: ' ',
+            decimalCharacter: ',',
+            decimalPlaces: dec,
+        });
+    }
 
     function mortgage(mortgage_amount, years, mortgage_percentage) {
         months = years*12;
@@ -46,9 +53,9 @@ $(document).ready( function(){
         }
         var mortgage_amount = price_number - one_pay_number
         var price_per_month = mortgage( mortgage_amount, years_number, percent)
-        $('.price_mouth').text(price_per_month);
-        $('.actual_prestnt').text(percent);
-        $('.all_price').text(mortgage_amount);
+        $('.price_mouth').text(setFormat(price_per_month));
+        $('.actual_prestnt').text(setFormat(percent, dec=1));
+        $('.all_price').text(setFormat(mortgage_amount));
     };
 
     function updateOnePaySlider(){
