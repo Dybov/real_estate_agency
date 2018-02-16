@@ -57,16 +57,17 @@
 		<p class="cta_header_headline">
 			Записаться на экскурсию
 		</p>
-		<form action="">
-			<input type="text" class="medium_input" placeholder="Телефон">
+		<form method="post" action="{% url 'applications:callback' %}">{% csrf_token %}
+			<input name="{{ callback_form.phone_number.name }}" type="text" class="medium_input" placeholder="Телефон">
 			<br>
-			<button class="cta_header_btn"> Записатьcя</button>
+			<input name="{{ callback_form.extra_info.name }}" type="hidden" value="Интересует экскурсия" />
+			<button type="submit" class="cta_header_btn"> Записатьcя</button>
 		</form>
-<div class="info_form">
-		Нажимая на кнопку, вы даете согласие на обработку своих персональных данных 
-		<br>
-<a href="{% url 'privacy-policy' %}">Пользовательское соглашение</a>
-	</div>
+		<div class="info_form">
+			Нажимая на кнопку, вы даете согласие на обработку своих персональных данных 
+			<br>
+			<a href="{% url 'privacy-policy' %}">Пользовательское соглашение</a>
+		</div>
 	</div>
 </section>
 
@@ -136,7 +137,7 @@
 </section>
 
 {% with 'Задать вопросы о '|add:residental_complex.type_of_complex.get_loct as callback_form_title %}
-	{% include 'contacts/callback_form_implemented.html' %}
+	{% include 'applications/callback_form_implemented.html' %}
 {% endwith %}
 
 <section class="special_offers">
@@ -180,9 +181,10 @@
 			<div class="col-md-5 col-xs-12">
 				<div class="special_offers_more">
 					<p class="special_offers_headline">Узнать больше</p>
-					<form action="" class="special_offers_form">
-						<input type="text" class="small_input" placeholder="Телефон">
-						<button class="btn_small">Узнать</button>
+					<form class="special_offers_form" method="post" action="{% url 'applications:callback' %}">{% csrf_token %}
+						<input name="{{ callback_form.phone_number.name }}" type="text" class="small_input" placeholder="Телефон">
+						<input name="{{ callback_form.extra_info.name }}" type="hidden" value="Интересуют специальные предложения" />
+						<button type="submit" class="btn_small">Узнать</button>
 					</form>
 				</div>
 			</div>
@@ -319,9 +321,7 @@
 	</div>
 </section>
 
-{% with callback_form_title='Задать вопросы о ипотеке' %}
-	{% include 'contacts/callback_form_implemented.html' %}
-{% endwith %}
+{% include 'applications/callback_form_implemented.html' with callback_form_title='Задать вопросы о ипотеке' %}
 
 <section class="soc_prog" style="background-image: url({% static 'img/shutterstock_450844792.jpg' %});">
 	<div class="container">

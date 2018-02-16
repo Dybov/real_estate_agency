@@ -152,13 +152,13 @@ def SETTLEMENT_CHOICES():
     QUARTER_4 = 4
     QUARTERS = (QUARTER_1, QUARTER_2, QUARTER_3, QUARTER_4)
 
-    for optgroup in (2018, 2019, 2020):
+    for optgroup in ("2018", "2019", "2020"):
         optgroup_choices = []
         for QUARTER in QUARTERS:
             optgroup_choices.append(
                 (
                     # QUARTER,
-                    last_day_of_month(datetime.date(optgroup, QUARTER*3, 1)).strftime("%Y-%m-%d"),
+                    last_day_of_month(datetime.date(int(optgroup), QUARTER*3, 1)).strftime("%Y-%m-%d"),
                     (_("%(number_of_quarter)s квартал %(year)s") % {'number_of_quarter': QUARTER,
                                                                     'year': optgroup})
                 )

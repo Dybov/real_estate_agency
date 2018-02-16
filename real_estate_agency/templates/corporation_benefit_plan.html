@@ -53,7 +53,5 @@
 		</div>
 	</div>
 </section>
-{% with callback_form_title='Чтобы съкономить' %}
-	{% include 'contacts/callback_form_implemented.html' %}
-{% endwith %}
+{% include 'applications/callback_form_implemented.html' with callback_form_title='Чтобы сэкономить' %}
 {% endblock %}

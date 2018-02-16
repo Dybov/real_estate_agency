@@ -16,7 +16,7 @@
                                 {{global_phone_number}}
                             </div>
 
-                            <a href="{% url 'contacts:callback' %}" class="callback">Заказать обратный звонок</a>
+                            <a href="{% url 'applications:callback' %}" class="callback">Заказать обратный звонок</a>
                         </div>
                     </div>
                 </div>
@@ -50,3 +50,6 @@
 <section class="beadcrumbs">
         {% render_breadcrumbs  "base/breadcrumbs.html" %}
 </section>
+<script type="text/javascript">
+    $('a.callback').attr("href", "#modal_callback")
+</script>

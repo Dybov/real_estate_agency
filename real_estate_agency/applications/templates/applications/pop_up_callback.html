@@ -2,7 +2,7 @@
 	<div class="modal_callback zhk_headline">
 		Заказать обратный звонок
 	</div>
-	<form class="cta_form" method="post">
+	<form class="cta_form" method="post" action="{% url 'applications:callback' %}">
 		{% csrf_token %}
 		{{ callback_form.non_field_errors }}
 		<div class="col-xs-12">
@@ -15,6 +15,7 @@
 			{{ callback_form.phone_number.label_tag }}
 			{{ callback_form.phone_number }}
 		</div>
+		<input id="{{ callback_form.extra_info.id_for_label }}" name="{{ callback_form.extra_info.name }}" type="hidden" value="{{ callback_form.extra_info.value }}" />
 		<button type="submit" class="btn_large">Заказать</button>
 	</form>
 	<div class="info_form">

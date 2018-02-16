@@ -28,6 +28,7 @@ INSTALLED_APPS = [
     'contacts',
     'feedback',
     'company',
+    'applications',
     'phonenumber_field',
     'django_unused_media',
     'django_bootstrap_breadcrumbs',
@@ -117,3 +118,8 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [ os.path.join(BASE_DIR, "static")]
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
+
+# Set for production
+TELEGRAM_TOKEN = ''
+TELEGRAM_CHATS = []
+TELEGRAM_ADMINS_CHATS = []

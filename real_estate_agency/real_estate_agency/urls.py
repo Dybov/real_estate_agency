@@ -35,6 +35,7 @@ urlpatterns = [
     url(r'^feedback/', include('feedback.urls', namespace='feedback')),
     url(r'^corporation_benefit_plan/', corporation_benefit_plan, name='corporation_benefit_plan'),
     url(r'^contacts/', include('contacts.urls', namespace='contacts')),
+    url(r'^applications/', include('applications.urls', namespace='applications')),
     url(r'^privacy-policy/', privacy_policy, name='privacy-policy'), 
     url(r'^thanks/', thanks, name='thanks'), 
 ]

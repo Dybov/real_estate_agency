@@ -3,8 +3,8 @@
 {% load django_bootstrap_breadcrumbs %}
 {% block breadcrumbs %}
     {{ block.super }}
-    {% breadcrumb "Обратный звонок" "contacts:callback" %}
+    {% breadcrumb "Обратный звонок" "applications:callback" %}
 {% endblock %}
 {% block content %}
-    {% include 'contacts/pop_up_callback.html' %}
+    {% include 'applications/pop_up_callback.html' %}
 {% endblock %}
