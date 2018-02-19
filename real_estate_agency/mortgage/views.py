@@ -8,7 +8,7 @@ from .forms import MortgageForm
 
 class Index(FormView):
     form_class = MortgageForm
-    template_name = 'mortgage/calculator.html'
+    template_name = 'mortgage/mortgage.html'
     success_url = '...'
     initial = {'full_price': 1200000,
                'initial_fee': int(1200000*0.2),
