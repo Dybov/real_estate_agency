@@ -36,7 +36,10 @@ $(document).ready( function(){
         var percent;
         var years_number   = parseInt($('#id_years').val());
         
-        if (years_number <= 7) {
+
+        if (years_number <= 5) {
+            percent = 6.0;
+        } else if (years_number <= 7) {
             percent = 7.4;
         } else if (years_number <= 12) {
             percent = 7.9

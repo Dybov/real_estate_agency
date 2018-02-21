@@ -38,6 +38,8 @@ class Index(FormView):
                          'years': years,
                          'initial_fee': initial_fee,
                          }
+        if years <= 5:
+            output_params['mortgage_percentage'] = Decimal(6)
         if years <= 7:
             output_params['mortgage_percentage'] = Decimal(7.4)
         elif years <= 12:

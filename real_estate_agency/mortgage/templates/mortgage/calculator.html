@@ -1,27 +1,10 @@
-{% extends 'base/base.html' %}
 {% load static %}
-{% load django_bootstrap_breadcrumbs %}
-{% block breadcrumbs %}
-    {{ block.super }}
-    {% breadcrumb "Ипотека" "mortgage:index" %}
-{% endblock %}
-{% block content %}
-
-<!--
-    Сейчас когда нажимаешь расчитать, происходит обновление страницы,
-    и страница показывается с начала, нужно чтобы она оставалась на своем месте. 
-    так же нужно выводить еще процентную ставку, в зависимости от той по которой была расчитана ипотека. 
-    И сумму кредита нужно тоже считать. 
- -->
-
-
-
 <section id="calculator_ipoteka" class="calc" style="margin: 50px 0px;">
     <div class="container">
         <div class="row">
             <div class="col-md-12">
                 <div class="zhk_headline">
-                    Калькулятор ипотеки
+                    Ипотечный калькулятор
                 </div>
             </div>
             <div class="col-md-12">
@@ -99,4 +82,3 @@
     </div>
 </section>
 <script src='{% static "mortgage/mortgage_calculator.js" %}'></script>
-{% endblock %}

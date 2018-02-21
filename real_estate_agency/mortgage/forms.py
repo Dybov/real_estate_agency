@@ -18,7 +18,7 @@ class MortgageForm(forms.Form):
     )
     years = forms.IntegerField(
         label=_('Срок кредитования, г'),
-        min_value=5,
+        min_value=1,
         max_value=30,
         widget=forms.TextInput(),
     )
