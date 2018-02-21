@@ -6,6 +6,9 @@ from new_buildings.models import Builder, ResidentalComplex, NewApartment
 
 def about_company_in_digits_context_processor(request):
     """A context processor that provides counting objects for statitistic"""
+    # If it context will be needed it needs to be optimized, because it uses a lot of queries
+    # Deprecated
+    return {}
     # create request for RC and all related flats in only 3 queries
     residental_complex_objects = ResidentalComplex.objects.filter(is_active=True).prefetch_related(
         'newbuilding_set').prefetch_related('newapartment_set')
@@ -26,10 +29,8 @@ def about_company_in_digits_context_processor(request):
         'residental_complexes': residental_complexes_for_output,
     }
 
+
 def about(request):
-    context = {}
-    context.update(about_company_in_digits_context_processor(request))
-    return render(request, 
+    return render(request,
                   'company/about_company.html',
-                  context,
                   )

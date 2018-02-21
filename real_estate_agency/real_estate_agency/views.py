@@ -1,22 +1,24 @@
-from django.shortcuts import render,render_to_response
+from django.shortcuts import render, render_to_response
 from django.template import RequestContext
 
 from new_buildings.models import Builder, ResidentalComplex, NewApartment
 from new_buildings.forms import SearchForm
 from feedback.models import Feedback
-from company.views import about_company_in_digits_context_processor
+
 
 def corporation_benefit_plan(request):
     return render(request, 'corporation_benefit_plan.html')
 
 
 def index(request):
-    feedbacks = Feedback.objects.all()[:4]
+    # Only 4 requests to DB
+    feedbacks = Feedback.objects.all()[:4].prefetch_related(
+        'bought').prefetch_related(
+        'bought__type_of_complex').prefetch_related('social_media_links')
     context = {
         'feedbacks': feedbacks,
         'form': SearchForm,
     }
-    context.update(about_company_in_digits_context_processor(request))
     return render(request,
                   'index.html',
                   context,
