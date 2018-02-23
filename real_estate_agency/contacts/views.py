@@ -10,8 +10,8 @@ def default_contacts_processor(request):
         'global_phone_number': '+7 (3452) 589-881',
         'global_chat': {
             'vk': 'https://vk.com/im?media=&sel=-146199351',
-            'facebook': 'https://facebook/chat',
-            'telegram': 'https://telegram/feed',
+            'facebook': 'https://www.facebook.com/messages/t/100013569948296',
+            'telegram': 'https://t.me/Igor_Zadachin',
         },
         'global_social_links': {
             'vk': 'https://vk.com/domus_72',
