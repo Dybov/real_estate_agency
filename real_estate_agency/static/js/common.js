@@ -71,7 +71,7 @@ $('.slider_item').magnificPopup({
     focus: '#popup_input'
     });
 
-    $('.callback').magnificPopup({
+    $('.callback-link').magnificPopup({
     type: 'inline',
     fixedContentPos: false,
     fixedBgPos: true,

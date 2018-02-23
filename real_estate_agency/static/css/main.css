@@ -51,6 +51,12 @@ body {
   -webkit-border-radius: 5px;
           border-radius: 5px;
 }
+.team_photo {
+  height: 500px;
+  width: 100%;
+  object-fit: cover;
+  padding: 10px;
+}
 .btn_large {
   width: 270px;
   height: 66px;
@@ -2299,9 +2305,10 @@ box-shadow: 10px 22px 66px -36px rgba(102,102,102,1);
 }
 .team_item_btn_phone,
 .team_item_btn_vk {
+  display: inline-block;
   padding: 10px 40px;
+  margin: 10px;
   background-color: #ff8256;
-  margin-bottom: 40px;
   color: #fff;
   text-decoration: none;
   -webkit-transition: all 1s ease;

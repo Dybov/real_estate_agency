@@ -39,5 +39,26 @@ E-MAIL: DOMUS72@BK.RU</p>
 		</div>
 	</div>
 </section>
-
+<section class="team">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12">
+				<div class="zhk_headline">Команда</div>
+			</div>
+		</div>
+		<div class="row col-xs-12">
+			<div class="col-md-6">
+				{% include 'contacts/team_member_item.html' with img_src='img/team/QLls5Sm6T0E.jpg' name='Задачин Игорь' phone='+7 (3452) 58-98-81' vk=global_chat.vk %}
+			</div>
+			<div class="col-md-6">
+				{% include 'contacts/team_member_item.html' with img_src='img/team/3.jpg' name='Байнарович Дмитрий' phone='+7 (952) 340-54-48' %}
+			</div>
+			{% comment %}
+			<div class="col-md-4">
+				{% include 'contactsteam_member_item.html' with img_src='img/team/2.jpg' name='Олег Абдулахатов' phone='+7 (906) 821-78-70' %}
+			</div>
+			{% endcomment %}
+		</div>
+	</div>
+</section>
 {% endblock %}
