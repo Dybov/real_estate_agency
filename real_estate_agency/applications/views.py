@@ -15,7 +15,7 @@ TelegramBot = telepot.Bot(TOKEN)
 MSG_RECEIVERS = settings.TELEGRAM_CHATS
 
 
-DEFAULT_TELEGRAM_MESSAGE = _('''<strong>Поступила</strong> заявка:
+DEFAULT_TELEGRAM_MESSAGE = _('''<strong>Поступила заявка:</strong>
 Имя: %(name)s
 Телефон: %(phone)s
 
