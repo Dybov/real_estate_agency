@@ -15,9 +15,12 @@ def index(request):
     feedbacks = Feedback.objects.all()[:4].prefetch_related(
         'bought').prefetch_related(
         'bought__type_of_complex').prefetch_related('social_media_links')
+    residental_complexes = ResidentalComplex.objects.filter(
+        is_popular=True)
     context = {
         'feedbacks': feedbacks,
         'form': SearchForm,
+        'residental_complexes': residental_complexes,
     }
     return render(request,
                   'index.html',
