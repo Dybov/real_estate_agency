@@ -76,6 +76,7 @@ class NeighbourhoodModel(models.Model):
     class Meta:
         verbose_name = _('район')
         verbose_name_plural = _('районы')
+        ordering = ('name',)
 
 
 class StreetModel(models.Model):
@@ -90,6 +91,7 @@ class StreetModel(models.Model):
     class Meta:
         verbose_name = _('улица')
         verbose_name_plural = _('улицы')
+        ordering = ('name',)
 
 
 class AbstractAddressModelWithoutNeighbourhood(BaseUniqueModel):
