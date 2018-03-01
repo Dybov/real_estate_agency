@@ -11,12 +11,11 @@ def corporation_benefit_plan(request):
 
 
 def index(request):
-    # Only 4 requests to DB
-    feedbacks = Feedback.objects.all()[:4].prefetch_related(
-        'bought').prefetch_related(
-        'bought__type_of_complex').prefetch_related('social_media_links')
+    # Only 2 requests to DB
+    feedbacks = Feedback.objects.all()[:4].select_related().prefetch_related('social_media_links')
+    # Only 2 requests to DB
     residental_complexes = ResidentalComplex.objects.filter(
-        is_popular=True)
+        is_popular=True).prefetch_related('type_of_complex')
     context = {
         'feedbacks': feedbacks,
         'form': SearchForm,

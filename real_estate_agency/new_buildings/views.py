@@ -20,7 +20,7 @@ class ResidentalComplexList(FormMixin, ListView):
     model = ResidentalComplex
     context_object_name = 'residental_complexes'
     template_name = 'new_buildings/residental_complex_list.html'
-    queryset = model.objects.filter(is_active=True)
+    queryset = model.objects.filter(is_active=True).prefetch_related('type_of_complex')
 
     def filterAparmentByAnyTextIContains(self, fieldname=None, model_fields=[]):
         # in developing. Think anout using Manager
