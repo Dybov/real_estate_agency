@@ -144,27 +144,31 @@ params_for_decimal_to['widget'] = forms.NumberInput(
 
 def SETTLEMENT_CHOICES():
     yield ('', _('Не важно'))
-    yield (datetime.date.today(), _('Уже'))
+    today = datetime.date.today() 
+    yield (today.strftime("%Y-%m-%d"), _('Уже'))
 
     QUARTER_1 = 1
     QUARTER_2 = 2
     QUARTER_3 = 3
     QUARTER_4 = 4
     QUARTERS = (QUARTER_1, QUARTER_2, QUARTER_3, QUARTER_4)
-
-    for optgroup in ("2018", "2019", "2020"):
+    years = [today.year, today.year+1, today.year+2]
+    for optgroup in years:
         optgroup_choices = []
         for QUARTER in QUARTERS:
+            date_of_settlement = last_day_of_month(datetime.date(int(optgroup), QUARTER*3, 1))
+            if date_of_settlement<today: continue
             optgroup_choices.append(
                 (
-                    # QUARTER,
-                    last_day_of_month(datetime.date(int(optgroup), QUARTER*3, 1)).strftime("%Y-%m-%d"),
+                    date_of_settlement.strftime("%Y-%m-%d"),
                     (_("%(number_of_quarter)s квартал %(year)s") % {'number_of_quarter': QUARTER,
                                                                     'year': optgroup})
                 )
             )
-        yield (optgroup, optgroup_choices)
-
+        yield (str(optgroup), optgroup_choices)
+    # yield ('', [("gte%s" % years[-1],
+           # _('После %(year)s') % {'year':years[-1]}
+           # )])
 
 class SearchForm(forms.Form):
     ROOMS_CHOICES = (

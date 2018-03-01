@@ -36,7 +36,6 @@ class ResidentalComplexList(FormMixin, ListView):
                     **{'%s__icontains' % model_field: value})
         if combined_query:
             new_filter = self.apartment_list.filter(combined_query)
-            print(new_filter)
             if new_filter:
                 self.apartment_list = new_filter
 
