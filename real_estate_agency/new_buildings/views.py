@@ -143,7 +143,7 @@ class ResidentalComplexDetail(DetailView):
         lats = []
         lngs = []
         building_types = []
-        for buildings in context[self.context_object_name].get_new_buildings:
+        for buildings in context[self.context_object_name].get_new_buildings():
             lat, lng = buildings.coordinates_as_list
             if lat and lng:
                 lats.append(lat)

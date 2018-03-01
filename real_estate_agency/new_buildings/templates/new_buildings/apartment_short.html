@@ -39,6 +39,12 @@
 				Цена за кв. метр <span>{{ apartment.price_per_square_meter|floatformat}} руб.</span> 
 			</div>
 		</div>
+		<div>
+			<p>
+				Доступно в {{ apartment.get_buildings|join:", " }} {% if apartment.get_date_of_construction %}
+				<br>Срок сдачи: {{ apartment.get_date_of_construction }}{% endif %}
+			</p>
+		</div>
 		<div class="modal_plan_metr">
 			<div class="modal_plan_name_small">
 				Площадь

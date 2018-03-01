@@ -1,27 +1,30 @@
 import datetime
+import re
 
 from django.db import models
-from django.contrib.auth.models import User
+from django.db.models import Min, Max
 from django.contrib.staticfiles.templatetags.staticfiles import static
 from django.core.validators import MinValueValidator
+from django.core.urlresolvers import reverse
+from django.utils.safestring import mark_safe
 from django.utils.translation import ugettext as _
 from django.utils.functional import cached_property
 
-from .helpers import get_quarter
-
-
 from real_estate.models import Apartment, get_file_path, BasePropertyImage
+from real_estate.templatetags.real_estate_extras import morphy_by_case
 from address.models import AbstractAddressModelWithoutNeighbourhood, NeighbourhoodModel
+
+from .helpers import get_quarter_verbose
+from .serializers import ExtJsonSerializer
 
 
 def get_json_object(_object, props=[]):
-    from django.core.serializers import serialize
-    from .serializers import ExtJsonSerializer
-    from django.utils.safestring import mark_safe
     return mark_safe(ExtJsonSerializer().serialize(_object, props=props))
+
 
 def get_quoted(_str):
     return "«" + _str + "»"
+
 
 class NewApartment(Apartment):
     """ It will be objects of layouts for now """
@@ -33,6 +36,10 @@ class NewApartment(Apartment):
     residental_complex = models.ForeignKey('ResidentalComplex',
                                            verbose_name=_('комплекс'),
                                            )
+    date_of_construction = models.DateField(editable=False,
+                                            null=True,
+                                            blank=True,
+                                            )
 
     def get_residental_complex(self):
         return self.residental_complex
@@ -42,6 +49,23 @@ class NewApartment(Apartment):
 
     def get_buildings(self):
         return self.buildings.filter(is_active=True)
+
+    def get_date_of_construction(self):
+        return get_quarter_verbose(self.date_of_construction)
+
+    def _set_date_of_construction(self):
+        """ Set self.date_of_construction 
+        as nearest date_of_construction of related buildings.
+
+        return Bool changed this field or not"""
+        buildings = self.get_buildings()
+
+        date = buildings.aggregate(
+            Min('date_of_construction')
+        ).get('date_of_construction__min')
+        date_origin = self.date_of_construction
+        self.date_of_construction = date
+        return not date_origin == date
 
     class Meta:
         verbose_name = _('объект "планировка"')
@@ -90,6 +114,7 @@ class NewBuilding(AbstractAddressModelWithoutNeighbourhood):
     number_of_storeys = models.PositiveSmallIntegerField(
         verbose_name=_('количество этажей'),
         validators=[MinValueValidator(1)],
+        default=1,
     )
     date_of_start_of_construction = models.DateField(verbose_name=_('дата начала стройки'),
                                                      null=True,
@@ -129,10 +154,7 @@ class NewBuilding(AbstractAddressModelWithoutNeighbourhood):
 
     @property
     def get_quarter_of_construction(self):
-        if self.date_of_construction:
-            return get_quarter(self.date_of_construction)['verbose_name']
-        else:
-            return ''
+        return get_quarter_verbose(self.date_of_construction)
 
     def __str__(self):
         return '%s' % (self.name, )
@@ -166,7 +188,6 @@ class TypeOfComplex(models.Model):
         return self.name.capitalize()
 
     def get_cased(self, case):
-        from real_estate.templatetags.real_estate_extras import morphy_by_case
         return morphy_by_case(self.name, case)
 
     @cached_property
@@ -241,6 +262,33 @@ class ResidentalComplex(models.Model):
                                       verbose_name=_('район'),
                                       on_delete=models.PROTECT,
                                       )
+    date_of_construction = models.DateField(editable=False,
+                                            null=True,
+                                            blank=True,
+                                            )
+    lowest_price = models.DecimalField(editable=False,
+                                       null=True,
+                                       blank=True,
+                                       decimal_places=0,
+                                       max_digits=15,
+                                       )
+
+    def save(self, *args, **kwargs):
+        # self._set_date_of_construction()
+        super().save(*args, **kwargs)
+
+    def get_date_of_construction(self):
+        return get_quarter_verbose(self.date_of_construction)
+
+    def _set_date_of_construction(self):
+        buildings = self.get_new_buildings()
+
+        date = buildings.aggregate(
+            Min('date_of_construction')
+        ).get('date_of_construction__min')
+        date_original = self.date_of_construction
+        self.date_of_construction = date
+        return not date_original == date
 
     def get_features(self):
         return self.features.all()
@@ -248,38 +296,34 @@ class ResidentalComplex(models.Model):
     def get_characteristic(self):
         return self.characteristics.all()
 
-    @cached_property
     def get_new_apartments(self):
         return self.newapartment_set.filter(is_active=True,
                                             buildings__is_active=True,
                                             )
 
     def get_new_apartments_json(self):
-        return get_json_object(self.get_new_apartments)
+        return get_json_object(self.get_new_apartments())
 
-    @cached_property
     def get_new_buildings(self):
         return self.newbuilding_set.filter(is_active=True).prefetch_related('newapartment_set')
 
     def get_new_buildings_json(self):
-        return get_json_object(self.get_new_buildings, props=['get_quarter_of_construction'])
+        return get_json_object(self.get_new_buildings(), props=['get_quarter_of_construction'])
 
     def count_flats(self):
         if self.number_of_flats:
             return self.number_of_flats
-        count = 0
-        for building in self.get_new_buildings:
-            count += len(building.get_apartments())
-        return count
+        count = self.get_new_apartments().count()
+        if count:
+            return count
+        return ""
 
     def count_buildings(self):
-        return len(self.get_new_buildings)
+        return len(self.get_new_buildings())
 
     @cached_property
     def min_and_max_dates(self):
-        from django.db.models import Min, Max
-
-        buildings = self.get_new_buildings
+        buildings = self.get_new_buildings()
         if buildings:
             return buildings.aggregate(
                 min_date_of_construction=Min('date_of_construction'),
@@ -288,34 +332,27 @@ class ResidentalComplex(models.Model):
         return {}
 
     def get_nearest_date_of_building(self, use_quarter=True):
-        date=self.min_and_max_dates.get('min_date_of_construction')
-        if not date:
-            return ''
+        date = self.min_and_max_dates.get('min_date_of_construction', '')
         if use_quarter:
-            qrtr = get_quarter(date)   
-            return qrtr['verbose_name']
+            return get_quarter_verbose(date)
         return date
 
     def get_latest_date_of_building(self, use_quarter=True):
-        date=self.min_and_max_dates.get('max_date_of_construction')
-        if not date:
-            return ''
+        date = self.min_and_max_dates.get('max_date_of_construction', '')
         if use_quarter:
-            qrtr = get_quarter(date)
-            return qrtr['verbose_name']
+            return get_quarter_verbose(date)
         return date
 
     def get_title_photo_url(self):
         if self.front_image:
             return self.front_image.url
-        return static('img/main.jpg') 
+        return static('img/main.jpg')
 
     @cached_property
     def youtube_frame_link(self):
         if not self.video_link:
             return None
 
-        import re
         link = re.sub(r'(.*youtube.com/)(watch\?v=)(.*)',
                       r'\1embed/\3',
                       self.video_link,
@@ -323,10 +360,8 @@ class ResidentalComplex(models.Model):
                       )
         return link
 
-    @cached_property
     def min_and_max_prices(self):
-        from django.db.models import Min, Max
-        apartments = self.get_new_apartments
+        apartments = self.get_new_apartments()
         if apartments:
             return apartments.aggregate(
                 min_price=Min('price'),
@@ -335,10 +370,18 @@ class ResidentalComplex(models.Model):
         return {}
 
     def get_lowest_price(self):
-        return self.min_and_max_prices.get('min_price')
+        if self.lowest_price:
+            return self.lowest_price
+        return ''
 
     def get_highest_price(self):
-        return self.min_and_max_prices.get('max_price')
+        return self.min_and_max_prices().get('max_price')
+
+    def _set_lowest_price(self):
+        lowest_price_origin = self.lowest_price
+        self.lowest_price = self.min_and_max_prices().get('min_price')
+
+        return not self.lowest_price==lowest_price_origin
 
     def __str__(self):
         return self.get_quoted_name()
@@ -347,7 +390,6 @@ class ResidentalComplex(models.Model):
         return get_quoted(self.name)
 
     def get_absolute_url(self):
-        from django.core.urlresolvers import reverse
         return reverse('new_buildings:residental-complex-detail', args=[self.id])
 
     def get_all_photos_url(self):
@@ -362,6 +404,7 @@ class ResidentalComplex(models.Model):
         verbose_name = _('комплекс')
         verbose_name_plural = _('комплексы')
         ordering = ('-is_popular',)
+
 
 class Builder(models.Model):
     name = models.CharField(max_length=127,
