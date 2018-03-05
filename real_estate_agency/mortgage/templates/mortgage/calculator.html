@@ -48,32 +48,32 @@
                     </div>
                 </form>
 
-                <div class="calc_flex_result">
-                    <div class="calc_felx_result_item">
+                <div class="row">
+                    <div class="col-md-4">
                         <div class="calc_felx_result_item-headline">
                             Ежемесячный платеж
                         </div>
-                        <div id="finale_price" class="calc_felx_result_item-result">
+                        <p>
                             <span class="price_mouth">{{monthly_payment|floatformat:0}}</span> <span>руб.</span>
-                        </div>
+                        </p>
                     </div>
 
-                    <div class="calc_felx_result_item">
+                    <div class="col-md-4">
                         <div class="calc_felx_result_item-headline">
                             Ипотечная ставка
                         </div>
-                        <div class="calc_felx_result_item-result">
+                        <p>
                             <span class="actual_prestnt">{{mortgage_percentage|floatformat:1}}</span><span>%</span>
-                        </div>
+                        </p>
                     </div>
 
-                    <div class="calc_felx_result_item">
+                   <div class="col-md-4">
                         <div class="calc_felx_result_item-headline">
                             Сумма кредита
                         </div>
-                        <div class="calc_felx_result_item-result">
-                            <span class="all_price">{{amount_of_mortgage|floatformat:0}}</span><span>руб.</span>
-                        </div>
+                        <p>
+                            <span class="all_price">{{amount_of_mortgage|floatformat:0}}</span><span> руб.</span>
+                        </p>
                     </div>                  
 
                 </div>
