@@ -293,7 +293,7 @@
 
 </section>
 
-<section class="ipoteka" style="background-image: url({% static 'img/ipoteka.png' %});">
+<section class="ipoteka" style="background-image: url({% static 'mortgage/img/ipoteka.png' %});">
 	<div class="container">
 		<div class="row">
 			<div class="col-md-8 col-xs-12">
@@ -305,15 +305,16 @@
 			</div>
 			<div class="col-md-12 col-xs-12">
 				<div class="slider_ipoteka scrollyeah" data-shadows="false">
-				{% for i in '----------' %}
+				{% for bank_name,img_name in banks.items %}
 					<div class="slider_ipoteka_item">
-						<div class="slider_ipoteka_item_logo" style="background-image: url({% static 'img/icon/sberbank.png' %});">
+						<div class="slider_ipoteka_item_logo">
+							<img src="{% static 'img/partners/bank/64_64/'|add:img_name|add:'_64_64.png'%}" class="img-responsive">
 						</div>
-						<div class="slide_ipoteka_item_name">
-							Сбербанк
+						<div>
+							{{ bank_name }}
 						</div>
 					</div>
-				{% endfor %}
+				{% endfor %}		
 				</div>
 				<button class="btn_large">Рассчитать ипотеку</button>
 			</div>

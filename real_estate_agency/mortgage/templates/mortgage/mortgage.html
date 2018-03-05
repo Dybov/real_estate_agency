@@ -7,7 +7,7 @@
    {% breadcrumb "Ипотека" "mortgage:index" %}
 {% endblock %}
 {% block content %}
-<section class="header_ipoteka" style="background-image: url(img/ipoteka.png);">
+<section class="header_ipoteka" style="background-image: url({% static 'mortgage/img/ipoteka.png' %});">
    <div class="container">
    <div class="row">
       <div class="col-md-12">
@@ -67,16 +67,9 @@
          </div>
       </div>
       <div class="row" data-flickity='{ "cellAlign": "left", "contain": true, "groupCells": true }'>
-         {% include 'company/partner.html' with partner_name='ПАО «Сбербанк России»' img_static_url='img/partners/bank/noroot.png' %}
-         {% include 'company/partner.html' with partner_name='ВТБ 24 (ПАО)' img_static_url='img/partners/bank/vtb24.png' %}
-         {% include 'company/partner.html' with partner_name='ПАО «Запсибкомбанк»' img_static_url='img/partners/bank/zpsib.png' %}
-         {% include 'company/partner.html' with partner_name='АКБ «Абсолют Банк»' img_static_url='img/partners/bank/absolut.png' %}
-         {% include 'company/partner.html' with partner_name='ПАО «ТРАНСКАПИТАЛБАНК»' img_static_url='img/partners/bank/transkapital.png' %}
-         {% include 'company/partner.html' with partner_name='АО «КБ ДельтаКредит»' img_static_url='img/partners/bank/deltacredit.png' %}
-         {% include 'company/partner.html' with partner_name='Банк УРАЛСИБ' img_static_url='img/partners/bank/norooturalsib.png' %}
-         {% include 'company/partner.html' with partner_name='«АК БАРС» Банк' img_static_url='img/partners/bank/akbars.png' %}
-         {% include 'company/partner.html' with partner_name='ПАО Банк «ФК Открытие»' img_static_url='img/partners/bank/otkretie.png' %}
-         {% include 'company/partner.html' with partner_name='АО «Россельхозбанк»' img_static_url='img/partners/bank/rosselhoz.png' %}
+         {% for partner_name,img_name in banks.items %}
+            {% include 'company/partner.html' with img_static_url='img/partners/bank/'|add:img_name|add:'.png' %}
+         {% endfor %}
       </div>
    </div>
 </section>

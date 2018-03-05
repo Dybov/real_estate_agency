@@ -5,6 +5,8 @@ from django.views.generic import FormView
 
 from .forms import MortgageForm
 
+from company.views import BANK_PARTNERS
+
 
 class Index(FormView):
     form_class = MortgageForm
@@ -20,6 +22,7 @@ class Index(FormView):
         form = form_class(request.GET or self.get_initial())
         context = self.get_context_data(**kwargs)
         context['form'] = form
+        context['banks'] = BANK_PARTNERS
         if form.is_valid():
             price = form.cleaned_data['full_price']
             initial_fee = form.cleaned_data['initial_fee']

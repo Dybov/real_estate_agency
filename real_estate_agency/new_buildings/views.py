@@ -12,6 +12,9 @@ from django.utils.safestring import mark_safe
 from .models import ResidentalComplex, NewBuilding, NewApartment
 from .forms import SearchForm
 
+from company.views import BANK_PARTNERS
+
+
 REGEX_FOR_ANY_TEXT_FIELD = re.compile(r'[^\w]', re.I | re.U)
 
 
@@ -161,6 +164,7 @@ class ResidentalComplexDetail(DetailView):
         else:
             context['building_types'] = '-'
 
+        context['banks'] = BANK_PARTNERS
         return context
 
 class NewApartmentsFeed(ListView):
