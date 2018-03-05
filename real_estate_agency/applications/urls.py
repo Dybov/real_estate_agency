@@ -4,5 +4,5 @@ from . import views
 
 
 urlpatterns = [
-    url(r'^callback/$', views.Callback.as_view(), name='callback'),
+    url(r'^obratnyj-zvonok/$', views.Callback.as_view(), name='callback'),
 ]

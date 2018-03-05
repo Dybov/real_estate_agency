@@ -27,17 +27,17 @@ from .views import (corporation_benefit_plan,
 
 urlpatterns = [
     url(r'^$', index, name='index'),
-    url(r'^new-buildings/', include('new_buildings.urls', namespace='new_buildings')),
+    url(r'^novostrojki/', include('new_buildings.urls', namespace='new_buildings')),
     url(r'^address/', include('address.urls', namespace='address')),
     url(r'^admin/', admin.site.urls, name='admin'),
     url(r'^about/', include('company.urls', namespace='company')),
     url(r'^ipoteka/', include('mortgage.urls', namespace='mortgage')),
-    url(r'^feedback/', include('feedback.urls', namespace='feedback')),
-    url(r'^corporation_benefit_plan/', corporation_benefit_plan, name='corporation_benefit_plan'),
-    url(r'^contacts/', include('contacts.urls', namespace='contacts')),
-    url(r'^applications/', include('applications.urls', namespace='applications')),
-    url(r'^privacy-policy/', privacy_policy, name='privacy-policy'), 
-    url(r'^thanks/', thanks, name='thanks'), 
+    url(r'^otzyvy/', include('feedback.urls', namespace='feedback')),
+    url(r'^corporate/', corporation_benefit_plan, name='corporation_benefit_plan'),
+    url(r'^kontakty/', include('contacts.urls', namespace='contacts')),
+    url(r'^zajavki/', include('applications.urls', namespace='applications')),
+    url(r'^politika/', privacy_policy, name='privacy-policy'), 
+    url(r'^spasibo/', thanks, name='thanks'), 
 ]
 
 #For using this path at dev machines
