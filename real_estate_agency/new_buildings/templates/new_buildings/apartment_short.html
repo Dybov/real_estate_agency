@@ -1,4 +1,4 @@
-<div class="col-md-3 col-xs-12 element-item rooms-{{ apartment.rooms }} building-{{building.id}} price-{{apartment.price}} total-area-{{apartment.total_area|floatformat:0}}" id='apartment-{{apartment.id}}'> 
+<div class="col-md-3 col-xs-12 element-item" id='apartment-{{apartment.id}}'> 
 <a href="#apartment_{{apartment.id}}_popup" class="pop_up_plan">
 	<div class="item_rooms">
 		<div class='rooms' hidden>{{ apartment.rooms }}</div>
@@ -11,9 +11,6 @@
 				Кол-во комнат <span>{{apartment.get_rooms_display}}</span>
 				<br>
 				Площадь <span>{{ apartment.total_area }}</span> м2<br>
-				{% if apartment.get_buildings|length > 1 %}
-				Доступно в<span> {{ apartment.get_buildings|join:", " }}</span>
-				{% endif %}
 			</div>
 		</div>
 	</div>
@@ -39,12 +36,6 @@
 				Цена за кв. метр <span>{{ apartment.price_per_square_meter|floatformat}} руб.</span> 
 			</div>
 		</div>
-		<div>
-			<p>
-				Доступно в {{ apartment.get_buildings|join:", " }} {% if apartment.get_date_of_construction %}
-				<br>Срок сдачи: {{ apartment.get_date_of_construction }}{% endif %}
-			</p>
-		</div>
 		<div class="modal_plan_metr">
 			<div class="modal_plan_name_small">
 				Площадь
@@ -63,13 +54,22 @@
 				{% endif %}
 			</div>
 		</div>
+		<div>
+			<p>
+				Доступно в {{ apartment.get_buildings|join:", " }} {% if apartment.get_date_of_construction %}
+				<br>Срок сдачи: {{ apartment.get_date_of_construction }}{% endif %}
+			</p>
+		</div>
 		<div class="modal_plan_form">
 			<div class="modal_plan_name_small">
 				Записаться на просмотр
 			</div>
-			<form action="" class="cta_form">
-				<input type="text" placeholder="Телефон" id="popup_input">
-				<button class="btn_large">Жду звонка</button>
+			<form class="cta_form" method="post" action="{% url 'applications:callback' %}">{% csrf_token %}
+				<input type="text" name="{{ callback_form.phone_number.name }}" placeholder="Телефон" id="popup_input" />
+				<input name="{{ callback_form.extra_info.name }}" type="hidden" value="Интересует {{ apartment }} за {{ apartment.price }} руб. 
+Площадью {{ apartment.total_area }} м2
+В {{residental_complex.type_of_complex.get_loct}} {{residental_complex}}" />
+				<button type="submit" class="btn_large">Жду звонка</button>
 			</form>
 		</div>
 	</div>

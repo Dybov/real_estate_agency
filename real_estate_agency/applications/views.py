@@ -15,15 +15,15 @@ TelegramBot = telepot.Bot(TOKEN)
 MSG_RECEIVERS = settings.TELEGRAM_CHATS
 
 
-DEFAULT_TELEGRAM_MESSAGE = _('''<strong>Поступила заявка:</strong>
+DEFAULT_TELEGRAM_MESSAGE = _('''<b>Поступила заявка:</b>
 Имя: %(name)s
 Телефон: %(phone)s
 
 Источник: %(url)s
 
 ''')
-EXTRA_MESSAGE = _('Дополнительная информация: %(extra)s\n\n')
-MARKETING_MESSAGE = _('''<strong>Рекламная кампания:</strong>
+EXTRA_MESSAGE = _('<b>Дополнительная информация:</b> %(extra)s\n\n')
+MARKETING_MESSAGE = _('''<b>Рекламная кампания:</b>
 UTM source: %(utm_source)s
 UTM medium: %(utm_medium)s
 UTM campaign: %(utm_campaign)s
