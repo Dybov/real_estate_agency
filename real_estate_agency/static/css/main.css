@@ -157,14 +157,10 @@ body {
       -ms-flex-item-align: end;
           align-self: flex-end;
   color: #3c3d49;
-  -webkit-transition: border-bottom 0.4s ease;
-  -o-transition: border-bottom 0.4s ease;
-  transition: border-bottom 0.4s ease;
-  border-bottom: 1px dashed #c2c4d0;
+  margin-top:5px;
 }
 .callback:hover {
   text-decoration: none;
-  border-bottom: 1px dashed #3c3d49;
 }
 .menu {
   background-color: #fff;
@@ -765,6 +761,10 @@ display: flex;
   color: #fff;
   text-decoration: none;
 }
+.item-info-btn:focus {
+  color: #fff;
+  text-decoration: none;
+}
 .header_zhk_img {
   height: 80vh;
   -webkit-background-size: cover;
@@ -1310,7 +1310,7 @@ display: flex;
   border: solid 1px #c2c4d0;
   outline: none;
   display: inline-block;
-  padding: 30px 0 15px 15px;
+  padding: 15px 0 15px 15px;
   font-size: 22px;
   color: #3c3d49;
   -webkit-transition: all 0.6s ease;
@@ -1960,13 +1960,12 @@ display: flex;
   -webkit-flex-direction: column;
       -ms-flex-direction: column;
           flex-direction: column;
-  margin-bottom: 20px;
 }
 #modal_callback .cta_form input {
   width: 100%;
 }
 #modal_callback .btn_large {
-  margin-left: 0;
+  margin: 10px 0px;
 }
 .header-min_height {
   height: 400px;

@@ -16,7 +16,9 @@
 			{{ callback_form.phone_number }}
 		</div>
 		<input id="{{ callback_form.extra_info.id_for_label }}" name="{{ callback_form.extra_info.name }}" type="hidden" value="{{ callback_form.extra_info.value }}" />
-		<button type="submit" class="btn_large">Заказать</button>
+		<div class="col-xs-12">
+			<button type="submit" class="btn_large">Заказать</button>			
+		</div>
 	</form>
 	<div class="info_form">
 		Нажимая на кнопку, вы даете согласие на обработку своих персональных данных<br>
