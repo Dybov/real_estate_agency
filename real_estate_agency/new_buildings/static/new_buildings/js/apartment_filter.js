@@ -11,22 +11,8 @@ $(document).ready( function(){
     var area_from_autonumeric;
     var area_to_autonumeric;
 
-    [price_from_autonumeric, price_to_autonumeric] = new AutoNumeric.multiple('input[name="price"]', {
-        digitGroupSeparator: ' ',
-        decimalCharacter: ',',
-        minimumValue: 0,
-        maximumValue: 100000000,
-        currencySymbol: ' руб',
-        currencySymbolPlacement: 's'
-    });
-    [area_from_autonumeric, area_to_autonumeric] = new AutoNumeric.multiple('input[name="area"]', {
-        digitGroupSeparator: ' ',
-        decimalCharacter: ',',
-        minimumValue: 0,
-        maximumValue: 1000,
-        currencySymbol: ' м3',
-        currencySymbolPlacement: 's'
-    });
+    [price_from_autonumeric, price_to_autonumeric] = new AutoNumeric.multiple('input[name="price"]', autoNumericCurrency);
+    [area_from_autonumeric, area_to_autonumeric] = new AutoNumeric.multiple('input[name="area"]', autoNumericArea);
 
     function filterApartments() {
         // read filter params

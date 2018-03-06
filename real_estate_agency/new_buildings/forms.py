@@ -132,15 +132,6 @@ class PhotoAdminForm(forms.ModelForm):
         return answer
 
 
-params_for_decimal_from = {"min_value": 0,
-                           "decimal_places": 1, 'required': False}
-params_for_decimal_to = params_for_decimal_from.copy()
-
-params_for_decimal_from['widget'] = forms.NumberInput(
-    attrs={'placeholder': _('от')})
-params_for_decimal_to['widget'] = forms.NumberInput(
-    attrs={'placeholder': _('до')})
-
 
 def SETTLEMENT_CHOICES():
     yield ('', _('Не важно'))
@@ -179,16 +170,40 @@ class SearchForm(forms.Form):
         ('4', '4+'),
     )
     price_from = forms.DecimalField(
-        **params_for_decimal_from
+        widget = forms.TextInput(
+                attrs={
+                    'placeholder': _('от'),
+                    'class': 'auto-numeric-currency',
+                }
+            ),
+        required=False,
     )
     price_to = forms.DecimalField(
-        **params_for_decimal_to
+        widget = forms.TextInput(
+                attrs={
+                    'placeholder': _('до'),
+                    'class': 'auto-numeric-currency',
+                }
+            ),
+        required=False,
     )
     area_from = forms.DecimalField(
-        **params_for_decimal_from
+        widget = forms.TextInput(
+                attrs={
+                    'placeholder': _('от'),
+                    'class': 'auto-numeric-area',
+                }
+            ),
+        required=False,
     )
     area_to = forms.DecimalField(
-        **params_for_decimal_to
+        widget = forms.TextInput(
+                attrs={
+                    'placeholder': _('до'),
+                    'class': 'auto-numeric-area',
+                }
+            ),
+        required=False,
     )
     rooms = forms.MultipleChoiceField(
         widget=forms.CheckboxSelectMultiple(attrs={
