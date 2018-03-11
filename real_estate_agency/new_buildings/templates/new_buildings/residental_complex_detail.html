@@ -139,7 +139,7 @@
 {% with 'Задать вопросы о '|add:residental_complex.type_of_complex.get_loct as callback_form_title %}
 	{% include 'applications/callback_form_implemented.html' %}
 {% endwith %}
-
+<!--
 <section class="special_offers">
 	<div class="container">
 		<div class="row">
@@ -191,6 +191,7 @@
 		</div>
 	</div>
 </section>  
+-->
 <section >
 	<div class="rooms">
 	<div class="container">
@@ -293,6 +294,63 @@
 
 </section>
 
+<section style="margin-bottom: 50px;">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-8 col-xs-12">
+				<div class="zhk_headline"> Способы покупки</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-3">
+				<div class="method_purchase_item">
+					<div class="method_purchase_item_img">
+						<img  src="{% static 'img/icon/method_purchase_item4.svg' %}"" alt="" width="100px">
+					</div>
+					<div class="method_purchase_item_headline">
+						Наличный расчёт
+					</div>
+
+				</div>
+			</div>
+			<div class="col-md-3">
+				<div class="method_purchase_item">
+					<div class="method_purchase_item_img">
+						<img  src="{% static 'img/icon/method_purchase_item3.svg' %}"" alt="" width="100px">
+					</div>					
+					<div class="method_purchase_item_headline">
+						Рассрочка
+					</div>
+
+				</div>
+			</div>
+			<div class="col-md-3">
+				<div class="method_purchase_item">
+					<div class="method_purchase_item_img">
+						<img  src="{% static 'img/icon/method_purchase_item2.svg' %}"" alt="" width="100px">
+					</div>
+					<div class="method_purchase_item_headline">
+						Ипотека
+					</div>
+
+				</div>
+			</div>
+			<div class="col-md-3">
+				<div class="method_purchase_item">
+					<div class="method_purchase_item_img">
+						<img  src="{% static 'img/icon/method_purchase_item1.svg' %}"" alt="" width="100px">
+					</div>					
+					<div class="method_purchase_item_headline">
+						Социальные программы
+					</div>
+
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+
 <section class="ipoteka" style="background-image: url({% static 'mortgage/img/ipoteka.png' %});">
 	<div class="container">
 		<div class="row">
@@ -335,24 +393,24 @@
 			</div>
 			<div class="col-md-12 col-xs-12">
 				<div class="slider_soc_prog scrollyeah" data-shadows="false">
-					<a href="#modal_soc_prog" class="slider_soc_prog_item">
-						<div class="slide_soc_prog_item_name">
-							Молодая семья
-						</div>
-					</a>
-						<a class="slider_soc_prog_item">
+					<a class="slider_soc_prog_item">
 						<div class="slide_soc_prog_item_name">
 							Материнский капитал
 						</div>
 					</a>
 						<a class="slider_soc_prog_item">
 						<div class="slide_soc_prog_item_name">
-							Программа по побеспечению жильем работников бюджетной сферы
+							Молодая семья
 						</div>
 					</a>
 						<a class="slider_soc_prog_item">
 						<div class="slide_soc_prog_item_name">
-							Жилищьная программа по для бывших военнослужащих
+							Бюджетный сертификат
+						</div>
+					</a>
+						<a class="slider_soc_prog_item">
+						<div class="slide_soc_prog_item_name">
+							Сертификат на переселение из ЯНАО и ХМАО
 						</div>
 					</a>
 						<a class="slider_soc_prog_item">

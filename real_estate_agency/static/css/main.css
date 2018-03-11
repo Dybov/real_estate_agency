@@ -1090,6 +1090,20 @@ display: flex;
   color: #3c3d49;
   margin-top: 60px;
 }
+.method_purchase_item { 
+  text-align: center;
+
+ }
+.method_purchase_item_headline { 
+  color: #3c3d49;
+  font-weight: 600;
+  font-size: 20px;
+}
+ .method_purchase_item_img { 
+    margin:15px 0px ;
+   }
+}
+
 .zhk_description_advantage {
   font-size: 28px;
   line-height: 1.7;
@@ -2481,9 +2495,11 @@ box-shadow: 10px 22px 66px -36px rgba(102,102,102,1);
   color: #3c3d49;
 }
 .calc_felx_result_item-result {
-  font-size: 66px;
+  font-size: 38px;
   color: #3c3d49;
   line-height: 1;
+  margin: 0;
+  font-weight: 700;
 }
 .calc_flex_result {
   display: -webkit-box;
@@ -3690,11 +3706,11 @@ box-shadow: 10px 22px 66px -36px rgba(102,102,102,1);
     padding-bottom: 30px;
   }
   .reviews_item {
-    -webkit-box-orient: vertical;
-    -webkit-box-direction: normal;
-    -webkit-flex-direction: column;
-        -ms-flex-direction: column;
-            flex-direction: column;
+    -webkit-box-orient: vertical !important;
+    -webkit-box-direction: normal !important;
+    -webkit-flex-direction: column !important;
+        -ms-flex-direction: column !important;
+            flex-direction: column !important;
   }
   .reviews_item_text {
     width: 100%;
