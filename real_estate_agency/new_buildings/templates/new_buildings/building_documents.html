@@ -9,20 +9,18 @@
     </div>
         <div class="row">
             <div class="col-md-6 col-xs-12">
-                <!--{{building.building_permit.url}}-->
                 <a href="#modal_document" class="documents_item" download>
                 <div class="documents_headline">
                     <img src="{% static 'img/icon/file.svg' %}" width="70px" height="70px">
-                Разрешение на&nbsp;строительство</div>
+                Разрешение на строительство</div>
                 </a>
             </div>
 
             <div class="col-md-6 col-xs-12">
-                <!--{{building.project_declarations.url}}-->
                 <a href="#modal_document_declarations" class="documents_item" download>
                 <div class="documents_headline">
                     <img src="{% static 'img/icon/file.svg' %}" width="70px" height="70px">
-                Проектные Деларации</div>
+                Проектные Декларации</div>
                 </a>
             </div>         
         </div>
@@ -41,7 +39,7 @@
     <div class="modal_document_item-flex">
         <div class="modal_document_item">
             {% if building.building_permit %}
-                <i class="fa fa-file-pdf-o" aria-hidden="true"></i><a href="{{building.building_permit.url}}" download> Разрешение на ввод в эксплуатацию {{building}}</a>
+                <i class="fa fa-file-pdf-o" aria-hidden="true"></i><a href="{{building.building_permit.url}}" download> Разрешение на строительство {{building}}</a>
                 <br>
             {% endif %}
         </div>                                            

@@ -1,14 +1,22 @@
 {% load static %}
 {% load django_bootstrap_breadcrumbs %}
-    <nav>
+    <header>
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
                     <div class="top_nav">
-                        <div class="top_nav_logo">
+                        <div class="top_nav_logo col-md-2">
                             <a href="{% url 'index' %}"><img src="{% static 'real_estate/images/logo/logo.svg' %}" alt="" class="img-responsive" width="200px"></a>
                         </div>
-                        <div class="phone">
+                        <div class="col-md-6 hidden-xs">
+                        
+                            <a href="{{ global_social_links.vk }}"  target="_blank"><img src="{% static 'img/icon/002-vk.svg' %}" alt="" width="30px" height="30px"></a>
+
+
+                            <a href="{{ global_social_links.instagram }}" target="_blank"><img src="{% static 'img/icon/001-instagram.svg' %}" alt="" width="30px" height="30px"></a>
+
+                        </div>
+                        <div class="phone col-md-4">
                             <div class="phone_description">
                                 Звоните ежедневно с 8:00 до 22:00
                             </div>
@@ -22,7 +30,7 @@
                 </div>
             </div>
 
-            <div class="row">
+            <nav class="row">
                 <div class="col-md-12">
                     <div class="menu">
                             <div class="menu_logo">
@@ -41,11 +49,11 @@
                         </ul>
                     </div>
                 </div>
-            </div>
+            </nav>
 
         </div>
 
-</nav>  
+</header>  
 
 <section class="beadcrumbs">
         {% render_breadcrumbs  "base/breadcrumbs.html" %}

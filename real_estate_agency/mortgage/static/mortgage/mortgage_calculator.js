@@ -145,4 +145,5 @@ $(document).ready( function(){
                 price.set(  ui.value );
             }
     });
+    recomputate();
 });
