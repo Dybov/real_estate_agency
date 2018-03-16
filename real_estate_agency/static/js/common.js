@@ -4,7 +4,8 @@ const autoNumericCurrency = {
     minimumValue: 0,
     maximumValue: 100000000,
     currencySymbol: ' руб',
-    currencySymbolPlacement: 's'
+    currencySymbolPlacement: 's',
+    wheelStep: 10000
 }
 
 const autoNumericArea = {
@@ -13,7 +14,8 @@ const autoNumericArea = {
     minimumValue: 0,
     maximumValue: 1000,
     currencySymbol: ' м3',
-    currencySymbolPlacement: 's'
+    currencySymbolPlacement: 's',
+    wheelStep: 5
 }
 
 $(document).ready(function() {
@@ -22,7 +24,7 @@ $(document).ready(function() {
 
   autoNumericForm = $('.auto-numeric-currency, .auto-numeric-area').closest("form");
   autoNumericForm.submit(function(e){
-    $(this).find('input.auto-numeric-currency, .auto-numeric-area').each(function(){
+    $(this).find('.auto-numeric-currency, .auto-numeric-area').each(function(){
        var self=$(this);
        var v = AutoNumeric.getAutoNumericElement(this).getNumber();
        if (v){
