@@ -24,10 +24,10 @@ def get_image_file():
     return file_mock
 
 
-def create_neighbourhood():
-    _objects = NeighbourhoodModel.objects.all()
+def create_neighbourhood(name='neighbourhood'):
+    _objects = NeighbourhoodModel.objects.filter(name=name)
     if not _objects:
-        return NeighbourhoodModel.objects.create(name='МЫС')
+        return NeighbourhoodModel.objects.create(name=name)
     return _objects[0]
 
 
@@ -261,3 +261,52 @@ class ResidentalComplexNearestDatesMethodTests(RCBaseTest):
             date_of_construction,
             get_quarter_verbose(nearest_date),
         )
+
+@tag('slow', 'view')
+class ResidentalComplexListViewSearchFilterTests(TestCase):
+    def RCWithBuildingWithApartmentFactory(
+            self, rc_numbers, rc_name_prefix='RC', 
+            rc_kwargs={}, building_kwargs={}, apartment_kwargs={}):
+        all_rc = []
+        for rc_number in range(rc_numbers):
+            rc = create_RC(
+                name = rc_name_prefix+" %s" % rc_number,
+                **rc_kwargs
+                )
+            all_rc.append(rc)
+            building = create_building(rc, **building_kwargs)
+            price = apartment_kwargs.pop('price', 190000)
+            apartment = create_apartment(rc, price, **apartment_kwargs)
+            apartment.buildings = [building]
+        return all_rc
+
+    def test_search_by_any_text_neigbourhood(self):
+        target_neigbourhood = create_neighbourhood('МЫС')
+        non_target_neigbourhood = create_neighbourhood('Дом Обороны')
+        number_of_rc_with_target_neigbourhood = 6
+
+        target_rcs = self.RCWithBuildingWithApartmentFactory(
+            number_of_rc_with_target_neigbourhood,
+            "Target RC",
+            rc_kwargs={'neighbourhood':target_neigbourhood}
+        )
+
+        non_target_rcs = self.RCWithBuildingWithApartmentFactory(
+            10,
+            "Non-Target RC",
+            rc_kwargs={'neighbourhood':non_target_neigbourhood}
+        )+self.RCWithBuildingWithApartmentFactory(
+            10,
+            "no-active RC with appropriate neigbourhood",
+            rc_kwargs={
+                'is_active':False,
+                'neighbourhood':target_neigbourhood,
+            }
+        )
+
+        resp = self.client.get(
+            reverse('new_buildings:residental-complex-list'),
+            {'any_text':target_neigbourhood.name}
+        )
+        self.assertEqual(resp.status_code, 200)
+        self.assertTrue(len(resp.context['residental_complexes']) == number_of_rc_with_target_neigbourhood)
