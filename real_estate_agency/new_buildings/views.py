@@ -26,7 +26,7 @@ class ResidentalComplexList(FormMixin, ListView):
     queryset = model.objects.filter(is_active=True).prefetch_related('type_of_complex')
 
     def filterAparmentByAnyTextIContains(self, fieldname=None, model_fields=[]):
-        # in developing. Think anout using Manager
+        # in developing. Think about using Manager
         # https://stackoverflow.com/questions/2276768/django-query-filtering-from-model-method
         if type(model_fields) not in (list, tuple):
             raise Http404('model fields must be list or tuple')
@@ -92,8 +92,8 @@ class ResidentalComplexList(FormMixin, ListView):
             self.filterAparmentByAnyTextIContains(
                 fieldname='any_text',
                 model_fields=[
-                    'buildings__residental_complex__neighbourhood__name',
-                    'buildings__residental_complex__name',
+                    'residental_complex__neighbourhood__name',
+                    'residental_complex__name',
                     'buildings__street__name',
                 ],
             )

@@ -400,6 +400,10 @@ class ResidentalComplex(models.Model):
             urls.append(photo.image.url)
         return urls
 
+    def is_built(self):
+        if self.date_of_construction:
+            return self.date_of_construction <= datetime.date.today()
+
     class Meta:
         verbose_name = _('комплекс')
         verbose_name_plural = _('комплексы')

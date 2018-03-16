@@ -13,8 +13,12 @@
 				{% endif %}
 
 				<div class="item-info-hover">
-					{% if residental_complex.get_date_of_construction %}
-					<p class="item-info-text">Срок сдачи: {{ residental_complex.get_date_of_construction}}</p>
+					{% if residental_complex.is_built %}
+						<p class="item-info-text">Сдан</p>
+					{% else %}
+						{% if residental_complex.get_date_of_construction %}
+						<p class="item-info-text">Срок сдачи: {{ residental_complex.get_date_of_construction}}</p>
+						{% endif %}
 					{% endif %}
 					<p class="item-info-btn">Выбрать квартиру</p>
 				</div>

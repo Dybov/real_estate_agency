@@ -97,7 +97,7 @@
 		</div>
 		<div class="row">
 			<div class="col-md-12 col-xs-12">
-				<div class="reviews_slider" data-flickity>
+				<div class="reviews_slider" data-flickity='{"wrapAround": true}'>
 				{% for feedback in feedbacks %}
 					{% include 'feedback/feedback_detail.html' %}
 				{% endfor %}									
