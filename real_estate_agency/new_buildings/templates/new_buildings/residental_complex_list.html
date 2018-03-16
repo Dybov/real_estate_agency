@@ -16,13 +16,17 @@
 <section class="catalog">
 	<div class="container">
 		<div class="row">
-			<div class="col-xs-12">
-				{% for residental_complex in residental_complexes %}
-					{% include "new_buildings/residental_complex_short.html" %}
-				{% empty %}
-					<h1>Подходящее жилье не найдено</h1>
-				{% endfor %}
-			</div>
+			{% if empty_list_flag %}
+				<div class="col-xs-12">
+					<h2>Подходящее запросу жилье не найдено</h2>
+					<p>Остальные новостройки:</p>	
+				</div>
+			{% endif %}
+			{% for residental_complex in residental_complexes %}
+				{% include "new_buildings/residental_complex_short.html" %}
+			{% empty %}
+				<h1>Подходящее жилье не найдено</h1>
+			{% endfor %}
 		</div>
 	</div>
 </section>

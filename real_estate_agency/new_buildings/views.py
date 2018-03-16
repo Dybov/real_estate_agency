@@ -72,7 +72,9 @@ class ResidentalComplexList(FormMixin, ListView):
         self.form = form_class(data)
 
         # From BaseListView
-        self.apartment_list = NewApartment.objects.all()
+        self.apartment_list = NewApartment.objects.filter(
+            is_active=True, 
+            buildings__is_active=True)
         self.object_list = self.get_queryset()
 
         if data and self.form.is_valid():
@@ -101,33 +103,26 @@ class ResidentalComplexList(FormMixin, ListView):
             # For filters by date of cunstruction
             settlement_before = self.form.cleaned_data['settlement_before']
 
-            # For getting ResidentalComplex objects
-            building_id_list = [
-                x.get('buildings') for x in self.apartment_list.values('buildings').distinct()]
-            buildings = NewBuilding.objects.filter(
-                id__in=building_id_list, 
-                is_active=True,
-            )
-
-            # Filtering by dae of construction
-            if settlement_before:
-                buildings = buildings.filter(
-                    date_of_construction__lte=settlement_before)
-
-            # Getting residental_complexes_id_list of allowed buildings
-            residental_complexes_id_list = [x.get(
-                'residental_complex') for x in buildings.values('residental_complex').distinct()]
-
             self.object_list = self.object_list.filter(
-                id__in=residental_complexes_id_list, is_active=True)
+                newapartment__in=self.apartment_list,
+            ).distinct()
+            
+            if settlement_before:
+                self.object_list = self.object_list.filter(
+                    date_of_construction__lte=settlement_before,
+                )
 
         allow_empty = self.get_allow_empty()
         if not allow_empty and len(self.object_list) == 0:
             raise Http404(_(u"Empty list and '%(class_name)s.allow_empty' is False.")
                           % {'class_name': self.__class__.__name__})
+        empty_list_flag = False
+        if not self.object_list:
+            self.object_list=self.get_queryset()
+            empty_list_flag = True
 
         context = self.get_context_data(
-            object_list=self.object_list, form=self.form)
+            object_list=self.object_list, form=self.form, empty_list_flag=empty_list_flag)
         return self.render_to_response(context)
 
     def post(self, request, *args, **kwargs):
