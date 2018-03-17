@@ -291,8 +291,8 @@ class ResidentalComplex(models.Model):
         buildings = self.get_new_buildings()
 
         date = buildings.aggregate(
-            Min('date_of_construction')
-        ).get('date_of_construction__min')
+            Max('date_of_construction')
+        ).get('date_of_construction__max')
         date_original = self.date_of_construction
         self.date_of_construction = date
         return not date_original == date

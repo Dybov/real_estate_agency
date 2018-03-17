@@ -102,15 +102,17 @@ class ResidentalComplexList(FormMixin, ListView):
 
             # For filters by date of cunstruction
             settlement_before = self.form.cleaned_data['settlement_before']
-
+            
+            if settlement_before:
+                self.apartment_list = self.apartment_list.filter(
+                    date_of_construction__lte=settlement_before,
+                )
+            
             self.object_list = self.object_list.filter(
                 newapartment__in=self.apartment_list,
             ).distinct()
             
-            if settlement_before:
-                self.object_list = self.object_list.filter(
-                    date_of_construction__lte=settlement_before,
-                )
+            
 
         allow_empty = self.get_allow_empty()
         if not allow_empty and len(self.object_list) == 0:
