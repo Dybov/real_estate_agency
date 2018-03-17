@@ -257,6 +257,13 @@ class ResidentalComplex(models.Model):
                                                   null=True,
                                                   blank=True,
                                                   )
+    number_of_buildings = models.PositiveIntegerField(verbose_name=_('количество домов в комплексе'),
+                                                      help_text=_(
+                                                          'оставьте пустым для автоматического подсчета'),
+                                                      default=None,
+                                                      null=True,
+                                                      blank=True,
+                                                      )
 
     neighbourhood = models.ForeignKey(NeighbourhoodModel,
                                       verbose_name=_('район'),
@@ -319,6 +326,8 @@ class ResidentalComplex(models.Model):
         return ""
 
     def count_buildings(self):
+        if self.number_of_buildings:
+            return self.number_of_buildings
         return len(self.get_new_buildings())
 
     @cached_property

@@ -173,6 +173,7 @@ class ResidentalComplexAdmin(admin.ModelAdmin):
                        'builder',
                        'description',
                        'characteristics',
+                       'number_of_buildings',
                        'number_of_flats')
         }),
         (_('МЕДИА'), {
