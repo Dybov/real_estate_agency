@@ -17,10 +17,38 @@ const autoNumericArea = {
     currencySymbolPlacement: 's',
     wheelStep: 5
 }
+var isMobile = window.matchMedia("only screen and (max-width: 760px)").matches;
 
 $(document).ready(function() {
-  var currencies = new AutoNumeric.multiple('.auto-numeric-currency', autoNumericCurrency);
-  var areas = new AutoNumeric.multiple('.auto-numeric-area', autoNumericArea);
+  function typeText2TelMobile(element){
+    if (Array.isArray(element)){
+      element = element.join();
+    }
+    if (isMobile){
+      $(element).attr('type', 'tel');
+    }
+  };
+
+  /* Mobile friendly manipulations are necessary
+   * Because AutoNumeric has no full mobile support
+   */
+  window.setAutoNumericMobileFriendly = function(element, props){
+    typeText2TelMobile(element);
+    if ($(element).length==0){
+      return;
+    }
+    return new AutoNumeric(element, props);
+  };
+  window.setAutoNumericMultipleMobileFriendly = function(elements, props){
+    typeText2TelMobile(elements);
+    if ($(elements).length==0){
+      return;
+    }
+    return new AutoNumeric.multiple(elements, props);
+  };
+  
+  var currencies = setAutoNumericMultipleMobileFriendly('.auto-numeric-currency', autoNumericCurrency);
+  var areas = setAutoNumericMultipleMobileFriendly('.auto-numeric-area', autoNumericArea);
 
   autoNumericForm = $('.auto-numeric-currency, .auto-numeric-area').closest("form");
   autoNumericForm.submit(function(e){
@@ -34,24 +62,18 @@ $(document).ready(function() {
   })  
 
   $(".checkbox").click(function(e) {
-    // Не надо preventDefault, т.к. там устанавливается значение checked
-    // e.preventDefault();
-$(this).parent(this).parent(this).toggleClass('active-checkbox')
+    $(this).parent(this).parent(this).toggleClass('active-checkbox')
   })
 
 
-
-
-
-$('.search_form_select-select').styler();
-
-    window.onload = function() { 
-       $('.airSticky').airStickyBlock({
-    debug: true, // Режим отладки, по умолчанию false
-  stopBlock: '.airSticky_stop-block', // Класса контейнера, в котором находится сетка, по умолчанию .airSticky_stop-block
-  offsetTop: 100 // отступ сверху
-});
-    };
+  $('.search_form_select-select').styler();
+  window.onload = function() { 
+    $('.airSticky').airStickyBlock({
+      debug: true, // Режим отладки, по умолчанию false
+      stopBlock: '.airSticky_stop-block', // Класса контейнера, в котором находится сетка, по умолчанию .airSticky_stop-block
+      offsetTop: 100 // отступ сверху
+    });
+  };
 
   function classFunction(){
     if($('body').width()<769){ $('.airSticky').removeClass('airSticky')

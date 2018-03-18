@@ -32,7 +32,10 @@
 	<script src="https://unpkg.com/autonumeric@4.0.3/dist/autoNumeric.min.js"></script>
 	<!--script src='{% static "real_estate/js/bootstrap.min.js"%}'></script> -->
 	<style>body { opacity: 0; overflow-x: hidden; } html { background-color: #fff; }</style>
-
+	<link rel="stylesheet" href='{% static "css/main.css"%}'>
+	<link rel="stylesheet" href='{% static "css/libs_css.min.css"%}'>
+	<script src='{% static "js/scripts_libs.min.js"%}'></script>
+	<script src='{% static "js/common.js"%}'></script>
 </head>
 
 <body>
@@ -50,9 +53,6 @@
 
 {% block content %}{% endblock %}
 {% block footer %}{% include 'base/footer.html' %}{% endblock %}
-	<link rel="stylesheet" href='{% static "css/main.css"%}'>
-	<link rel="stylesheet" href='{% static "css/libs_css.min.css"%}'>
-	<script src='{% static "js/scripts_libs.min.js"%}'></script>
-	<script src='{% static "js/common.js"%}'></script>
+
 </body>
 </html>

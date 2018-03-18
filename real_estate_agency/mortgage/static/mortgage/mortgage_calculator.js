@@ -1,16 +1,7 @@
 $(document).ready( function(){
     var price, one_pay;
-    [price, one_pay] = 
-        new AutoNumeric.multiple(['#id_full_price', '#id_initial_fee'], {
-            digitGroupSeparator: ' ',
-            decimalCharacter: ',',
-            minimumValue: 0,
-            maximumValue: 100000000,
-            currencySymbol: ' руб',
-            currencySymbolPlacement: 's',
-            decimalPlaces: 1,
-            // defaultValueOverride: 2100000,
-        });
+
+    [price, one_pay] = setAutoNumericMultipleMobileFriendly(['#id_full_price', '#id_initial_fee'], autoNumericCurrency)
 
     //sliders 
     $price_slider = $('.slider_price_home')
