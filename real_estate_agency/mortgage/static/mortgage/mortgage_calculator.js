@@ -1,7 +1,21 @@
 $(document).ready( function(){
     var price, one_pay;
 
-    [price, one_pay] = setAutoNumericMultipleMobileFriendly(['#id_full_price', '#id_initial_fee'], autoNumericCurrency)
+    [price, one_pay] = setAutoNumericMultipleMobileFriendly(['#id_full_price', '#id_initial_fee'], autoNumericCurrency);
+    years_element = $('#id_years');
+
+    function setter(an_element, value){
+        number = an_element.getNumber();
+        if (!number){
+            an_element.set(value);
+        }
+    };
+
+    setter(price, 1200000);
+    setter(one_pay, 1200000*0.15);
+    if (!years_element.val()){
+        years_element.val(15);
+    }
 
     //sliders 
     $price_slider = $('.slider_price_home')
@@ -25,7 +39,7 @@ $(document).ready( function(){
 
     function calculator() {
         var percent;
-        var years_number   = parseInt($('#id_years').val());
+        var years_number   = parseInt(years_element.val());
         
 
         if (years_number <= 5) {
@@ -76,7 +90,7 @@ $(document).ready( function(){
     }
 
     function updateYearsSlider(){
-        years_number = parseInt($('#id_years').val()); 
+        years_number = parseInt(years_element.val()); 
         if ($years_slider.slider("value")!=years_number){
             $years_slider.slider("value", years_number);
         }

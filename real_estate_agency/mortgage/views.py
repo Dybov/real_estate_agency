@@ -12,28 +12,28 @@ class Index(FormView):
     form_class = MortgageForm
     template_name = 'mortgage/mortgage.html'
     success_url = '...'
-    initial = {'full_price': 1200000,
-               'initial_fee': int(1200000*0.2),
-               'years': 15,
-               }
 
     def get(self, request, *args, **kwargs):
-        form_class = self.get_form_class()
-        form = form_class(request.GET or self.get_initial())
         context = self.get_context_data(**kwargs)
-        context['form'] = form
         context['banks'] = BANK_PARTNERS
-        if form.is_valid():
-            price = form.cleaned_data['full_price']
-            initial_fee = form.cleaned_data['initial_fee']
-            years = form.cleaned_data['years']
 
-            calc_results = self.calculateMortgageAnnuityPaymentForSberbank(
-                full_price=price,
-                years=years,
-                initial_fee=initial_fee,
-            )
-            context.update(calc_results)
+        form_class = self.get_form_class()
+        if request.GET:
+            form = form_class(request.GET)
+            if form.is_valid():
+                price = form.cleaned_data['full_price']
+                initial_fee = form.cleaned_data['initial_fee']
+                years = form.cleaned_data['years']
+
+                calc_results = self.calculateMortgageAnnuityPaymentForSberbank(
+                    full_price=price,
+                    years=years,
+                    initial_fee=initial_fee,
+                )
+                context.update(calc_results)
+        else:
+            form = form_class()
+        context['form'] = form
         return self.render_to_response(context)
     
     def calculateMortgageAnnuityPaymentForSberbank(self, full_price, years, initial_fee):
