@@ -136,7 +136,7 @@ class PhotoAdminForm(forms.ModelForm):
 def SETTLEMENT_CHOICES():
     yield ('', _('Не важно'))
     today = datetime.date.today() 
-    yield (today.strftime("%Y-%m-%d"), _('Уже'))
+    yield (today.strftime("%Y-%m-%d"), _('Дом сдан'))
 
     QUARTER_1 = 1
     QUARTER_2 = 2
