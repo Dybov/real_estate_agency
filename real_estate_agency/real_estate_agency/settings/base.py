@@ -32,6 +32,7 @@ INSTALLED_APPS = [
     'phonenumber_field',
     'django_unused_media',
     'django_bootstrap_breadcrumbs',
+    'analytical',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',

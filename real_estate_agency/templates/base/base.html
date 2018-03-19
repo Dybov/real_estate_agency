@@ -1,5 +1,5 @@
 {% load static %}
-{% load django_bootstrap_breadcrumbs %}
+{% load django_bootstrap_breadcrumbs yandex_metrica %}
 <!DOCTYPE html>
 <html lang="ru">
 
@@ -36,6 +36,7 @@
 	<link rel="stylesheet" href='{% static "css/libs_css.min.css"%}'>
 	<script src='{% static "js/scripts_libs.min.js"%}'></script>
 	<script src='{% static "js/common.js"%}'></script>
+	{% yandex_metrica %}
 </head>
 
 <body>

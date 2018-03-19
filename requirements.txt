@@ -10,3 +10,4 @@ pymorphy2[fast]==0.8
 django-unused-media==0.1.10
 telepot==12.5
 mock==2.0.0
+django-analytical==2.4.0
