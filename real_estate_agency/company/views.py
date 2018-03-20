@@ -3,6 +3,8 @@ from collections import OrderedDict
 from django.shortcuts import render
 from django.template import RequestContext
 
+from .models import Award
+
 from new_buildings.models import Builder, ResidentalComplex, NewApartment
 
 
@@ -24,4 +26,5 @@ BANK_PARTNERS = OrderedDict([
 def about(request):
     return render(request,
                   'company/about_company.html',
+                  {'awards':Award.objects.all()}
                   )
