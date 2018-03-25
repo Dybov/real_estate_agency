@@ -73,9 +73,23 @@
       </div>
    </div>
 </section>
-
-{% include 'mortgage/calculator.html' %}
-
+<section id="calculator_ipoteka" class="calc" style="margin: 50px 0px;">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="zhk_headline">
+                    Ипотечный калькулятор
+                </div>
+            </div>
+            <div>
+            {% include 'mortgage/calculator.html' %}               
+            </div>
+            <div>
+            {% include 'mortgage/sberbank_calculator.html' %}               
+            </div>
+        </div>
+    </div>
+</section>
 {% include 'applications/callback_form_implemented.html' with callback_form_title='Задать вопросы об ипотеке' %}
 
 <section class="ipoteka_info" style="margin-bottom: 50px;">

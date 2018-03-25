@@ -67,16 +67,20 @@ $(document).ready( function(){
     };
 
     function updateOnePaySlider(){
+        left_border = (price.getNumber()*0.15)||$one_pay_slider.slider("option",'min')
         right_border = (price.getNumber()*0.8)||$one_pay_slider.slider("option",'max')
         slider_val = $one_pay_slider.slider("value")
         one_pay_val = one_pay.getNumber();
         if (one_pay_val!=slider_val){
             slider_val = one_pay_val;
-        }
+        };
         if (slider_val>right_border){
             slider_val = right_border;
-        }
+        } else if (slider_val<left_border){
+            slider_val = left_border;
+        };
 
+        $one_pay_slider.slider("option", "min", left_border);
         $one_pay_slider.slider("option", "max", right_border);
         $one_pay_slider.slider("value", slider_val);
         one_pay.set(slider_val);
