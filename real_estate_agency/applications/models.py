@@ -9,7 +9,7 @@ class CallbackRequest(models.Model):
     phone_number = PhoneNumberField(verbose_name=_('телефон'))
     url_from = models.URLField(_('источник заявки'))
     extra_info = models.CharField(
-        _('дополнительная информация'), max_length=127, blank=True, null=True)
+        _('дополнительная информация'), max_length=1024, blank=True, null=True)
     date = models.DateTimeField(_('время подачи'), auto_now=True)
     promotion_context = models.CharField(
         _('реклама'), max_length=127, blank=True, null=True)
