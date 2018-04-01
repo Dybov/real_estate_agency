@@ -1,0 +1,23 @@
+<div class="col-xs-12 input-group">
+    <hr>
+    <label class="col-xs-12 col-md-9" for='{{id}}'>{{label}}
+    {% if label_append %}
+        <br>
+        <span class="small-text">{{label_append}}</span>
+    {% endif %}
+    </label>
+
+    <div class="col-xs-12 col-md-3 justify-content-between">
+        {{value_prepend}}{{value}} %
+        <label class="switch">
+            <input value="{% if real_value %}{{real_value}}{% else %}{{value}}{% endif %}" type="checkbox" id='{{id}}' checked>
+            <span class="slider round"></span>
+            <span class="toggle-on-image">
+                <svg width='26px'><path fill-rule="evenodd" d="m6.520993,11.47899l-3,-3a0.502,0.502 0 0 1 0.708,-0.708l2.646,2.647l5.645,-5.647a0.5,0.5 0 0 1 0.707,0.708l-5.998,6a0.504,0.504 0 0 1 -0.708,0z"></path></svg>
+            </span>
+            <span class="toggle-off-image">
+                <svg  width='26px'><path fill-rule="evenodd" d="m7.291969,8.249967l-2.646,-2.646a0.502,0.502 0 0 1 0.708,-0.708l2.646,2.647l2.645,-2.647a0.5,0.5 0 0 1 0.707,0.708l-2.644,2.646l2.644,2.646a0.5,0.5 0 0 1 -0.707,0.708l-2.645,-2.647l-2.646,2.647a0.502,0.502 0 0 1 -0.708,-0.708l2.646,-2.646z"></path></svg>
+            </span>
+        </label>
+    </div>
+</div>

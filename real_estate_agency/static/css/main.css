@@ -755,6 +755,7 @@ display: flex;
   padding: 7px 12px;
   -webkit-border-radius: 6px;
           border-radius: 6px;
+  margin-bottom: 10px;
 }
 .item-info-btn:hover {
   border: none;
@@ -1793,14 +1794,6 @@ display: flex;
   background-repeat: no-repeat;
 }
 
-.ui-slider .ui-slider-handle { 
-    border-radius: 30px;
-    top: -7px;
-    width: 30px !important;
-    height: 15px !important;
-    background-color: #ff8256;
-    border-color: #ff8256 !important;
- }
 
 .ipoteka .zhk_headline {
   margin-top: 25px;
@@ -2512,14 +2505,31 @@ box-shadow: 10px 22px 66px -36px rgba(102,102,102,1);
           justify-content: space-between;
   margin-top: 50px;
 }
+.ui-widget-content {
+  /*border: 1px solid #ccc;*/
+  /*border-radius: 5px;*/
+}
+.ui-widget-header {
+  border: 1px solid #aaaaaa;
+  border-radius: 5px;
+  background-color: #ff8256;
+}
 .ui-slider {
   position: relative;
+  text-align: left;
+  height: 14px;
 }
 /* Ползунок */
-.ui-slider .ui-slider-handle {
+.ui-slider .ui-slider-handle { 
+  border-radius: 50%;
+  width: 12px;
+  height: 12px;
+  background-color: #ff8256;
   position: absolute;
   z-index: 2;
   cursor: pointer;
+  /*padding: 0.8em;*/
+  /*border: solid 2px gray;*/
 }
 .ui-slider .ui-slider-range {
   position: absolute;
@@ -2527,8 +2537,14 @@ box-shadow: 10px 22px 66px -36px rgba(102,102,102,1);
   font-size: .7em;
   display: block;
   border: 0;
-  overflow: hidden;
+  background-position: 0 0;
 }
+.ui-slider-horizontal { height: 100%; top:-.1em; margin: 0;}
+.ui-slider-horizontal .ui-slider-handle { top: -.3em; margin-left: -.3em;}
+.ui-slider-horizontal .ui-slider-range { top: 0; height: 4px;}
+.ui-slider-horizontal .ui-slider-range-min { left: 0;}
+.ui-slider-horizontal .ui-slider-range-max { right: 0;}
+
 .realty_home_search .search_price-flex {
   -webkit-flex-basis: 34%;
       -ms-flex-preferred-size: 34%;
@@ -4015,4 +4031,122 @@ box-shadow: 10px 22px 66px -36px rgba(102,102,102,1);
 /* Large Devices, Wide Screens */
 @media only screen and (min-width: 1200px) {
   /**/
+}
+#inputCalc input[type="text"], input[type="tel"] {
+  width: 100%;
+}
+.justify-content-between {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+}
+.cursor-pointer {
+  cursor: pointer;
+}
+.calc-result-h{
+  font-size: 14px;
+  font-weight: normal;
+  margin: 0;
+}
+.calc-result-p{
+  color: #ff8256;
+  font-size: 20px;
+  /*font-weight: bolder;*/
+  margin: 0;
+}
+.with-border{
+  border: 2px solid #ddd;
+}
+.with-border{ 
+  border-radius: 10px;
+}
+.large-text{
+  font-size: 16px;
+}
+.small-text{
+  font-size: 12px;
+}
+.full-width{
+  width: 100%;
+  text-align: center;
+}
+ /* The switch - the box around the slider */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 48px;
+  height: 24px;
+  vertical-align: middle;
+}
+
+/* Hide default HTML checkbox */
+.switch input {display:none;}
+
+/* The slider */
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 20px;
+  width: 20px;
+  left: 4px;
+  bottom: 2px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+input:checked + .slider {
+  background-color: #ff8256;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #ff8256;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(20px);
+  -ms-transform: translateX(20px);
+  transform: translateX(20px);
+}
+
+/* Rounded sliders */
+.slider.round {
+  border-radius: 24px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+} 
+.toggle-on-image, .toggle-off-image{
+  color: white;
+  fill: currentColor;
+  top: 5px;
+  position: absolute;
+  cursor: pointer;
+}
+.toggle-on-image{
+  left: 6px;
+}
+.toggle-off-image{
+  left: 26px;
+}
+.input-group{
+  margin: 10px;
 }
