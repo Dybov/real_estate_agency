@@ -13,7 +13,7 @@ const autoNumericArea = {
     decimalCharacter: ',',
     minimumValue: 0,
     maximumValue: 1000,
-    currencySymbol: ' м3',
+    currencySymbol: ' м2',
     currencySymbolPlacement: 's',
     wheelStep: 5
 }
