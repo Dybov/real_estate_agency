@@ -1,0 +1,43 @@
+{% load static %}
+<section class="cta">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8 col-xs-12 big_cta_form">
+                <div class="cta_headline">
+                    {{ callback_form_title }}
+                </div>
+                <p class="cta_text">Заказать обратный звонок</p>
+                <form action="{% url 'applications:callback' %}" class="cta_form col-xs-12" method="post">{% csrf_token %}
+                    <div>
+                    {# {{ callback_form.name }} #}
+                    {{ callback_form.phone_number }}
+                    <input name="{{ callback_form.extra_info.name }}" type="hidden" value='Запрос из раздела "{{ callback_form_title }}"' />
+                    </div>
+                    <button type="submit" class="btn_large class">Жду звонка</button>
+                </form>
+                <div class="info_form">
+                    Нажимая на кнопку, вы даете согласие на обработку своих персональных данных<br>
+                    <a href="{% url 'privacy-policy' %}">Пользовательское соглашение</a>
+                </div>
+            </div>
+            <div class="col-md-4 col-xs-12">
+                <p class="cta_text" style="margin-bottom: 0 ;">Позвонить по телефону </p>
+                <p class="cta_telephone">
+                    {{ global_phone_number }}
+                </p>
+                <div class="cta_messenger">
+                    <p class="cta_text" style="margin-top: 37px ; margin-bottom: 0;">Написать менеджеру в чат</p>
+                    <a href="{{ global_chat.facebook }}" class="socil_messenger" target="_blank">
+                        <img src="{% static 'img/icon/fb.svg' %}" class="fb">
+                    </a>
+                    <a href="{{ global_chat.vk }}" class="socil_messenger" target="_blank">
+                        <img src="{% static 'img/icon/vk.svg' %}" class="vk">
+                    </a>
+                    <a href="{{ global_chat.telegram }}" class="socil_messenger" target="_blank">
+                        <img src="{% static 'img/icon/tg.svg' %}" class="tg">
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

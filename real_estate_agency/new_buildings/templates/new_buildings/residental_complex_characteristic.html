@@ -1,0 +1,14 @@
+
+    {% for characteristic in residental_complex.get_characteristic %}
+    	<div class="item_characteristics">
+					<div class="item_characteristics_icon">
+						<img src="{{ characteristic.icon.url }}" width="52" height="52">
+					</div>
+					<div class="item_characteristics_text">
+						{{ characteristic }}
+					</div>
+			</div>
+
+    {% empty %}
+    <p>Описание характеристик будет добавлено позднее</p>
+    {% endfor %}

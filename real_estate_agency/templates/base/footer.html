@@ -1,0 +1,45 @@
+{% load static %}
+ <footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+            <div class="menu_footer">
+                <div class="menu_logo_footer">
+                <a href="{% url 'index' %}"><img src="{% static 'real_estate/images/logo/logo.svg' %}" alt="" class="img-responsive"></a>
+                </div>
+
+            <ul class="menu_footer_container">
+                <li><a href="{% url 'new_buildings:residental-complex-list' %}">Новостройки</a></li>
+                <li><a href="{% url 'mortgage:index' %}">Ипотека</a></li>
+                <li><a href="{% url 'corporation_benefit_plan' %}">Корпоративная программа</a></li>
+                <li><a href="{% url 'feedback:index' %}">Отзывы</a></li>
+                <li><a href="{% url 'company:about' %}">О компании</a></li>
+                <li><a href="{% url 'contacts:index' %}">Контакты</a></li>
+                
+            </ul>
+
+        </div>
+        <div class="footer_info">
+                <div class="info_text">
+                                <div class="info_1">
+                ©<span class="old_year">2016</span> — {% now 'Y' %} Информационные материалы и цены, размещенные на сайте, не являются публичной офертой
+            </div>
+            <div class="info_1">
+                <a href="{% url 'privacy-policy' %}">Политика конфиденциальности</a>
+            </div>
+                </div>
+
+            <div class="company_social_nework">
+                
+                    <a class="social_link_company" href="{{ global_social_links.vk }}"  target="_blank"><img src="{% static 'img/icon/002-vk.svg' %}" alt="" width="30px" height="30px"></a>
+
+
+                    <a class="social_link_company" href="{{ global_social_links.instagram }}" target="_blank"><img src="{% static 'img/icon/001-instagram.svg' %}" alt="" width="30px" height="30px"></a>
+
+            </div>
+        </div>
+            </div>
+        </div>
+    </div>
+</footer>
+{% include 'base/developers_sign.html' %}

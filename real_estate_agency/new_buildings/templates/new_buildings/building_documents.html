@@ -1,0 +1,66 @@
+{% load static %}
+<section class='documents'>
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+                <div class="zhk_headline">Документы на строительство {{building}}
+    </div>
+        </div>
+    </div>
+        <div class="row">
+            <div class="col-md-6 col-xs-12">
+                <a href="#modal_document" class="documents_item" download>
+                <div class="documents_headline">
+                    <img src="{% static 'img/icon/file.svg' %}" width="70px" height="70px">
+                Разрешение на строительство</div>
+                </a>
+            </div>
+
+            <div class="col-md-6 col-xs-12">
+                <a href="#modal_document_declarations" class="documents_item" download>
+                <div class="documents_headline">
+                    <img src="{% static 'img/icon/file.svg' %}" width="70px" height="70px">
+                Проектные Декларации</div>
+                </a>
+            </div>         
+        </div>
+    </div>
+</div>
+</section>
+<br>
+
+<div class="hidden">
+<div id="modal_document" class="animate_popup modal_documents">
+    <div class="zhk_headline">
+        Документы на строительство
+    </div>
+    {% for building in residental_complex.get_new_buildings %}
+    
+    <div class="modal_document_item-flex">
+        <div class="modal_document_item">
+            {% if building.building_permit %}
+                <i class="fa fa-file-pdf-o" aria-hidden="true"></i><a href="{{building.building_permit.url}}" download> Разрешение на строительство {{building}}</a>
+                <br>
+            {% endif %}
+        </div>                                            
+    </div>
+    {% endfor %}
+</div>
+
+<div id="modal_document_declarations" class="animate_popup modal_documents">
+    <div class="zhk_headline">
+        Проектные декларации
+    </div>
+    {% for building in residental_complex.get_new_buildings %}
+    
+    <div class="modal_document_item-flex">
+        <div class="modal_document_item">
+            {% if building.project_declarations %}
+                <i class="fa fa-file-pdf-o" aria-hidden="true"></i><a href="{{building.project_declarations.url}}" download> Проектная декларация {{building}}</a>                
+                <br>
+            {% endif %}
+        </div>                                            
+    </div>
+    {% endfor %}
+</div>
+</div>

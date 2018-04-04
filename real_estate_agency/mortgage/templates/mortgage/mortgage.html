@@ -1,0 +1,236 @@
+{% extends 'base/base.html'%}
+{% load real_estate_extras %}
+{% load static %}
+{% load django_bootstrap_breadcrumbs %}
+{% block breadcrumbs %}
+	{{ block.super }}
+   {% breadcrumb "Ипотека" "mortgage:index" %}
+{% endblock %}
+{% block content %}
+<section class="header_ipoteka" style="background-image: url({% static 'mortgage/img/ipoteka.png' %});">
+   <div class="container">
+   <div class="row">
+      <div class="col-md-12">
+         <div class="flex_header_ipoteka">
+            <h1 class="header_ipoteka_headline">Ипотека от 6%</h1>
+            <div class="header_ipoteka_desc"> Мы поможем получить одобрение от крупных российских банков</div>
+         </div>
+      </div>
+   </div>
+</section>
+<section class="ipoteka_features">
+   <div class="container">
+      <div class="row">
+         <div class="col-md-12">
+            <div class="zhk_headline"> Все просто</div>
+         </div>
+      </div>
+      <div class="col-md-4 col-xs-12 col-sm-4">
+         <div class="ipoteka_features_item">
+            <div class="ipoteka_features_icon">
+               <img src="{% static 'img/icon/mortgage/doc.svg' %}" alt="">
+            </div>
+            <div class="ipoteka_features_desc">
+               Оформление ипотеки - легко!
+            </div>
+         </div>
+      </div>
+      <div class="col-md-4 col-xs-12 col-sm-4">
+         <div class="ipoteka_features_item">
+            <div class="ipoteka_features_icon">
+               <img src="{% static 'img/icon/mortgage/time.svg' %}" alt="">
+            </div>
+            <div class="ipoteka_features_desc">
+               Минимальный срок одобрения заявки
+            </div>
+         </div>
+      </div>
+      <div class="col-md-4 col-xs-12 col-sm-4">
+         <div class="ipoteka_features_item">
+            <div class="ipoteka_features_icon">
+               <img src="{% static 'img/icon/mortgage/money.svg' %}" alt="">
+            </div>
+            <div class="ipoteka_features_desc">
+               Услуга предоставляется бесплатно
+            </div>
+         </div>
+      </div>
+   </div>
+</section>
+<section class="ipoteka_partners">
+   <div class="container">
+      <div class="row">
+         <div class="col-md-12">
+            <div class="zhk_headline">
+               Банки партнеры
+            </div>
+         </div>
+      </div>
+      <div class="row" data-flickity='{ "cellAlign": "left", "contain": true, "groupCells": true, "wrapAround": true }'>
+         {% for partner_name,img_name in banks.items %}
+            {% include 'company/partner.html' with img_static_url='img/partners/bank/'|add:img_name|add:'.png' %}
+         {% endfor %}
+      </div>
+   </div>
+</section>
+
+{% include 'mortgage/calculator.html' %}
+
+{% include 'applications/callback_form_implemented.html' with callback_form_title='Задать вопросы об ипотеке' %}
+
+<section class="ipoteka_info" style="margin-bottom: 50px;">
+   <div class="container">
+      <div class="row">
+         <div class="col-md-12">
+            <div class="zhk_headline">
+               Как оформить ипотеку?
+            </div>
+         </div>
+      </div>
+      <div class="row">
+         <div class="col-md-3 col-xs-12 col-sm-6">
+            <div class="ipoteka_info_item">
+               <div class="ipoteka_info_item_icon">
+                  <img src="{% static 'img/icon/mortgage/doc.svg' %}" alt="">
+               </div>
+               <div class="ipoteka_info_item_headline">
+                  Заявка
+               </div>
+               <div class="ipoteka_info_item_desc">
+                  Вы оставляете заявку на сайте
+               </div>
+            </div>
+         </div>
+         <div class="col-md-3 col-xs-12 col-sm-6">
+            <div class="ipoteka_info_item">
+               <div class="ipoteka_info_item_icon">
+                  <img src="{% static 'img/icon/mortgage/docbag.svg' %}" alt="">
+               </div>
+               <div class="ipoteka_info_item_headline">
+                  Пакет документов
+               </div>
+               <div class="ipoteka_info_item_desc">
+                  Собираем все необходимые документы
+               </div>
+            </div>
+         </div>
+         <div class="col-md-3 col-xs-12 col-sm-6">
+            <div class="ipoteka_info_item">
+               <div class="ipoteka_info_item_icon">
+                  <img src="{% static 'img/icon/mortgage/time24.svg' %}" alt="">
+               </div>
+               <div class="ipoteka_info_item_headline">
+                  Одобрение
+               </div>
+               <div class="ipoteka_info_item_desc">
+                  Ждем одобрения банка
+               </div>
+            </div>
+         </div>
+         <div class="col-md-3 col-xs-12 col-sm-6">
+            <div class="ipoteka_info_item">
+               <div class="ipoteka_info_item_icon">
+                  <img src="{% static 'img/icon/mortgage/housekey.svg' %}" alt="">	
+               </div>
+               <div class="ipoteka_info_item_headline">
+                  Покупка
+               </div>
+               <div class="ipoteka_info_item_desc">
+                  Заселяетесь в выбранную квартиру
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+</section>
+<section class="must_dock">
+   <div class="container">
+      <div class="row">
+         <div class="col-md-12">
+            <div class="zhk_headline">Необходимые документы</div>
+         </div>
+         <div class="col-md-3 col-xs-12 col-sm-6">
+            <div class="ipoteka_info_item">
+               <div class="ipoteka_info_item_icon">
+                  <img src="{% static 'img/icon/mortgage/pasport.svg' %}" alt="">
+               </div>
+               <div class="ipoteka_info_item_desc">
+                  Документ, удостоверяющий личность (паспорт гражданина РФ)
+               </div>
+            </div>
+         </div>
+         <div class="col-md-3 col-xs-12 col-sm-6">
+            <div class="ipoteka_info_item">
+               <div class="ipoteka_info_item_icon">
+                  <img src="{% static 'img/icon/mortgage/pasport_red.svg' %}" alt="">
+               </div>
+               <div class="ipoteka_info_item_desc">
+                  Военный билет для лиц мужского пола призывного возраста (для возможности учета доходов)
+               </div>
+            </div>
+         </div>
+         <div class="col-md-3 col-xs-12 col-sm-6">
+            <div class="ipoteka_info_item">
+               <div class="ipoteka_info_item_icon">
+                  <img src="{% static 'img/icon/mortgage/docbag_color.svg' %}" alt="">
+               </div>
+               <div class="ipoteka_info_item_desc">
+                  Документы, подтверждающие занятость (трудовая книжка, трудовой договор, и т.п.)
+               </div>
+            </div>
+         </div>
+         <div class="col-md-3 col-xs-12 col-sm-6">
+            <div class="ipoteka_info_item">
+               <div class="ipoteka_info_item_icon">
+                  <img src="{% static 'img/icon/mortgage/money_blank.svg' %}" alt="">
+               </div>
+               <div class="ipoteka_info_item_desc">
+                  Документы, подверждающие доход (справка по форме 2-НДФЛ, справка по форме Банка, копия налоговой декларации и т.п.)
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+</section>
+<section class="zakon">
+   <div class="container">
+      <div class="row">
+         <div class="col-md-12">
+            <div class="zhk_headline">Законодательство</div>
+         </div>
+         <div class="col-md-12 col-xs-12">
+            <div class="zakon_doc">
+               <div class="zakon_doc_item">
+                  <a href="{% static 'docs/laws/Федеральный закон от 30.12.2004 N 214-ФЗ (ред. от 31.12.2017).rtf' %}" download><i class="fa fa-file-pdf-o" aria-hidden="true"></i> Федеральный закон от 30.12.2004 N 214-ФЗ (ред. от 31.12.2017)</a>
+               </div>
+               <div class="zakon_doc_item">
+                  <a href="https://yadi.sk/i/bGKmKvsB3PtK8E" target="_blank"><i class="fa fa-file-pdf-o" aria-hidden="true"></i> Земельный Кодекс Российской Федерации (ред. Федерального закона от 30.06.2006 N 92-ФЗ)</a>
+               </div>
+               <div class="zakon_doc_item">
+                  <a href="https://yadi.sk/i/b0bgsuPe3PtK7V" target="_blank"><i class="fa fa-file-pdf-o" aria-hidden="true"></i> Градостроительный Кодекс Российской Федерации (ред. Федерального закона от 27.07.2006 N 143-ФЗ)</a>
+               </div>
+               <div class="zakon_doc_item">
+                  <a href="https://yadi.sk/i/qAn22Wmj3PtK6Y" target="_blank"><i class="fa fa-file-pdf-o" aria-hidden="true"></i> Семейный кодекс № 223-ФЗ от 29.12.1995 (ред. от 23.12.2010)</a>
+               </div>
+               <div class="zakon_doc_item">
+                  <a href="https://yadi.sk/i/ZQVXS7C63PtK5s" target="_blank"><i class="fa fa-file-pdf-o" aria-hidden="true"></i> Федеральный закон «О государственной регистрации прав на недвижимое имущество и сделок с ним» от 21.07.97 № 122-ФЗ</a>
+               </div>
+               <div class="zakon_doc_item">
+                  <a href="https://yadi.sk/i/l9yiReLO3PtK53" target="_blank"><i class="fa fa-file-pdf-o" aria-hidden="true"></i>Федеральный закон «Об ипотеке (залоге недвижимости)» от 16.07.98 № 102-ФЗ (ред. от 17.06.2010)</a>
+               </div>
+               <div class="zakon_doc_item">
+                  <a href="https://yadi.sk/i/6ktK31nU3PtK3q" target="_blank"><i class="fa fa-file-pdf-o" aria-hidden="true"></i> Постановление О ПРАВИЛАХ НАПРАВЛЕНИЯ СРЕДСТВ (ЧАСТИ СРЕДСТВ) МАТЕРИНСКОГО (СЕМЕЙНОГО) КАПИТАЛА НА УЛУЧШЕНИЕ ЖИЛИЩНЫХ УСЛОВИЙ от 12 декабря 2007 года N862</a>
+               </div>
+               <div class="zakon_doc_item">
+                  <a href="https://yadi.sk/i/mbRHpH6b3PtK2v" target="_blank"><i class="fa fa-file-pdf-o" aria-hidden="true"></i> Правила подачи заявления о выдаче государственного сертификата на материнский (семейный) капитал и выдачи государственного сертификата на материнский (семейный) капитал, утвержденные постановлением Правительства РФ от 30.12.2006 № 873</a>
+               </div>
+               <div class="zakon_doc_item">
+                  <a href="https://yadi.sk/i/6gaKd6et3PtJzy" target="_blank"><i class="fa fa-file-pdf-o" aria-hidden="true"></i> Жилищный Кодекс № 188-ФЗ от 29.12.2004 (ред. От 30.11.2010)</a>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+</section>
+
+{% endblock %}

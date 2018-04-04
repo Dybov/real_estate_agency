@@ -1,0 +1,84 @@
+{% load static %}
+<section id="calculator_ipoteka" class="calc" style="margin: 50px 0px;">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="zhk_headline">
+                    Ипотечный калькулятор
+                </div>
+            </div>
+            <div class="col-md-12">
+                <form action="{% url 'mortgage:index' %}" method="get">
+                    <div class="calc_flex">
+                        <div class="search_price-flex search_price-flex-border-right-none">
+                            <div class="search-form-name">{{form.full_price.label_tag}}</div>
+                            <div class="search_form_price_container search_price-flex-border-bottom">
+                                {{form.full_price.errors}}
+                                <div class="search_form_price">
+                                    {{form.full_price}}
+                                    <div class="slider_price_home"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="search_price-flex search_price-flex-border-right-none">
+                            <div class="search-form-name">{{form.initial_fee.label_tag}}</div>
+                            <div class="search_form_price_container search_price-flex-border-bottom">
+                                {{form.initial_fee.errors}}
+                                <div class="search_form_price">
+                                    {{form.initial_fee}}
+                                    <div class="slider_price_one"></div>
+                                </div>
+                            </div>
+                        </div>  
+                        <div class="search_price-flex search_price-flex-border-right-none" style="border-right: none;">
+                            <div class="search-form-name">{{form.years.label_tag}}</div>
+                            <div class="search_form_price_container search_price-flex-border-bottom">
+                                {{form.years.errors}}
+                                <div class="search_form_price">
+                                    {{form.years}}
+                                    <div class="slider_price_year"></div>
+                                </div>
+                            </div>
+                        </div>   
+                        <noscript>
+                            <div class="cal_flex_btn">
+                                <input type="submit" value="Рассчитать">
+                            </div>
+                        </noscript>                     
+                    </div>
+                </form>
+
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="calc_felx_result_item-headline">
+                            Ежемесячный платеж
+                        </div>
+                        <p class="calc_felx_result_item-result">
+                            <span class="price_mouth">{{monthly_payment|floatformat:0}}</span> <span>руб.</span>
+                        </p>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="calc_felx_result_item-headline">
+                            Ипотечная ставка
+                        </div>
+                        <p class="calc_felx_result_item-result">
+                            <span class="actual_prestnt">{{mortgage_percentage|floatformat:1}}</span><span>%</span>
+                        </p>
+                    </div>
+
+                   <div class="col-md-4">
+                        <div class="calc_felx_result_item-headline">
+                            Сумма кредита
+                        </div>
+                        <p class="calc_felx_result_item-result">
+                            <span class="all_price">{{amount_of_mortgage|floatformat:0}}</span><span> руб.</span>
+                        </p>
+                    </div>                  
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<script src='{% static "mortgage/mortgage_calculator.js" %}'></script>

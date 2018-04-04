@@ -19,4 +19,19 @@ real_estate_agency/media/*
 *.sass-cache
 
 #For temporary db (for development)
-real_estate_agency/db.sqlite3
+*/db.sqlite3
+real_estate_agency/static/img/.DS_Store
+
+#For gulp files
+gulpfile.js
+package.json
+*/node_modules
+real_estate_agency/static/less
+real_estate_agency/static/libs
+
+#For server logs
+*.log
+*/logs/*
+
+#For server settings
+real_estate_agency/real_estate_agency/settings/production.py
