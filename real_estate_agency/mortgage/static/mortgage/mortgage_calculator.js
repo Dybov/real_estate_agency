@@ -252,4 +252,16 @@ $(document).ready( function(){
     recomputate();
     setAppendixesForSlider($price_slider, '.slider-price-appendix', thousandCutter);
     setAppendixesForSlider($years_slider, '.slider-years-appendix', yearsAppender);
+    $("#mortgage-calc-callback").click(function(e){
+        price
+        $("#modal_callback input[type='hidden'][name!='csrfmiddlewaretoken']").val(
+            ' \nИнтересует ипотечный калькулятор с параметрами:\nСтоимость: '+
+                price.getFormatted()
+            + '\nВзнос: ' +
+                one_pay.getFormatted()
+            + '\nЛет: ' +
+            parseInt(years_element.val()) + '\n' +
+            "Платеж: " + $('.price_mouth').text() + 'руб.'
+        );
+    })
 });
