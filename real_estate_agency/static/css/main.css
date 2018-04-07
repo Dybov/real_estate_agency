@@ -755,6 +755,7 @@ display: flex;
   padding: 7px 12px;
   -webkit-border-radius: 6px;
           border-radius: 6px;
+  margin-bottom: 10px;
 }
 .item-info-btn:hover {
   border: none;
@@ -1786,25 +1787,6 @@ display: flex;
 .my-mfp-zoom-in.mfp-removing.mfp-bg {
   opacity: 0;
 }
-.ipoteka {
-  -webkit-background-size: cover;
-          background-size: cover;
-  background-position: center center;
-  background-repeat: no-repeat;
-}
-
-.ui-slider .ui-slider-handle { 
-    border-radius: 30px;
-    top: -7px;
-    width: 30px !important;
-    height: 15px !important;
-    background-color: #ff8256;
-    border-color: #ff8256 !important;
- }
-
-.ipoteka .zhk_headline {
-  margin-top: 25px;
-}
 .ipoteka_headline {
   font-size: 28px;
   line-height: 1;
@@ -2132,74 +2114,6 @@ footer {
       -ms-flex-pack: center;
           justify-content: center;
 }
-.ipoteka_cta_form {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  width: 100%;
-  -webkit-box-pack: center;
-  -webkit-justify-content: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-}
-.ipoteka_cta_form input {
-  width: 300px;
-  height: 66px;
-  -webkit-border-radius: 6px;
-          border-radius: 6px;
-  background-color: #ffffff;
-  border: solid 1px #c2c4d0;
-  outline: none;
-  display: inline-block;
-  padding: 30px 0 15px 15px;
-  font-size: 22px;
-  color: #3c3d49;
-  -webkit-transition: all 0.6s ease;
-  -o-transition: all 0.6s ease;
-  transition: all 0.6s ease;
-  margin-right: 20px;
-}
-.ipoteka_cta_form input::-webkit-input-placeholder {
-  font-size: 18px;
-  font-weight: 300;
-  color: #a1a1a1;
-}
-.ipoteka_cta_form input::-moz-placeholder {
-  font-size: 18px;
-  font-weight: 300;
-  color: #a1a1a1;
-}
-.ipoteka_cta_form input:-ms-input-placeholder {
-  font-size: 18px;
-  font-weight: 300;
-  color: #a1a1a1;
-}
-.ipoteka_cta_form input::-ms-input-placeholder {
-  font-size: 18px;
-  font-weight: 300;
-  color: #a1a1a1;
-}
-.ipoteka_cta_form input::placeholder {
-  font-size: 18px;
-  font-weight: 300;
-  color: #a1a1a1;
-}
-.ipoteka_cta_form input:hover {
-  -webkit-box-shadow: inset 0 1px 2px 0 rgba(113, 113, 113, 0.2);
-          box-shadow: inset 0 1px 2px 0 rgba(113, 113, 113, 0.2);
-  border: 1px solid #ff8256;
-}
-.ipoteka_cta_form input:active {
-  -webkit-box-shadow: inset 0 1px 2px 0 rgba(113, 113, 113, 0.2);
-          box-shadow: inset 0 1px 2px 0 rgba(113, 113, 113, 0.2);
-  border: 1px solid #ff8256;
-}
-.ipoteka_cta_form input:focus {
-  -webkit-box-shadow: inset 0 1px 2px 0 rgba(113, 113, 113, 0.2);
-          box-shadow: inset 0 1px 2px 0 rgba(113, 113, 113, 0.2);
-  border: 1px solid #ff8256;
-}
 .flex_header_ipoteka .info_form {
   margin-top: 20px;
   color: #3c3d49;
@@ -2512,14 +2426,31 @@ box-shadow: 10px 22px 66px -36px rgba(102,102,102,1);
           justify-content: space-between;
   margin-top: 50px;
 }
+.ui-widget-content {
+  /*border: 1px solid #ccc;*/
+  /*border-radius: 5px;*/
+}
+.ui-widget-header {
+  border: 1px solid #aaaaaa;
+  border-radius: 5px;
+  background-color: #ff8256;
+}
 .ui-slider {
   position: relative;
+  text-align: left;
+  height: 14px;
 }
 /* Ползунок */
-.ui-slider .ui-slider-handle {
+.ui-slider .ui-slider-handle { 
+  border-radius: 50%;
+  width: 12px;
+  height: 12px;
+  background-color: #ff8256;
   position: absolute;
   z-index: 2;
   cursor: pointer;
+  /*padding: 0.8em;*/
+  /*border: solid 2px gray;*/
 }
 .ui-slider .ui-slider-range {
   position: absolute;
@@ -2527,8 +2458,14 @@ box-shadow: 10px 22px 66px -36px rgba(102,102,102,1);
   font-size: .7em;
   display: block;
   border: 0;
-  overflow: hidden;
+  background-position: 0 0;
 }
+.ui-slider-horizontal { height: 100%; top:-.1em; margin: 0;}
+.ui-slider-horizontal .ui-slider-handle { top: -.3em; margin-left: -.3em;}
+.ui-slider-horizontal .ui-slider-range { top: 0; height: 4px;}
+.ui-slider-horizontal .ui-slider-range-min { left: 0;}
+.ui-slider-horizontal .ui-slider-range-max { right: 0;}
+
 .realty_home_search .search_price-flex {
   -webkit-flex-basis: 34%;
       -ms-flex-preferred-size: 34%;
@@ -3658,25 +3595,6 @@ box-shadow: 10px 22px 66px -36px rgba(102,102,102,1);
     line-height: 1.4;
     margin-top: 20px;
   }
-  .ipoteka_cta_form {
-    -webkit-box-orient: vertical;
-    -webkit-box-direction: normal;
-    -webkit-flex-direction: column;
-        -ms-flex-direction: column;
-            flex-direction: column;
-    -webkit-box-align: center;
-    -webkit-align-items: center;
-        -ms-flex-align: center;
-            align-items: center;
-  }
-  .ipoteka_cta_form .btn_large {
-    width: 100%;
-  }
-  .ipoteka_cta_form input {
-    width: 100%;
-    margin-right: 0;
-    margin-bottom: 10px;
-  }
   .header {
     height: 900px;
   }
@@ -4015,4 +3933,122 @@ box-shadow: 10px 22px 66px -36px rgba(102,102,102,1);
 /* Large Devices, Wide Screens */
 @media only screen and (min-width: 1200px) {
   /**/
+}
+#inputCalc input[type="text"], input[type="tel"] {
+  width: 100%;
+}
+.justify-content-between {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+}
+.cursor-pointer {
+  cursor: pointer;
+}
+.calc-result-h{
+  font-size: 14px;
+  font-weight: normal;
+  margin: 0;
+}
+.calc-result-p{
+  color: #ff8256;
+  font-size: 20px;
+  /*font-weight: bolder;*/
+  margin: 0;
+}
+.with-border{
+  border: 2px solid #ddd;
+}
+.with-border{ 
+  border-radius: 10px;
+}
+.large-text{
+  font-size: 16px;
+}
+.small-text{
+  font-size: 12px;
+}
+.full-width{
+  width: 100%;
+  text-align: center;
+}
+ /* The switch - the box around the slider */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 48px;
+  height: 24px;
+  vertical-align: middle;
+}
+
+/* Hide default HTML checkbox */
+.switch input {display:none;}
+
+/* The slider */
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 20px;
+  width: 20px;
+  left: 4px;
+  bottom: 2px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+input:checked + .slider {
+  background-color: #ff8256;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #ff8256;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(20px);
+  -ms-transform: translateX(20px);
+  transform: translateX(20px);
+}
+
+/* Rounded sliders */
+.slider.round {
+  border-radius: 24px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+} 
+.toggle-on-image, .toggle-off-image{
+  color: white;
+  fill: currentColor;
+  top: 5px;
+  position: absolute;
+  cursor: pointer;
+}
+.toggle-on-image{
+  left: 6px;
+}
+.toggle-off-image{
+  left: 26px;
+}
+.input-group{
+  margin: 10px;
 }

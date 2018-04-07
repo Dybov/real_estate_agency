@@ -1,0 +1,30 @@
+{% load static %}
+<div id="root" class="col-xs-12">
+    <img class="text-center" src="{% static 'img/icon/preloader.svg' %}" width="30px">
+</div>
+
+
+<script type="text/javascript" src="https://cdn.domclick.ru/widget/mortgage/inject.js"></script>
+
+<script>
+     var calculatorOptions = {
+              apiKey: '728a2644-fefc-43c1-9054-5806c8fda7ef',
+              excludedFields: ['product', 'paidToCard'], // Скрываем поле - выбор программы
+              schema: {
+               product: 4 // По умолчанию программа 4 (Новостройки)
+              }
+      };
+    domclick.mortgage.ready(function (mortgage) {
+      mortgage(
+        'root',
+        { calculator: calculatorOptions },
+        { cssSuffix: 'mr' }
+      );
+
+      window.onscroll = function() {
+        // var offset = window.pageYOffset || document.documentElement.scrollTop;
+          // document.getElementById('domclick__result').style.marginTop = offset + 'px';
+      };
+    });
+  
+</script>

@@ -22,7 +22,7 @@
    <div class="container">
       <div class="row">
          <div class="col-md-12">
-            <div class="zhk_headline"> Все просто</div>
+            <h2 class="zhk_headline">Все просто</h2>
          </div>
       </div>
       <div class="col-md-4 col-xs-12 col-sm-4">
@@ -60,11 +60,9 @@
 <section class="ipoteka_partners">
    <div class="container">
       <div class="row">
-         <div class="col-md-12">
-            <div class="zhk_headline">
-               Банки партнеры
-            </div>
-         </div>
+        <div class="col-md-12">
+            <h2 class="zhk_headline">Банки партнеры</h2>
+        </div>
       </div>
       <div class="row" data-flickity='{ "cellAlign": "left", "contain": true, "groupCells": true, "wrapAround": true }'>
          {% for partner_name,img_name in banks.items %}
@@ -73,18 +71,21 @@
       </div>
    </div>
 </section>
-
-{% include 'mortgage/calculator.html' %}
-
+<section id="calculator_ipoteka" class="calc" style="margin: 50px 0px;">
+    <div class="container">
+        <div class="row">
+            <h2 class="zshk_headline col-xs-12">Ипотечный калькулятор</h2>
+            {% include 'mortgage/calculator.html' %}
+        </div>
+    </div>
+</section>
 {% include 'applications/callback_form_implemented.html' with callback_form_title='Задать вопросы об ипотеке' %}
 
 <section class="ipoteka_info" style="margin-bottom: 50px;">
    <div class="container">
       <div class="row">
          <div class="col-md-12">
-            <div class="zhk_headline">
-               Как оформить ипотеку?
-            </div>
+            <h2 class="zhk_headline">Как оформить ипотеку?</h2>
          </div>
       </div>
       <div class="row">
@@ -147,7 +148,7 @@
    <div class="container">
       <div class="row">
          <div class="col-md-12">
-            <div class="zhk_headline">Необходимые документы</div>
+            <h2 class="zhk_headline">Необходимые документы</h2>
          </div>
          <div class="col-md-3 col-xs-12 col-sm-6">
             <div class="ipoteka_info_item">
@@ -196,7 +197,7 @@
    <div class="container">
       <div class="row">
          <div class="col-md-12">
-            <div class="zhk_headline">Законодательство</div>
+            <h2 class="zhk_headline">Законодательство</h2>
          </div>
          <div class="col-md-12 col-xs-12">
             <div class="zakon_doc">
