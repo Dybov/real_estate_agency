@@ -1787,17 +1787,6 @@ display: flex;
 .my-mfp-zoom-in.mfp-removing.mfp-bg {
   opacity: 0;
 }
-.ipoteka {
-  -webkit-background-size: cover;
-          background-size: cover;
-  background-position: center center;
-  background-repeat: no-repeat;
-}
-
-
-.ipoteka .zhk_headline {
-  margin-top: 25px;
-}
 .ipoteka_headline {
   font-size: 28px;
   line-height: 1;
@@ -2124,74 +2113,6 @@ footer {
   -webkit-justify-content: center;
       -ms-flex-pack: center;
           justify-content: center;
-}
-.ipoteka_cta_form {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  width: 100%;
-  -webkit-box-pack: center;
-  -webkit-justify-content: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-}
-.ipoteka_cta_form input {
-  width: 300px;
-  height: 66px;
-  -webkit-border-radius: 6px;
-          border-radius: 6px;
-  background-color: #ffffff;
-  border: solid 1px #c2c4d0;
-  outline: none;
-  display: inline-block;
-  padding: 30px 0 15px 15px;
-  font-size: 22px;
-  color: #3c3d49;
-  -webkit-transition: all 0.6s ease;
-  -o-transition: all 0.6s ease;
-  transition: all 0.6s ease;
-  margin-right: 20px;
-}
-.ipoteka_cta_form input::-webkit-input-placeholder {
-  font-size: 18px;
-  font-weight: 300;
-  color: #a1a1a1;
-}
-.ipoteka_cta_form input::-moz-placeholder {
-  font-size: 18px;
-  font-weight: 300;
-  color: #a1a1a1;
-}
-.ipoteka_cta_form input:-ms-input-placeholder {
-  font-size: 18px;
-  font-weight: 300;
-  color: #a1a1a1;
-}
-.ipoteka_cta_form input::-ms-input-placeholder {
-  font-size: 18px;
-  font-weight: 300;
-  color: #a1a1a1;
-}
-.ipoteka_cta_form input::placeholder {
-  font-size: 18px;
-  font-weight: 300;
-  color: #a1a1a1;
-}
-.ipoteka_cta_form input:hover {
-  -webkit-box-shadow: inset 0 1px 2px 0 rgba(113, 113, 113, 0.2);
-          box-shadow: inset 0 1px 2px 0 rgba(113, 113, 113, 0.2);
-  border: 1px solid #ff8256;
-}
-.ipoteka_cta_form input:active {
-  -webkit-box-shadow: inset 0 1px 2px 0 rgba(113, 113, 113, 0.2);
-          box-shadow: inset 0 1px 2px 0 rgba(113, 113, 113, 0.2);
-  border: 1px solid #ff8256;
-}
-.ipoteka_cta_form input:focus {
-  -webkit-box-shadow: inset 0 1px 2px 0 rgba(113, 113, 113, 0.2);
-          box-shadow: inset 0 1px 2px 0 rgba(113, 113, 113, 0.2);
-  border: 1px solid #ff8256;
 }
 .flex_header_ipoteka .info_form {
   margin-top: 20px;
@@ -3673,25 +3594,6 @@ box-shadow: 10px 22px 66px -36px rgba(102,102,102,1);
     font-size: 18px;
     line-height: 1.4;
     margin-top: 20px;
-  }
-  .ipoteka_cta_form {
-    -webkit-box-orient: vertical;
-    -webkit-box-direction: normal;
-    -webkit-flex-direction: column;
-        -ms-flex-direction: column;
-            flex-direction: column;
-    -webkit-box-align: center;
-    -webkit-align-items: center;
-        -ms-flex-align: center;
-            align-items: center;
-  }
-  .ipoteka_cta_form .btn_large {
-    width: 100%;
-  }
-  .ipoteka_cta_form input {
-    width: 100%;
-    margin-right: 0;
-    margin-bottom: 10px;
   }
   .header {
     height: 900px;
