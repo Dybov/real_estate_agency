@@ -66,7 +66,11 @@ class NewApartment(Apartment):
         date_origin = self.date_of_construction
         self.date_of_construction = date
         return not date_origin == date
-
+    
+    def is_built(self):
+        if self.date_of_construction:
+            return self.date_of_construction <= datetime.date.today()
+    
     class Meta:
         verbose_name = _('объект "планировка"')
         verbose_name_plural = _('планировки')

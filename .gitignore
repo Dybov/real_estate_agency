@@ -35,3 +35,4 @@ real_estate_agency/static/libs
 
 #For server settings
 real_estate_agency/real_estate_agency/settings/production.py
+server/*
