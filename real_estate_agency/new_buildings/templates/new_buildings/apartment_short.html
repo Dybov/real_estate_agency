@@ -56,8 +56,13 @@
 		</div>
 		<div>
 			<p>
-				Доступно в {{ apartment.get_buildings|join:", " }} {% if apartment.get_date_of_construction %}
-				<br>Срок сдачи: {{ apartment.get_date_of_construction }}{% endif %}
+				Доступно в {{ apartment.get_buildings|join:", " }} 
+				<br>
+				{% if apartment.is_built %}
+					Дом сдан
+				{% else %}
+					Срок сдачи: {{ apartment.get_date_of_construction }}
+				{% endif %}
 			</p>
 		</div>
 		<div class="modal_plan_form">
