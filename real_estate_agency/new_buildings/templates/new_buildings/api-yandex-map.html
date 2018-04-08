@@ -1,0 +1,22 @@
+<script src="https://api-maps.yandex.ru/2.1/?lang=ru_RU" type="text/javascript"></script>
+<script type="text/javascript">
+ymaps.ready(init);
+
+var myMap;
+var myPlacemark
+var center = {{ yandex_grid_center_json }}
+function init(){     
+    myMap = new ymaps.Map("myMap", {
+        center: center,
+        zoom: 15
+    });
+    {% for buiding in residental_complex.get_new_buildings %}
+    myPlacemark = new ymaps.Placemark({{buiding.coordinates_as_json}}, { 
+        hintContent: "{{buiding.name}}", 
+        balloonContent: "{{buiding.name}} | {{buiding.address}}"
+    });
+    myMap.geoObjects.add(myPlacemark);
+    {% endfor %}
+}
+
+</script>

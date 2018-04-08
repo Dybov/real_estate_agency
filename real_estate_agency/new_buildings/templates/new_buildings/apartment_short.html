@@ -1,0 +1,82 @@
+<div class="col-md-3 col-xs-12 element-item" id='apartment-{{apartment.id}}'> 
+<a href="#apartment_{{apartment.id}}_popup" class="pop_up_plan">
+	<div class="item_rooms">
+		<div class='rooms' hidden>{{ apartment.rooms }}</div>
+		<div class="item_rooms_plan" style="background-image: url({{ apartment.layout.url }});"></div>
+		<div class="item_rooms_info">
+			<div class="item_rooms_price">
+				{{ apartment.price }} руб.
+			</div>
+			<div class="item_rooms_description">
+				Кол-во комнат <span>{{apartment.get_rooms_display}}</span>
+				<br>
+				Площадь <span>{{ apartment.total_area }}</span> м2<br>
+			</div>
+		</div>
+	</div>
+</a>
+</div>
+
+
+
+
+<div class="hidden">
+<div id="apartment_{{apartment.id}}_popup" class="animate_popup apartment_modal_plan">
+	<div class="modal_plan_img" style="background-image: url({{ apartment.layout.url }});">
+	</div>
+	<div class="modal_plan_description">
+		<div class="modal_plan_name">
+			{{ apartment }}
+		</div>
+		<div class="modal_plan_price">
+			<div class="modal_plan_price_big">
+				{{ apartment.price }} руб. 
+			</div>
+			<div class="modal_plan_price_small">
+				Цена за кв. метр <span>{{ apartment.price_per_square_meter|floatformat}} руб.</span> 
+			</div>
+		</div>
+		<div class="modal_plan_metr">
+			<div class="modal_plan_name_small">
+				Площадь
+			</div>
+			<div class="modal_plan_metr_all">
+				<div class="modal_plan_metr_features">
+					Общая <span>{{ apartment.total_area }} м2</span>
+				</div>
+				<div class="modal_plan_metr_features">
+					Кухни <span>{{ apartment.kitchen_area }} м2</span>
+				</div>
+				{% if apartment.balcony_area %}
+				<div class="modal_plan_metr_features">
+					Балкона <span>{{ apartment.balcony_area }} м2</span>
+				</div>
+				{% endif %}
+			</div>
+		</div>
+		<div>
+			<p>
+				Доступно в {{ apartment.get_buildings|join:", " }} 
+				<br>
+				{% if apartment.is_built %}
+					Дом сдан
+				{% else %}
+					Срок сдачи: {{ apartment.get_date_of_construction }}
+				{% endif %}
+			</p>
+		</div>
+		<div class="modal_plan_form">
+			<div class="modal_plan_name_small">
+				Записаться на просмотр
+			</div>
+			<form class="cta_form" method="post" action="{% url 'applications:callback' %}">{% csrf_token %}
+				<input type="text" name="{{ callback_form.phone_number.name }}" placeholder="Телефон" id="popup_input" />
+				<input name="{{ callback_form.extra_info.name }}" type="hidden" value="Интересует {{ apartment }} за {{ apartment.price }} руб. 
+Площадью {{ apartment.total_area }} м2
+В {{residental_complex.type_of_complex.get_loct}} {{residental_complex}}" />
+				<button type="submit" class="btn_large">Жду звонка</button>
+			</form>
+		</div>
+	</div>
+</div>
+</div>

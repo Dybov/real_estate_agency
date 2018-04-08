@@ -1,0 +1,175 @@
+{% extends 'base/base.html'%}
+{% load static %}
+{% load django_bootstrap_breadcrumbs %}
+{% block breadcrumbs %}
+    {{ block.super }}
+    {% breadcrumb "О компании" "about" %}
+{% endblock %}
+{% block content %}
+<header>
+	<section class="rewiews_header" style="background-image: url({% static 'img/about.png' %});">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-12"> 
+					<div class="rewiews_header_headline_flex">
+						<h1 class="rewiews_header_headline">О компании</h1>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+<section>
+	<div class="container">
+		<div class="row">
+			<div class="col-md-8 ">
+				<p><b>Компания «Домус»</b> — официальный представитель ведущих строительных компаний г. Тюмени.</p>
+<p><b>Название «Домус»</b> выбрано не случайно — в переводе с латинского означает дом, особняк. Самое главное в жизни человека — это место, где любят и ждут, где царит идеальная гармония, куда хочется возвращаться каждый день. Своим клиентам мы предлагаем помощь в решении жилищного вопроса, предлагая новый уровень качественных услуг. </p>
+<p><b>Миссия:</b> Мы помогаем найти и приобрести квартиру вашей мечты.</p>
+<p><b>Наши направления в сфере недвижимости:</b> <br />
+— покупка квартир на рынке новостроек; <br />
+— покупка элитной недвижимости; <br />
+— покупка, продажа квартир на вторичном рынке; <br />
+— брокеридж и управление коммерческой недвижимостью; <br />
+— помощь в оформлении ипотеки, услуги ипотечного брокера; <br />
+— юридические сопровождение сделок; <br />
+— работа по социальным программам (молодая семья, материнский капитал, военная ипотека, бюджетный сертификат).</p>
+
+			</div>
+		</div>
+	</div>
+</section>
+
+<section>
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12">
+				<h2 class="zhk_headline">Приемущества компании</h3>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-3 col-xs-12">
+				<div class="features_about_item">
+						<div class="features_about_icon">
+							<img src="{% static 'img/icon/about/wallet.svg' %}" width="100px" height="100px">
+						</div>
+						<div class="features_about_headline">
+							 Новостройки без комиссии
+						</div>
+						<div class="features_about_text">
+							Мы являемся представителями застройщиков, поэтому наши услуги бесплатны
+						</div>
+				</div>
+			</div>
+
+			<div class="col-md-3 col-xs-12">
+				<div class="features_about_item">
+						<div class="features_about_icon">
+							<img src="{% static 'img/icon/about/booking.svg' %}" width="100px" height="100px">
+						</div>
+						<div class="features_about_headline">
+							 Бронирование
+						</div>
+						<div class="features_about_text">
+							Мы бесплатно забронируем для вас квартиру в новостройке
+						</div>
+				</div>
+			</div>
+
+			<div class="col-md-3 col-xs-12">
+				<div class="features_about_item">
+						<div class="features_about_icon">
+							<img src="{% static 'img/icon/about/manager.svg' %}" width="100px" height="100px">
+						</div>
+						<div class="features_about_headline">
+							 Персональный менеджер
+
+						</div>
+						<div class="features_about_text">
+							У вас будет персональный специалист по недвижимости который поможет вам с оформлением квартиры
+						</div>
+				</div>
+			</div>
+
+			<div class="col-md-3 col-xs-12">
+				<div class="features_about_item">
+						<div class="features_about_icon">
+							<img src="{% static 'img/icon/about/excrusion.svg' %}" width="100px" height="100px">
+						</div>
+						<div class="features_about_headline">
+							 Экскурсии
+						</div>
+						<div class="features_about_text">
+							Мы предоставим вам трансфер по всем новостройкам
+						</div>
+				</div>
+			</div>						
+
+		</div>
+	</div>
+</section>
+
+<section>
+	<div class="container">
+			<div class="row">
+				<div class="col-md-12">
+					<h2 class="zhk_headline">Цифры компании</h2>
+				</div>
+			</div>
+				{% include 'company/company_statistics.html' %}
+		<div class="row numbers">
+			<div class="col-md-4 col-sm-4">
+				<div class="numbers_item border-rigth ">
+					<div class="numbers_item_big">
+					5
+					</div>
+					<div class="numbers_item_small">
+						Страховых компаний-партнеров
+					</div>
+				</div>
+			</div>
+			<div class="col-md-4 col-sm-4">
+				<div class="numbers_item border-rigth">
+					<div class="numbers_item_big">
+						10 
+					</div>
+					<div class="numbers_item_small">
+						Банков-партнеров
+					</div>
+				</div>
+			</div>
+			<div class="col-md-4 col-sm-4">
+				<div class="numbers_item">
+					<div class="numbers_item_big">
+						70%
+					</div>
+					<div class="numbers_item_small">
+						Ипотечных заявок одобряются
+					</div>
+				</div>
+			</div>						
+		</div>
+	</div>
+</section>
+
+
+<section class="slider_diplom">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12">
+				<h2 class="zhk_headline" style="margin-bottom: 25px;">Благодарственные письма от партнеров</h2>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-12">
+				<div class="sleder_diplom_container" data-flickity='{ "groupCells": true, "wrapAround": true }'>
+					{% for award in awards %}
+						<a href="{{award.image.url}}" class="slider_item" style="background-image: url({{award.image.url}});">
+					</a>
+					{% endfor %}
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+{% endblock %}

@@ -1,0 +1,60 @@
+{% extends 'base/base.html'%}
+{% load static %}
+{% load django_bootstrap_breadcrumbs %}
+{% block breadcrumbs %}
+    {{ block.super }}
+    {% breadcrumb "Отзывы" "feedback" %}
+{% endblock %}
+{% block content %}
+
+
+	<section class="rewiews_header" style="background-image: url({% static 'img/reviews.png' %});">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-12"> 
+					<div class="rewiews_header_headline_flex">
+						<h1 class="rewiews_header_headline">Отзывы о компании</h1>
+					</div>
+					
+
+				</div>
+			</div>
+		</div>
+	</section>
+<section class="reviws_page">
+<div class="container">
+	<div class="row">
+		<div class="col-md-10 col-md-offset-1">
+		{% include 'feedback/feedback_detail.html' %}
+		{% include 'feedback/feedback_detail.html' %}
+
+		{% include 'feedback/feedback_detail.html' %}
+		{% include 'feedback/feedback_detail.html' %}
+		</div>
+	</div>
+</div>
+</section>
+<section>
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12">
+				<div class="pagiantion">
+					<ul>
+						<li><a href="" class="prev">‹</a></li>
+						<li><a href="" class="pagiantion_active">1</a></li>
+						<li><a href="">2</a></li>
+						<li><a href="">3</a></li>
+						<li><a href="">...</a></li>
+						<li><a href="">5 </a></li>
+						<li><a href="" class="next">›</a></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>	
+
+
+
+
+{% endblock %}

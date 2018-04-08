@@ -1,0 +1,81 @@
+{% load static %}
+<form id='inputCalc' class="col-xs-12 col-md-8 " action="{% url 'mortgage:index' %}" method="get">
+    <div class="col-xs-12 input-group">
+        {{form.full_price.errors}}
+        <label class="col-md-3" for="{{form.full_price.id_for_label}}">Стоимость недвижимости</label>
+        <div class="col-md-9">
+            <div>
+                {{form.full_price}}
+            </div>
+            <div class="slider_price_home">
+                <div class="justify-content-between cursor-pointer">
+                    <span class='slider-price-appendix'></span>
+                    <span class='slider-price-appendix'></span>
+                    <span class='slider-price-appendix'></span>
+                    <span class='slider-price-appendix'></span>
+                    <span class='slider-price-appendix'></span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xs-12 input-group">
+        {{form.initial_fee.errors}}
+        <label class="col-md-3" for="{{form.initial_fee.id_for_label}}">Первоначальный взнос</label>
+        <div class="col-md-9">
+            <div>
+                {{form.initial_fee}}
+            </div>
+            <div class="slider_price_one">
+                <div class="justify-content-between cursor-pointer">
+                    <span class='slider-initial-appendix'></span>
+                    <span class='slider-initial-appendix'></span>
+                    <span class='slider-initial-appendix'></span>
+                    <span class='slider-initial-appendix'></span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xs-12 input-group">
+        {{form.years.errors}}
+        <label class="col-md-3" for="{{form.years.id_for_label}}">Срок кредита</label>
+        <div class="col-md-9">
+            <div>
+                {{form.years}}
+            </div>
+            <div class="slider_price_year">
+                <div class="justify-content-between cursor-pointer">
+                    <span class='slider-years-appendix'></span>
+                    <span class='slider-years-appendix'></span>
+                    <span class='slider-years-appendix'></span>
+                    <span class='slider-years-appendix'></span>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% include 'mortgage/checkbox-item.html' with label='Есть зарплатная карта' id='salary-card' value='-0.5' %}
+    {% include 'mortgage/checkbox-item.html' with label='Есть возможность подтвердить доход справкой 2-НДФЛ или по форме банка' id='salary-proof' value='-0.5' hidden_='true'%}
+    {% include 'mortgage/checkbox-item.html' with label='Страхование жизни' id='insurance' value='-1' label_append='При страховании жизни в аккредитованных банками организациях.'%}
+    {% include 'mortgage/checkbox-item.html' with label='Электронная регистрация' id='online-registration' value='-0.1' label_append='Регистрация прав собственности без посещения Росреестра и МФЦ.' %}
+    {% include 'mortgage/checkbox-item.html' with label='Скидка от застройщика' id='builders-sales' value_prepend='до ' value='-2' real_value='-1.5' label_append='Действует при приобретении жилья у определенных застройщиков при сроке кредита до 12 лет.' %}
+</form>
+<div id='outputCalc' class="col-xs-12 col-md-4 with-border">
+    <div class="col-xs-12">
+        <h1 class="calc-result-h">Сумма кредита</h1>
+        <p class="calc-result-p"><span class="all_price">{{amount_of_mortgage|floatformat:0}}</span><span> руб.</span></p>          
+        <hr>
+    </div>
+    <div class="col-xs-6">
+        <h1 class="calc-result-h">Ежемесячный платеж</h1>
+        <p class="calc-result-p"><span class="price_mouth">{{monthly_payment|floatformat:0}}</span> <span>руб.</span></p>          
+    </div>
+    <div class="col-xs-6">
+        <h1 class="calc-result-h">Процентная ставка</h1>
+        <p class="calc-result-p"><span class="actual_prestnt">{{mortgage_percentage|floatformat:1}}</span><span>%</span></p>          
+    </div>
+    <div class="col-xs-12">
+        <hr>
+        <a id="mortgage-calc-callback" href="{% url 'applications:callback' %}" class="large-text full-width callback-link item-info-btn">Узнать больше ></a>
+    </div>
+</div>
+
+<script src='{% static "mortgage/mortgage_calculator.js" %}'></script> 

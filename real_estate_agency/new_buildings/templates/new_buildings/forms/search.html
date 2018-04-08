@@ -1,0 +1,79 @@
+{% load static %}
+
+    
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <h1 class="main_header_headline">Новостройки от застройщика в Тюмени</h1>
+                <h2 class="main_header_headline_2">Бесплатный поиск квартир в новостройках</h2>
+            </div>
+        </div>
+
+       
+        <div class="row">
+            <div class="col-md-12">
+                 <form action="{% url 'new_buildings:residental-complex-list' %}" method="get">
+                <div class="search_room-flex">
+                    <div class="search-form-room-flex">
+                        <div class="search-form-name">Количество комнат</div>
+                        {{ form.rooms.errors }}
+                        <div class="btn-group search-room-btn-flex" data-toggle="buttons">
+                            {% for room in form.rooms %}
+                                <label class="search-btn {% if room.data.selected %}active-checkbox{% endif %}">
+                                    {{room}}
+                                </label>
+                            {% endfor %}
+                        </div>
+                    </div>
+
+
+                    <div class="search_price-flex search_price-flex-border-right-none">
+                        <label for="{{ form.price_from.id_for_label }}" class="search-form-name">Стоимость</label>
+                        <div class="search_form_price_container search_price-flex-border-bottom">
+                            <div class="search_form_price">
+                                {{ form.price_from.errors }}
+                                {{ form.price_from }}
+                            </div>
+                            <div class="search_form_price">
+                                {{ form.price_to.errors }}
+                                {{ form.price_to }}
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="search_price-flex">
+                        <label for="{{ form.area_from.id_for_label }}" class="search-form-name">Площадь, м2</label>
+                        <div class="search_form_price_container ">
+                            <div class="search_form_price">
+                                {{ form.area_from.errors }}
+                                {{ form.area_from }}
+                            </div>
+                            <div class="search_form_price">
+                                {{ form.area_to.errors }}
+                                {{ form.area_to }}
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="select_home-flex">
+                        <label for="{{form.settlement_before.id_for_label}}" class="search-form-name">Срок сдачи</label>
+                        {{ form.settlement_before.errors }}
+                        <div class="search_form_select">
+                            {{ form.settlement_before }}
+                        </div>
+                    </div>
+
+                </div>  
+                <div class="search_place">
+                    {{form.any_text.errors}}
+                    {{form.any_text}}
+                    <button class="btn_large" type="submit">Найти</button>
+                </div>
+                </form>
+            </div>
+        </div>
+        
+    </div>  
+

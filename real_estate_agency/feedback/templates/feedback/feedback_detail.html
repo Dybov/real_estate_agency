@@ -1,0 +1,16 @@
+<div class="reviews_item">
+    <div class="reviews_item_photo" style="background-image: url({{feedback.image.url}});">      
+    </div>
+    <div class="reviews_item_text">{{feedback.message}}
+        <div class="reviews_item_description">
+            {{feedback.author}}<span><a href=""><i class="fa fa-vk " aria-hidden="true"></i></a></span>
+            {% if feedback.work_at %}
+                <span style="font-size: 14px; font-weight: 300;">Место работы: {{feedback.work_at}} </span>
+            {% endif %}
+            Приобретена квартира в {{feedback.bought.type_of_complex.get_loct}} {{feedback.bought}}<br>
+            {% for social in feedback.get_social_media_links %}
+                <a href="{{social.url}}" target="_blank"><img src='{{social.get_img.url}}' width="16px" height="16px" t]>{{social.get_type}}</a><br>
+            {% endfor %}
+        </div>
+    </div>
+</div>

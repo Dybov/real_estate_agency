@@ -1,0 +1,21 @@
+{% for feature in residental_complex.get_features %}
+
+            <div class="features">
+                <div class="features_img">
+                    <img src="{{ feature.image.url }}" alt="Изображение {{ feature.title }}" class="img-responsive">
+                </div>
+                <div class="features_description">
+                    <div class="zhk_description_headline">
+                         {{ feature.title }}
+                    </div>
+                    <div class="zhk_description_text">
+                         {{ feature.description }}
+                    </div>
+                </div>
+            </div>
+
+{% empty %}
+<p>Описание особенностей будет добавлено позднее</p>
+{% endfor %}
+
+

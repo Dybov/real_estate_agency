@@ -4,3 +4,35 @@
 #For editors temporary files
 *~
 *.swp
+
+#For nano's emergency files
+*.save
+
+#For django media files
+real_estate_agency/media/*
+
+#For sublime files
+*.sublime-project
+*.sublime-workspace
+
+#For sass cache files
+*.sass-cache
+
+#For temporary db (for development)
+*/db.sqlite3
+real_estate_agency/static/img/.DS_Store
+
+#For gulp files
+gulpfile.js
+package.json
+*/node_modules
+real_estate_agency/static/less
+real_estate_agency/static/libs
+
+#For server logs
+*.log
+*/logs/*
+
+#For server settings
+real_estate_agency/real_estate_agency/settings/production.py
+server/*

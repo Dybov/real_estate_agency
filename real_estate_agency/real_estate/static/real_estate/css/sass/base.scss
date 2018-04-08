@@ -1,0 +1,14 @@
+.navbar a{
+	transition: all 0.5s ease;
+}
+
+.inverse{
+		background-color: lighten(#000, 46.7%);
+		color: white;
+		a{
+			color: white;
+		}
+}
+.navbar{
+	margin-bottom:0;
+}

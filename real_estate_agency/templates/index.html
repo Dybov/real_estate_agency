@@ -1,0 +1,144 @@
+{% extends 'base/base.html'%}
+{% load static %}
+{% block content %}
+<section class="header" style="background-image: url({% static 'new_buildings/img/background.jpg' %});">
+	{% include 'new_buildings/forms/search.html' %}
+</section>
+<section class="company emerge" data-effect="slide" data-expose="true">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12">
+				<div class="zhk_headline">
+					О компании
+				</div>
+				<div class="company_description">
+					<p>Компания &laquo;DОМУС&raquo;&nbsp;&mdash; помогает выбрать и&nbsp;преобрести квартиру вашей мечты</p>
+				</div>
+			</div>
+			<div class="col-md-4">
+				<div class="company_features">
+					<p>Работаем со&nbsp;всем строительными компаниями Тюмени</p>
+				</div>
+			</div>
+			<div class="col-md-4">
+				<div class="company_features">
+<p>Помогаем найти квартиру мечты для каждого человека</p>
+				</div>
+			</div>
+			<div class="col-md-4">
+				<div class="company_features">
+<p>Честно рассказываем о&nbsp;достоинствах и&nbsp;недостатках жилых комплексов. Не&nbsp;навязываем своё мнение. Не&nbsp;настаиваем на&nbsp;покупке</p>
+				</div>
+			</div>
+		</div>
+
+		{% include 'company/company_statistics.html' %}
+	</div>
+</section>
+
+<section class="mortage emerge" data-effect="slide" data-expose="true" style="background-image: url({% static 'mortgage/img/ipoteka.png' %});">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12">
+				<div class="zhk_headline">
+					Ипотека
+				</div>
+				<div class="ipoteka_headline">от <span class="ipoteka_percent"> 6%</span></div>
+			</div>
+			<div class="col-md-10">
+				<div class="company_description">
+					Бесплатно оформляем ипотеку за 1 - 3 дня
+				</div>
+			</div>
+		</div>
+		<div class="row numbers">
+						<div class="col-md-4 col-sm-4">
+				<div class="numbers_item border-rigth ">
+					<div class="numbers_item_big">
+					5
+					</div>
+					<div class="numbers_item_small">
+						Страховых компаний-партнеров
+					</div>
+				</div>
+			</div>
+						<div class="col-md-4 col-sm-4">
+				<div class="numbers_item border-rigth">
+					<div class="numbers_item_big">
+						10 
+					</div>
+					<div class="numbers_item_small">
+						Банков-партнеров
+					</div>
+				</div>
+			</div>
+				<div class="col-md-4 col-sm-4">
+				<div class="numbers_item">
+					<div class="numbers_item_big">
+						70%
+					</div>
+					<div class="numbers_item_small">
+						Ипотечных заявок одобряются
+					</div>
+				</div>
+			</div>						
+		</div>
+	</div>
+</section>
+
+<section class="reviews emerge" data-effect="slide" data-expose="true">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12">
+				<div class="zhk_headline">
+					Отзывы клиентов
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-12 col-xs-12">
+				<div class="reviews_slider" data-flickity='{"wrapAround": true}'>
+				{% for feedback in feedbacks %}
+					{% include 'feedback/feedback_detail.html' %}
+				{% endfor %}									
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+			
+<section class="top_zhk">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12">
+				<div class="zhk_headline">
+					Популярные жилые комплексы
+				</div>
+			</div>
+			<div class="col-md-12">
+				<div class="top_zhk_text"> 
+				<p>Лучшие предложения в городе Тюмени на квартиры от эконом до бизнес-класса Жилые комплексы с&nbsp;развитой инфраструктурой. Рядом школы, остановки общественного транспорта, современные детские площадки.</p>
+				</div>
+			</div>
+		</div>
+
+		<div class="row">
+				{% for residental_complex in residental_complexes %}
+					{% include "new_buildings/residental_complex_short.html" %}
+				{% endfor %}
+
+			<div class="col-md-12 col-xs-12" style="text-align: center;">
+				<div class="btn_all_newhome">
+				<a href="{% url 'new_buildings:residental-complex-list' %}" class="all_newhome">Посмотреть все новостройки</a>	
+				</div>
+				
+			</div>
+		</div>
+
+
+	</div>
+</section>
+
+
+
+{% endblock %}

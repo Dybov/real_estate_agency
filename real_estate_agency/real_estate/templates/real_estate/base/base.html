@@ -1,0 +1,28 @@
+{% load static %}
+<!DOCTYPE html>
+<title>{% block page_title %}Real Estate Agency{% endblock %}</title>
+<meta charset="utf-8">
+<!-- Latest compiled and minified CSS from Twitter Bootstrap -->
+{% block meta %}
+    <link rel="shortcut icon" href='{% static "real_estate/images/logo/favicon.ico" %}' type="image/x-icon">
+    <!--Bootstrap css-->
+    {# <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"> #}
+{#     <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto|Open+Sans&subset=latin,cyrillic)"> #}
+    <link rel="stylesheet" href='{% static "real_estate/css/bootstrap.min.css" %}'>
+    <link rel="stylesheet" href='{% static "real_estate/css/base.css" %}'>
+    <script src='{% static "real_estate/js/jquery.min.js" %}'></script>
+	<!-- Latest compiled and minified JavaScript -->
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <!--For mobile phones-->
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <!--[if lt IE 9]> <script src="//html5shiv.
+    googlecode.com/ svn/trunk/html5.js"></script>
+    <![endif]-->
+{% endblock %}
+{% block extra_meta %}{% endblock %}
+<body class="container-fluid">
+{% block header %}{% include "real_estate/base/header.html" %}{% endblock %}
+{% block navigation %}{% include 'real_estate/base/navigation.html' %}{% endblock %}
+{% block content %}{% endblock %}
+{% block footer %}{% include "real_estate/base/footer.html" %}{% endblock %}
+</body>

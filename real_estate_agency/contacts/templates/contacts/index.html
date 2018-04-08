@@ -1,0 +1,65 @@
+{% extends 'base/base.html'%}
+{% load static %}
+{% load django_bootstrap_breadcrumbs %}
+{% block breadcrumbs %}
+    {{ block.super }}
+    {% breadcrumb "Контакты" "contacts:index" %}
+{% endblock %}
+{% block content %}
+<section class="rewiews_header" style="background-image: url({% static 'img/contact.png' %});">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12"> 
+				<div class="rewiews_header_headline_flex">
+					<h1 class="rewiews_header_headline">Контакты</h1>
+				</div>
+				
+
+			</div>
+		</div>
+	</div>
+</section>
+
+<section>
+	<div class="container">
+		<div class="row">
+			<div class="col-md-6">
+				<div class="contact_info">
+									<p>АДРЕС ОФИСА ПРОДАЖ: Г.ТЮМЕНЬ УЛ. ГЕРЦЕНА 86А ОФИС 1<br />
+ТЕЛЕФОН: {{global_phone_number}}<br />
+E-MAIL: {{global_email|upper}}</p>
+				</div>
+
+			</div>
+			<div class="col-md-6">
+				<iframe src="https://yandex.ru/map-widget/v1/?um=constructor%3A27cb15995d4ff29ad87c734a05d7bb632c4ced0c50ce3be5501edeaedc7ad66d&amp;source=constructor" width="100%" height="400" frameborder="0"></iframe>
+			</div>
+		</div>
+	</div>
+</section>
+<section class="team">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12">
+				<div class="zhk_headline">Команда</div>
+			</div>
+		</div>
+		<div class="row col-xs-12">
+			<div class="col-md-4">
+				{% include 'contacts/team_member_item.html' with img_src='img/team/QLls5Sm6T0E.jpg' name='Задачин Игорь' phone='+7 (922) 456-13-48' vk=global_chat.vk %}
+			</div>
+			<div class="col-md-4">
+				{% include 'contacts/team_member_item.html' with img_src='img/team/Chestina_dv.jpg' name='Честина Диана' phone='+7 (982) 945-05-58' %}
+			</div>
+			<div class="col-md-4">
+				{% include 'contacts/team_member_item.html' with img_src='img/team/3.jpg' name='Байнарович Дмитрий' phone='+7 (952) 340-54-48' %}
+			</div>
+			{% comment %}
+			<div class="col-md-4">
+				{% include 'contactsteam_member_item.html' with img_src='img/team/2.jpg' name='Олег Абдулахатов' phone='+7 (906) 821-78-70' %}
+			</div>
+			{% endcomment %}
+		</div>
+	</div>
+</section>
+{% endblock %}

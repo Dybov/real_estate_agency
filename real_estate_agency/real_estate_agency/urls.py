@@ -13,9 +13,40 @@ Including another URLconf
     1. Import the include() function: from django.conf.urls import url, include
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
-from django.conf.urls import url
 from django.contrib import admin
+from django.conf import settings
+from django.conf.urls import url, include
+from django.conf.urls.static import static
+
+from .views import (corporation_benefit_plan,
+                    index,
+                    privacy_policy,
+                    thanks
+                    )
+
 
 urlpatterns = [
-    url(r'^admin/', admin.site.urls),
+    url(r'^$', index, name='index'),
+    url(r'^novostrojki/', include('new_buildings.urls', namespace='new_buildings')),
+    url(r'^address/', include('address.urls', namespace='address')),
+    url(r'^admin/', admin.site.urls, name='admin'),
+    url(r'^about/', include('company.urls', namespace='company')),
+    url(r'^ipoteka/', include('mortgage.urls', namespace='mortgage')),
+    url(r'^otzyvy/', include('feedback.urls', namespace='feedback')),
+    url(r'^corporate/', corporation_benefit_plan, name='corporation_benefit_plan'),
+    url(r'^kontakty/', include('contacts.urls', namespace='contacts')),
+    url(r'^zajavki/', include('applications.urls', namespace='applications')),
+    url(r'^politika/', privacy_policy, name='privacy-policy'), 
+    url(r'^spasibo/', thanks, name='thanks'), 
 ]
+
+#For using this path at dev machines
+if settings.DEBUG:
+    urlpatterns+=static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT) 
+    try:
+        import debug_toolbar
+        urlpatterns = [
+            url(r'^__debug__/', include(debug_toolbar.urls)),
+        ] + urlpatterns
+    except ImportError:
+        pass

@@ -1,0 +1,28 @@
+<div class="col-md-{% if forloop.last and not forloop.counter|divisibleby:2 %}12{% else %}6{% endif %} col-xs-12">
+	<a href='{{ residental_complex.get_absolute_url }}' class="item">
+		<div class="item-images" style="background-image: url({{ residental_complex.get_title_photo_url }});">
+			<div class="item-filter">
+				<p class="item-headline">
+					{{residental_complex.type_of_complex}} {{ residental_complex }}
+				</p>
+				<!-- Условие, чтобы не показывало что попало вместо цены, если данных нет-->
+				{% if residental_complex.get_lowest_price %}
+					<p class="item_price">
+						<span style="font-size: 14px;">от </span>{{ residental_complex.get_lowest_price }} руб.
+					</p>
+				{% endif %}
+
+				<div class="item-info-hover">
+					{% if residental_complex.is_built %}
+						<p class="item-info-text">Сдан</p>
+					{% else %}
+						{% if residental_complex.get_date_of_construction %}
+						<p class="item-info-text">Срок сдачи: {{ residental_complex.get_date_of_construction}}</p>
+						{% endif %}
+					{% endif %}
+					<p class="item-info-btn">Выбрать квартиру</p>
+				</div>
+			</div>
+		</div>
+	</a>
+</div>

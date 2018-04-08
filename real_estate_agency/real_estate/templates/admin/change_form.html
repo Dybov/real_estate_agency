@@ -1,0 +1,64 @@
+{% extends 'admin/change_form.html' %}
+{% load static %}
+
+{% block admin_change_form_document_ready %}
+{{ block.super }}
+<script type="text/javascript">
+var formsets_must_be_copied = ['newbuilding_set', 'newapartment_set'];
+
+(function($) {
+    $(document).on('formset:added', function(event, $row, formsetName) {
+        if (formsets_must_be_copied.indexOf(formsetName)>-1){
+            var id = $row.attr('id')
+            // var id_number = id.replace(formsetName+'-', '');
+
+            // there is no possibility to be exception
+            var id_number = id.match(/-(\d+)/i)[1];
+            if (id_number>0){
+                console.log(id_number);
+                var formset_id_prefix = 'id_' + formsetName + '-';
+
+                $row.find("input[type!='hidden'], select[type!='hidden']").each(function(){
+                    var local_id = $(this).attr('id');
+                    $(this).val($('#'+local_id.replace(id_number, id_number-1)).val());
+                });
+                $row.find('#id_'+ id +'-street').append(
+                    $('#' + formset_id_prefix + (id_number-1)+'-street option[value!=""]').clone(true)
+                );
+
+                $row.find('.select2-selection__rendered').each(function(){
+                    var local_id = $(this).attr('id')
+                    var value = $('#'+local_id.replace(id_number, id_number-1)).attr('title')
+                    $(this).attr('title', value);
+                    $(this).append(value);
+                });
+            }
+        }
+    });
+
+    $(document).on('formset:removed', function(event, $row, formsetName) {
+        // Row removed
+    });
+})(django.jQuery);
+</script>
+<script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
+    <script type="text/javascript">
+        (function(s){
+            setTimeout(function(){
+                    $(window).scrollTop(Cookies.get('django_admin_scroll'));
+                    Cookies.set('django_admin_scroll',0);
+
+                }, 100);
+        })(django.jQuery);
+        function save_and_continue(){
+            Cookies.set('django_admin_scroll',$(window).scrollTop());
+            $('input[name="_continue"]').click()
+        }
+        $('input[name="_continue"]').click(function(event){
+            Cookies.set('django_admin_scroll',$(window).scrollTop());
+            return event;
+        });
+        // $(document).bind('keydown', 'Meta+S', save_and_continue);
+        // $(document).bind('keydown', 'Ctrl+S', save_and_continue);
+    </script>
+{% endblock %}
