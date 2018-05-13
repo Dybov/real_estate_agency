@@ -11,3 +11,6 @@ django-unused-media==0.1.10
 telepot==12.5
 mock==2.0.0
 django-analytical==2.4.0
+celery==4.1.0
+redis==2.10.6
+flower==0.9.2
