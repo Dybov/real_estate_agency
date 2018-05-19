@@ -33,6 +33,7 @@ INSTALLED_APPS = [
     'feedback',
     'company',
     'applications',
+    'resale',
     'phonenumber_field',
     'django_unused_media',
     'django_bootstrap_breadcrumbs',
