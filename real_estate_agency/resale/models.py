@@ -6,6 +6,7 @@ from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
 from real_estate.models import Apartment, BaseBuilding
+from new_buildings.models import ResidentalComplex
 
 
 class ResaleApartment(Apartment, BaseBuilding):
@@ -18,15 +19,28 @@ class ResaleApartment(Apartment, BaseBuilding):
                                                    ),
                                                    ],
                                        )
-
+    residental_complex = models.ForeignKey(ResidentalComplex,
+                                           verbose_name=_('Жилой комплекс'),
+                                           on_delete=models.SET_DEFAULT,
+                                           default=None,
+                                           blank=True,
+                                           null=True,
+                                           )
     def clean(self):
         # Don't allow set agency_price lower than real price.
         if self.agency_price is not None and self.price is not None and self.agency_price < self.price:
             raise ValidationError({'agency_price':
-                _('цена с комиссией от агенства %(agency_price)s должна быть больше реальной цены %(real_price)s')
-                % {'agency_price': self.agency_price, 'real_price': self.price}
-                })
+                                   _('цена с комиссией от агенства %(agency_price)s должна быть больше реальной цены %(real_price)s')
+                                   % {'agency_price': self.agency_price, 'real_price': self.price}
+                                   })
+    @property
+    def fee(self):
+        if self.agency_price and self.price:
+            return self.agency_price - self.price
 
+    def __str__(self):
+        return self.pk
+    
     class Meta:
         verbose_name = _('объект вторичка')
         verbose_name_plural = _('вторички')
@@ -63,54 +77,9 @@ class ResaleApartment(Apartment, BaseBuilding):
 - комиссия (автоматичеси вычисляемое поле — разница между ценой от продавца и ценой от агенства)
 - объект сделки (связанная квартира)
 
-Список количества комнат должен представлять собой следующие значения:
-Студия
-1
-2
-3
-4
-5
-6
-7
-
-+Список районов и список улиц должны представлять собой динамически создаваемые списки, которые зависят от заполнения соответствующих полей в разделе «адрес» в админке.
-+Список возможных исполнений дома должен быть представлен следующими значениями:
-кирпичный
-монолитный
-каркасный
-панельный
-монолитно-каркасный
-панельный-кирпичный
-блоки железобетоные
-cиликатный блок
-
-+Список видов отделки должен быть представлен следующими значениями:
-ремонт
-евро ремонт
-чистовая
-предчистовая
-улучшенная черновая
-черновая
-
-+Список жилых комплексов должен представлять собой динамически создаваемый список, который зависит от заполнения соответствующих полей в разделе «новостройки» в админке.
 -Список состояний сделки должен быть представлен следующими значениями:
 сделка активна
 продано с помощью «DОМУС»
 продано без участия «DОМУС»'''
 
 
-'''
-class LastUserField(models.ForeignKey):
-    """
-    A field that keeps the last user that saved an instance
-    of a model. None will be the value for AnonymousUser.
-    """
-
-    def __init__(self, to=getattr(settings, 'AUTH_USER_MODEL', 'auth.User'), on_delete=models.SET_NULL, null=True, editable=False,  **kwargs):
-        super(LastUserField, self).__init__(to=to, on_delete=on_delete, null=null, editable=editable, **kwargs)
-
-    def contribute_to_class(self, cls, name):
-        super(LastUserField, self).contribute_to_class(cls, name)
-        registry = registration.FieldRegistry(self.__class__)
-registry.add_field(cls, self)
-'''

@@ -11,6 +11,7 @@ from django.utils.safestring import mark_safe
 
 from .models import ResidentalComplex, NewBuilding, NewApartment
 from .forms import SearchForm
+from address.views import BaseAutocompleteForAuthenticatedUsersView
 
 from company.views import BANK_PARTNERS
 
@@ -176,3 +177,7 @@ class NewApartmentsFeed(ListView):
             buildings__is_active=True,
             residental_complex__is_active=True,
     )
+
+
+class ResidentalComplexAutocompleteView(BaseAutocompleteForAuthenticatedUsersView):
+    model = ResidentalComplex
