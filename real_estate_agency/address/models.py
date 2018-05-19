@@ -5,8 +5,6 @@ from django.utils.safestring import mark_safe
 from django.core.validators import MinValueValidator
 from django.core.exceptions import ObjectDoesNotExist, ValidationError
 
-
-
 import geocoder
 
 
@@ -94,7 +92,7 @@ class StreetModel(models.Model):
         ordering = ('name',)
 
 
-class AbstractAddressModelWithoutNeighbourhood(BaseUniqueModel):
+class BaseAddressNoNeighbourhood(BaseUniqueModel):
     city = City()
     street = models.ForeignKey(StreetModel,
                                verbose_name=_('улица'),
@@ -108,8 +106,8 @@ class AbstractAddressModelWithoutNeighbourhood(BaseUniqueModel):
                                          blank=True,
                                          validators=[MinValueValidator(1)],
                                          help_text=_(
-                                             'оставьте пустым, если поле не имеет смысла'),
-                                         )
+        'оставьте пустым, если поле не имеет смысла'),
+    )
     zip_code = models.CharField(verbose_name=_('почтовый индекс'),
                                 max_length=127,
                                 null=True,
@@ -129,11 +127,11 @@ class AbstractAddressModelWithoutNeighbourhood(BaseUniqueModel):
         if self.coordinates:
             return self.coordinates.split(',')
         return None, None
+
     @cached_property
     def coordinates_as_json(self):
         import json
         return mark_safe(json.dumps(self.coordinates_as_list))
-
 
     @cached_property
     def address_short(self):
@@ -156,18 +154,23 @@ class AbstractAddressModelWithoutNeighbourhood(BaseUniqueModel):
     def define_coordinates(self):
         location = geocoder.yandex(self.city.name+", "+self.address)
         if location.ok:
-            self.coordinates = ",".join(location.latlng) 
+            self.coordinates = ",".join(location.latlng)
 
     class Meta:
         abstract = True
         unique_together = (('street', 'building', 'building_block', ), )
 
 
-class AbstractAddressModel(AbstractAddressModelWithoutNeighbourhood):
+class NeighbourhoodMixin(models.Model):
     neighbourhood = models.ForeignKey(NeighbourhoodModel,
                                       verbose_name=_('район'),
                                       on_delete=models.PROTECT,
                                       )
 
-    class Meta(AbstractAddressModelWithoutNeighbourhood.Meta):
-        pass
+    class Meta:
+        abstract = True
+
+
+class AbstractAddressModel(BaseAddressNoNeighbourhood, NeighbourhoodMixin):
+    class Meta(BaseAddressNoNeighbourhood.Meta):
+        abstract = True
