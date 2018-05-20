@@ -93,6 +93,24 @@ $(document).ready( function(){
         return Math.round(monthly_payment);
     }
 
+    function get_builders_sales(){
+        var percent;
+        var is_checked = $('#builders-sales').prop('checked');
+        if (!is_checked){
+            return 0;
+        }
+
+        var years_number = parseInt(years_element.val());
+        if (years_number <= 7){
+            percent = -2;
+        } else if (years_number <= 12){
+            percent = -1.5;
+        } else {percent = 0;}
+
+        return percent;
+    }
+
+
     function other_pertcentage(){
         var perc_value = 0;
         var array_of_extra_fields = [
@@ -100,16 +118,19 @@ $(document).ready( function(){
             '#salary-proof',
             '#insurance',
             '#online-registration',
-            '#builders-sales'
         ];
 
         array_of_extra_fields.forEach(function(element) {
             $input = $(element);
-            if (!(element=='#salary-proof' && perc_value==0)){
-                perc_value = perc_value - parseFloat(!$input.prop('checked')?$input.val():0); 
-            } 
+            field_val = parseFloat($input.val());
+            if (element=='#salary-proof' && perc_value==-0.5){
+                perc_by_field = field_val;
+            } else {
+                perc_by_field = $input.prop('checked')?field_val:0;                
+            }
+            perc_value = perc_value + perc_by_field;
         });
-        // console.log(perc_value);
+        perc_value = perc_value + get_builders_sales();
         return perc_value;
     }
     function update_checkboxes(){
@@ -125,20 +146,9 @@ $(document).ready( function(){
     }
 
     function calculator() {
-        var percent;
+        var percent = 11.5;
         var years_number   = parseInt(years_element.val());
         
-
-        if (years_number <= 5) {
-            percent = 6.0;
-        } else if (years_number <= 7) {
-            percent = 7.4;
-        } else if (years_number <= 12) {
-            percent = 7.9
-        } else {
-            percent = 9.4;
-        }
-
         percent = percent + other_pertcentage();
 
         var price_number = price.getNumber();
