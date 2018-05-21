@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django_celery_beat',
     'django_cleanup',
 ]
 
@@ -117,7 +118,7 @@ THOUSAND_SEPARATOR = ' '
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.10/howto/static-files/
 STATIC_URL = '/static/'
-STATICFILES_DIRS = [ os.path.join(BASE_DIR, "static")]
+STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 
@@ -125,3 +126,21 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 TELEGRAM_TOKEN = ''
 TELEGRAM_CHATS = []
 TELEGRAM_ADMINS_CHATS = []
+
+# Proxy might be nessecary because of blocking Telegram in Russia
+# Here is free proxies http://spys.one/proxys/GB/
+# Attention! For support socks5 you need install dependency pip install requests[socks]
+# For support socks5 also make sure, that you have the latest version of gunicorn, PySocks, pyTelegramBotAPI, requests and urllib3
+# Proxy format is must be for telepot.api set_proxy function http://telepot.readthedocs.io/en/latest/_modules/telepot/api.html#set_proxy
+TELEGRAM_PROXIES = [
+    # ('protocol', 'ip', 'port', 'username(None or "" if there is no useername)', 'password(None or "" if there is no password)')
+    ('https', '94.177.214.215', 8080, '', ''),
+]
+
+
+CELERY_BROKER_URL = 'redis://localhost:6379'
+CELERY_RESULT_BACKEND = 'redis://localhost:6379'
+CELERY_ACCEPT_CONTENT = ['application/json']
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_SERIALIZER = 'json'
+CELERY_TIMEZONE = TIME_ZONE
