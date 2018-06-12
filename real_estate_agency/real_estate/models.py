@@ -23,6 +23,17 @@ def get_file_path(instance, filename):
     return 'uploads/%s/%s/%s/%s' % (app, model_name, ext, filename)
 
 
+# Decorator for overriding part of the field in model subclasses
+# Source https://stackoverflow.com/questions/927729/how-to-override-the-verbose-name-of-a-superclass-model-field-in-django
+def modify_fields(**kwargs):
+    def wrap(cls):
+        for field, prop_dict in kwargs.items():
+            for prop, val in prop_dict.items():
+                setattr(cls._meta.get_field(field), prop, val)
+        return cls
+    return wrap
+
+
 class BasePropertyImage(models.Model):
     """Abstract model for all real estate pictures
     Helps to use django inlines with pictures.
@@ -98,13 +109,20 @@ class BasePropertyModel(models.Model):
     is_active = models.BooleanField(verbose_name=_('отображать на сайте'),
                                     default=True,
                                     )
-    posted_by = models.ForeignKey(User,
-                                  verbose_name=_('разместил'),
-                                  editable=False,
-                                  default=None,
-                                  null=True,
-                                  on_delete=models.SET_DEFAULT,
-                                  )
+    created_by = models.ForeignKey(User,
+                                   verbose_name=_('создано'),
+                                   default=None,
+                                   null=True,
+                                   on_delete=models.SET_DEFAULT,
+                                   related_name="%(app_label)s_%(class)s_created",
+                                   )
+    modified_by = models.ForeignKey(User,
+                                    verbose_name=_('изменено'),
+                                    default=None,
+                                    null=True,
+                                    on_delete=models.SET_DEFAULT,
+                                    related_name="%(app_label)s_%(class)s_modified",
+                                    )
     date_added = models.DateTimeField(verbose_name=_('добавлено'),
                                       auto_now_add=True,
                                       )
