@@ -1,107 +1,28 @@
-<!DOCTYPE html>
-<html lang="ru">
-
-<head>
-
-	<meta charset="utf-8">
-
-	<title>Title</title>
-	<meta name="description" content="">
-
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-
-	<meta property="og:image" content="path/to/image.jpg">
-	<link rel="shortcut icon" href="img/favicon/favicon.ico" type="image/x-icon">
-	<link rel="apple-touch-icon" href="img/favicon/apple-touch-icon.png">
-	<link rel="apple-touch-icon" sizes="72x72" href="img/favicon/apple-touch-icon-72x72.png">
-	<link rel="apple-touch-icon" sizes="114x114" href="img/favicon/apple-touch-icon-114x114.png">
-	<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800&amp;subset=cyrillic" rel="stylesheet">
-
-
-	<!-- Chrome, Firefox OS and Opera -->
-	<meta name="theme-color" content="#000">
-	<!-- Windows Phone -->
-	<meta name="msapplication-navbutton-color" content="#000">
-	<!-- iOS Safari -->
-	<meta name="apple-mobile-web-app-status-bar-style" content="#000">
-
-	<style>body { opacity: 0; overflow-x: hidden; } html { background-color: #fff; }</style>
-
-</head>
-
-<body>
-		<nav>
-		<div class="container">
-			<div class="row">
-				<div class="col-md-12">
-					<div class="top_nav">
-			<div class="top_nav_logo">
-				<img src="img/logo.svg" alt="" class="img-responsive">
-			</div>
-			<div class="phone">
-				<div class="phone_description">
-					Звоните ежедневно с 8:00 до 22:00
-				</div>
-				<div class="phone_number">
-									+7 (3452) 589-881
-				</div>
-
-				<a href="#modal_callback" class="callback">Заказать обратный звонок</a>
-			</div>
-		</div>
-	</div>
-		</div>
-<div class="row">
-	<div class="col-md-12">
-				<div class="menu">
-				<div class="menu_logo">
-				<img src="img/logo.svg" alt="" class="img-responsive">
-							<a href="#" class="toggle-mnu hidden-lg"><span></span></a>
-			</div>
-
-			<ul class="menu_container">
-				<li><a href="new_home_search.html">Новостройки</a></li>
-				<li><a href="realty_home_search.html">Вторичная недвижимость</a></li>
-				<li><a href="ipoteka.html">Ипотека</a></li>
-				<li><a href="corparate.html">Копротивная программа</a></li>
-				<li><a href="reviews.html">Отзывы</a></li>
-				<li><a href="about.html">О компани</a></li>
-				<li><a href="contact.html">Контакты</a></li>
-			</ul>
-
-		</div>
-
-	</div>
+{% extends 'resale/resale_list.html'%}
+{% load static %}
+{% load django_bootstrap_breadcrumbs %}
+{% block breadcrumbs %}
+    {{ block.super }}
+    {% breadcrumb apartment.verbose "resale:detailed" %}
+{% endblock %}
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-10 col-md-offset-1">
+        </div>
+    </div>
 </div>
-</div>
-</nav>	
-<section class="breadcrumb">
-	<div class="container">
-		<div class="row">
-			<div class="col-md-12 col-xs-12">
-					<div class="breadcrumb_item">
-		<a href="index.html">Главная</a> 
-		›
-		<a href="" class="">Вторичная недвижимость</a> 
-		› 
-		<a href="" class="breadcrumb_item-active">Однокомнатная квартира, ул. Широтная д. 25</a> 
-	</div>
-			</div>
-		</div>
-	</div>
 
-</section>
-
-<section class="realty_home_page" style="background-image: url(img/realty_home_search.png);">
+<section class="realty_home_page" style="background-image: url({% static 'resale/img/realty_home_search.png' %});">
 	<div class="flitr_img_header"></div>
 	<div class="container">
 		<div class="row">
 			<div class="col-md-6">
 				<div class="header_zhk_name " style="line-height: 1.2;">
-					<h1 class="text-color">Однокомнатная квартира</h1></div>
+					<h1 class="text-color">{{ property }}</h1></div>
 					<div class="realty_home_page_adress">	
-						<i class="fa fa-map-marker" aria-hidden="true"></i> ул. Широтная д. 125
+						<i class="fa fa-map-marker" aria-hidden="true"></i>
+							{{ apartment.address }}
 						</div>
 			</div>
 		</div>
@@ -115,17 +36,17 @@
 				<div class="realty_home_page_characteristics airSticky">
 					<div class="realty_home_page_characteristics-top">
 						<div class="realty_home_page_characteristics_area">
-							40 м²
+							{{ apartment.total_area }} м²
 						</div>
 					<div class="realty_home_page_characteristics_price">
 							<div class="realty_item_desc_old_price">
-								2 900 000 ₽
+								{{ apartment.full_price }} руб
 							</div>
 							<div class="realty_item_desc_new_price">
-								2 500 000 ₽
+								{{ apartment.full_price }} руб
 							</div>
-														<div class="realty_item_desc_price_m2">
-								Цена за м²: 30 234 ₽
+							<div class="realty_item_desc_price_m2">
+								Цена за м²: {{ apartment.price_per_square_meter|floatformat }} руб
 							</div>
 							</div>
 
@@ -134,30 +55,32 @@
 				
 					<div class="realty_home_page_characteristics-middle">
 						<div class="realty_home_page_characteristics-item">
-							<span><b>Район:</b></span> <span>Дом обороны</span>
+							<span><b>Район: </b></span> <span>{{ apartment.neighbourhood }}</span>
 						</div>
 						<div class="realty_home_page_characteristics-item">
-							<span><b>Материал здания: </b></span> <span>Панель</span>
+							<span><b>Материал здания: </b></span> <span>{{ apartment.get_building_type_display }}</span>
 						</div>
 						<div class="realty_home_page_characteristics-item">
-							<span><b>Этаж:</b></span> <span>4 / 14</span>
+							<span><b>Этаж:</b></span> <span>{{ apartment.floor }} / {{ apartment.number_of_storeys }}</span>
 						</div>
 						<div class="realty_home_page_characteristics-item">
-							<span><b>Год постройки: </b></span> <span>1992</span>
+							<span><b>Год постройки: </b></span> <span>Нужен и обязателен?</span>
 						</div>
 						<div class="realty_home_page_characteristics-item">
-							<span><b>Высота потолка: </b></span> <span>2,8м</span>
+							<span><b>Высота потолка: </b></span> <span>{{ apartment.celling_height }} м</span>
 						</div>																								
 						<div class="realty_home_page_characteristics-item">
-							<span><b>Тип ремонта: </b></span> <span>Дизайн проект</span>
+							<span><b>Тип ремонта: </b></span> <span>{{ apartment.get_interior_decoration_display }}</span>
 						</div>	
 						<div class="realty_home_page_characteristics-item">
-							<span><b>Площадь кухни: </b></span> <span>10 м²</span>
+							<span><b>Площадь кухни: </b></span> <span>{{ apartment.kitchen_area }} м²</span>
 						</div>	
+						{% if apartment.balcony_area %}
 						<div class="realty_home_page_characteristics-item">
-							<span><b>Площадь балкона: </b></span> <span>10 м²</span>
-						</div>	
-						<p class="home_page_id"> Код объекта: <span>1234</span></p>																		
+							<span><b>Площадь балкона: </b></span> <span>{{ apartment.balcony_area }} м²</span>
+						</div>
+						{% endif %}
+						<p class="home_page_id"> Код объекта: <span>{{ apartment.pk }}</span></p>																		
 					</div>
 						
 						<a href="" class="realty_home_page_characteristics-bottom">Записаться на просмотр</a>
@@ -169,7 +92,7 @@
 				<div class="realty_home_page_photo">
 					<div class="zhk_headline"> Фото квартиры</div>
 					<div class="realty_home_page_photo_slider" data-flickity='{ "cellAlign": "left", "contain": true }'>
-						<div class="realty_home_page_photo_slider_item" style="background-image: url(img/realty_home_search.png);"></div>
+						<div class="realty_home_page_photo_slider_item" style="background-image: url({{apartment.layout.url}});"></div>
 						<div class="realty_home_page_photo_slider_item" style="background-image: url(img/realty_home_search.png);"></div>
 						<div class="realty_home_page_photo_slider_item" style="background-image: url(img/realty_home_search.png);"></div>
 						<div class="realty_home_page_photo_slider_item" style="background-image: url(img/realty_home_search.png);"></div>
@@ -381,11 +304,4 @@
 			</div>
 		</div>
 	</div>
-</footer>
-	<link rel="stylesheet" href="css/main.css">
-	<link rel="stylesheet" href="css/libs_css.min.css">
-	<script src="js/scripts_libs.min.js"></script>
-	<script src="js/common.js"></script>
-
-</body>
-</html>
+{% endblock %}
