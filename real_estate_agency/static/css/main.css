@@ -1963,9 +1963,6 @@ display: flex;
 #modal_callback .btn_large {
   margin: 10px 0px;
 }
-.header-min_height {
-  height: 400px;
-}
 .search_place_input-border_radius_all {
   -webkit-border-radius: 10px;
           border-radius: 10px;
@@ -3322,9 +3319,6 @@ box-shadow: 10px 22px 66px -36px rgba(102,102,102,1);
     -webkit-flex-direction: column;
         -ms-flex-direction: column;
             flex-direction: column;
-  }
-  .realty_header {
-    height: 550px!important;
   }
   .realty_item {
     -webkit-box-orient: vertical;

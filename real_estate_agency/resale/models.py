@@ -6,6 +6,9 @@ from django.core.urlresolvers import reverse
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
+from imagekit.models.fields import ImageSpecField
+from imagekit.processors import ResizeToFit
+
 from company.views import BANK_PARTNERS
 from real_estate.models import (
     Apartment,
@@ -15,6 +18,12 @@ from real_estate.models import (
     BasePropertyImage
 )
 from new_buildings.models import ResidentalComplex
+
+
+# Defined to add feature in the future
+class ResaleWatermark(object):
+    def process(self, image):
+        return image
 
 
 class TransactionMixin(models.Model):
@@ -146,6 +155,20 @@ class ResaleApartment(Apartment, BaseBuilding, TransactionMixin):
     class Meta:
         verbose_name = _('объект вторичка')
         verbose_name_plural = _('объекты вторички')
+
+    thumbnail = ImageSpecField(
+        [ResizeToFit(
+            400,
+            300,
+            mat_color=(255, 255, 255, 0)),
+         ResaleWatermark(),
+         ],
+        source='layout',
+        format='PNG',
+        options={'quality': 40,
+                 'progressive': True,
+                 },
+    )
 
 
 class ResaleApartmentImage(BasePropertyImage):
