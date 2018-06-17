@@ -9,6 +9,8 @@ from django.utils.translation import ugettext_lazy as _
 from imagekit.models.fields import ImageSpecField
 from imagekit.processors import ResizeToFit
 
+from phonenumber_field.modelfields import PhoneNumberField
+
 from company.views import BANK_PARTNERS
 from real_estate.models import (
     Apartment,
@@ -54,16 +56,19 @@ class TransactionMixin(models.Model):
         blank=True,
         null=True,
     )
-    # revenue =
 
     class Meta:
         abstract = True
 
 
-@modify_fields(price={
-    'verbose_name': ('цена от продавца, рб'),
-    'help_text': _('данная цена является той суммой\n, которую хочет получить продавец.\
-      Не отображается на сайте.')})
+@modify_fields(
+    price={
+        'verbose_name': _('цена от продавца, рб'),
+        'help_text': _('данная цена является той суммой, которую хочет получить продавец.\
+          Не отображается на сайте.'),},
+    date_added={'verbose_name':_('дата размещения')},
+    created_by={'verbose_name':_('сотрудник Компании')}
+)
 class ResaleApartment(Apartment, BaseBuilding, TransactionMixin):
     MORTGAGE_CHOICES = tuple((v, k,) for k, v in BANK_PARTNERS.items())
     agency_price = models.DecimalField(
@@ -116,6 +121,10 @@ class ResaleApartment(Apartment, BaseBuilding, TransactionMixin):
             MinValueValidator(1)],
         default=1,
     )
+    owner_name = models.CharField(_('ФИО продавца'),
+                                  max_length=127,
+                                  )
+    owner_phone_number = PhoneNumberField(_('номер телефона продавца'))
 
     def clean(self):
         # Don't allow set agency_price lower than real price.
@@ -155,6 +164,10 @@ class ResaleApartment(Apartment, BaseBuilding, TransactionMixin):
     class Meta:
         verbose_name = _('объект вторичка')
         verbose_name_plural = _('объекты вторички')
+        permissions = (
+            ("can_add_change_delete_all_resale", 
+                _('Иммет доступ к чужим данным по вторичке')),
+        )
 
     thumbnail = ImageSpecField(
         [ResizeToFit(
