@@ -41,7 +41,6 @@ def resetServer():
                 
                 HOST = ip
                 return True
-        raise Exception()
 
 
 def sendTelegramMessage(bot, chat_id, message, **kwargs):
@@ -56,8 +55,6 @@ def sendTelegramMessage(bot, chat_id, message, **kwargs):
         # For unreachable servers
         if resetServer():
             sendTelegramMessage(bot, chat_id, message, **kwargs)
-        else:
-            raise
 
 
 def sendStandartTelegramMessage(chat_id, message, **kwargs):
@@ -77,9 +74,3 @@ def sendTelegramMessageToTheAdmins(msg, **kwargs):
 def sendTelegramMessageToTheStaff(msg, **kwargs):
     receivers = settings.TELEGRAM_CHATS
     sendTelegramMassMessages(receivers, msg, **kwargs)
-
-
-resetServer()
-
-if settings.DEBUG == False:
-    sendTelegramMessageToTheAdmins('Server starts with telegram server(proxy): %s' % HOST)
