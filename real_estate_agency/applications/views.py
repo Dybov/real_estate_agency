@@ -1,4 +1,3 @@
-from django.shortcuts import render
 from django.views.generic import FormView
 from django.core.urlresolvers import reverse_lazy
 from django.conf import settings
@@ -8,11 +7,8 @@ import telepot
 
 from .forms import CallbackForm
 from .models import CallbackRequest
-from applications.middleware import UTM_PARAMS
-
-TOKEN = settings.TELEGRAM_TOKEN
-TelegramBot = telepot.Bot(TOKEN)
-MSG_RECEIVERS = settings.TELEGRAM_CHATS
+from .middleware import UTM_PARAMS
+from .telegram_tasks import sendTelegramMessageToTheStaff
 
 
 DEFAULT_TELEGRAM_MESSAGE = _('''<b>Поступила заявка:</b>
@@ -52,7 +48,7 @@ class Callback(FormView):
         # Save model with all params
         self.saveModel(form)
         # Send messages to list of interested_persons
-        self.sendCallbackRequestToTelegram(form, TelegramBot, MSG_RECEIVERS)
+        self.sendCallbackRequestToTelegram(form)
         if self.request.is_ajax():
             data = {}
             return JsonResponse(data)
@@ -65,26 +61,18 @@ class Callback(FormView):
         data['callback_form'] = data.get('form')
         return data
 
-    def sendCallbackRequestToTelegram(self, form, bot, receivers=[]):
-        msg = DEFAULT_TELEGRAM_MESSAGE % {'name': form.cleaned_data.get('name'),
-                                          'phone': form.cleaned_data.get('phone_number'),
-                                          'url': self.request.META.get('HTTP_REFERER'),
-                                          }
+    def sendCallbackRequestToTelegram(self, form):
+        msg = DEFAULT_TELEGRAM_MESSAGE % {
+            'name': form.cleaned_data.get('name'),
+            'phone': form.cleaned_data.get('phone_number'),
+            'url': self.request.META.get('HTTP_REFERER'),
+        }
         extra_field = form.cleaned_data.get('extra_info')
         if extra_field and extra_field != 'None':
             msg += EXTRA_MESSAGE % {
                 'extra': extra_field}
         msg = self.addMarketingInfoToMessage(msg)
-        for chat_id in receivers:
-            try:
-                bot.sendMessage(chat_id, msg, parse_mode="html")
-            except TelegramError:
-                import logging
-                # Get an instance of a logger
-                logger = logging.getLogger(__name__)
-                logger.critical('Bad telegram token is set %s' % TOKEN)
-            except:
-                pass
+        sendTelegramMessageToTheStaff(msg)
 
     def addMarketingInfoToMessage(self, text):
         if UTM_PARAMS[0] in self.request.COOKIES:

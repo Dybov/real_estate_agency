@@ -17,7 +17,8 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__fil
 # ALLOWED_HOSTS must set in the child settings file
 
 # Application definition
-# dal is django-autocomplete-light https://github.com/yourlabs/django-autocomplete-light
+# dal is django-autocomplete-light
+# https://github.com/yourlabs/django-autocomplete-light
 INSTALLED_APPS = [
     'dal',
     'dal_select2',
@@ -30,6 +31,7 @@ INSTALLED_APPS = [
     'company',
     'applications',
     'phonenumber_field',
+    'celery',
     'django_unused_media',
     'django_bootstrap_breadcrumbs',
     'analytical',
@@ -85,16 +87,20 @@ WSGI_APPLICATION = 'real_estate_agency.wsgi.application'
 
 AUTH_PASSWORD_VALIDATORS = [
     {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
+        'NAME': 'django.contrib.auth.password_validation\
+            .UserAttributeSimilarityValidator',
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+        'NAME': 'django.contrib.auth.password_validation\
+            .MinimumLengthValidator',
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
+        'NAME': 'django.contrib.auth.password_validation\
+            .CommonPasswordValidator',
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
+        'NAME': 'django.contrib.auth.password_validation\
+            .NumericPasswordValidator',
     },
 ]
 
@@ -126,16 +132,6 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 TELEGRAM_TOKEN = ''
 TELEGRAM_CHATS = []
 TELEGRAM_ADMINS_CHATS = []
-
-# Proxy might be nessecary because of blocking Telegram in Russia
-# Here is free proxies http://spys.one/proxys/GB/
-# Attention! For support socks5 you need install dependency pip install requests[socks]
-# For support socks5 also make sure, that you have the latest version of gunicorn, PySocks, pyTelegramBotAPI, requests and urllib3
-# Proxy format is must be for telepot.api set_proxy function http://telepot.readthedocs.io/en/latest/_modules/telepot/api.html#set_proxy
-TELEGRAM_PROXIES = [
-    # ('protocol', 'ip', 'port', 'username(None or "" if there is no useername)', 'password(None or "" if there is no password)')
-    ('https', '94.177.214.215', 8080, '', ''),
-]
 
 
 CELERY_BROKER_URL = 'redis://localhost:6379'
