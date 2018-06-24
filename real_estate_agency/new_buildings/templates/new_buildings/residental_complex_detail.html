@@ -35,7 +35,7 @@
 <p class="header_zhk_description_p">Срок сдачи<br> <span> {{ residental_complex.get_latest_date_of_building}}</span></p>
 								</div>
 								<div class="header_zhk_description_item-last">
-<p class="header_zhk_description_p">Количесво домов<br> <span>{{ residental_complex.count_buildings }}</span></p>
+<p class="header_zhk_description_p">Количество домов<br> <span>{{ residental_complex.count_buildings }}</span></p>
 								</div>															  
 							</div>
 							</div>
@@ -55,7 +55,7 @@
 	</div>
 	<div class="cta_header">
 		<p class="cta_header_headline">
-			Записаться на экскурсию
+			Записаться на экскурсию с менеджером DОМУС
 		</p>
 		<form method="post" action="{% url 'applications:callback' %}">{% csrf_token %}
 			<input name="{{ callback_form.phone_number.name }}" type="text" class="medium_input" placeholder="Телефон">
@@ -64,9 +64,9 @@
 			<button type="submit" class="cta_header_btn"> Записатьcя</button>
 		</form>
 		<div class="info_form">
-			Нажимая на кнопку, вы даете согласие на обработку своих персональных данных 
+			Нажимая на кнопку, вы даете согласие на обработку своих персональных данных DОМУС
 			<br>
-			<a href="{% url 'privacy-policy' %}">Пользовательское соглашение</a>
+			<a href="{% url 'privacy-policy' %}">Пользовательское соглашение DОМУС</a>
 		</div>
 	</div>
 </section>
