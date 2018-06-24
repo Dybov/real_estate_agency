@@ -18,8 +18,11 @@
 							<h1>{{residental_complex.type_of_complex|capfirst}} {{ residental_complex|capfirst }}</h1>
 							<h2>Застройщик {{ residental_complex.builder }}</h2>
 							</div>
-
-
+							<div>
+								{% if residental_complex.presentation %}
+								<a href="{{ residental_complex.presentation.url }}" class="btn btn-primary" download>скачать презентацию</a>
+								{% endif %}
+							</div>
 						</div>
 					</div>
 			</div>
