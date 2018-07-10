@@ -1,7 +1,7 @@
-from django.shortcuts import render
 from django.views.generic import FormView
 from django.core.urlresolvers import reverse_lazy
 from django.utils.translation import ugettext_lazy as _
+from django.http import JsonResponse
 
 from .forms import CallbackForm
 from .models import CallbackRequest
@@ -32,7 +32,8 @@ def get_msg_title(request):
     if not DEFAULT_DOMAIN:
         from django.contrib.sites.shortcuts import get_current_site
         DEFAULT_DOMAIN = get_current_site(request).domain
-    return DEFAULT_MSG_TITLE % {'domain': DEFAULT_DOMAIN} 
+    return DEFAULT_MSG_TITLE % {'domain': DEFAULT_DOMAIN}
+
 
 class Callback(FormView):
     template_name = 'applications/callback.html'  # 'contacts/callback.html'
@@ -68,17 +69,18 @@ class Callback(FormView):
         return data
 
     def sendCallbackRequest(self, form):
-        msg = DEFAULT_MESSAGE % {'name': form.cleaned_data.get('name'),
-                                          'phone': form.cleaned_data.get('phone_number'),
-                                          'url': self.request.META.get('HTTP_REFERER'),
-                                          }
+        msg = DEFAULT_MESSAGE % {
+            'name': form.cleaned_data.get('name'),
+            'phone': form.cleaned_data.get('phone_number'),
+            'url': self.request.META.get('HTTP_REFERER'),
+        }
         extra_field = form.cleaned_data.get('extra_info')
         if extra_field and extra_field != 'None':
             msg += EXTRA_MESSAGE % {
                 'extra': extra_field}
         msg = self.addMarketingInfoToMessage(msg)
         title = get_msg_title(self.request)
-        
+
         sendApplicationToTheManagers(title=title, message=msg)
 
     def addMarketingInfoToMessage(self, text):
