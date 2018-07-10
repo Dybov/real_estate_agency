@@ -6,10 +6,11 @@ from django.utils.translation import ugettext_lazy as _
 from .forms import CallbackForm
 from .models import CallbackRequest
 from .middleware import UTM_PARAMS
-from .telegram_helper import sendTelegramMessageToTheStaff
+from .sendmail_helper import sendApplicationToTheManagers
 
-
-DEFAULT_TELEGRAM_MESSAGE = _('''<b>Поступила заявка:</b>
+DEFAULT_MSG_TITLE = _("Заявка с сайта %(domain)s")
+DEFAULT_DOMAIN = None
+DEFAULT_MESSAGE = _('''<b>Поступила заявка:</b>
 Имя: %(name)s
 Телефон: %(phone)s
 
@@ -25,6 +26,13 @@ UTM content: %(utm_content)s
 UTM term: %(utm_term)s
 ''')
 
+
+def get_msg_title(request):
+    global DEFAULT_DOMAIN, DEFAULT_MSG_TITLE
+    if not DEFAULT_DOMAIN:
+        from django.contrib.sites.shortcuts import get_current_site
+        DEFAULT_DOMAIN = get_current_site(request).domain
+    return DEFAULT_MSG_TITLE % {'domain': DEFAULT_DOMAIN} 
 
 class Callback(FormView):
     template_name = 'applications/callback.html'  # 'contacts/callback.html'
@@ -46,7 +54,7 @@ class Callback(FormView):
         # Save model with all params
         self.saveModel(form)
         # Send messages to list of interested_persons
-        self.sendCallbackRequestToTelegram(form)
+        self.sendCallbackRequest(form)
         if self.request.is_ajax():
             data = {}
             return JsonResponse(data)
@@ -59,8 +67,8 @@ class Callback(FormView):
         data['callback_form'] = data.get('form')
         return data
 
-    def sendCallbackRequestToTelegram(self, form):
-        msg = DEFAULT_TELEGRAM_MESSAGE % {'name': form.cleaned_data.get('name'),
+    def sendCallbackRequest(self, form):
+        msg = DEFAULT_MESSAGE % {'name': form.cleaned_data.get('name'),
                                           'phone': form.cleaned_data.get('phone_number'),
                                           'url': self.request.META.get('HTTP_REFERER'),
                                           }
@@ -69,7 +77,9 @@ class Callback(FormView):
             msg += EXTRA_MESSAGE % {
                 'extra': extra_field}
         msg = self.addMarketingInfoToMessage(msg)
-        sendTelegramMessageToTheStaff(msg)
+        title = get_msg_title(self.request)
+        
+        sendApplicationToTheManagers(title=title, message=msg)
 
     def addMarketingInfoToMessage(self, text):
         if UTM_PARAMS[0] in self.request.COOKIES:
