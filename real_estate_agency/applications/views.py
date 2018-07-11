@@ -6,7 +6,7 @@ from django.http import JsonResponse
 from .forms import CallbackForm
 from .models import CallbackRequest
 from .middleware import UTM_PARAMS
-from .sendmail_helper import sendApplicationToTheManagers
+from .sendmail_helper import sendMailToTheManagers
 from .viber_tasks import sendViberTextMessageToTheAdmins
 
 DEFAULT_MSG_TITLE = _("Заявка с сайта %(domain)s")
@@ -81,7 +81,7 @@ class Callback(FormView):
         msg = self.addMarketingInfoToMessage(msg)
         title = get_msg_title(self.request)
 
-        sendApplicationToTheManagers(title=title, message=msg)
+        sendMailToTheManagers(title=title, message=msg)
         sendViberTextMessageToTheAdmins(msg)
 
     def addMarketingInfoToMessage(self, text):
