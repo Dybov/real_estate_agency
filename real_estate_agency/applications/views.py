@@ -1,4 +1,5 @@
 from django.views.generic import FormView
+from django.conf import settings
 from django.core.urlresolvers import reverse_lazy
 from django.utils.translation import ugettext_lazy as _
 from django.http import JsonResponse
@@ -16,6 +17,12 @@ DEFAULT_MESSAGE = _('''<b>Поступила заявка:</b>
 Телефон: %(phone)s
 
 Источник: %(url)s''')
+
+if settings.DEBUG:
+    DEFAULT_MESSAGE = "%s%s" % (
+        _('<h1>[DEBUG MODE]</h1>\n\n'),
+        DEFAULT_MESSAGE
+    )
 
 EXTRA_MESSAGE = _('\n\n<b>Дополнительная информация:</b> %(extra)s\n\n')
 MARKETING_MESSAGE = _('''\n<b>Рекламная кампания:</b>

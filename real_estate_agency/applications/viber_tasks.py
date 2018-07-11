@@ -34,8 +34,6 @@ def removeTagsFromMessage(msg):
 @app.task(bind=True)
 def sendViberMessage(self, reciever, msg):
     try:
-        if settings.DEBUG:
-            msg += '\n\n[DEBUG MODE]'
         text_message = TextMessage(text=msg)
         return VIBER_BOT.send_messages(reciever, [text_message])
     except Exception as e:
