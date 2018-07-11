@@ -143,3 +143,12 @@ CELERY_ACCEPT_CONTENT = ['application/json']
 CELERY_TASK_SERIALIZER = 'json'
 CELERY_RESULT_SERIALIZER = 'json'
 CELERY_TIMEZONE = TIME_ZONE
+
+# Don't forget to set your token to production
+VIBER_BOT_TOKEN = 'your-secret-token'
+VIBER_BOT_NAME = 'domus72.ru'
+VIBER_BOT_AVATAR = 'http://viber.com/avatar.jpg'
+VIBER_BOT_PRIVATE_GROUPS = []
+
+# Use viber ids
+VIBER_BOT_TEST_ADMINS = []

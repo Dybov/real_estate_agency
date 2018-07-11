@@ -7,6 +7,7 @@ from .forms import CallbackForm
 from .models import CallbackRequest
 from .middleware import UTM_PARAMS
 from .sendmail_helper import sendApplicationToTheManagers
+from .viber_tasks import sendViberTextMessageToTheAdmins
 
 DEFAULT_MSG_TITLE = _("Заявка с сайта %(domain)s")
 DEFAULT_DOMAIN = None
@@ -14,11 +15,10 @@ DEFAULT_MESSAGE = _('''<b>Поступила заявка:</b>
 Имя: %(name)s
 Телефон: %(phone)s
 
-Источник: %(url)s
+Источник: %(url)s''')
 
-''')
-EXTRA_MESSAGE = _('<b>Дополнительная информация:</b> %(extra)s\n\n')
-MARKETING_MESSAGE = _('''<b>Рекламная кампания:</b>
+EXTRA_MESSAGE = _('\n\n<b>Дополнительная информация:</b> %(extra)s\n\n')
+MARKETING_MESSAGE = _('''\n<b>Рекламная кампания:</b>
 UTM source: %(utm_source)s
 UTM medium: %(utm_medium)s
 UTM campaign: %(utm_campaign)s
@@ -82,6 +82,7 @@ class Callback(FormView):
         title = get_msg_title(self.request)
 
         sendApplicationToTheManagers(title=title, message=msg)
+        sendViberTextMessageToTheAdmins(msg)
 
     def addMarketingInfoToMessage(self, text):
         if UTM_PARAMS[0] in self.request.COOKIES:
