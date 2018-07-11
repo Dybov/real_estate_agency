@@ -5,9 +5,9 @@ The application serves to increase sales and to simplify content-managers job.
 It aimed to the customers who wants to buy apartment in new buildings.
 It collects feedbacks and callback request through the DB.
 Callback requests sends to brokers via:
-* [Telegram](https://telegram.org/ "Telegram Messenger");
 * email;
 * [Viber](https://www.viber.com/ 'Viber Messenger');
+* \[Currently not uses because of blocking\] [Telegram](https://telegram.org/ "Telegram Messenger");
 
 ---
 Production settings are isolated by structure of settings and keeps only at production server.
