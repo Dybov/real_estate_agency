@@ -6,7 +6,7 @@ from django.conf import settings
 from viberbot.api.messages import TextMessage
 
 from .telegram_tasks import TOKEN, sendTelegramMessage
-from .viber_tasks import VIBER_BOT, get_bot_admins, sendViberTextMessageToTheAdmins
+from .viber_tasks import VIBER_BOT, getBotAdmins
 
 
 @skip('Because Telegram is blocking in Russia with using web filters also. \
@@ -34,7 +34,7 @@ class ViberBotTests(TestCase):
         self.bot = VIBER_BOT
         self.admins = settings.VIBER_BOT_TEST_ADMINS
         if not self.admins:
-            self.admins = get_bot_admins()
+            self.admins = getBotAdmins()
 
     @tag('send')
     def test_sending_admin_message(self):

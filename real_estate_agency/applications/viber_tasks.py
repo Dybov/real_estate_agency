@@ -51,6 +51,7 @@ def sendViberMassMessage(recievers, msg, remove_tags=True):
     return responses
 
 
+@app.task
 def sendViberTextMessageToTheAdmins(msg, remove_tags=True):
     recievers = getBotAdmins()
     return sendViberMassMessage(recievers, msg, remove_tags=True)
