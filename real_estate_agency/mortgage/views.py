@@ -4,7 +4,7 @@ from django.views.generic import FormView
 
 from .forms import MortgageForm
 
-from company.views import BANK_PARTNERS
+from company.models import BankPartner
 
 
 class Index(FormView):
@@ -14,7 +14,7 @@ class Index(FormView):
 
     def get(self, request, *args, **kwargs):
         context = self.get_context_data(**kwargs)
-        context['banks'] = BANK_PARTNERS
+        context['banks'] = BankPartner.objects.all()
 
         form_class = self.get_form_class()
         if request.GET:

@@ -65,8 +65,8 @@
         </div>
       </div>
       <div class="row" data-flickity='{ "cellAlign": "left", "contain": true, "groupCells": true, "wrapAround": true }'>
-         {% for partner_name,img_name in banks.items %}
-            {% include 'company/partner.html' with img_static_url='img/partners/bank/'|add:img_name|add:'.png' %}
+         {% for bank in banks %}
+            {% include 'company/partner.html' with bank=bank %}
          {% endfor %}
       </div>
    </div>
