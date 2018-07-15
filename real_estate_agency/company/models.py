@@ -31,6 +31,9 @@ class BankPartner(BaseDraggapbleImage):
     thumbnail_64_64 = thumbnail_64_64
     thumbnail_260_260 = thumbnail_260_260
 
+    def __str__(self):
+        return self.title
+
     class Meta:
         ordering = ('position',)
         verbose_name = _('объект банк-партнер')
