@@ -18,3 +18,33 @@ class BasePropertyImage(models.Model):
         abstract = True
         verbose_name = _('изображение')
         verbose_name_plural = _('изображения')
+
+
+class BaseDraggapbleImage(BasePropertyImage):
+    """Abstract model for all real estate pictures with ordering
+    Helps to use django inlines with pictures.
+    """
+    position = models.PositiveIntegerField(
+        verbose_name=_('позиция'),
+        default=0,
+        blank=False,
+        null=False,
+    )
+
+    class Meta:
+        abstract = True
+        ordering = ('position',)
+
+    def save(self, *args, **kwargs):
+        model = self.__class__
+
+        if self.position is None:
+            # Append
+            try:
+                last = model.objects.order_by('-position')[0]
+                self.position = last.position + 1
+            except IndexError:
+                # First row
+                self.position = 0
+
+        return super(BaseDraggapbleImage, self).save(*args, **kwargs)
