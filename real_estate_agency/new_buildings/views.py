@@ -2,17 +2,17 @@ import json
 import re
 from statistics import median
 
-from django.shortcuts import render, render_to_response, Http404
+from django.shortcuts import Http404
 from django.views.generic import ListView, DetailView
 from django.views.generic.edit import FormMixin
 from django.db.models import Q
 from django.utils.translation import ugettext as _
 from django.utils.safestring import mark_safe
 
-from .models import ResidentalComplex, NewBuilding, NewApartment
+from .models import ResidentalComplex, NewApartment
 from .forms import SearchForm
 
-from company.views import BANK_PARTNERS
+from company.models import BankPartner
 
 
 REGEX_FOR_ANY_TEXT_FIELD = re.compile(r'[^\w]', re.I | re.U)
@@ -23,9 +23,10 @@ class ResidentalComplexList(FormMixin, ListView):
     model = ResidentalComplex
     context_object_name = 'residental_complexes'
     template_name = 'new_buildings/residental_complex_list.html'
-    queryset = model.objects.filter(is_active=True).prefetch_related('type_of_complex')
+    queryset = model.objects.filter(is_active=True).prefetch_related(
+        'type_of_complex')
 
-    def filterAparmentByAnyTextIContains(self, fieldname=None, model_fields=[]):
+    def aparmentByAnyTextIContains(self, fieldname=None, model_fields=[]):
         # in developing. Think about using Manager
         # https://stackoverflow.com/questions/2276768/django-query-filtering-from-model-method
         if type(model_fields) not in (list, tuple):
@@ -57,7 +58,12 @@ class ResidentalComplexList(FormMixin, ListView):
         if combined_query:
             self.apartment_list = self.apartment_list.filter(combined_query)
 
-    def filterApartment(self, fieldname=None, filter_name=None, filter_condition_by_value=None):
+    def filterApartment(
+        self,
+        fieldname=None,
+        filter_name=None,
+        filter_condition_by_value=None
+    ):
         if self.form.is_valid() and fieldname and filter_name:
             data = self.form.cleaned_data[fieldname]
             if data:
@@ -73,7 +79,7 @@ class ResidentalComplexList(FormMixin, ListView):
 
         # From BaseListView
         self.apartment_list = NewApartment.objects.filter(
-            is_active=True, 
+            is_active=True,
             buildings__is_active=True)
         self.object_list = self.get_queryset()
 
@@ -91,7 +97,7 @@ class ResidentalComplexList(FormMixin, ListView):
             # Special filter for checbox
             self.filterApartmentCheckbox(fieldname='rooms')
 
-            self.filterAparmentByAnyTextIContains(
+            self.aparmentByAnyTextIContains(
                 fieldname='any_text',
                 model_fields=[
                     'residental_complex__neighbourhood__name',
@@ -102,29 +108,32 @@ class ResidentalComplexList(FormMixin, ListView):
 
             # For filters by date of cunstruction
             settlement_before = self.form.cleaned_data['settlement_before']
-            
+
             if settlement_before:
                 self.apartment_list = self.apartment_list.filter(
                     date_of_construction__lte=settlement_before,
                 )
-            
+
             self.object_list = self.object_list.filter(
                 newapartment__in=self.apartment_list,
             ).distinct()
-            
-            
 
         allow_empty = self.get_allow_empty()
         if not allow_empty and len(self.object_list) == 0:
-            raise Http404(_(u"Empty list and '%(class_name)s.allow_empty' is False.")
-                          % {'class_name': self.__class__.__name__})
+            raise Http404(
+                _(u"Empty list and '%(class_name)s.allow_empty' is False.") %
+                {'class_name': self.__class__.__name__}
+            )
         empty_list_flag = False
         if not self.object_list:
-            self.object_list=self.get_queryset()
+            self.object_list = self.get_queryset()
             empty_list_flag = True
 
         context = self.get_context_data(
-            object_list=self.object_list, form=self.form, empty_list_flag=empty_list_flag)
+            object_list=self.object_list,
+            form=self.form,
+            empty_list_flag=empty_list_flag
+        )
         return self.render_to_response(context)
 
     def post(self, request, *args, **kwargs):
@@ -148,26 +157,28 @@ class ResidentalComplexDetail(DetailView):
                 lats.append(lat)
                 lngs.append(lng)
             building_type = buildings.get_building_type_display().lower()
-            if not building_type in building_types:
+            if building_type not in building_types:
                 building_types.append(building_type)
-        
+
         if lats and lngs:
             lats = [float(i) for i in lats]
             lngs = [float(i) for i in lngs]
-            context['yandex_grid_center_json'] = mark_safe(json.dumps([median(lats), median(lngs)]))
-        
+            context['yandex_grid_center_json'] = mark_safe(
+                json.dumps([median(lats), median(lngs)]))
+
         if building_types:
             context['building_types'] = '/'.join(building_types)
         else:
             context['building_types'] = '-'
 
-        context['banks'] = BANK_PARTNERS
+        context['banks'] = BankPartner.objects.all()
         return context
+
 
 class NewApartmentsFeed(ListView):
     model = NewApartment
     context_object_name = 'apartments'
-    template_name = 'new_buildings/feeds/yrl-yandex-feed-for-new-apartments.xml'
+    template_name = 'new_buildings/feeds/new-apartments-yandex.xml'
     content_type = "application/xhtml+xml"
     queryset = model.objects.prefetch_related('buildings')\
         .prefetch_related('buildings__residental_complex')\

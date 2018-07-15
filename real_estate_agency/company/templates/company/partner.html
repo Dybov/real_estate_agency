@@ -2,7 +2,7 @@
 <div class="col-md-3 col-xs-6">
    <div class="ipoteka_partners_item">
       <div>
-         <img src="{% static img_static_url %}" class="img-responsive">
+         <img src="{{ bank.thumbnail_260_260.url }}" height="{{ bank.thumbnail_260_260.height }}">
       </div>
       <div>
          {{ partner_name }}

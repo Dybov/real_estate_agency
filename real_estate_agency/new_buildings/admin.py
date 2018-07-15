@@ -1,31 +1,28 @@
-from django.db import models
 from django.contrib import admin
 from django.utils.translation import ugettext as _
 from django.forms.models import BaseInlineFormSet
 
-from real_estate.admin import DontShowInAdmin
-
-from .forms import (TabularInlineWithImageWidgetInline,
-                    StackedInlineWithImageWidgetInline,
-                    standart_formfield_overrides,
-                    PhotoAdminForm,
-                    NewBuildingForm,
-                    ResidentalComplexForm
-                    )
-from .admin_filters import BuildingIsBuiltFilter, BuildingResidentalComplexFilter
-from .models import (ResidentalComplex,
-                     NewBuilding,
-                     Builder,
-                     NewApartment,
-                     ResidentalComplexImage,
-                     TypeOfComplex,
-                     ResidentalComplexСharacteristic,
-                     ResidentalComplexFeature,
-                     )
+from .forms import (
+    StackedInlineWithImageWidgetInline,
+    standart_formfield_overrides,
+    PhotoAdminForm,
+    NewBuildingForm,
+    ResidentalComplexForm
+)
+from .models import (
+    ResidentalComplex,
+    NewBuilding,
+    Builder,
+    NewApartment,
+    ResidentalComplexImage,
+    TypeOfComplex,
+    ResidentalComplexCharacteristic,
+    ResidentalComplexFeature,
+)
 
 admin.site.register(Builder)
 admin.site.register(TypeOfComplex)
-admin.site.register(ResidentalComplexСharacteristic)
+admin.site.register(ResidentalComplexCharacteristic)
 
 
 class NewApartmentInline(StackedInlineWithImageWidgetInline):
@@ -46,12 +43,14 @@ class NewApartmentInline(StackedInlineWithImageWidgetInline):
                     residental_complex=parent_obj_id)
             except IndexError:
                 pass
-        return super(NewApartmentInline, self).formfield_for_foreignkey(db_field, request, **kwargs)
+        return super(NewApartmentInline, self).formfield_for_foreignkey(
+            db_field, request, **kwargs)
 
 
 class BuildingInlineFormSet(BaseInlineFormSet):
     def clean(self):
-        '''Checks if there are no two Forms with the same values at unique_together.'''
+        '''Checks if there are no two Forms
+        with the same values at unique_together'''
         if any(self.errors):
             return
 
@@ -69,10 +68,13 @@ class BuildingInlineFormSet(BaseInlineFormSet):
             if output in unique_together_values:
                 if 'name' in unique_names:
                     form.add_error(
-                        None, _('Поля "Имя дома" и в данном жк должны быть уникальны'))
+                        None, _('Поля "Имя дома" \
+                            в данном жк должны быть уникальны')
+                    )
                 else:
                     form.add_error(None, _(
-                        'Совокупность полей "Улица", "Номер дома" и "Корпус" должна быть уникальна для всех домов'))
+                        'Совокупность полей "Улица", "Номер дома" \
+                        и "Корпус" должна быть уникальна для всех домов'))
             else:
                 unique_together_values.append(output)
 
@@ -113,7 +115,8 @@ class SomeInlineFormSet(BaseInlineFormSet):
         pk_value = getattr(self.instance, self.fk.remote_field.field_name)
         att_name = self.fk.get_attname()
 
-        # For the multiupload images. If form won't be saved - it'll be 500 error
+        # For the multiupload images.
+        # If form won't be saved - it'll be 500 error
         # So it is better have FK field be completed when form is saved
         form.data[form.prefix + '-' +
                   att_name] = getattr(pk_value, 'pk', pk_value)
@@ -126,7 +129,8 @@ class SomeInlineFormSet(BaseInlineFormSet):
         if commit:
             obj.save()
 
-        # form.save_m2m() can be called via the formset later on if commit=False
+        # form.save_m2m() can be called via the formset later on
+        # if commit=False
         if commit and hasattr(form, 'save_m2m'):
             form.save_m2m()
         return obj
