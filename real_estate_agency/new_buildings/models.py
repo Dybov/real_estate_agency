@@ -57,6 +57,8 @@ class NewApartment(Apartment):
                                             null=True,
                                             blank=True,
                                             )
+    layout_small = spec_factory(260, 250, source='layout')
+    layout_large = spec_factory(690, 640, source='layout')
 
     def get_residental_complex(self):
         return self.residental_complex
