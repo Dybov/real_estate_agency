@@ -10,7 +10,12 @@ from django.utils.safestring import mark_safe
 from django.utils.translation import ugettext as _
 from django.utils.functional import cached_property
 
-from real_estate.models import Apartment, get_file_path, BasePropertyImage
+from real_estate.models.apartment import Apartment
+from real_estate.models.helper import get_file_path
+from real_estate.models.image import (
+    BasePropertyImage,
+    thumbnail_factory,
+)
 from real_estate.templatetags.real_estate_extras import morphy_by_case
 from address.models import (
     AbstractAddressModelWithoutNeighbourhood,
@@ -19,6 +24,14 @@ from address.models import (
 
 from .helpers import get_quarter_verbose
 from .serializers import ExtJsonSerializer
+
+
+new_buildings_spec_kwargs = {
+    'width': 900,
+    'height': 600,
+    'format': 'JPEG',
+    'options__quality': 75,
+}
 
 
 def get_json_object(_object, props=[]):
@@ -247,6 +260,17 @@ class ResidentalComplex(models.Model):
                                     upload_to=get_file_path,
                                     blank=True, null=True,
                                     )
+    front_image_spec_normal = thumbnail_factory(
+        source='front_image',
+        **new_buildings_spec_kwargs
+    )
+    front_image_spec_heading = thumbnail_factory(
+        1200,
+        900,
+        source='front_image',
+        format='JPEG',
+        options__quality=100,
+    )
     # one to many "features"
     # one to many "houses"
     video_link = models.URLField(verbose_name=_('ссылка на видео'),
@@ -374,8 +398,8 @@ class ResidentalComplex(models.Model):
         return date
 
     def get_title_photo_url(self):
-        if self.front_image:
-            return self.front_image.url
+        if self.front_image_spec_heading:
+            return self.front_image_spec_heading.url
         return static('img/main.jpg')
 
     @cached_property
@@ -428,9 +452,9 @@ class ResidentalComplex(models.Model):
     def get_all_photos_url(self):
         urls = []
         if self.front_image:
-            urls.append(self.get_title_photo_url())
+            urls.append(self.front_image_spec_normal.url)
         for photo in self.photos.all():
-            urls.append(photo.image.url)
+            urls.append(photo.image_spec.url)
         return urls
 
     def is_built(self):
@@ -512,3 +536,6 @@ class ResidentalComplexImage(BasePropertyImage):
                                            on_delete=models.CASCADE,
                                            related_name='photos',
                                            )
+    image_spec = thumbnail_factory(
+        **new_buildings_spec_kwargs
+    )
