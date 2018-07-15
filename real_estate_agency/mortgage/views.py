@@ -1,6 +1,5 @@
 from decimal import Decimal
 
-from django.shortcuts import render
 from django.views.generic import FormView
 
 from .forms import MortgageForm
@@ -35,8 +34,13 @@ class Index(FormView):
             form = form_class()
         context['form'] = form
         return self.render_to_response(context)
-    
-    def calculateMortgageAnnuityPaymentForSberbank(self, full_price, years, initial_fee):
+
+    def calculateMortgageAnnuityPaymentForSberbank(
+        self,
+        full_price,
+        years,
+        initial_fee
+    ):
         output_params = {'full_price': full_price,
                          'years': years,
                          'initial_fee': initial_fee,
@@ -49,10 +53,16 @@ class Index(FormView):
             output_params['mortgage_percentage'] = Decimal(7.9)
         return self.calculateMortgageAnnuityPayment(**output_params)
 
-    def calculateMortgageAnnuityPayment(self, full_price=0, years=0, initial_fee=0, mortgage_percentage=Decimal(9.4)):
+    def calculateMortgageAnnuityPayment(
+        self,
+        full_price=0,
+        years=0,
+        initial_fee=0,
+        mortgage_percentage=Decimal(9.4)
+    ):
         from math import pow as mpow
         price = full_price - initial_fee
-        months = years*12
+        months = years * 12
         monthly_mortgage_proportion = mortgage_percentage / 1200
         monthly_payment = price * monthly_mortgage_proportion / \
             (1 - Decimal(mpow(1 + monthly_mortgage_proportion, -months)))
