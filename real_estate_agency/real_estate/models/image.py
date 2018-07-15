@@ -1,7 +1,36 @@
 from django.db import models
 from django.utils.translation import ugettext as _
 
+from imagekit.models.fields import ImageSpecField
+from imagekit.processors import ResizeToFit
+
 from .helper import get_file_path
+
+
+def thumbnail_factory(width=16, height=16, source='image', *args, **kwargs):
+    """ Abstract factory for ImageSpecField with default thumbnail params"""
+    return ImageSpecField(
+        processors=[
+            ResizeToFit(
+                width,
+                height,
+                mat_color=(255, 255, 255, 0)
+            ),
+        ] + kwargs.pop('extra_processors', []),
+        source=source,
+        format=kwargs.pop('format', 'PNG'),
+        options={
+            'quality': kwargs.pop('options__quality', 50),
+            'progressive': kwargs.pop('options__progressive', True),
+        }
+    )
+
+
+thumbnail_16_16 = thumbnail_factory()
+thumbnail_32_32 = thumbnail_factory(32, 32)
+thumbnail_64_64 = thumbnail_factory(64, 64)
+thumbnail_120_120 = thumbnail_factory(120, 120)
+thumbnail_260_260 = thumbnail_factory(260, 260)
 
 
 class BasePropertyImage(models.Model):
