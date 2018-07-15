@@ -14,7 +14,7 @@ from real_estate.models.apartment import Apartment
 from real_estate.models.helper import get_file_path
 from real_estate.models.image import (
     BasePropertyImage,
-    thumbnail_factory,
+    spec_factory,
 )
 from real_estate.templatetags.real_estate_extras import morphy_by_case
 from address.models import (
@@ -261,11 +261,11 @@ class ResidentalComplex(models.Model):
                                     upload_to=get_file_path,
                                     blank=True, null=True,
                                     )
-    front_image_spec_normal = thumbnail_factory(
+    front_image_spec_normal = spec_factory(
         source='front_image',
         **new_buildings_spec_kwargs
     )
-    front_image_spec_heading = thumbnail_factory(
+    front_image_spec_heading = spec_factory(
         1200,
         900,
         source='front_image',
@@ -502,7 +502,7 @@ class ResidentalComplexCharacteristic(models.Model):
     icon = models.ImageField(verbose_name=_('иконка'),
                              upload_to=get_file_path,
                              )
-    thumbnail = thumbnail_factory(52, 52, source='icon',)
+    thumbnail = spec_factory(52, 52, source='icon',)
 
     def __str__(self):
         return self.characteristic
@@ -520,7 +520,7 @@ class ResidentalComplexFeature(models.Model):
                                    max_length=500,
                                    )
     image = models.ImageField(verbose_name=_('изображение'))
-    image_spec = thumbnail_factory(680, 450, to_fit=False)
+    image_spec = spec_factory(680, 450, to_fit=False)
     residental_complex = models.ForeignKey(ResidentalComplex,
                                            on_delete=models.CASCADE,
                                            related_name='features',
@@ -539,6 +539,6 @@ class ResidentalComplexImage(BasePropertyImage):
                                            on_delete=models.CASCADE,
                                            related_name='photos',
                                            )
-    image_spec = thumbnail_factory(
+    image_spec = spec_factory(
         **new_buildings_spec_kwargs
     )
