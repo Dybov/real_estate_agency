@@ -2,20 +2,29 @@ from django.db import models
 from django.utils.translation import ugettext as _
 
 from imagekit.models.fields import ImageSpecField
-from imagekit.processors import ResizeToFit
+from imagekit.processors import ResizeToFit, ResizeToFill
 
 from .helper import get_file_path
 
 
-def thumbnail_factory(width=16, height=16, source='image', *args, **kwargs):
+def thumbnail_factory(
+    width=16, height=16, source='image', to_fit=True, *args, **kwargs
+):
     """ Abstract factory for ImageSpecField with default thumbnail params"""
+    if to_fit:
+        main_processor = ResizeToFit(
+            width,
+            height,
+            mat_color=(255, 255, 255, 0)
+        )
+    else:
+        main_processor = ResizeToFill(
+            width,
+            height,
+        )
     return ImageSpecField(
         processors=[
-            ResizeToFit(
-                width,
-                height,
-                mat_color=(255, 255, 255, 0)
-            ),
+            main_processor,
         ] + kwargs.pop('extra_processors', []),
         source=source,
         format=kwargs.pop('format', 'PNG'),

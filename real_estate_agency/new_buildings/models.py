@@ -31,6 +31,7 @@ new_buildings_spec_kwargs = {
     'height': 600,
     'format': 'JPEG',
     'options__quality': 75,
+    'to_fit': False,
 }
 
 
@@ -501,6 +502,7 @@ class ResidentalComplexCharacteristic(models.Model):
     icon = models.ImageField(verbose_name=_('иконка'),
                              upload_to=get_file_path,
                              )
+    thumbnail = thumbnail_factory(52, 52, source='icon',)
 
     def __str__(self):
         return self.characteristic
@@ -518,6 +520,7 @@ class ResidentalComplexFeature(models.Model):
                                    max_length=500,
                                    )
     image = models.ImageField(verbose_name=_('изображение'))
+    image_spec = thumbnail_factory(680, 450, to_fit=False)
     residental_complex = models.ForeignKey(ResidentalComplex,
                                            on_delete=models.CASCADE,
                                            related_name='features',
