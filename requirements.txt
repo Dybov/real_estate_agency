@@ -17,4 +17,5 @@ redis==2.10.6
 flower==0.9.2
 django-celery-beat==1.1.0
 viberbot==1.0.11
-django-imagekit==4.0.2
+django-imagekit==4.0.
+django-admin-sortable2==0.6.19
