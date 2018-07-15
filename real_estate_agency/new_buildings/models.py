@@ -274,6 +274,14 @@ class ResidentalComplex(models.Model):
         format='JPEG',
         options__quality=100,
     )
+    front_image_thumbnail = spec_factory(
+        555,
+        328,
+        source='front_image',
+        format='JPEG',
+        to_fit=False,
+        # options__quality=60,
+    )
     # one to many "features"
     # one to many "houses"
     video_link = models.URLField(verbose_name=_('ссылка на видео'),
