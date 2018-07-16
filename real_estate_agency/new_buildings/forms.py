@@ -2,10 +2,7 @@ import datetime
 
 from django import forms
 from django.db import models
-from django.contrib.admin import TabularInline, StackedInline
-from django.contrib.admin.widgets import AdminFileWidget
 from django.forms import widgets
-from django.utils.safestring import mark_safe
 from django.utils.translation import ugettext as _
 
 from .helpers import last_day_of_month, get_quarter
@@ -17,54 +14,6 @@ from address.forms import FormWithAddressAutocomplete
 standart_formfield_overrides = {
     models.ManyToManyField: {'widget': forms.CheckboxSelectMultiple},
 }
-
-
-class AdminThumbnailImageWidget(AdminFileWidget):
-    ''' it base widget which allows to show loaded image near \
-    to the 'browse' button '''
-
-    def render(self, name, value, attrs=None):
-        output = []
-        if value and getattr(value, "url", None):
-            image_url = value.url
-            file_name = str(value)
-            output.append(
-                u'<br><a href="%s" target="_blank">\
-                <img src="%s" alt="%s"  width=150/></a><br>' % (
-                    image_url, image_url, file_name
-                ))
-        output.append(super(AdminFileWidget, self).render(name, value, attrs))
-        return mark_safe(u''.join(output))
-
-
-class TabularInlineWithImageWidgetInline(TabularInline):
-    ''' it is inline which allows to show loaded image
-    near to the 'browse' button into it'''
-
-    # image_fields - fields which images will be shown in admin
-    image_fields = []
-
-    def formfield_for_dbfield(self, db_field, **kwargs):
-        if db_field.name in self.image_fields:
-            kwargs['widget'] = AdminThumbnailImageWidget
-            return db_field.formfield(**kwargs)
-        return super(
-            TabularInlineWithImageWidgetInline,
-            self
-        ).formfield_for_dbfield(db_field, **kwargs)
-
-
-class StackedInlineWithImageWidgetInline(
-    StackedInline,
-    TabularInlineWithImageWidgetInline
-):
-    image_fields = []
-
-    def formfield_for_dbfield(self, db_field, **kwargs):
-        return super(
-            StackedInlineWithImageWidgetInline,
-            self
-        ).formfield_for_dbfield(db_field, **kwargs)
 
 
 def SETTLEMENT_CHOICES():

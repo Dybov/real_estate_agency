@@ -3,10 +3,11 @@ from django.contrib import admin
 from django.utils.translation import ugettext as _
 from django.forms.models import BaseInlineFormSet
 
+from imagekit.admin import AdminThumbnail
+
 from real_estate.admin import MultiuploadInlinesContainerMixin
 
 from .forms import (
-    StackedInlineWithImageWidgetInline,
     standart_formfield_overrides,
     NewBuildingForm,
     ResidentalComplexForm
@@ -27,13 +28,35 @@ admin.site.register(TypeOfComplex)
 admin.site.register(ResidentalComplexCharacteristic)
 
 
-class NewApartmentInline(StackedInlineWithImageWidgetInline):
+class NewApartmentInline(admin.StackedInline):
     model = NewApartment
     extra = 0
     exclude = ['description']
-    # image_fields will be inline
-    image_fields = ['layout']
     formfield_overrides = standart_formfield_overrides
+
+    fields = (
+        'thumbnail',
+        'layout',
+        'total_area',
+        'interior_decoration',
+        'price',
+        'celling_height',
+        'is_active',
+        'rooms',
+        'floor',
+        'section',
+        'kitchen_area',
+        'balcony_area',
+        'buildings',
+    )
+
+    readonly_fields = ['thumbnail']
+    thumbnail = AdminThumbnail(
+        image_field='layout_small',
+        template='admin/display_link_thumbnail.html',
+    )
+    thumbnail.short_description = _('миниатюра')
+
     # if it will be registred then show link
     show_change_link = True
 
