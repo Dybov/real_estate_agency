@@ -1,11 +1,13 @@
+from django import forms
 from django.contrib import admin
 from django.utils.translation import ugettext as _
 from django.forms.models import BaseInlineFormSet
 
+from real_estate.admin import MultiuploadInlinesContainerMixin
+
 from .forms import (
     StackedInlineWithImageWidgetInline,
     standart_formfield_overrides,
-    PhotoAdminForm,
     NewBuildingForm,
     ResidentalComplexForm
 )
@@ -104,47 +106,20 @@ class BuildingInline(admin.StackedInline):
               )
 
 
-class SomeInlineFormSet(BaseInlineFormSet):
-    def save_new(self, form, commit=True):
-        # Ensure the latest copy of the related instance is present on each
-        # form (it may have been saved after the formset was originally
-        # instantiated).
-        setattr(form.instance, self.fk.name, self.instance)
-        # Use commit=False so we can assign the parent key afterwards, then
-        # save the object.
-        pk_value = getattr(self.instance, self.fk.remote_field.field_name)
-        att_name = self.fk.get_attname()
-
-        # For the multiupload images.
-        # If form won't be saved - it'll be 500 error
-        # So it is better have FK field be completed when form is saved
-        form.data[form.prefix + '-' +
-                  att_name] = getattr(pk_value, 'pk', pk_value)
-        if att_name.endswith('_id'):
-            form.data[form.prefix + '-' + att_name[:-3]
-                      ] = getattr(pk_value, 'pk', pk_value)
-
-        obj = form.save(commit=False)
-        setattr(obj, att_name, getattr(pk_value, 'pk', pk_value))
-        if commit:
-            obj.save()
-
-        # form.save_m2m() can be called via the formset later on
-        # if commit=False
-        if commit and hasattr(form, 'save_m2m'):
-            form.save_m2m()
-        return obj
-
-    def save_existing(self, form, instance, commit=True):
-        return form.save(commit=commit)
+class ResidentalComplexImageForm(forms.ModelForm):
+    class Meta:
+        model = ResidentalComplexImage
+        widgets = {
+            'image': forms.widgets.ClearableFileInput(attrs={'multiple': True})
+        }
+        fields = '__all__'
 
 
 class ResidentalComplexImageInline(admin.TabularInline):
     model = ResidentalComplexImage
-    form = PhotoAdminForm
+    form = ResidentalComplexImageForm
     extra = 0
     min_num = 0
-    formset = SomeInlineFormSet
 
 
 class ResidentalComplexFeatureInline(admin.TabularInline):
@@ -155,7 +130,12 @@ class ResidentalComplexFeatureInline(admin.TabularInline):
 
 
 @admin.register(ResidentalComplex)
-class ResidentalComplexAdmin(admin.ModelAdmin):
+class ResidentalComplexAdmin(
+    MultiuploadInlinesContainerMixin,
+    admin.ModelAdmin
+):
+    related_inline_form = ResidentalComplexImageForm
+    related_inline_fk = 'residental_complex'
     form = ResidentalComplexForm
     inlines = [ResidentalComplexFeatureInline,
                BuildingInline,
