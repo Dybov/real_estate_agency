@@ -1,0 +1,92 @@
+[
+{
+    "model": "company.bankpartner",
+    "pk": 1,
+    "fields": {
+        "image": "uploads/company/bankpartner/png/da1b3105-140d-4d61-8f3f-3a5aca423a6c.png",
+        "position": 1,
+        "title": "\u041f\u0410\u041e \u00ab\u0421\u0431\u0435\u0440\u0431\u0430\u043d\u043a \u0420\u043e\u0441\u0441\u0438\u0438\u00bb"
+    }
+},
+{
+    "model": "company.bankpartner",
+    "pk": 2,
+    "fields": {
+        "image": "uploads/company/bankpartner/png/cba7f790-0ec9-4849-a750-2b238a590ee1.png",
+        "position": 2,
+        "title": "\u0412\u0422\u0411 (\u041f\u0410\u041e)"
+    }
+},
+{
+    "model": "company.bankpartner",
+    "pk": 3,
+    "fields": {
+        "image": "uploads/company/bankpartner/png/811b88e7-945f-4b00-aa20-80bea426083d.png",
+        "position": 3,
+        "title": "\u041f\u0410\u041e \u00ab\u0417\u0430\u043f\u0441\u0438\u0431\u043a\u043e\u043c\u0431\u0430\u043d\u043a\u00bb"
+    }
+},
+{
+    "model": "company.bankpartner",
+    "pk": 4,
+    "fields": {
+        "image": "uploads/company/bankpartner/png/e74d11de-5963-4a94-bcd9-598dea8e605b.png",
+        "position": 4,
+        "title": "\u0410\u041a\u0411 \u00ab\u0410\u0431\u0441\u043e\u043b\u044e\u0442 \u0411\u0430\u043d\u043a\u00bb"
+    }
+},
+{
+    "model": "company.bankpartner",
+    "pk": 5,
+    "fields": {
+        "image": "uploads/company/bankpartner/png/3e9f6921-3d6b-468b-868d-68f8454684d2.png",
+        "position": 5,
+        "title": "\u041f\u0410\u041e \u0411\u0430\u043d\u043a \u00ab\u0424\u041a \u041e\u0442\u043a\u0440\u044b\u0442\u0438\u0435\u00bb"
+    }
+},
+{
+    "model": "company.bankpartner",
+    "pk": 6,
+    "fields": {
+        "image": "uploads/company/bankpartner/png/107b145c-8a17-492c-8401-2d581fbc4424.png",
+        "position": 6,
+        "title": "\u0410\u041e \u00ab\u0420\u043e\u0441\u0441\u0435\u043b\u044c\u0445\u043e\u0437\u0431\u0430\u043d\u043a\u00bb"
+    }
+},
+{
+    "model": "company.bankpartner",
+    "pk": 7,
+    "fields": {
+        "image": "uploads/company/bankpartner/png/81a61571-65a7-4caa-b590-459e690dfdb6.png",
+        "position": 7,
+        "title": "\u041f\u0410\u041e \u00ab\u0422\u0420\u0410\u041d\u0421\u041a\u0410\u041f\u0418\u0422\u0410\u041b\u0411\u0410\u041d\u041a\u00bb"
+    }
+},
+{
+    "model": "company.bankpartner",
+    "pk": 8,
+    "fields": {
+        "image": "uploads/company/bankpartner/png/e38c381b-3536-4ecf-bb4f-0b198edc59e1.png",
+        "position": 8,
+        "title": "\u0410\u041e \u00ab\u041a\u0411 \u0414\u0435\u043b\u044c\u0442\u0430\u041a\u0440\u0435\u0434\u0438\u0442\u00bb"
+    }
+},
+{
+    "model": "company.bankpartner",
+    "pk": 9,
+    "fields": {
+        "image": "uploads/company/bankpartner/png/a42eaabb-0fb0-44a2-ad69-5a9fd647644d.png",
+        "position": 9,
+        "title": "\u0411\u0430\u043d\u043a \u0423\u0420\u0410\u041b\u0421\u0418\u0411"
+    }
+},
+{
+    "model": "company.bankpartner",
+    "pk": 10,
+    "fields": {
+        "image": "uploads/company/bankpartner/png/e35192cf-c5bb-4519-84e1-594fec4b39d2.png",
+        "position": 10,
+        "title": "\u00ab\u0410\u041a \u0411\u0410\u0420\u0421\u00bb \u0411\u0430\u043d\u043a"
+    }
+}
+]

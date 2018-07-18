@@ -1,8 +1,11 @@
 from django.db import models
 from django.utils.translation import ugettext as _
 
+from imagekit.models.fields import ImageSpecField
+from imagekit.processors import ResizeToFill
+
 from new_buildings.models import ResidentalComplex
-from real_estate.models import get_file_path
+from real_estate.models.helper import get_file_path
 from contacts.models import SocialLink
 
 
@@ -27,19 +30,30 @@ class Feedback(models.Model):
     is_active = models.BooleanField(verbose_name=_('отображать на сайте'),
                                     default=True,
                                     )
-    #social_media_links - one to many field 
+    image_250_250 = ImageSpecField(
+        processors=[ResizeToFill(250, 250,), ],
+        source='image',
+        format='JPEG',
+        options={
+            'quality': 70,
+            'progressive': True,
+        }
+    )
+    # social_media_links - one to many field
 
     def __str__(self):
-        return _("{author} из {company}").format(author=self.author, company=self.work_at)
-    
+        return _("{author} из {company}").format(
+            author=self.author,
+            company=self.work_at
+        )
+
     def get_social_media_links(self):
         return self.social_media_links.all()
 
     class Meta:
         verbose_name = _('отзыв')
         verbose_name_plural = _('отзывы')
-        ordering = ('-date','-id')
-
+        ordering = ('-date', '-id')
 
 
 class SocialLinkForFeedback(SocialLink):
@@ -48,3 +62,4 @@ class SocialLinkForFeedback(SocialLink):
                                  related_name='social_media_links',
                                  on_delete=models.CASCADE,
                                  )
+ 

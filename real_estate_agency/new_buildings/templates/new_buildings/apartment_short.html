@@ -2,7 +2,9 @@
 <a href="#apartment_{{apartment.id}}_popup" class="pop_up_plan">
 	<div class="item_rooms">
 		<div class='rooms' hidden>{{ apartment.rooms }}</div>
-		<div class="item_rooms_plan" style="background-image: url({{ apartment.layout.url }});"></div>
+		<div
+			class="item_rooms_plan"
+		style="background-image: url({{ apartment.layout_small.url }});"></div>
 		<div class="item_rooms_info">
 			<div class="item_rooms_price">
 				{{ apartment.price }} руб.
@@ -22,7 +24,7 @@
 
 <div class="hidden">
 <div id="apartment_{{apartment.id}}_popup" class="animate_popup apartment_modal_plan">
-	<div class="modal_plan_img" style="background-image: url({{ apartment.layout.url }});">
+	<div class="modal_plan_img" style="background-image: url({{ apartment.layout_large.url }});">
 	</div>
 	<div class="modal_plan_description">
 		<div class="modal_plan_name">

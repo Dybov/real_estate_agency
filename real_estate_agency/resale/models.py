@@ -11,14 +11,11 @@ from imagekit.processors import ResizeToFit
 
 from phonenumber_field.modelfields import PhoneNumberField
 
-from company.views import BANK_PARTNERS
-from real_estate.models import (
-    Apartment,
-    BaseBuilding,
-    modify_fields,
-    get_file_path,
-    BasePropertyImage
-)
+from company.models import BankPartner
+from real_estate.models.apartment import Apartment
+from real_estate.models.building import BaseBuilding
+from real_estate.models.helper import modify_fields
+from real_estate.models.image import BasePropertyImage
 from new_buildings.models import ResidentalComplex
 
 
@@ -70,7 +67,6 @@ class TransactionMixin(models.Model):
     created_by={'verbose_name':_('сотрудник Компании')}
 )
 class ResaleApartment(Apartment, BaseBuilding, TransactionMixin):
-    MORTGAGE_CHOICES = tuple((v, k,) for k, v in BANK_PARTNERS.items())
     agency_price = models.DecimalField(
         verbose_name=_('цена с комиссией от агенства, рб'),
         default=1000000,
@@ -106,15 +102,15 @@ class ResaleApartment(Apartment, BaseBuilding, TransactionMixin):
         null=True,
         blank=True,
     )
-    related_mortgage = models.CharField(verbose_name=_('В ипотеке у'),
-                                        max_length=127,
-                                        choices=MORTGAGE_CHOICES,
-                                        default=None,
-                                        help_text=_(
-                                            'если находится в ипотеке'),
-                                        null=True,
-                                        blank=True,
-                                        )
+    related_mortgage = models.ForeignKey(
+        BankPartner,
+        verbose_name=_('В ипотеке у'),
+        default=None,
+        help_text=_(
+            'если находится в ипотеке'),
+        null=True,
+        blank=True,
+    )
     amount_of_owners = models.PositiveIntegerField(
         verbose_name=_('количество собственников'),
         validators=[

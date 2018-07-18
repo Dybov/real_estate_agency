@@ -1,6 +1,8 @@
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
+from real_estate.models.image import thumbnail_16_16
+
 
 class SocialLinkType(models.Model):
     name = models.CharField(max_length=256,
@@ -15,10 +17,14 @@ class SocialLinkType(models.Model):
                               verbose_name=_('иконка'),
                               null=True, blank=True,
                               )
-    # For ordering 
-    position = models.IntegerField(verbose_name=_('порядок при стандартной сортировке'),
-                                   blank=True, null=True,
-                                   )
+    # For ordering
+    position = models.IntegerField(
+        verbose_name=_('порядок при стандартной сортировке'),
+        blank=True,
+        null=True,
+    )
+    thumbnail_16_16 = thumbnail_16_16
+
     def __str__(self):
         return self.name
 
@@ -26,6 +32,7 @@ class SocialLinkType(models.Model):
         verbose_name = 'тип соц сети'
         verbose_name_plural = 'типы соц сетей'
         ordering = ['position']
+
 
 class SocialLink(models.Model):
     link_type = models.ForeignKey(SocialLinkType,
@@ -50,7 +57,7 @@ class SocialLink(models.Model):
         return self.name
 
     def get_img(self):
-        return self.link_type.image
+        return self.link_type.thumbnail_16_16
 
     def get_type(self):
         return self.link_type.name

@@ -52,9 +52,18 @@ def morphy_by_case(value, case):
             'Supported only russian morphy, used "%s"' % value)
     except ValueError:
         # a = ['nomn', 'gent', 'datv', 'accs', 'ablt', 'loct', 'voct']
-        morphy_link = 'http://pymorphy2.readthedocs.io/en/latest/user/grammemes.html'
+        morphy_link = \
+            'http://pymorphy2.readthedocs.io/en/latest/user/grammemes.html'
         raise TemplateSyntaxError(
             'Unknown case "%s", see known at %s' % (case, morphy_link))
-    except:
+    except Exception:
         raise TemplateSyntaxError('Unknown error')
     return output_value
+
+
+@register.simple_tag
+def extra_head(template_name='base/extra_head.html'):
+    try:
+        return template.loader.get_template(template_name).render()
+    except template.TemplateDoesNotExist:
+        return ""
