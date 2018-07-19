@@ -1,26 +1,12 @@
-
-.realty_home_search .search_price-flex {
-  -webkit-flex-basis: 34%;
-      -ms-flex-preferred-size: 34%;
-          flex-basis: 34%;
-}
-.realty_home_search .search-form-room-flex {
-  -webkit-flex-basis: 33%;
-      -ms-flex-preferred-size: 33%;
-          flex-basis: 33%;
-}
 .thumbnail{
   margin: 10px 0;
 }
 .resale_item {
-  margin: 10px -20px 10px -20px;
+  display: flex;
+  margin: 10px 0px;
   -webkit-border-radius: 6px;
           border-radius: 6px;
   border: 1px solid #c2c4d0; 
-  color: #333;
-}
-.resale_item img {
-  max-height: 350px;
 }
 .resale_item a:link, .resale_item a:visited, .resale_item a:hover {
   text-decoration: none;
