@@ -6,16 +6,13 @@ from django.core.urlresolvers import reverse
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
-from imagekit.models.fields import ImageSpecField
-from imagekit.processors import ResizeToFit
-
 from phonenumber_field.modelfields import PhoneNumberField
 
 from company.models import BankPartner
 from real_estate.models.apartment import Apartment
 from real_estate.models.building import BaseBuilding
 from real_estate.models.helper import modify_fields
-from real_estate.models.image import BasePropertyImage
+from real_estate.models.image import BasePropertyImage, spec_factory
 from new_buildings.models import ResidentalComplex
 
 
@@ -62,9 +59,9 @@ class TransactionMixin(models.Model):
     price={
         'verbose_name': _('цена от продавца, рб'),
         'help_text': _('данная цена является той суммой, которую хочет получить продавец.\
-          Не отображается на сайте.'),},
-    date_added={'verbose_name':_('дата размещения')},
-    created_by={'verbose_name':_('сотрудник Компании')}
+          Не отображается на сайте.'), },
+    date_added={'verbose_name': _('дата размещения')},
+    created_by={'verbose_name': _('сотрудник Компании')}
 )
 class ResaleApartment(Apartment, BaseBuilding, TransactionMixin):
     agency_price = models.DecimalField(
@@ -152,7 +149,7 @@ class ResaleApartment(Apartment, BaseBuilding, TransactionMixin):
 
     @property
     def address(self):
-        return _('ул. ')+super().address
+        return _('ул. ') + super().address
 
     def get_absolute_url(self):
         return reverse('resale:detailed', args=[self.pk])
@@ -161,22 +158,15 @@ class ResaleApartment(Apartment, BaseBuilding, TransactionMixin):
         verbose_name = _('объект вторичка')
         verbose_name_plural = _('объекты вторички')
         permissions = (
-            ("can_add_change_delete_all_resale", 
+            ("can_add_change_delete_all_resale",
                 _('Иммет доступ к чужим данным по вторичке')),
         )
 
-    thumbnail = ImageSpecField(
-        [ResizeToFit(
-            400,
-            300,
-            mat_color=(255, 255, 255, 0)),
-         ResaleWatermark(),
-         ],
+    thumbnail = spec_factory(
+        370,
+        320,
+        extra_processors=[ResaleWatermark()],
         source='layout',
-        format='PNG',
-        options={'quality': 40,
-                 'progressive': True,
-                 },
     )
 
 
@@ -185,3 +175,4 @@ class ResaleApartmentImage(BasePropertyImage):
                                   on_delete=models.CASCADE,
                                   related_name='photos',
                                   )
+    image_spec = spec_factory(750, 500, options__quality=70)
