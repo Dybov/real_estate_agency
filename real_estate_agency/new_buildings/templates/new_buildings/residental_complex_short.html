@@ -1,6 +1,6 @@
-<div class="col-md-{% if forloop.last and not forloop.counter|divisibleby:2 %}12{% else %}6{% endif %} col-xs-12">
+<div class="col-md-{% if forloop.last and not forloop.counter|divisibleby:2 %}12{% else %}6{% endif %} col-xs-12" style="margin-top: 10px;">
 	<a href='{{ residental_complex.get_absolute_url }}' class="item">
-		<div class="item-images" style="background-image: url({{ residental_complex.get_title_photo_url }});">
+		<div class="item-images" style="background-image: url({{ residental_complex.front_image_thumbnail }});">
 			<p class="item-headline">
 				{{residental_complex.type_of_complex}} {{ residental_complex }}
 			</p>

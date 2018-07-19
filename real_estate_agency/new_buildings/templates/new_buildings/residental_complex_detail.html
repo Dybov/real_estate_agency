@@ -18,8 +18,11 @@
 							<h1>{{residental_complex.type_of_complex|capfirst}} {{ residental_complex|capfirst }}</h1>
 							<h2>Застройщик {{ residental_complex.builder }}</h2>
 							</div>
-
-
+							<div>
+								{% if residental_complex.presentation %}
+								<a href="{{ residental_complex.presentation.url }}" class="btn btn-primary" download>скачать презентацию</a>
+								{% endif %}
+							</div>
 						</div>
 					</div>
 			</div>
@@ -35,7 +38,7 @@
 <p class="header_zhk_description_p">Срок сдачи<br> <span> {{ residental_complex.get_latest_date_of_building}}</span></p>
 								</div>
 								<div class="header_zhk_description_item-last">
-<p class="header_zhk_description_p">Количесво домов<br> <span>{{ residental_complex.count_buildings }}</span></p>
+<p class="header_zhk_description_p">Количество домов<br> <span>{{ residental_complex.count_buildings }}</span></p>
 								</div>															  
 							</div>
 							</div>
@@ -55,7 +58,7 @@
 	</div>
 	<div class="cta_header">
 		<p class="cta_header_headline">
-			Записаться на экскурсию
+			Записаться на экскурсию с менеджером DОМУС
 		</p>
 		<form method="post" action="{% url 'applications:callback' %}">{% csrf_token %}
 			<input name="{{ callback_form.phone_number.name }}" type="text" class="medium_input" placeholder="Телефон">
@@ -64,9 +67,9 @@
 			<button type="submit" class="cta_header_btn"> Записатьcя</button>
 		</form>
 		<div class="info_form">
-			Нажимая на кнопку, вы даете согласие на обработку своих персональных данных 
+			Нажимая на кнопку, вы даете согласие на обработку своих персональных данных DОМУС
 			<br>
-			<a href="{% url 'privacy-policy' %}">Пользовательское соглашение</a>
+			<a href="{% url 'privacy-policy' %}">Пользовательское соглашение DОМУС</a>
 		</div>
 	</div>
 </section>
@@ -120,7 +123,7 @@
 		<div class="row" style="margin-top: 50px;">
 			<div class="col-md-12 col-xs-12">
 				<a href="{{residental_complex.video_link}}" class="popup_video">
-					<div  class="zhk_video" style="background-image: url({{ residental_complex.get_title_photo_url }});">
+					<div  class="zhk_video" style="background-image: url({{ residental_complex.front_image_spec_normal.url }});">
 						<div class="zhk_video_filter">
 							<div class="zhk_video_headline">
 								Посмотрите видео о {{residental_complex.type_of_complex.get_loct}} {{residental_complex}}
@@ -362,13 +365,15 @@
 			</div>
 			<div class="col-md-12 col-xs-12">
 				<div class="slider_ipoteka scrollyeah" data-shadows="false">
-				{% for bank_name,img_name in banks.items %}
+				{% for bank in banks %}
 					<div class="slider_ipoteka_item">
 						<div class="slider_ipoteka_item_logo">
-							<img src="{% static 'img/partners/bank/64_64/'|add:img_name|add:'_64_64.png'%}" class="img-responsive">
+							<img
+							src="{{ bank.thumbnail_34_34.url }}"
+							height="{{ bank.thumbnail_34_34.height }}">
 						</div>
 						<div>
-							{{ bank_name }}
+							{{ bank.title }}
 						</div>
 					</div>
 				{% endfor %}		

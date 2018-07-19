@@ -98,7 +98,7 @@ $(".toggle-mnu").click(function() {
 });
 
     // Custom JS
-$('.slider_item').magnificPopup({
+$('.slider_item, .slider_diplom_item').magnificPopup({
   type: 'image',
     fixedContentPos: false,
     fixedBgPos: true,

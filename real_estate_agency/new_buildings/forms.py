@@ -2,19 +2,9 @@ import datetime
 
 from django import forms
 from django.db import models
-from django.contrib.admin import TabularInline, StackedInline
-from django.contrib.admin.widgets import AdminFileWidget
 from django.forms import widgets
-from django.forms.widgets import (TextInput,
-                                  NumberInput,
-                                  Textarea,
-                                  SelectMultiple,
-                                  ClearableFileInput,
-                                  )
-from django.utils.safestring import mark_safe
 from django.utils.translation import ugettext as _
 
-from .models import ResidentalComplexImage, ResidentalComplex, NewBuilding
 from .helpers import last_day_of_month, get_quarter
 
 from address.forms import FormWithAddressAutocomplete
@@ -22,120 +12,13 @@ from address.forms import FormWithAddressAutocomplete
 
 # it is new sizes for widgets in Inlines
 standart_formfield_overrides = {
-    # Changed because of using StackedInline insead of Tabular
-    # models.CharField: {'widget': TextInput(attrs={'size': '10'})},
-    # models.PositiveSmallIntegerField: {'widget': NumberInput(attrs={'size': '3'})},
-    # models.IntegerField: {'widget': NumberInput(attrs={'style': 'width:6ch', })},
-    # models.DecimalField: {'widget': NumberInput(attrs={'style': 'width:6ch', })},
-    # models.TextField: {'widget': Textarea(attrs={'cols': 80, 'rows': 3})},
     models.ManyToManyField: {'widget': forms.CheckboxSelectMultiple},
 }
 
 
-class AdminThumbnailImageWidget(AdminFileWidget):
-    ''' it base widget which allows to show loaded image near to the 'browse' button '''
-
-    def render(self, name, value, attrs=None):
-        output = []
-        if value and getattr(value, "url", None):
-            image_url = value.url
-            file_name = str(value)
-            output.append(u'<br><a href="%s" target="_blank"><img src="%s" alt="%s"  width=150/></a><br>' %
-                          (image_url, image_url, file_name))
-        output.append(super(AdminFileWidget, self).render(name, value, attrs))
-        return mark_safe(u''.join(output))
-
-
-class TabularInlineWithImageWidgetInline(TabularInline):
-    ''' it is inline which allows to show loaded image near to the 'browse' button into it'''
-    # image_fields - fields which images will be shown in admin
-    image_fields = []
-
-    def formfield_for_dbfield(self, db_field, **kwargs):
-        if db_field.name in self.image_fields:
-            request = kwargs.pop("request", None)
-            kwargs['widget'] = AdminThumbnailImageWidget
-            return db_field.formfield(**kwargs)
-        return super(TabularInlineWithImageWidgetInline, self).formfield_for_dbfield(db_field, **kwargs)
-
-
-class StackedInlineWithImageWidgetInline(StackedInline, TabularInlineWithImageWidgetInline):
-    image_fields = []
-
-    def formfield_for_dbfield(self, db_field, **kwargs):
-        return super(StackedInlineWithImageWidgetInline, self).formfield_for_dbfield(db_field, **kwargs)
-    # def formfield_for_dbfield(self, db_field, **kwargs):
-    #     if db_field.name in self.image_fields:
-    #         request = kwargs.pop("request", None)
-    #         kwargs['widget'] = AdminThumbnailImageWidget
-    #         return db_field.formfield(**kwargs)
-    # return super(StackedInlineWithImageWidgetInline,
-    # self).formfield_for_dbfield(db_field, **kwargs)
-
-
-class PhotoAdminForm(forms.ModelForm):
-
-    class Meta:
-        model = ResidentalComplexImage
-        widgets = {'image': ClearableFileInput(attrs={'multiple': True})}
-        fields = '__all__'
-
-    def save(self, *args, **kwargs):
-        """ Override for multiupload images """
-        from django.utils.datastructures import MultiValueDict
-
-        # Set output names in forms and formsets
-        image_name_initial = 'image'
-        image_name = image_name_initial
-
-        rc_name_initial = 'residental_complex'
-        rc_name = rc_name_initial
-
-        id_initial = 'id'
-        id_ = id_initial
-
-        # For formsets
-        if self.prefix:
-            image_name = "%s-%s" % (self.prefix, image_name)
-            rc_name = "%s-%s" % (self.prefix, rc_name)
-            id_ = "%s-%s" % (self.prefix, id_)
-
-            self.files = MultiValueDict(
-                {image_name_initial: self.files.getlist(image_name)})
-            self.data[rc_name_initial] = self.data[rc_name]
-            #self.data['id_'+rc_name_initial] = self.data[rc_name]
-            self.data[id_initial] = self.data[id_]
-        files_list = self.files.getlist(image_name_initial)
-
-        # If multiupload
-        if len(files_list)>1:
-            for file in files_list:
-                print(file)
-                new_form = PhotoAdminForm(
-                    self.data,
-                    MultiValueDict(
-                        {image_name_initial: [file]}),
-                )
-                if new_form.is_valid():
-                    # print('file valid', file)
-                    answer = new_form.save()
-                else:
-                    print('file invalid', file)
-                    for field in new_form:
-                        print(field)
-                        for error in field.errors:
-                            print(error)
-                            pass
-                    print(new_form.non_field_errors())
-        else:
-            answer = super().save(*args, **kwargs)
-        return answer
-
-
-
 def SETTLEMENT_CHOICES():
     yield ('', _('Не важно'))
-    today = datetime.date.today() 
+    today = datetime.date.today()
     yield (today.strftime("%Y-%m-%d"), _('Дом сдан'))
 
     QUARTER_1 = 1
@@ -143,23 +26,24 @@ def SETTLEMENT_CHOICES():
     QUARTER_3 = 3
     QUARTER_4 = 4
     QUARTERS = (QUARTER_1, QUARTER_2, QUARTER_3, QUARTER_4)
-    years = [today.year, today.year+1, today.year+2]
+    years = [today.year, today.year + 1, today.year + 2]
     for optgroup in years:
         optgroup_choices = []
         for QUARTER in QUARTERS:
-            date_of_settlement = last_day_of_month(datetime.date(int(optgroup), QUARTER*3, 1))
-            if date_of_settlement<today: continue
+            date_of_settlement = last_day_of_month(
+                datetime.date(int(optgroup), QUARTER * 3, 1))
+            if date_of_settlement < today:
+                continue
             optgroup_choices.append(
                 (
                     date_of_settlement.strftime("%Y-%m-%d"),
-                    (_("%(number_of_quarter)s квартал %(year)s") % {'number_of_quarter': QUARTER,
-                                                                    'year': optgroup})
+                    (_("%(number_of_quarter)s квартал %(year)s") % {
+                        'number_of_quarter': QUARTER,
+                        'year': optgroup})
                 )
             )
         yield (str(optgroup), optgroup_choices)
-    # yield ('', [("gte%s" % years[-1],
-           # _('После %(year)s') % {'year':years[-1]}
-           # )])
+
 
 class SearchForm(forms.Form):
     ROOMS_CHOICES = (
@@ -170,39 +54,25 @@ class SearchForm(forms.Form):
         ('4', '4+'),
     )
     price_from = forms.DecimalField(
-        widget = forms.TextInput(
-                attrs={
-                    'placeholder': _('от'),
-                    'class': 'auto-numeric-currency',
-                }
-            ),
+        widget=forms.TextInput(
+            attrs={'placeholder': _('от'), 'class': 'auto-numeric-currency', }
+        ),
         required=False,
     )
     price_to = forms.DecimalField(
-        widget = forms.TextInput(
-                attrs={
-                    'placeholder': _('до'),
-                    'class': 'auto-numeric-currency',
-                }
-            ),
+        widget=forms.TextInput(
+            attrs={'placeholder': _('до'), 'class': 'auto-numeric-currency', }
+        ),
         required=False,
     )
     area_from = forms.DecimalField(
-        widget = forms.TextInput(
-                attrs={
-                    'placeholder': _('от'),
-                    'class': 'auto-numeric-area',
-                }
-            ),
+        widget=forms.TextInput(
+            attrs={'placeholder': _('от'), 'class': 'auto-numeric-area', }),
         required=False,
     )
     area_to = forms.DecimalField(
-        widget = forms.TextInput(
-                attrs={
-                    'placeholder': _('до'),
-                    'class': 'auto-numeric-area',
-                }
-            ),
+        widget=forms.TextInput(
+            attrs={'placeholder': _('до'), 'class': 'auto-numeric-area', }),
         required=False,
     )
     rooms = forms.MultipleChoiceField(
@@ -235,8 +105,11 @@ class DateSelectorWidget(widgets.MultiWidget):
         # create choices for quarters and years
         # years = [(year, year) for year in (2011, 2012, 2013)]
         quarters = [(None, '---'), ]
-        quarters += [(qrtr, _('{qrtr} квартал').format(qrtr=qrtr))
-                    for qrtr in range(1, 5)]
+        quarters += [
+            (
+                qrtr, _('{qrtr} квартал').format(qrtr=qrtr)
+            ) for qrtr in range(1, 5)
+        ]
         _widgets = (
             widgets.Select(attrs=attrs, choices=quarters),
             # widgets.Select(attrs=attrs, choices=years),
@@ -247,7 +120,7 @@ class DateSelectorWidget(widgets.MultiWidget):
     def decompress(self, value):
         if value:
             return [get_quarter(value)['quarter'], value.year]
-        return [None, None] # datetime.datetime.now().year]
+        return [None, None]
 
     def format_output(self, rendered_widgets):
         return ''.join(rendered_widgets)
@@ -256,29 +129,36 @@ class DateSelectorWidget(widgets.MultiWidget):
         datelist = [
             widget.value_from_datadict(data, files, name + '_%s' % i)
             for i, widget in enumerate(self.widgets)]
-        
+
         try:
-            D = last_day_of_month(datetime.date(day=1, month=int(datelist[0])*3,
-                                                year=int(datelist[1])))
-        except:
+            D = last_day_of_month(
+                datetime.date(
+                    day=1,
+                    month=int(datelist[0]) * 3,
+                    year=int(datelist[1])
+                ))
+        except Exception:
             return None
         else:
             return D
 
 
 class NewBuildingForm(FormWithAddressAutocomplete):
-    date_of_construction = forms.DateField(widget=DateSelectorWidget(), 
-                                           help_text=_(
-                                            'выберите квартал, впишите год'),
-                                           label=_('дата окончания постройки'),
-                                           required=False,
-                                           )
-    date_of_start_of_construction = forms.DateField(widget=DateSelectorWidget(), 
-                                                    help_text=_(
-                                                     'выберите квартал, впишите год'),
-                                                    label=_('дата начала стройки'),
-                                                    required=False,
-                                                    )
+    date_of_construction = forms.DateField(
+        widget=DateSelectorWidget(),
+        help_text=_(
+            'выберите квартал, впишите год'),
+        label=_('дата окончания постройки'),
+        required=False,
+    )
+    date_of_start_of_construction = forms.DateField(
+        widget=DateSelectorWidget(),
+        help_text=_(
+            'выберите квартал, впишите год'),
+        label=_('дата начала стройки'),
+        required=False,
+    )
+
 
 class ResidentalComplexForm(FormWithAddressAutocomplete):
 

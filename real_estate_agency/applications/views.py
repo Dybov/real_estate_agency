@@ -1,35 +1,45 @@
-from django.shortcuts import render
 from django.views.generic import FormView
-from django.core.urlresolvers import reverse_lazy
 from django.conf import settings
+from django.core.urlresolvers import reverse_lazy
 from django.utils.translation import ugettext_lazy as _
-
-import telepot
+from django.http import JsonResponse
 
 from .forms import CallbackForm
 from .models import CallbackRequest
-from applications.middleware import UTM_PARAMS
+from .middleware import UTM_PARAMS
+from .sendmail_helper import sendMailToTheManagers
+from .viber_tasks import sendViberTextMessageToTheAdmins
 
-TOKEN = settings.TELEGRAM_TOKEN
-TelegramBot = telepot.Bot(TOKEN)
-MSG_RECEIVERS = settings.TELEGRAM_CHATS
-
-
-DEFAULT_TELEGRAM_MESSAGE = _('''<b>Поступила заявка:</b>
+DEFAULT_MSG_TITLE = _("Заявка с сайта %(domain)s")
+DEFAULT_DOMAIN = None
+DEFAULT_MESSAGE = _('''<b>Поступила заявка:</b>
 Имя: %(name)s
 Телефон: %(phone)s
 
-Источник: %(url)s
+Источник: %(url)s''')
 
-''')
-EXTRA_MESSAGE = _('<b>Дополнительная информация:</b> %(extra)s\n\n')
-MARKETING_MESSAGE = _('''<b>Рекламная кампания:</b>
+if settings.DEBUG:
+    DEFAULT_MESSAGE = "%s%s" % (
+        _('<h1>[DEBUG MODE]</h1>\n\n'),
+        DEFAULT_MESSAGE
+    )
+
+EXTRA_MESSAGE = _('\n\n<b>Дополнительная информация:</b> %(extra)s\n\n')
+MARKETING_MESSAGE = _('''\n<b>Рекламная кампания:</b>
 UTM source: %(utm_source)s
 UTM medium: %(utm_medium)s
 UTM campaign: %(utm_campaign)s
 UTM content: %(utm_content)s
 UTM term: %(utm_term)s
 ''')
+
+
+def get_msg_title(request):
+    global DEFAULT_DOMAIN, DEFAULT_MSG_TITLE
+    if not DEFAULT_DOMAIN:
+        from django.contrib.sites.shortcuts import get_current_site
+        DEFAULT_DOMAIN = get_current_site(request).domain
+    return DEFAULT_MSG_TITLE % {'domain': DEFAULT_DOMAIN}
 
 
 class Callback(FormView):
@@ -52,7 +62,7 @@ class Callback(FormView):
         # Save model with all params
         self.saveModel(form)
         # Send messages to list of interested_persons
-        self.sendCallbackRequestToTelegram(form, TelegramBot, MSG_RECEIVERS)
+        self.sendCallbackRequest(form)
         if self.request.is_ajax():
             data = {}
             return JsonResponse(data)
@@ -65,26 +75,21 @@ class Callback(FormView):
         data['callback_form'] = data.get('form')
         return data
 
-    def sendCallbackRequestToTelegram(self, form, bot, receivers=[]):
-        msg = DEFAULT_TELEGRAM_MESSAGE % {'name': form.cleaned_data.get('name'),
-                                          'phone': form.cleaned_data.get('phone_number'),
-                                          'url': self.request.META.get('HTTP_REFERER'),
-                                          }
+    def sendCallbackRequest(self, form):
+        msg = DEFAULT_MESSAGE % {
+            'name': form.cleaned_data.get('name'),
+            'phone': form.cleaned_data.get('phone_number'),
+            'url': self.request.META.get('HTTP_REFERER'),
+        }
         extra_field = form.cleaned_data.get('extra_info')
         if extra_field and extra_field != 'None':
             msg += EXTRA_MESSAGE % {
                 'extra': extra_field}
         msg = self.addMarketingInfoToMessage(msg)
-        for chat_id in receivers:
-            try:
-                bot.sendMessage(chat_id, msg, parse_mode="html")
-            except TelegramError:
-                import logging
-                # Get an instance of a logger
-                logger = logging.getLogger(__name__)
-                logger.critical('Bad telegram token is set %s' % TOKEN)
-            except:
-                pass
+        title = get_msg_title(self.request)
+
+        sendMailToTheManagers(title=title, message=msg)
+        sendViberTextMessageToTheAdmins(msg)
 
     def addMarketingInfoToMessage(self, text):
         if UTM_PARAMS[0] in self.request.COOKIES:
