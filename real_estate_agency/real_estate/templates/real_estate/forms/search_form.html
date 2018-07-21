@@ -1,0 +1,86 @@
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <h1 class="main_header_headline">
+                {% block search_title %}{% endblock %}
+            </h1>
+            <h2 class="main_header_headline_2">
+                {% block search_title_2 %}<br/>{% endblock %}
+            </h2>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <form action="{% block search_url %}{% endblock %}" method="get">
+            <div class="search_room-flex">
+
+                <div class="search-form-room-flex">
+                {% block search_form_col_1 %}
+                    <label class="search-form-name">Количество комнат</label>
+                    {{ form.rooms.errors }}
+                    <div class="btn-group search-room-btn-flex" data-toggle="buttons">
+                        {% for room in form.rooms %}
+                            <label class="search-btn {% if room.data.selected %}active-checkbox{% endif %}">
+                                {{room}}
+                            </label>
+                        {% endfor %}
+                    </div>
+                {% endblock %}
+                </div>
+
+                <div class="search_price-flex search_price-flex-border-right-none">
+                {% block search_form_col_2 %}
+                    <label for="{{ form.price_from.id_for_label }}" class="search-form-name">Стоимость</label>
+                    <div class="search_form_price_container search_price-flex-border-bottom">
+                        <div class="search_form_price">
+                            {{ form.price_from.errors }}
+                            {{ form.price_from }}
+                        </div>
+                        <div class="search_form_price">
+                            {{ form.price_to.errors }}
+                            {{ form.price_to }}
+                        </div>
+                    </div>
+                {% endblock %}
+                </div>
+
+                <div class="search_price-flex">
+                {% block search_form_col_3 %}
+                    <label for="{{ form.area_from.id_for_label }}" class="search-form-name">Площадь, м2</label>
+                    <div class="search_form_price_container ">
+                        <div class="search_form_price">
+                            {{ form.area_from.errors }}
+                            {{ form.area_from }}
+                        </div>
+                        <div class="search_form_price">
+                            {{ form.area_to.errors }}
+                            {{ form.area_to }}
+                        </div>
+                    </div>
+                {% endblock %}
+                </div>
+
+                <div class="select_home-flex">
+                {% block search_form_col_4 %}
+                    <label for="{{form.settlement_before.id_for_label}}" class="search-form-name">Срок сдачи</label>
+                    {{ form.settlement_before.errors }}
+                    <div class="search_form_select">
+                        {{ form.settlement_before }}
+                    </div>
+                {% endblock %}
+                </div>
+            </div>
+
+            {% block search_form_row_2 %}
+            <div class="search_place">
+                {{form.any_text.errors}}
+                {{form.any_text}}
+                <button class="btn_large" type="submit">Найти</button>
+            </div>
+            {% endblock %}
+
+            </form>
+        </div>
+    </div>
+</div>
