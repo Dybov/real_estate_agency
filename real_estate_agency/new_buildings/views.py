@@ -10,7 +10,7 @@ from django.utils.translation import ugettext as _
 from django.utils.safestring import mark_safe
 
 from .models import ResidentalComplex, NewApartment
-from .forms import SearchForm
+from .forms import NewBuildingsSearchForm
 from address.views import BaseAutocompleteForAuthenticatedUsersView
 
 from company.models import BankPartner
@@ -20,7 +20,7 @@ REGEX_FOR_ANY_TEXT_FIELD = re.compile(r'[^\w]', re.I | re.U)
 
 
 class ResidentalComplexList(FormMixin, ListView):
-    form_class = SearchForm
+    form_class = NewBuildingsSearchForm
     model = ResidentalComplex
     context_object_name = 'residental_complexes'
     template_name = 'new_buildings/residental_complex_list.html'
@@ -190,5 +190,7 @@ class NewApartmentsFeed(ListView):
     )
 
 
-class ResidentalComplexAutocompleteView(BaseAutocompleteForAuthenticatedUsersView):
+class ResidentalComplexAutocompleteView(
+    BaseAutocompleteForAuthenticatedUsersView
+):
     model = ResidentalComplex

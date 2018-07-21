@@ -5,10 +5,10 @@ from django.db import models
 from django.forms import widgets
 from django.utils.translation import ugettext as _
 
-from .helpers import last_day_of_month, get_quarter
-
 from address.forms import FormWithAddressAutocomplete
+from real_estate.forms import SearchForm
 
+from .helpers import last_day_of_month, get_quarter
 
 # it is new sizes for widgets in Inlines
 standart_formfield_overrides = {
@@ -45,56 +45,22 @@ def SETTLEMENT_CHOICES():
         yield (str(optgroup), optgroup_choices)
 
 
-class SearchForm(forms.Form):
-    ROOMS_CHOICES = (
-        ('0', _('С')),
-        ('1', '1'),
-        ('2', '2'),
-        ('3', '3'),
-        ('4', '4+'),
-    )
-    price_from = forms.DecimalField(
-        widget=forms.TextInput(
-            attrs={'placeholder': _('от'), 'class': 'auto-numeric-currency', }
-        ),
-        required=False,
-    )
-    price_to = forms.DecimalField(
-        widget=forms.TextInput(
-            attrs={'placeholder': _('до'), 'class': 'auto-numeric-currency', }
-        ),
-        required=False,
-    )
-    area_from = forms.DecimalField(
-        widget=forms.TextInput(
-            attrs={'placeholder': _('от'), 'class': 'auto-numeric-area', }),
-        required=False,
-    )
-    area_to = forms.DecimalField(
-        widget=forms.TextInput(
-            attrs={'placeholder': _('до'), 'class': 'auto-numeric-area', }),
-        required=False,
-    )
-    rooms = forms.MultipleChoiceField(
-        widget=forms.CheckboxSelectMultiple(attrs={
-            "class": "checkbox"
-        }),
-        choices=ROOMS_CHOICES,
-        required=False,
-    )
+class NewBuildingsSearchForm(SearchForm):
+    """Form for searching resale apartmnents
+    It search by the next fields:
+    rooms [char choice] (from SearchForm) - amount of rooms in apartment
+    price_from [decimal] (from SearchForm) - minimal apartment price
+    price_to [decimal] (from SearchForm) - maximal apartment price
+    area_from [decimal] (from SearchForm) - minimal apartment area
+    area_to [decimal] (from SearchForm) - maximal apartment area
+    any_text [string] (from SearchForm) - name of street, neighbourhood or RC
+    settlement_before [date] - date when RC must be already built
+    """
     settlement_before = forms.ChoiceField(
         widget=forms.Select(attrs={
             "class": "search_form_select-select ",
         }),
         choices=SETTLEMENT_CHOICES,
-        required=False,
-    )
-    any_text = forms.CharField(
-        widget=forms.TextInput(attrs={
-            "placeholder": _("Название улицы, района, или жилого комплекса"),
-            "class": "search_place_input ",
-        }
-        ),
         required=False,
     )
 
