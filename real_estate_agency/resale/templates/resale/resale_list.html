@@ -1,118 +1,15 @@
 {% extends 'resale/base.html'%}
 {% load static %}
 {% block content %}
-<div class="container">
-    <div class="row">
-        <div class="col-md-10 col-md-offset-1">
-        </div>
-    </div>
+
+<div class="header" style="background-image: url({% static 'resale/img/realty_home_search.png' %});">
+    {% include 'resale/forms/search_form.html' %}
 </div>
-<header>
-<section>
-<div class="header emerge" style="background-image: url({% static 'resale/img/realty_home_search.png' %});">
-		<div class="container">
+
+
+<div class="container">
 	<div class="row">
 		<div class="col-md-12">
-				<h1 class="main_header_headline_2 text-color font-weight-600">Каталог квартир Тюмени</h1>
-		</div>
-	</div>
-				<div class="col-md-12">
-									<div class="search_room-flex">
-						<div class="search-form-room-flex">
-						<div class="search-form-name">Количество комнат</div>
-<div class="btn-group search-room-btn-flex" data-toggle="buttons">
-                            
-                                <label class="search-btn ">
-                                    <label for="id_rooms_0"><input type="checkbox" name="rooms" value="0" id="id_rooms_0" class="checkbox">
- С</label>
-                                </label>
-                            
-                                <label class="search-btn ">
-                                    <label for="id_rooms_1"><input type="checkbox" name="rooms" value="1" id="id_rooms_1" class="checkbox">
- 1</label>
-                                </label>
-                            
-                                <label class="search-btn ">
-                                    <label for="id_rooms_2"><input type="checkbox" name="rooms" value="2" id="id_rooms_2" class="checkbox">
- 2</label>
-                                </label>
-                            
-                                <label class="search-btn">
-                                    <label for="id_rooms_3"><input type="checkbox" name="rooms" value="3" id="id_rooms_3" class="checkbox">
- 3</label>
-                                </label>
-                            
-                                <label class="search-btn">
-                                    <label for="id_rooms_4"><input type="checkbox" name="rooms" value="4" id="id_rooms_4" class="checkbox">
- 4+</label>
-                                </label>
-                            
-                        </div>
-					</div>
-
-
-						<div class="search_price-flex search_price-flex-border-right-none">
-						<div class="search-form-name">Стоимость</div>
-						<div class="search_form_price_container search_price-flex-border-bottom">
-						<div class="search_form_price">
-
-						<input type="text" value="" name="" class="" placeholder="от">
-					</div>
-						<div class="search_form_price">
-						<input type="text" value="" name="" class="" placeholder="до" >
-						</div>
-						</div>
-					</div>
-
-
-						<div class="search_price-flex">
-						<div class="search-form-name">Количество метров</div>
-						<div class="search_form_price_container ">
-						<div class="search_form_price">
-
-						<input type="text" value="" name="" class="" placeholder="от">
-					</div>
-						<div class="search_form_price">
-						<input type="text" value="" name="" class="" placeholder="до" >
-						</div>
-						</div>
-					</div>
-
-
-					<div class="select_home-flex">
-					<div class="search-form-name">Район</div>
-						<div class="search_form_select">
-						<select  id="id_settlement_before" name="settlement_before" class="search_form_select-select">
-<option value="" selected="selected">Дом обороны</option>
-<option value="True">Перечесление всех районов где есть квартиры</option>
-</select>
-						</div>
-						</div>
-
-				</div>	
-							<div class="search_place">
-
-					
-						<input type="text" placeholder="Название улицы, района, или жилого комплекса" class="search_place_input">
-						<button class="btn_large"> Найти</button>
-					
-
-			</div>		
-			</div>
-
-		</div>
-
-
-
-</div>		
-	</div>
-</section>
-</header>
-
-
-<div class="container">
-	<div class="row">
-		<div class="col-md-10 col-md-offset-1">
 			{% for apartment in apartments %}
 				{% include 'resale/resale_list_item.html' %}
 			{% endfor %}

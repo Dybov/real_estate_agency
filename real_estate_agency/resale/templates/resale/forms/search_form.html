@@ -1,0 +1,18 @@
+{% extends 'real_estate/forms/search_form.html' %}
+
+{% block search_title %}
+Каталог квартир Тюмени
+{% endblock %}
+
+{% block search_url %}{% url "resale:index" %}{% endblock %}
+
+{% block search_form_col_4 %}
+<label class="search-form-name">Район</label>
+    <div class="search_form_select">
+        <select  id="id_settlement_before" name="settlement_before" class="search_form_select-select">
+            <option value="" selected="selected">Дом обороны</option>
+            <option value="True">Перечесление всех районов где есть квартиры</option>
+        </select>
+    </div>
+</div>
+{% endblock %}
