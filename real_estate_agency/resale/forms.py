@@ -1,6 +1,12 @@
 from datetime import date
 
-from django.forms import ModelForm, NumberInput, DateField, ModelChoiceField
+from django.forms import (
+    ModelForm,
+    NumberInput,
+    DateField,
+    ModelChoiceField,
+    Select
+)
 from django.forms.widgets import ClearableFileInput
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.utils.translation import ugettext_lazy as _
@@ -94,5 +100,10 @@ class ResaleSearchForm(SearchForm):
     neighbourhood [choice FK] - name of the neighbourhood
     """
     neighbourhood = ModelChoiceField(
-        queryset=NeighbourhoodModel.objects.exclude(resaleapartment=None)
+        queryset=NeighbourhoodModel.objects.exclude(resaleapartment=None),
+        empty_label=_('Не важно'),
+        widget=Select(attrs={
+            "class": "search_form_select-select ",
+        }),
+        required=False,
     )

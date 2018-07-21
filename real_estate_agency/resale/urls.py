@@ -1,9 +1,9 @@
 from django.conf.urls import url
 
-from . import views
+from .views import ResaleListView, detailed
 
 
 urlpatterns = [
-    url(r'^$', views.index, name='index'),
-    url(r'^(?P<pk>\d+)/$', views.detailed, name='detailed'),
+    url(r'^$', ResaleListView.as_view(), name='index'),
+    url(r'^(?P<pk>\d+)/$', detailed, name='detailed'),
 ]
