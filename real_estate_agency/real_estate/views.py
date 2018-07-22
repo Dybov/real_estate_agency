@@ -39,7 +39,11 @@ class ApartmentFilterMixin(object):
                     **{'%s__exact' % fieldname: value})
             else:
                 combined_query = combined_query | Q(
-                    **{'%s__gte' % fieldname: value})
+                    **{'%s__gte' % fieldname: value,
+                       # It needs for queries without 'B'
+                       # 'B' is greater than 'A'
+                       '%s__lt' % fieldname: 'A'}
+                )
         if combined_query:
             self.apartment_list = self.apartment_list.filter(combined_query)
 
