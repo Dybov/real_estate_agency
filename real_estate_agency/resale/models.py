@@ -12,14 +12,16 @@ from company.models import BankPartner
 from real_estate.models.apartment import Apartment
 from real_estate.models.building import BaseBuilding
 from real_estate.models.helper import modify_fields
-from real_estate.models.image import BasePropertyImage, spec_factory
+from real_estate.models.image import (
+    BasePropertyImage,
+    spec_factory,
+    BaseWatermarkProcessor)
 from new_buildings.models import ResidentalComplex
 
 
 # Defined to add feature in the future
-class ResaleWatermark(object):
-    def process(self, image):
-        return image
+class ResaleWatermark(BaseWatermarkProcessor):
+    pass
 
 
 class TransactionMixin(models.Model):
@@ -167,6 +169,7 @@ class ResaleApartment(Apartment, BaseBuilding, TransactionMixin):
         320,
         extra_processors=[ResaleWatermark()],
         source='layout',
+        format='jpeg',
     )
 
 
@@ -175,4 +178,9 @@ class ResaleApartmentImage(BasePropertyImage):
                                   on_delete=models.CASCADE,
                                   related_name='photos',
                                   )
-    image_spec = spec_factory(750, 500, options__quality=70)
+    image_spec = spec_factory(
+        750,
+        500,
+        extra_processors=[ResaleWatermark()],
+        options__quality=70
+    )
