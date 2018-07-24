@@ -6,28 +6,23 @@
     {% breadcrumb apartment.verbose "resale:detailed" %}
 {% endblock %}
 {% block content %}
-<div class="container">
-    <div class="row">
-        <div class="col-md-10 col-md-offset-1">
+<div class="header_short" style="background-image: url({% static 'resale/img/realty_home_search.png' %});">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8">
+                <h1 class="header_ipoteka_headline">
+                    {{ apartment }}
+                </h1>
+                <h2 class="header_ipoteka_desc">
+                    {{ apartment.address }}
+                </h2>
+            </div>
+            <div class="col-md-4"></div>
         </div>
     </div>
 </div>
 
-<section class="realty_home_page" style="background-image: url({% static 'resale/img/realty_home_search.png' %});">
-	<div class="flitr_img_header"></div>
-	<div class="container">
-		<div class="row">
-			<div class="col-md-6">
-				<div class="header_zhk_name " style="line-height: 1.2;">
-					<h1 class="text-color">{{ property }}</h1></div>
-					<div class="realty_home_page_adress">	
-						<i class="fa fa-map-marker" aria-hidden="true"></i>
-							{{ apartment.address }}
-						</div>
-			</div>
-		</div>
-	</div>
-</section>
+
 
 <section class="">
 	<div class="container ">
@@ -88,18 +83,20 @@
 
 											</div>
 				</div>
-			<div class="col-md-8 col-md-pull-4 col-xs-12">
-				<div class="realty_home_page_photo">
-					<div class="zhk_headline"> Фото квартиры</div>
-					<div class="realty_home_page_photo_slider" data-flickity='{ "cellAlign": "left", "contain": true }'>
-						<div class="realty_home_page_photo_slider_item" style="background-image: url({{apartment.layout.url}});"></div>
-						<div class="realty_home_page_photo_slider_item" style="background-image: url(img/realty_home_search.png);"></div>
-						<div class="realty_home_page_photo_slider_item" style="background-image: url(img/realty_home_search.png);"></div>
-						<div class="realty_home_page_photo_slider_item" style="background-image: url(img/realty_home_search.png);"></div>
-						<div class="realty_home_page_photo_slider_item" style="background-image: url(img/realty_home_search.png);"></div>
-						<div class="realty_home_page_photo_slider_item" style="background-image: url(img/realty_home_search.png);"></div>
-					</div>
-				</div>
+<!---->
+            <div class="col-md-8 col-md-pull-4 col-xs-12">
+                <div class="realty_home_page_photo">
+                    <div class="zhk_headline"> Фото квартиры </div>
+                    <div class="realty_home_page_photo_slider" data-flickity='{ "cellAlign": "left", "contain": true }'>
+                        {% for photo in apartment.photos.all %}
+                        <img class="realty_home_page_photo_slider_item" src="{{ photo.image_spec.url }}"
+                        height="{{ photo.image_spec.height }}"
+                        width="{{ photo.image_spec.width }}">
+                        {# <div class="realty_home_page_photo_slider_item" style="background-image: url(img/realty_home_search.png);"></div> #}
+                        {% endfor %}
+                    </div>
+                </div>
+<!---->
 				<div class="realty_home_page_desc">
 					<div class="zhk_headline"> Описание квартиры</div>
 					<p>There’s a new hairstyle that seems to be sweeping Hollywood: what would you be willing to do to get it for yourself? How pleased would you be if getting the latest, hottest hair look were as simple as changing the styling products that you use?</p>

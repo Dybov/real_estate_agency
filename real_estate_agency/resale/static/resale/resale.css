@@ -32,3 +32,10 @@
 .resale_item a:hover button {
   opacity: 1;
 }
+.header_short{
+  height: 255px;
+}
+.shadow {
+  -webkit-box-shadow: 0 2px 40px rgba(0, 0, 0, 0.14);
+  box-shadow: 0 2px 40px rgba(0, 0, 0, 0.14);
+}
