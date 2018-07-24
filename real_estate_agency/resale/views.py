@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.shortcuts import get_object_or_404
+from django.http import Http404
 from django.views.generic import ListView
 from django.views.generic.edit import FormMixin
 
@@ -14,8 +14,9 @@ class ResaleListView(ApartmentFilterMixin, FormMixin, ListView):
     model = ResaleApartment
     context_object_name = 'apartments'
     template_name = 'resale/resale_list.html'
+    # Recude DB connections with select_related()
     queryset = model.objects.filter(
-        is_active=True, status=TransactionMixin.ACTIVE)
+        is_active=True, status=TransactionMixin.ACTIVE).select_related()
 
     def get(self, request, *args, **kwargs):
         data = getattr(request, request.method)
@@ -61,5 +62,9 @@ class ResaleListView(ApartmentFilterMixin, FormMixin, ListView):
 
 
 def detailed(request, pk):
-    context = {'apartment': get_object_or_404(ResaleApartment, pk=pk)}
+    # Recude DB connections with select_related()
+    apartments = ResaleApartment.objects.filter(pk=pk).select_related()
+    if not apartments:
+        raise Http404("Apartment doesn't exist")
+    context = {'apartment': apartments[0]}
     return render(request, 'resale/resale_detailed.html', context)
