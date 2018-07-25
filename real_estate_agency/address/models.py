@@ -21,7 +21,8 @@ class BaseUniqueModel(models.Model):
     def clean(self):
         """
         Check for instances with null values in unique_together fields.
-        from https://stackoverflow.com/questions/3488264/django-unique-together-doesnt-work-with-foreignkey-none/4805581#4805581
+        from
+        https://stackoverflow.com/questions/3488264/django-unique-together-doesnt-work-with-foreignkey-none/4805581#4805581
         """
         super(BaseUniqueModel, self).clean()
 
@@ -101,11 +102,11 @@ class BaseAddressNoNeighbourhood(BaseUniqueModel):
     building = models.IntegerField(verbose_name=_('номер дома'),
                                    validators=[MinValueValidator(1)]
                                    )
-    building_block = models.IntegerField(verbose_name=_('корпус'),
-                                         null=True,
-                                         blank=True,
-                                         validators=[MinValueValidator(1)],
-                                         help_text=_(
+    building_block = models.CharField(verbose_name=_('корпус'),
+                                      max_length=5,
+                                      null=True,
+                                      blank=True,
+                                      help_text=_(
         'оставьте пустым, если поле не имеет смысла'),
     )
     zip_code = models.CharField(verbose_name=_('почтовый индекс'),
@@ -152,7 +153,7 @@ class BaseAddressNoNeighbourhood(BaseUniqueModel):
         super().save(*args, **kwargs)
 
     def define_coordinates(self):
-        location = geocoder.yandex(self.city.name+", "+self.address)
+        location = geocoder.yandex(self.city.name + ", " + self.address)
         if location.ok:
             self.coordinates = ",".join(location.latlng)
 
