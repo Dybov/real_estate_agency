@@ -182,5 +182,6 @@ class ResaleApartmentImage(BasePropertyImage):
         750,
         500,
         extra_processors=[ResaleWatermark()],
-        options__quality=70
+        options__quality=70,
+        format='jpeg'
     )

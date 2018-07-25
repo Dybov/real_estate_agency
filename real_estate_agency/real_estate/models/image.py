@@ -8,17 +8,25 @@ from django.utils.translation import ugettext as _
 from imagekit import ImageSpec
 from imagekit.models.fields import ImageSpecField
 from imagekit.processors import ResizeToFit, ResizeToFill
-from PIL import Image
+from PIL import Image, ImageEnhance
 
 from .helper import get_file_path
 
-_path = settings.WATERMARK_IMAGE_PATH
+# opacity ratio from 0 to 1
+BASE_OPACITY = 0.7
+# size ratio from 0 to 1, where 1 = image.size
+BASE_WATERMARK_SIZE_RATIO = 0.3
+# c, l, r, t, b - center, left, right, top, bottom
+# allowed values: c, l, r, t, b, tl, bl, tr, br
+BASE_WATERMARK_POSITION = 'bl'
+
+_watermark_path = settings.WATERMARK_IMAGE_PATH
 
 
 @register()
 def example_check(*args, **kwargs):
     warnings = []
-    if not _path or not os.path.exists(_path):
+    if not _watermark_path or not os.path.exists(_watermark_path):
         warnings.append(
             Warning(
                 "settings.WATERMARK_IMAGE_PATH isn't defined",
@@ -30,15 +38,40 @@ watermark won't be overlay. Don't forget to set it for production too!",
     return warnings
 
 
-class __Watermark(ImageSpec):
-    processors = [ResizeToFit(1000, 1000, mat_color=(255, 255, 255, 0))]
+class Opacity(object):
+    """Add opacity to spec image with value of opacity"""
+
+    def __init__(self, opacity):
+        self.opacity = opacity
+
+    def add_opacity(self, im):
+        assert self.opacity >= 0 and self.opacity <= 1
+        if im.mode != 'RGBA':
+            im = im.convert('RGBA')
+        else:
+            im = im.copy()
+        alpha = im.split()[3]
+        alpha = ImageEnhance.Brightness(alpha).enhance(self.opacity)
+        im.putalpha(alpha)
+        return im
+
+    def process(self, img):
+        return self.add_opacity(img)
+
+
+class Watermark(ImageSpec):
+    opacity = BASE_OPACITY
+    processors = [
+        ResizeToFit(1000, 1000, mat_color=(255, 255, 255, 0)),
+        Opacity(opacity),
+    ]
     format = 'PNG'
 
 
-if _path and os.path.exists(_path):
-    source_file = open(settings.WATERMARK_IMAGE_PATH, 'rb')
+if _watermark_path and os.path.exists(_watermark_path):
+    source_file = open(_watermark_path, 'rb')
 
-    watermark_generator = __Watermark(source=source_file)
+    watermark_generator = Watermark(source=source_file)
     WATERMARK_SPEC = watermark_generator.generate()
     source_file.close()
 else:
@@ -105,23 +138,22 @@ def get_position_by_shortcut(shortcut, base_size, overlay_size):
     # For combinations of left/rigth and top/bottom
     for x in ('l', 'r'):
         for y in ('t', 'b'):
-            positions[x + y] = (positions[x], positions[y])
+            positions[x + y] = (positions[x][0], positions[y][1])
             positions[y + x] = positions[x + y]
 
     position = positions.get(shortcut)
     if not position:
         raise Exception('Ambiguous shortcut for position - %s' % shortcut)
-
     return position
 
 
-def add_watermark(image, wmk_image, size_ratio, pos, opacity):
+def add_watermark(image, wmk_image, size_ratio, pos):
     width, height = image.size
     w_width, w_height = wmk_image.size
 
-    scale = max(
-        width / (2.0 * w_width),
-        height / (2.0 * w_height)
+    scale = min(
+        width / (w_width),
+        height / (w_height)
     )
     new_size = (
         int(w_width * scale * size_ratio),
@@ -131,11 +163,6 @@ def add_watermark(image, wmk_image, size_ratio, pos, opacity):
     tranparent = Image.new('RGBA', (width, height), (255, 255, 255, 0))
 
     watermark = wmk_image.resize(new_size)
-
-    pixdata = watermark.load()
-    for y in range(watermark.size[1]):
-        for x in range(watermark.size[0]):
-            pixdata[x, y] = tuple(int(x * opacity) for x in pixdata[x, y])
 
     tranparent = Image.new('RGBA', (width, height), (255, 255, 255, 0))
     tranparent.paste(image, (0, 0))
@@ -193,13 +220,11 @@ class BaseDraggapbleImage(BasePropertyImage):
 
 class BaseWatermarkProcessor(object):
     watermark = WATERMARK_SPEC
-    # opacity ratio from 0 to 1
-    opacity = 0.7
-    # size ratio from 0 to 1
-    size = 0.9
+    # size ratio from 0 to 1, where 1 = image.size
+    size = BASE_WATERMARK_SIZE_RATIO
     # c, l, r, t, b - center, left, right, top, bottom
     # allowed values: c, l, r, t, b, lt, lb, rt, rb
-    position = 'c'
+    position = BASE_WATERMARK_POSITION
 
     def process(self, image):
         if not self.watermark:
@@ -211,5 +236,4 @@ class BaseWatermarkProcessor(object):
             watermark_image,
             self.size,
             self.position,
-            self.opacity,
         )
