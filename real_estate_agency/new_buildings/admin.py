@@ -33,6 +33,7 @@ class NewApartmentInline(admin.StackedInline):
     extra = 0
     exclude = ['description']
     formfield_overrides = standart_formfield_overrides
+    classes = ['collapse', ]
 
     fields = (
         'thumbnail',
@@ -127,6 +128,7 @@ class BuildingInline(admin.StackedInline):
               'building_permit',
               'project_declarations'
               )
+    classes = ['collapse', ]
 
 
 class ResidentalComplexImageForm(forms.ModelForm):
@@ -143,6 +145,7 @@ class ResidentalComplexImageInline(admin.TabularInline):
     form = ResidentalComplexImageForm
     extra = 0
     min_num = 0
+    classes = ['collapse', ]
 
 
 class ResidentalComplexFeatureInline(admin.TabularInline):
@@ -150,6 +153,7 @@ class ResidentalComplexFeatureInline(admin.TabularInline):
     extra = 0
     min_num = 0
     formfield_overrides = standart_formfield_overrides
+    classes = ['collapse', ]
 
 
 @admin.register(ResidentalComplex)
@@ -184,6 +188,7 @@ class ResidentalComplexAdmin(
                        'number_of_flats')
         }),
         (_('МЕДИА'), {
+            'classes': ['collapse', ],
             'fields': ('front_image', 'video_link', 'presentation'),
         }),
     )
