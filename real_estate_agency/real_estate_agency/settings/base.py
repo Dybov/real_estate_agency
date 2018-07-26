@@ -21,7 +21,8 @@ BASE_DIR = os.path.dirname(
 # ALLOWED_HOSTS must set in the child settings file
 
 # Application definition
-# dal is django-autocomplete-light https://github.com/yourlabs/django-autocomplete-light
+# dal is django-autocomplete-light
+# https://github.com/yourlabs/django-autocomplete-light
 INSTALLED_APPS = [
     'dal',
     'dal_select2',
@@ -34,9 +35,13 @@ INSTALLED_APPS = [
     'company',
     'applications',
     'phonenumber_field',
+    'celery',
     'django_unused_media',
     'django_bootstrap_breadcrumbs',
     'analytical',
+    'imagekit',
+    'adminsortable2',
+    'django_celery_beat',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -88,16 +93,20 @@ WSGI_APPLICATION = 'real_estate_agency.wsgi.application'
 
 AUTH_PASSWORD_VALIDATORS = [
     {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
+        'NAME': 'django.contrib.auth.password_validation\
+            .UserAttributeSimilarityValidator',
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+        'NAME': 'django.contrib.auth.password_validation\
+            .MinimumLengthValidator',
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
+        'NAME': 'django.contrib.auth.password_validation\
+            .CommonPasswordValidator',
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
+        'NAME': 'django.contrib.auth.password_validation\
+            .NumericPasswordValidator',
     },
 ]
 
@@ -130,12 +139,18 @@ TELEGRAM_TOKEN = ''
 TELEGRAM_CHATS = []
 TELEGRAM_ADMINS_CHATS = []
 
-# Proxy might be nessecary because of blocking Telegram in Russia
-# Here is free proxies http://spys.one/proxys/GB/
-# Attention! For support socks5 you need install dependency pip install requests[socks]
-# For support socks5 also make sure, that you have the latest version of gunicorn, PySocks, pyTelegramBotAPI, requests and urllib3
-# Proxy format is must be for telepot.api set_proxy function http://telepot.readthedocs.io/en/latest/_modules/telepot/api.html#set_proxy
-TELEGRAM_PROXIES = [
-    #('protocol', 'ip', 'port', 'username(None or "" if there is no useername)', 'password(None or "" if there is no password)')
-    ('https', '94.177.214.215', 8080, '', ''),
-]
+CELERY_BROKER_URL = 'redis://localhost:6379'
+CELERY_RESULT_BACKEND = 'redis://localhost:6379'
+CELERY_ACCEPT_CONTENT = ['application/json']
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_SERIALIZER = 'json'
+CELERY_TIMEZONE = TIME_ZONE
+
+# Don't forget to set your token to production
+VIBER_BOT_TOKEN = 'your-secret-token'
+VIBER_BOT_NAME = 'domus72.ru'
+VIBER_BOT_AVATAR = 'http://viber.com/avatar.jpg'
+VIBER_BOT_PRIVATE_GROUPS = []
+
+# Use viber ids
+VIBER_BOT_TEST_ADMINS = []

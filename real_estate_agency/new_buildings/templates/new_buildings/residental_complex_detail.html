@@ -123,7 +123,7 @@
 		<div class="row" style="margin-top: 50px;">
 			<div class="col-md-12 col-xs-12">
 				<a href="{{residental_complex.video_link}}" class="popup_video">
-					<div  class="zhk_video" style="background-image: url({{ residental_complex.get_title_photo_url }});">
+					<div  class="zhk_video" style="background-image: url({{ residental_complex.front_image_spec_normal.url }});">
 						<div class="zhk_video_filter">
 							<div class="zhk_video_headline">
 								Посмотрите видео о {{residental_complex.type_of_complex.get_loct}} {{residental_complex}}
@@ -365,13 +365,15 @@
 			</div>
 			<div class="col-md-12 col-xs-12">
 				<div class="slider_ipoteka scrollyeah" data-shadows="false">
-				{% for bank_name,img_name in banks.items %}
+				{% for bank in banks %}
 					<div class="slider_ipoteka_item">
 						<div class="slider_ipoteka_item_logo">
-							<img src="{% static 'img/partners/bank/64_64/'|add:img_name|add:'_64_64.png'%}" class="img-responsive">
+							<img
+							src="{{ bank.thumbnail_34_34.url }}"
+							height="{{ bank.thumbnail_34_34.height }}">
 						</div>
 						<div>
-							{{ bank_name }}
+							{{ bank.title }}
 						</div>
 					</div>
 				{% endfor %}		

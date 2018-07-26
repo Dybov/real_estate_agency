@@ -10,12 +10,29 @@ from django.utils.safestring import mark_safe
 from django.utils.translation import ugettext as _
 from django.utils.functional import cached_property
 
-from real_estate.models import Apartment, get_file_path, BasePropertyImage
+from real_estate.models.apartment import Apartment
+from real_estate.models.helper import get_file_path
+from real_estate.models.image import (
+    BasePropertyImage,
+    spec_factory,
+)
 from real_estate.templatetags.real_estate_extras import morphy_by_case
-from address.models import AbstractAddressModelWithoutNeighbourhood, NeighbourhoodModel
+from address.models import (
+    AbstractAddressModelWithoutNeighbourhood,
+    NeighbourhoodModel
+)
 
 from .helpers import get_quarter_verbose
 from .serializers import ExtJsonSerializer
+
+
+new_buildings_spec_kwargs = {
+    'width': 900,
+    'height': 600,
+    'format': 'JPEG',
+    'options__quality': 75,
+    'to_fit': False,
+}
 
 
 def get_json_object(_object, props=[]):
@@ -40,6 +57,8 @@ class NewApartment(Apartment):
                                             null=True,
                                             blank=True,
                                             )
+    layout_small = spec_factory(260, 250, source='layout')
+    layout_large = spec_factory(690, 640, source='layout')
 
     def get_residental_complex(self):
         return self.residental_complex
@@ -54,7 +73,7 @@ class NewApartment(Apartment):
         return get_quarter_verbose(self.date_of_construction)
 
     def _set_date_of_construction(self):
-        """ Set self.date_of_construction 
+        """ Set self.date_of_construction
         as nearest date_of_construction of related buildings.
 
         return Bool changed this field or not"""
@@ -66,11 +85,11 @@ class NewApartment(Apartment):
         date_origin = self.date_of_construction
         self.date_of_construction = date
         return not date_origin == date
-    
+
     def is_built(self):
         if self.date_of_construction:
             return self.date_of_construction <= datetime.date.today()
-    
+
     class Meta:
         verbose_name = _('объект "планировка"')
         verbose_name_plural = _('планировки')
@@ -120,18 +139,20 @@ class NewBuilding(AbstractAddressModelWithoutNeighbourhood):
         validators=[MinValueValidator(1)],
         default=1,
     )
-    date_of_start_of_construction = models.DateField(verbose_name=_('дата начала стройки'),
-                                                     null=True,
-                                                     blank=True,
-                                                     help_text=_(
-                                                         'Важен только месяц'),
-                                                     )
-    date_of_construction = models.DateField(verbose_name=_('дата окончания постройки'),
-                                            null=True,
-                                            blank=True,
-                                            help_text=_(
-                                                'Важен только месяц'),
-                                            )
+    date_of_start_of_construction = models.DateField(
+        verbose_name=_('дата начала стройки'),
+        null=True,
+        blank=True,
+        help_text=_(
+            'Важен только месяц'),
+    )
+    date_of_construction = models.DateField(
+        verbose_name=_('дата окончания постройки'),
+        null=True,
+        blank=True,
+        help_text=_(
+            'Важен только месяц'),
+    )
     feed_link = models.URLField(verbose_name=_('ссылка на фид'),
                                 max_length=255,
                                 null=True,
@@ -140,18 +161,20 @@ class NewBuilding(AbstractAddressModelWithoutNeighbourhood):
     is_active = models.BooleanField(verbose_name=_('отображать на сайте'),
                                     default=True,
                                     )
-    building_permit = models.FileField(verbose_name=_('разрешение на строительство'),
-                                       null=True,
-                                       default=None,
-                                       blank=True,
-                                       upload_to=get_file_path,
-                                       )
-    project_declarations = models.FileField(verbose_name=_('проектная декларация'),
-                                            null=True,
-                                            default=None,
-                                            blank=True,
-                                            upload_to=get_file_path,
-                                            )
+    building_permit = models.FileField(
+        verbose_name=_('разрешение на строительство'),
+        null=True,
+        default=None,
+        blank=True,
+        upload_to=get_file_path,
+    )
+    project_declarations = models.FileField(
+        verbose_name=_('проектная декларация'),
+        null=True,
+        default=None,
+        blank=True,
+        upload_to=get_file_path,
+    )
 
     def get_apartments(self):
         return self.newapartment_set.filter(is_active=True)
@@ -166,7 +189,8 @@ class NewBuilding(AbstractAddressModelWithoutNeighbourhood):
     class Meta(AbstractAddressModelWithoutNeighbourhood.Meta):
         verbose_name = _('дом')
         verbose_name_plural = _('дома')
-        unique_together = AbstractAddressModelWithoutNeighbourhood.Meta.unique_together + \
+        unique_together = \
+            AbstractAddressModelWithoutNeighbourhood.Meta.unique_together + \
             (('name', 'residental_complex'), )
 
     def is_built(self):
@@ -181,12 +205,14 @@ class TypeOfComplex(models.Model):
     Such as 'Жилой комплекс' or 'Микрорайон'.
     Which depends on builder policy in refer to concrete RC.
     """
-    name = models.CharField(verbose_name=_('тип комплекса'),
-                            max_length=127,
-                            unique=True,
-                            help_text=_(
-                                'Необходимо писать в нижнем регистре. Преобразование к верхнему регистру происходит автоматически'),
-                            )
+    name = models.CharField(
+        verbose_name=_('тип комплекса'),
+        max_length=127,
+        unique=True,
+        help_text=_(
+            'Необходимо писать в нижнем регистре. \
+            Преобразование к верхнему регистру происходит автоматически'),
+    )
 
     def __str__(self):
         return self.name.capitalize()
@@ -229,7 +255,7 @@ class ResidentalComplex(models.Model):
                                 on_delete=models.PROTECT,
                                 )
     # one to many "photos"
-    characteristics = models.ManyToManyField('ResidentalComplexСharacteristic',
+    characteristics = models.ManyToManyField('ResidentalComplexCharacteristic',
                                              verbose_name=_(
                                                  'характеристики ЖК'),
                                              blank=True,)
@@ -237,6 +263,25 @@ class ResidentalComplex(models.Model):
                                     upload_to=get_file_path,
                                     blank=True, null=True,
                                     )
+    front_image_spec_normal = spec_factory(
+        source='front_image',
+        **new_buildings_spec_kwargs
+    )
+    front_image_spec_heading = spec_factory(
+        1200,
+        900,
+        source='front_image',
+        format='JPEG',
+        options__quality=100,
+    )
+    front_image_thumbnail = spec_factory(
+        555,
+        328,
+        source='front_image',
+        format='JPEG',
+        to_fit=False,
+        # options__quality=60,
+    )
     # one to many "features"
     # one to many "houses"
     video_link = models.URLField(verbose_name=_('ссылка на видео'),
@@ -248,26 +293,29 @@ class ResidentalComplex(models.Model):
                                     blank=True,
                                     )
     # one to many "documents_for_construction"
-    is_active = models.BooleanField(verbose_name=_('отображать в новостройках'),
-                                    default=False,
-                                    )
+    is_active = models.BooleanField(
+        verbose_name=_('отображать в новостройках'),
+        default=False,
+    )
     is_popular = models.BooleanField(verbose_name=_('отображать на главной'),
                                      default=False,
                                      )
-    number_of_flats = models.PositiveIntegerField(verbose_name=_('количество квартир в комплексе'),
-                                                  help_text=_(
-                                                      'оставьте пустым для автоматического подсчета'),
-                                                  default=None,
-                                                  null=True,
-                                                  blank=True,
-                                                  )
-    number_of_buildings = models.PositiveIntegerField(verbose_name=_('количество домов в комплексе'),
-                                                      help_text=_(
-                                                          'оставьте пустым для автоматического подсчета'),
-                                                      default=None,
-                                                      null=True,
-                                                      blank=True,
-                                                      )
+    number_of_flats = models.PositiveIntegerField(
+        verbose_name=_('количество квартир в комплексе'),
+        help_text=_(
+            'оставьте пустым для автоматического подсчета'),
+        default=None,
+        null=True,
+        blank=True,
+    )
+    number_of_buildings = models.PositiveIntegerField(
+        verbose_name=_('количество домов в комплексе'),
+        help_text=_(
+            'оставьте пустым для автоматического подсчета'),
+        default=None,
+        null=True,
+        blank=True,
+    )
 
     neighbourhood = models.ForeignKey(NeighbourhoodModel,
                                       verbose_name=_('район'),
@@ -316,10 +364,14 @@ class ResidentalComplex(models.Model):
         return get_json_object(self.get_new_apartments())
 
     def get_new_buildings(self):
-        return self.newbuilding_set.filter(is_active=True).prefetch_related('newapartment_set')
+        return self.newbuilding_set.filter(is_active=True).prefetch_related(
+            'newapartment_set')
 
     def get_new_buildings_json(self):
-        return get_json_object(self.get_new_buildings(), props=['get_quarter_of_construction'])
+        return get_json_object(
+            self.get_new_buildings(),
+            props=['get_quarter_of_construction']
+        )
 
     def count_flats(self):
         if self.number_of_flats:
@@ -357,8 +409,8 @@ class ResidentalComplex(models.Model):
         return date
 
     def get_title_photo_url(self):
-        if self.front_image:
-            return self.front_image.url
+        if self.front_image_spec_heading:
+            return self.front_image_spec_heading.url
         return static('img/main.jpg')
 
     @cached_property
@@ -394,7 +446,7 @@ class ResidentalComplex(models.Model):
         lowest_price_origin = self.lowest_price
         self.lowest_price = self.min_and_max_prices().get('min_price')
 
-        return not self.lowest_price==lowest_price_origin
+        return not self.lowest_price == lowest_price_origin
 
     def __str__(self):
         return self.get_quoted_name()
@@ -403,14 +455,17 @@ class ResidentalComplex(models.Model):
         return get_quoted(self.name)
 
     def get_absolute_url(self):
-        return reverse('new_buildings:residental-complex-detail', args=[self.id])
+        return reverse(
+            'new_buildings:residental-complex-detail',
+            args=[self.id]
+        )
 
     def get_all_photos_url(self):
         urls = []
         if self.front_image:
-            urls.append(self.get_title_photo_url())
+            urls.append(self.front_image_spec_normal.url)
         for photo in self.photos.all():
-            urls.append(photo.image.url)
+            urls.append(photo.image_spec.url)
         return urls
 
     def is_built(self):
@@ -449,7 +504,7 @@ class Builder(models.Model):
         verbose_name_plural = _('застройщики')
 
 
-class ResidentalComplexСharacteristic(models.Model):
+class ResidentalComplexCharacteristic(models.Model):
     characteristic = models.CharField(verbose_name=_('характеристика'),
                                       max_length=127,
                                       unique=True,
@@ -457,6 +512,7 @@ class ResidentalComplexСharacteristic(models.Model):
     icon = models.ImageField(verbose_name=_('иконка'),
                              upload_to=get_file_path,
                              )
+    thumbnail = spec_factory(52, 52, source='icon',)
 
     def __str__(self):
         return self.characteristic
@@ -474,6 +530,7 @@ class ResidentalComplexFeature(models.Model):
                                    max_length=500,
                                    )
     image = models.ImageField(verbose_name=_('изображение'))
+    image_spec = spec_factory(680, 450, to_fit=False)
     residental_complex = models.ForeignKey(ResidentalComplex,
                                            on_delete=models.CASCADE,
                                            related_name='features',
@@ -492,3 +549,6 @@ class ResidentalComplexImage(BasePropertyImage):
                                            on_delete=models.CASCADE,
                                            related_name='photos',
                                            )
+    image_spec = spec_factory(
+        **new_buildings_spec_kwargs
+    )

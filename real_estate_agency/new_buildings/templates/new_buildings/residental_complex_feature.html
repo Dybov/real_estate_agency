@@ -2,7 +2,11 @@
 
             <div class="features">
                 <div class="features_img">
-                    <img src="{{ feature.image.url }}" alt="Изображение {{ feature.title }}" class="img-responsive">
+                    <img
+                    src="{{ feature.image_spec.url }}"
+                    alt="Изображение {{ feature.title }}"
+                    height="{{ feature.image_spec.height }}"
+                    width="{{ feature.image_spec.width }}">
                 </div>
                 <div class="features_description">
                     <div class="zhk_description_headline">

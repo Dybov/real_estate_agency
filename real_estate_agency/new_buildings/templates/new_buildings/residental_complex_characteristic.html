@@ -1,8 +1,11 @@
 
     {% for characteristic in residental_complex.get_characteristic %}
-    	<div class="item_characteristics">
+    	<div class="item_characteristics col-xs-12 col-md-3">
 					<div class="item_characteristics_icon">
-						<img src="{{ characteristic.icon.url }}" width="52" height="52">
+						<img
+                        src="{{ characteristic.thumbnail.url }}"
+                        width="{{ characteristic.thumbnail.width }}"
+                        height="{{ characteristic.thumbnail.height }}">
 					</div>
 					<div class="item_characteristics_text">
 						{{ characteristic }}

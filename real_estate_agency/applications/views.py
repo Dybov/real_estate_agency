@@ -1,12 +1,14 @@
-from django.shortcuts import render
 from django.views.generic import FormView
+from django.conf import settings
 from django.core.urlresolvers import reverse_lazy
 from django.utils.translation import ugettext_lazy as _
+from django.http import JsonResponse
 
 from .forms import CallbackForm
 from .models import CallbackRequest
 from .middleware import UTM_PARAMS
-from .sendmail_helper import sendApplicationToTheManagers
+from .sendmail_helper import sendMailToTheManagers
+from .viber_tasks import sendViberTextMessageToTheAdmins
 
 DEFAULT_MSG_TITLE = _("Заявка с сайта %(domain)s")
 DEFAULT_DOMAIN = None
@@ -14,11 +16,16 @@ DEFAULT_MESSAGE = _('''<b>Поступила заявка:</b>
 Имя: %(name)s
 Телефон: %(phone)s
 
-Источник: %(url)s
+Источник: %(url)s''')
 
-''')
-EXTRA_MESSAGE = _('<b>Дополнительная информация:</b> %(extra)s\n\n')
-MARKETING_MESSAGE = _('''<b>Рекламная кампания:</b>
+if settings.DEBUG:
+    DEFAULT_MESSAGE = "%s%s" % (
+        _('<h1>[DEBUG MODE]</h1>\n\n'),
+        DEFAULT_MESSAGE
+    )
+
+EXTRA_MESSAGE = _('\n\n<b>Дополнительная информация:</b> %(extra)s\n\n')
+MARKETING_MESSAGE = _('''\n<b>Рекламная кампания:</b>
 UTM source: %(utm_source)s
 UTM medium: %(utm_medium)s
 UTM campaign: %(utm_campaign)s
@@ -32,7 +39,8 @@ def get_msg_title(request):
     if not DEFAULT_DOMAIN:
         from django.contrib.sites.shortcuts import get_current_site
         DEFAULT_DOMAIN = get_current_site(request).domain
-    return DEFAULT_MSG_TITLE % {'domain': DEFAULT_DOMAIN} 
+    return DEFAULT_MSG_TITLE % {'domain': DEFAULT_DOMAIN}
+
 
 class Callback(FormView):
     template_name = 'applications/callback.html'  # 'contacts/callback.html'
@@ -68,18 +76,20 @@ class Callback(FormView):
         return data
 
     def sendCallbackRequest(self, form):
-        msg = DEFAULT_MESSAGE % {'name': form.cleaned_data.get('name'),
-                                          'phone': form.cleaned_data.get('phone_number'),
-                                          'url': self.request.META.get('HTTP_REFERER'),
-                                          }
+        msg = DEFAULT_MESSAGE % {
+            'name': form.cleaned_data.get('name'),
+            'phone': form.cleaned_data.get('phone_number'),
+            'url': self.request.META.get('HTTP_REFERER'),
+        }
         extra_field = form.cleaned_data.get('extra_info')
         if extra_field and extra_field != 'None':
             msg += EXTRA_MESSAGE % {
                 'extra': extra_field}
         msg = self.addMarketingInfoToMessage(msg)
         title = get_msg_title(self.request)
-        
-        sendApplicationToTheManagers(title=title, message=msg)
+
+        sendMailToTheManagers(title=title, message=msg)
+        sendViberTextMessageToTheAdmins(msg)
 
     def addMarketingInfoToMessage(self, text):
         if UTM_PARAMS[0] in self.request.COOKIES:
