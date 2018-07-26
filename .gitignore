@@ -22,12 +22,9 @@ real_estate_agency/media/*
 */db.sqlite3
 real_estate_agency/static/img/.DS_Store
 
-#For gulp files
-gulpfile.js
-package.json
+#For node packages and dynamic webpack files
 */node_modules
-real_estate_agency/static/less
-real_estate_agency/static/libs
+*/webpack-stats.dev.json
 
 #For server logs
 *.log

@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'django_bootstrap_breadcrumbs',
     'analytical',
     'adminsortable2',
+    'webpack_loader',
     'django_celery_beat',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -157,3 +158,10 @@ VIBER_BOT_PRIVATE_GROUPS = []
 VIBER_BOT_TEST_ADMINS = []
 
 WATERMARK_IMAGE_PATH = None
+
+WEBPACK_LOADER = {
+    'DEFAULT': {
+        'BUNDLE_DIR_NAME': 'bundles/',
+        'STATS_FILE': os.path.join(BASE_DIR, 'webpack-stats.dev.json'),
+    }
+}

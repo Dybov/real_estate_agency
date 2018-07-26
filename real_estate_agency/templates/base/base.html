@@ -5,41 +5,41 @@
 
 <head>
 
-	<meta charset="utf-8">
+    <meta charset="utf-8">
 
-	<title>{% block title %}Центр Новостроек DОМУС{% endblock %}</title>
-	<meta name="description" content="">
+    <title>{% block title %}Центр Новостроек DОМУС{% endblock %}</title>
+    <meta name="description" content="">
 
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
-	<meta property="og:image" content='{% static "path/to/image.jpg"%}'>
-	<link rel="shortcut icon" href='{% static "img/favicon/favicon.ico" %}' type="image/x-icon">
-	<link rel="apple-touch-icon" href='{% static "img/favicon/apple-touch-icon.png" %}'>
-	<link rel="apple-touch-icon" sizes="72x72" href='{% static "img/favicon/apple-touch-icon-72x72.png"%}'>
-	<link rel="apple-touch-icon" sizes="114x114" href='{% static "img/favicon/apple-touch-icon-114x114.png"%}'>
-	<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800&amp;subset=cyrillic" rel="stylesheet">
+    <meta property="og:image" content='{% static "path/to/image.jpg"%}'>
+    <link rel="shortcut icon" href='{% static "img/favicon/favicon.ico" %}' type="image/x-icon">
+    <link rel="apple-touch-icon" href='{% static "img/favicon/apple-touch-icon.png" %}'>
+    <link rel="apple-touch-icon" sizes="72x72" href='{% static "img/favicon/apple-touch-icon-72x72.png"%}'>
+    <link rel="apple-touch-icon" sizes="114x114" href='{% static "img/favicon/apple-touch-icon-114x114.png"%}'>
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800&amp;subset=cyrillic" rel="stylesheet">
 
 
-	<!-- Chrome, Firefox OS and Opera -->
-	<meta name="theme-color" content="#000">
-	<!-- Windows Phone -->
-	<meta name="msapplication-navbutton-color" content="#000">
-	<!-- iOS Safari -->
-	<meta name="apple-mobile-web-app-status-bar-style" content="#000">
-	<link rel="stylesheet" href='{% static "real_estate/css/bootstrap.min.css"%}'
-	<script src='{% static "real_estate/js/jquery.min.js"%}'></script>
-	<script src="https://unpkg.com/autonumeric@4.0.3/dist/autoNumeric.min.js"></script>
-	<!--script src='{% static "real_estate/js/bootstrap.min.js"%}'></script> -->
-	<style>body { opacity: 0; overflow-x: hidden; } html { background-color: #fff; }</style>
-	<link rel="stylesheet" href='{% static "css/main.css"%}'>
-	{% block extra_style %}{% endblock %}
-	<link rel="stylesheet" href='{% static "css/libs_css.min.css"%}'>
-	<script src='{% static "js/scripts_libs.min.js"%}'></script>
-	<script src='{% static "js/common.js"%}'></script>
-	<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jqueryui-touch-punch/0.2.3/jquery.ui.touch-punch.min.js"></script>
-	{% yandex_metrica %}
-	{% extra_head 'base/extra_production_head.html' %}
+    <!-- Chrome, Firefox OS and Opera -->
+    <meta name="theme-color" content="#000">
+    <!-- Windows Phone -->
+    <meta name="msapplication-navbutton-color" content="#000">
+    <!-- iOS Safari -->
+    <meta name="apple-mobile-web-app-status-bar-style" content="#000">
+    <link rel="stylesheet" href='{% static "real_estate/css/bootstrap.min.css"%}'
+    <script src='{% static "real_estate/js/jquery.min.js"%}'></script>
+    <script src="https://unpkg.com/autonumeric@4.0.3/dist/autoNumeric.min.js"></script>
+    <!--script src='{% static "real_estate/js/bootstrap.min.js"%}'></script> -->
+    <style>body { opacity: 0; overflow-x: hidden; } html { background-color: #fff; }</style>
+    <link rel="stylesheet" href='{% static "css/main.css"%}'>
+    {% block extra_style %}{% endblock %}
+    <link rel="stylesheet" href='{% static "css/libs_css.min.css"%}'>
+    <script src='{% static "js/scripts_libs.min.js"%}'></script>
+    <script src='{% static "js/common.js"%}'></script>
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jqueryui-touch-punch/0.2.3/jquery.ui.touch-punch.min.js"></script>
+    {% yandex_metrica %}
+    {% extra_head 'base/extra_production_head.html' %}
 </head>
 
 <body>
@@ -50,7 +50,7 @@
 {% block header %}{% include 'base/header.html' %}{% endblock %}
 {% block popups %}
 <div class="hidden"> 
-	{% include 'applications/pop_up_callback.html' %}
+    {% include 'applications/pop_up_callback.html' %}
 </div>
 {% endblock %}
 
@@ -58,5 +58,10 @@
 {% block content %}{% endblock %}
 {% block footer %}{% include 'base/footer.html' %}{% endblock %}
 
+{% comment %}
+Comment until use React inside it
+<div id='root'></div>
+{% render_bundle 'main' %}
+{% endcomment %}
 </body>
 </html>
