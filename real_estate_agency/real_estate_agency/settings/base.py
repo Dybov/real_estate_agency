@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'analytical',
     'imagekit',
     'adminsortable2',
+    'webpack_loader',
     'django_celery_beat',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -154,3 +155,10 @@ VIBER_BOT_PRIVATE_GROUPS = []
 
 # Use viber ids
 VIBER_BOT_TEST_ADMINS = []
+
+WEBPACK_LOADER = {
+    'DEFAULT': {
+        'BUNDLE_DIR_NAME': 'bundles/',
+        'STATS_FILE': os.path.join(BASE_DIR, 'webpack-stats.dev.json'),
+    }
+}
