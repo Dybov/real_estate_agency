@@ -58,7 +58,10 @@
 {% block content %}{% endblock %}
 {% block footer %}{% include 'base/footer.html' %}{% endblock %}
 
+{% comment %}
+Comment until use React inside it
 <div id='root'></div>
 {% render_bundle 'main' %}
+{% endcomment %}
 </body>
 </html>
