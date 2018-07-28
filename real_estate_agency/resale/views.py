@@ -3,10 +3,13 @@ from django.http import Http404
 from django.views.generic import ListView
 from django.views.generic.edit import FormMixin
 
+from rest_framework.renderers import JSONRenderer
+
 from real_estate.views import ApartmentFilterMixin
 
 from .models import ResaleApartment, TransactionMixin
 from .forms import ResaleSearchForm
+from .serializers import ResaleApartmentSerializer
 
 
 class ResaleListView(ApartmentFilterMixin, FormMixin, ListView):
@@ -63,8 +66,19 @@ class ResaleListView(ApartmentFilterMixin, FormMixin, ListView):
 
 def detailed(request, pk):
     # Recude DB connections with select_related()
+    # Don't use get_object_or_404 to have possibility use select_related()
     apartments = ResaleApartment.objects.filter(pk=pk).select_related()
     if not apartments:
         raise Http404("Apartment doesn't exist")
-    context = {'apartment': apartments[0]}
+    apartment = apartments[0]
+
+    # Serialize apartment data to use it in React JS
+    # In the fututre rest API will provide json
+    data = ResaleApartmentSerializer(apartment).data
+    apartment_json = JSONRenderer().render(data).decode('utf-8')
+
+    context = {
+        'apartment': apartment,
+        'apartment_json': apartment_json,
+    }
     return render(request, 'resale/resale_detailed.html', context)

@@ -24,6 +24,7 @@ BASE_DIR = os.path.dirname(
 # dal is django-autocomplete-light
 # https://github.com/yourlabs/django-autocomplete-light
 INSTALLED_APPS = [
+    'rest_framework',
     'dal',
     'dal_select2',
     'address',
