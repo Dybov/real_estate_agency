@@ -4,9 +4,7 @@ import re
 from django.db import models
 from django.db.models import Min, Max
 from django.contrib.staticfiles.templatetags.staticfiles import static
-from django.core.validators import MinValueValidator
 from django.core.urlresolvers import reverse
-from django.utils.safestring import mark_safe
 from django.utils.translation import ugettext as _
 from django.utils.functional import cached_property
 
@@ -21,7 +19,7 @@ from real_estate.templatetags.real_estate_extras import morphy_by_case
 from address.models import NeighbourhoodModel
 
 from .helpers import get_quarter_verbose
-from .serializers import ExtJsonSerializer
+from real_estate.serializers import get_json_objects_with_props
 
 
 new_buildings_spec_kwargs = {
@@ -31,10 +29,6 @@ new_buildings_spec_kwargs = {
     'options__quality': 75,
     'to_fit': False,
 }
-
-
-def get_json_object(_object, props=[]):
-    return mark_safe(ExtJsonSerializer().serialize(_object, props=props))
 
 
 def get_quoted(_str):
@@ -100,6 +94,7 @@ class BuildingWithRCMixin(models.Model):
                                            verbose_name=_('ЖК'),
                                            on_delete=models.CASCADE,
                                            )
+
     class Meta:
         abstract = True
 
@@ -160,8 +155,8 @@ class NewBuilding(BaseBuildingWithoutNeighbourhood, BuildingWithRCMixin):
         return '%s' % (self.name, )
 
     class Meta(BaseBuildingWithoutNeighbourhood.Meta):
-        unique_together = BaseBuildingWithoutNeighbourhood.Meta.unique_together + \
-            (('name', 'residental_complex'), )
+        unique_together = BaseBuildingWithoutNeighbourhood.Meta.\
+            unique_together + (('name', 'residental_complex'), )
 
     def is_built(self):
         if self.date_of_construction:
@@ -331,14 +326,14 @@ class ResidentalComplex(models.Model):
                                             )
 
     def get_new_apartments_json(self):
-        return get_json_object(self.get_new_apartments())
+        return get_json_objects_with_props(self.get_new_apartments())
 
     def get_new_buildings(self):
         return self.newbuilding_set.filter(is_active=True).prefetch_related(
             'newapartment_set')
 
     def get_new_buildings_json(self):
-        return get_json_object(
+        return get_json_objects_with_props(
             self.get_new_buildings(),
             props=['get_quarter_of_construction']
         )
