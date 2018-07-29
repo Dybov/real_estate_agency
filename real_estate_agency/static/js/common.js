@@ -67,29 +67,6 @@ $(document).ready(function() {
 
 
   $('.search_form_select-select').styler();
-  window.onload = function() { 
-    $('.airSticky').airStickyBlock({
-      debug: true, // Режим отладки, по умолчанию false
-      stopBlock: '.airSticky_stop-block', // Класса контейнера, в котором находится сетка, по умолчанию .airSticky_stop-block
-      offsetTop: 100 // отступ сверху
-    });
-  };
-
-  function classFunction(){
-    if($('body').width()<769){ $('.airSticky').removeClass('airSticky')
-    }
-    else{
-
-    }
-  }
-  
-  classFunction();
-  $(window).resize(classFunction);
-   
-
-
-
-
 
 $(".toggle-mnu").click(function() {
   $(this).toggleClass("on");

@@ -1,0 +1,40 @@
+#sticky-resale {
+  background-color: rgba(255, 255, 255, 0);
+  margin-top: -90px;
+  padding-top: 20px;
+}
+#sticky-resale > div {
+  background: white;
+  border-radius: 6px;
+}
+.sticky-top, .sticky-top-right, .sticky-bottom div:not(:last-child) {
+  border: solid #c2c4d0;
+}
+.sticky-bottom div:not(:last-child) {
+  border-width: 0 0 1px 0;
+}
+.sticky-top-right{
+  border-width: 0 0 0 1px;
+}
+.sticky-top {
+  display: flex;
+  align-items: center;
+  border-width: 0 0 1px 0;
+  padding: 0 5px;
+}
+.sticky-top > div {
+  padding: 10px 5px;
+}
+.sticky-top h3, .sticky-top h4{
+  margin:0;
+}
+.sticky-bottom {
+  padding: 20px;
+  font-size: 14px;
+}
+.sticky-bottom div{
+  margin: 0 5px;
+}
+.sticky-bottom p {
+  padding: 0;
+}

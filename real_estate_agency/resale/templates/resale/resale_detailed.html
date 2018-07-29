@@ -1,11 +1,17 @@
 {% extends 'resale/resale_list.html'%}
 {% load static %}
 {% load django_bootstrap_breadcrumbs %}
+{% load render_bundle from webpack_loader %}
 {% block breadcrumbs %}
     {{ block.super }}
     {% breadcrumb apartment.verbose "resale:detailed" %}
 {% endblock %}
 {% block content %}
+<script type="text/javascript">
+	var apartment = '{{ apartment_json|safe }}';
+	var apartment = JSON.parse(apartment);
+	window.apartment = apartment;
+</script>
 <div class="header_short" style="background-image: url({% static 'resale/img/realty_home_search.png' %});">
     <div class="container">
         <div class="row">
@@ -22,67 +28,15 @@
     </div>
 </div>
 
-
-
-<section class="">
+<section>
 	<div class="container ">
-		<div class="row airSticky_stop-block">
-						<div class="col-md-4 col-md-push-8 col-xs-12">
-				<div class="realty_home_page_characteristics airSticky">
-					<div class="realty_home_page_characteristics-top">
-						<div class="realty_home_page_characteristics_area">
-							{{ apartment.total_area }} м²
-						</div>
-					<div class="realty_home_page_characteristics_price">
-							<div class="realty_item_desc_old_price">
-								{{ apartment.full_price }} руб
-							</div>
-							<div class="realty_item_desc_new_price">
-								{{ apartment.full_price }} руб
-							</div>
-							<div class="realty_item_desc_price_m2">
-								Цена за м²: {{ apartment.price_per_square_meter|floatformat }} руб
-							</div>
-							</div>
-
-
-					</div>
-				
-					<div class="realty_home_page_characteristics-middle">
-						<div class="realty_home_page_characteristics-item">
-							<span><b>Район: </b></span> <span>{{ apartment.neighbourhood }}</span>
-						</div>
-						<div class="realty_home_page_characteristics-item">
-							<span><b>Материал здания: </b></span> <span>{{ apartment.get_building_type_display }}</span>
-						</div>
-						<div class="realty_home_page_characteristics-item">
-							<span><b>Этаж:</b></span> <span>{{ apartment.floor }} / {{ apartment.number_of_storeys }}</span>
-						</div>
-						<div class="realty_home_page_characteristics-item">
-							<span><b>Год постройки: </b></span> <span>Нужен и обязателен?</span>
-						</div>
-						<div class="realty_home_page_characteristics-item">
-							<span><b>Высота потолка: </b></span> <span>{{ apartment.celling_height }} м</span>
-						</div>																								
-						<div class="realty_home_page_characteristics-item">
-							<span><b>Тип ремонта: </b></span> <span>{{ apartment.get_interior_decoration_display }}</span>
-						</div>	
-						<div class="realty_home_page_characteristics-item">
-							<span><b>Площадь кухни: </b></span> <span>{{ apartment.kitchen_area }} м²</span>
-						</div>	
-						{% if apartment.balcony_area %}
-						<div class="realty_home_page_characteristics-item">
-							<span><b>Площадь балкона: </b></span> <span>{{ apartment.balcony_area }} м²</span>
-						</div>
-						{% endif %}
-						<p class="home_page_id"> Код объекта: <span>{{ apartment.pk }}</span></p>																		
-					</div>
-						
-						<a href="" class="realty_home_page_characteristics-bottom">Записаться на просмотр</a>
-
-
-											</div>
-				</div>
+		<div class="row" id='container'> 
+			<aside
+			id='sticky-resale'
+			class="col-md-4 col-md-push-8 col-xs-12">
+				<div class="text-center loader-50-50"></div>
+			</aside>
+<!---->
 <!---->
             <div class="col-md-8 col-md-pull-4 col-xs-12">
                 <div class="realty_home_page_photo">
@@ -152,13 +106,14 @@
 
 				</div>
 		</div>
-
+{% comment %}
 			<div class="realty_home_page_map">
 				<div class="zhk_headline"> Квартира на карте</div>
 				<div class="realty_map">
 					<iframe src="https://yandex.ru/map-widget/v1/?um=constructor%3Afdee7a7d9c531cc7c615125aff1ba525f2ab65af0d4d8b1b38284cd856e55e0b&amp;source=constructor" width="100%" height="400" frameborder="0"></iframe>
 				</div>
 			</div>	
+{% endcomment %}
 			</div>
 
 			</div>
@@ -201,5 +156,5 @@
 </section>
 
 {% include 'applications/callback_form_implemented.html' with callback_form_title='Задать вопросы о квартире' %}
-
+{% render_bundle 'main' %}
 {% endblock %}
