@@ -20,7 +20,7 @@ class ResaleDetailed extends Component {
           <div className="shadow">
             <div className="sticky-top col-xs-12">
               <div className="sticky-top-left col-xs-4">
-                <h4 className="">{Math.floor(apartment.total_area)} м2</h4>
+                <h3 className="text-center">{Math.floor(apartment.total_area)} м²</h3>
               </div>
               <div className="sticky-top-right col-xs-8">
                 <h4><s>{apartment.full_price} руб</s></h4>

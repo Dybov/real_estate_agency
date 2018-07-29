@@ -29,7 +29,7 @@
   margin:0;
 }
 .sticky-bottom {
-  padding: 20px;
+  padding: 20px 20px 0;
   font-size: 14px;
 }
 .sticky-bottom div{
@@ -37,4 +37,5 @@
 }
 .sticky-bottom p {
   padding: 0;
+  margin-top: 10px;
 }
