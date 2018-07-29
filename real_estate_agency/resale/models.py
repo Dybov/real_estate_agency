@@ -167,7 +167,7 @@ class ResaleApartment(Apartment, BaseBuilding, TransactionMixin):
     thumbnail = spec_factory(
         370,
         320,
-        extra_processors=[ResaleWatermark()],
+        pre_processors=[ResaleWatermark()],
         source='layout',
         format='jpeg',
     )
@@ -181,7 +181,7 @@ class ResaleApartmentImage(BasePropertyImage):
     image_spec = spec_factory(
         750,
         500,
-        extra_processors=[ResaleWatermark()],
+        pre_processors=[ResaleWatermark()],
         options__quality=70,
         format='jpeg'
     )

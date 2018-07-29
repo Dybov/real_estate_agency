@@ -93,10 +93,10 @@ def spec_factory(
             width,
             height,
         )
+    processors = kwargs.pop('pre_processors', []) \
+        + [main_processor] + kwargs.pop('extra_processors', [])
     return ImageSpecField(
-        processors=[
-            main_processor,
-        ] + kwargs.pop('extra_processors', []),
+        processors=processors,
         source=source,
         format=kwargs.pop('format', 'PNG'),
         options={
