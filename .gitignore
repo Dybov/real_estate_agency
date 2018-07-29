@@ -25,6 +25,10 @@ real_estate_agency/static/img/.DS_Store
 #For node packages and dynamic webpack files
 */node_modules
 */webpack-stats.dev.json
+*/webpack-stats.prod.json
+
+#For production bundles
+real_estate_agency/static/bundles/
 
 #For server logs
 *.log
