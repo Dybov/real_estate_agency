@@ -32,10 +32,167 @@
 .resale_item a:hover button {
   opacity: 1;
 }
-.header_short{
+.heading_short{
   height: 255px;
 }
 .shadow {
   -webkit-box-shadow: 0 2px 40px rgba(0, 0, 0, 0.14);
   box-shadow: 0 2px 40px rgba(0, 0, 0, 0.14);
+}
+
+/* Instead of Temporary*/
+.borders{
+  padding: 0;
+  border: 1px solid #c2c4d0;
+}
+.resale-aside{
+  margin-top: -90px;
+}
+
+/* Temporary part taken fron main.css*/
+.realty_home_page_characteristics {
+  -webkit-border-radius: 6px;
+          border-radius: 6px;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: column;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  margin-top: -90px;
+  background-color: #fff;
+  -webkit-box-shadow: 0 2px 40px rgba(0, 0, 0, 0.14);
+          box-shadow: 0 2px 40px rgba(0, 0, 0, 0.14);
+}
+.realty_home_page_characteristics-top {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  border-bottom: 1px solid #c2c4d0;
+}
+.realty_home_page_characteristics_area {
+  -webkit-flex-basis: 30%;
+      -ms-flex-preferred-size: 30%;
+          flex-basis: 30%;
+  border-right: 1px solid #c2c4d0;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+      -ms-flex-align: center;
+          align-items: center;
+  font-size: 32px;
+  font-weight: 600;
+  line-height: 38px;
+}
+.realty_home_page_characteristics_price {
+  padding: 10px 15px;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: column;
+      -ms-flex-direction: column;
+          flex-direction: column;
+}
+.realty_home_page_characteristics_price .realty_item_desc_new_price {
+  font-size: 40px;
+}
+.realty_home_page_characteristics-middle {
+  padding: 25px 20px 0px 20px;
+  font-size: 14px;
+}
+.realty_home_page_characteristics-item {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  margin-bottom: 15px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #c2c4d0;
+}
+.realty_home_page_characteristics-item:last-of-type {
+  border-bottom: none;
+}
+.realty_home_page_characteristics-bottom {
+  padding: 20px;
+  background-color: #ff8256;
+  text-align: center;
+  color: #fff;
+  text-decoration: none;
+  -webkit-transition: all 1s ease;
+  -o-transition: all 1s ease;
+  transition: all 1s ease;
+  -webkit-border-radius: 0 0 6px 6px;
+          border-radius: 0 0 6px 6px;
+}
+.realty_home_page_characteristics-bottom:hover {
+  background-color: #ff6f3d;
+  text-decoration: none;
+  color: #fff;
+}
+/* Medium Devices, Desktops */
+@media only screen and (max-width: 992px) {
+  .realty_home_page_characteristics {
+    margin-top: 20px;
+  }
+}
+/* Small Devices, Tablets */
+@media only screen and (max-width: 768px) {
+  .realty_home_page_photo_slider {
+    height: 300px;
+  }
+    .realty_item {
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -webkit-flex-direction: column;
+        -ms-flex-direction: column;
+            flex-direction: column;
+  }
+  .realty_item_photo_item {
+    width: 100%;
+    height: 250px;
+  }
+  .realty_item_desc_top {
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -webkit-flex-direction: column;
+        -ms-flex-direction: column;
+            flex-direction: column;
+  }
+  .realty_item_desc_name {
+    font-size: 24px;
+    line-height: 1.2;
+    margin: 10px 0;
+  }
+  .realty_item_desc_features {
+    -webkit-flex-basis: 100%;
+        -ms-flex-preferred-size: 100%;
+            flex-basis: 100%;
+  }
+  .realty_item_desc_features_item p {
+    font-size: 12px;
+  }
+  .realty_item_button {
+    -webkit-align-self: center;
+        -ms-flex-item-align: center;
+            align-self: center;
+    opacity: 1;
+  }
 }
