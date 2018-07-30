@@ -31,22 +31,20 @@
 	<h2 class="zhk_headline">Приемущества компании</h3>
 	<div class="row text-center">
 		<div class="col-md-3 col-xs-12">
-			<img src="{% static 'img/icon/about/wallet.svg' %}" width="100px" height="100px">
+			<img src="{% static 'img/icon/wallet.svg' %}" width="100px" height="100px">
 			<h4><strong>Новостройки без комиссии</strong></h4>
 			<p>Мы являемся представителями застройщиков, поэтому наши услуги 	бесплатны</p>
 		</div>
 		<div class="col-md-3 col-xs-12">
-			<img src="{% static 'img/icon/about/booking.svg' %}" width="100px" height="100px">
+			<img src="{% static 'img/icon/booking.svg' %}" width="100px" height="100px">
 			<h4><strong>Бронирование</strong></h4>
 			<p>Мы бесплатно забронируем для вас квартиру в новостройке</p>
 		</div>
 		<div class="col-md-3 col-xs-12">
-			<img src="{% static 'img/icon/about/manager.svg' %}" width="100px" height="100px">
-			<h4><strong>Персональный менеджер</strong></h4>
-			<p>У вас будет персональный специалист по недвижимости который поможет вам с оформлением квартиры</p>
+			{% include 'company/blocks/manager.html' %}
 		</div>
 		<div class="col-md-3 col-xs-12">
-			<img src="{% static 'img/icon/about/excrusion.svg' %}" width="100px" height="100px">
+			<img src="{% static 'img/icon/excrusion.svg' %}" width="100px" height="100px">
 			<h4><strong>Экскурсии</strong></h4>
 			<p>Мы предоставим вам трансфер по всем новостройкам</p>
 		</div>

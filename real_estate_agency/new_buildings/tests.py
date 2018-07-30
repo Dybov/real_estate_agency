@@ -1,34 +1,19 @@
 import datetime
 
-from django.core.files import File
 from django.test import TestCase, tag
 
 from .models import *
 from .helpers import get_quarter_verbose
 
-from address.models import StreetModel, NeighbourhoodModel
-
-
-import mock
+from real_estate.test_helper import (
+    create_mock_image_file,
+    create_neighbourhood,
+    create_street,
+)
 
 
 NULL_PRICE = ''
 NULL_DATE_OF_CONSTRUCTION = ''
-
-
-file_mock = mock.MagicMock(spec=File, name='FileMock')
-file_mock.name = 'test1.jpg'
-
-
-def get_image_file():
-    return file_mock
-
-
-def create_neighbourhood(name='neighbourhood'):
-    _objects = NeighbourhoodModel.objects.filter(name=name)
-    if not _objects:
-        return NeighbourhoodModel.objects.create(name=name)
-    return _objects[0]
 
 
 def create_builder():
@@ -68,7 +53,7 @@ def create_apartment(rc, price, total_area=38, **kwargs):
         residental_complex=rc,
         total_area=total_area,
         price=price,
-        layout=get_image_file(),
+        layout=create_mock_image_file(),
         **kwargs
     )
 
@@ -87,30 +72,23 @@ def create_building(rc, building_number=1, **kwargs):
     )
 
 
-def create_street():
-    _objects = StreetModel.objects.all()
-    if not _objects:
-        return StreetModel.objects.create(
-            name='Street'
-        )
-    return _objects[0]
-
-
 def buildings_factory(rc, buildings_amount, no_active_buildings_amount=0):
     """ Create set of NewBuilding objs"""
     buildings = []
     for i in range(buildings_amount):
-        buildings.append(create_building(
+        buildings.append(
+            create_building(
                 rc,
                 name=str(i),
                 building_number=i,
                 date_of_construction=datetime.datetime.now(),
             )
         )
-    for i in range(buildings_amount, 
-                   buildings_amount+no_active_buildings_amount):
-        date = datetime.datetime.now()-datetime.timedelta(days=180)
-        buildings.append(create_building(
+    for i in range(buildings_amount,
+                   buildings_amount + no_active_buildings_amount):
+        date = datetime.datetime.now() - datetime.timedelta(days=180)
+        buildings.append(
+            create_building(
                 rc,
                 name=str(i),
                 building_number=i,
@@ -132,7 +110,8 @@ class ResidentalComplexLowestPricesMethodTests(RCBaseTest):
         """
         test_get_lowest_price() should minimal price of apartments which
         can be shown at site (is_active=True) and which are presented
-        in appropriate buildings (have m2m link and is_active=True for building)
+        in appropriate building
+        (have m2m link and is_active=True for building)
         """
 
         price = self.RC.get_lowest_price()
@@ -149,7 +128,7 @@ class ResidentalComplexLowestPricesMethodTests(RCBaseTest):
 
     def test_get_lowest_price_with_apartment_without_building(self):
 
-        apartment = create_apartment(self.RC, 222)
+        create_apartment(self.RC, 222)
         price = self.RC.get_lowest_price()
         self.assertEqual(price, NULL_PRICE)
 
@@ -174,7 +153,7 @@ class ResidentalComplexLowestPricesMethodTests(RCBaseTest):
     @tag('slow')
     def test_get_lowest_price_with_few_apartments_in_one_builing(self):
         lowest_price = 555
-        prices = [lowest_price, lowest_price+5, lowest_price+10]
+        prices = [lowest_price, lowest_price + 5, lowest_price + 10]
 
         building = create_building(self.RC)
         for apartment_price in prices:
@@ -224,7 +203,7 @@ class ResidentalComplexNearestDatesMethodTests(RCBaseTest):
 
     def test_get_date_of_construction_with_building(self):
         date_of_construction_of_building = datetime.datetime.now()
-        building = create_building(
+        create_building(
             self.RC,
             date_of_construction=date_of_construction_of_building
         )
@@ -236,7 +215,7 @@ class ResidentalComplexNearestDatesMethodTests(RCBaseTest):
         )
 
     def test_get_date_of_construction_with_building_no_active(self):
-        building = create_building(
+        create_building(
             self.RC,
             date_of_construction=datetime.datetime.now(),
             is_active=False,
@@ -262,17 +241,18 @@ class ResidentalComplexNearestDatesMethodTests(RCBaseTest):
             get_quarter_verbose(nearest_date),
         )
 
+
 @tag('slow', 'view')
 class ResidentalComplexListViewSearchFilterTests(TestCase):
     def RCWithBuildingWithApartmentFactory(
-            self, rc_numbers, rc_name_prefix='RC', 
+            self, rc_numbers, rc_name_prefix='RC',
             rc_kwargs={}, building_kwargs={}, apartment_kwargs={}):
         all_rc = []
         for rc_number in range(rc_numbers):
             rc = create_RC(
-                name = rc_name_prefix+" %s" % rc_number,
+                name=rc_name_prefix + " %s" % rc_number,
                 **rc_kwargs
-                )
+            )
             all_rc.append(rc)
             building = create_building(rc, **building_kwargs)
             price = apartment_kwargs.pop('price', 190000)
@@ -285,28 +265,31 @@ class ResidentalComplexListViewSearchFilterTests(TestCase):
         non_target_neigbourhood = create_neighbourhood('Дом Обороны')
         number_of_rc_with_target_neigbourhood = 6
 
-        target_rcs = self.RCWithBuildingWithApartmentFactory(
+        # target ResidentalComplexes
+        self.RCWithBuildingWithApartmentFactory(
             number_of_rc_with_target_neigbourhood,
             "Target RC",
-            rc_kwargs={'neighbourhood':target_neigbourhood}
+            rc_kwargs={'neighbourhood': target_neigbourhood}
         )
 
-        non_target_rcs = self.RCWithBuildingWithApartmentFactory(
+        # non target ResidentalComplexes
+        self.RCWithBuildingWithApartmentFactory(
             10,
             "Non-Target RC",
-            rc_kwargs={'neighbourhood':non_target_neigbourhood}
-        )+self.RCWithBuildingWithApartmentFactory(
+            rc_kwargs={'neighbourhood': non_target_neigbourhood}
+        ) + self.RCWithBuildingWithApartmentFactory(
             10,
             "no-active RC with appropriate neigbourhood",
             rc_kwargs={
-                'is_active':False,
-                'neighbourhood':target_neigbourhood,
+                'is_active': False,
+                'neighbourhood': target_neigbourhood,
             }
         )
 
         resp = self.client.get(
             reverse('new_buildings:residental-complex-list'),
-            {'any_text':target_neigbourhood.name}
+            {'any_text': target_neigbourhood.name}
         )
         self.assertEqual(resp.status_code, 200)
-        self.assertTrue(len(resp.context['residental_complexes']) == number_of_rc_with_target_neigbourhood)
+        self.assertTrue(len(resp.context['residental_complexes']) ==
+                        number_of_rc_with_target_neigbourhood)

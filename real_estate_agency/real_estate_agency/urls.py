@@ -38,6 +38,7 @@ urlpatterns = [
     url(r'^zajavki/', include('applications.urls', namespace='applications')),
     url(r'^politika/', privacy_policy, name='privacy-policy'), 
     url(r'^spasibo/', thanks, name='thanks'), 
+    url(r'^katalog-kvartir/', include('resale.urls', namespace='resale')),
 ]
 
 #For using this path at dev machines

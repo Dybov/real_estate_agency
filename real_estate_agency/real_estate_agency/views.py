@@ -1,8 +1,7 @@
-from django.shortcuts import render, render_to_response
-from django.template import RequestContext
+from django.shortcuts import render
 
-from new_buildings.models import Builder, ResidentalComplex, NewApartment
-from new_buildings.forms import SearchForm
+from new_buildings.models import ResidentalComplex
+from new_buildings.forms import NewBuildingsSearchForm
 from feedback.models import Feedback
 
 
@@ -12,13 +11,14 @@ def corporation_benefit_plan(request):
 
 def index(request):
     # Only 2 requests to DB
-    feedbacks = Feedback.objects.all()[:4].select_related().prefetch_related('social_media_links')
+    feedbacks = Feedback.objects.all(
+    )[:4].select_related().prefetch_related('social_media_links')
     # Only 2 requests to DB
     residental_complexes = ResidentalComplex.objects.filter(
         is_popular=True).prefetch_related('type_of_complex')
     context = {
         'feedbacks': feedbacks,
-        'form': SearchForm,
+        'form': NewBuildingsSearchForm,
         'residental_complexes': residental_complexes,
     }
     return render(request,

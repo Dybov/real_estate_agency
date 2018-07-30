@@ -16,4 +16,8 @@ urlpatterns = [
         views.NewApartmentsFeed.as_view(),
         name='new-aparments-feed',
         ),
+    url(r'^json/residental-complex',
+        views.ResidentalComplexAutocompleteView.as_view(),
+        name='rc-autocomplete'
+        ),
 ]

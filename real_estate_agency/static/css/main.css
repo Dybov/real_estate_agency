@@ -349,13 +349,11 @@ body {
 }
 .main_header_headline {
   font-size: 63px;
-  color: #FFFFFF;
   line-height: 1.2;
   margin: 50px 0 0 0;
 }
 .main_header_headline_2 {
   font-size: 43px;
-  color: #FFFFFF;
   font-weight: 100;
   margin: 0;
 }
@@ -1963,9 +1961,6 @@ display: flex;
 #modal_callback .btn_large {
   margin: 10px 0px;
 }
-.header-min_height {
-  height: 400px;
-}
 .search_place_input-border_radius_all {
   -webkit-border-radius: 10px;
           border-radius: 10px;
@@ -2466,207 +2461,11 @@ box-shadow: 10px 22px 66px -36px rgba(102,102,102,1);
 .ui-slider-horizontal .ui-slider-range-min { left: 0;}
 .ui-slider-horizontal .ui-slider-range-max { right: 0;}
 
-.realty_home_search .search_price-flex {
-  -webkit-flex-basis: 34%;
-      -ms-flex-preferred-size: 34%;
-          flex-basis: 34%;
-}
-.realty_home_search .search-form-room-flex {
-  -webkit-flex-basis: 33%;
-      -ms-flex-preferred-size: 33%;
-          flex-basis: 33%;
-}
 .text-color {
   color: #3c3d49 !important;
 }
 .font-weight-600 {
   font-weight: 600;
-}
-.realty_item {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  margin: 20px 0;
-  -webkit-transition: all 1s ease;
-  -o-transition: all 1s ease;
-  transition: all 1s ease;
-  -webkit-border-radius: 6px;
-          border-radius: 6px;
-  border: 1px solid #c2c4d0;
-}
-.realty_item_photo {
-  -webkit-flex-basis: 40%;
-      -ms-flex-preferred-size: 40%;
-          flex-basis: 40%;
-}
-.realty_item_photo_item {
-  -webkit-border-radius: 5px 0 0 5px;
-          border-radius: 5px 0 0 5px;
-  -webkit-background-size: cover;
-          background-size: cover;
-  background-repeat: no-repeat;
-  background-position: center center;
-  width: 100%;
-  height: 100%;
-}
-.realty_item_desc {
-  -webkit-flex-basis: 60%;
-      -ms-flex-preferred-size: 60%;
-          flex-basis: 60%;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-  -webkit-flex-direction: column;
-      -ms-flex-direction: column;
-          flex-direction: column;
-  padding: 20px 15px 5px 20px;
-}
-.realty_item_desc_top {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: justify;
-  -webkit-justify-content: space-between;
-      -ms-flex-pack: justify;
-          justify-content: space-between;
-}
-.realty_item_desc_old_price {
-  font-size: 24px;
-  color: #c2c4d0;
-  line-height: 1;
-  text-decoration: line-through;
-}
-.realty_item_desc_new_price {
-  font-size: 52px;
-  color: #3c3d49;
-  line-height: 1;
-  font-weight: 600;
-}
-.realty_item_desc_price_m2 {
-  -webkit-align-self: flex-end;
-      -ms-flex-item-align: end;
-          align-self: flex-end;
-}
-.realty_item_desc_name {
-  font-size: 32px;
-  color: #3c3d49;
-}
-.realty_item_desc_adress {
-  line-height: 1;
-  font-size: 16px;
-}
-.realty_item_desc_adress i {
-  color: #c2c4d0;
-}
-.realty_item_desc_bottom {
-  margin-top: 25px;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-}
-.realty_item_desc_features {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-flex-wrap: wrap;
-      -ms-flex-wrap: wrap;
-          flex-wrap: wrap;
-  -webkit-box-pack: justify;
-  -webkit-justify-content: space-between;
-      -ms-flex-pack: justify;
-          justify-content: space-between;
-  -webkit-flex-basis: 80%;
-      -ms-flex-preferred-size: 80%;
-          flex-basis: 80%;
-}
-.realty_item_desc_features_item {
-  -webkit-flex-basis: 40%;
-      -ms-flex-preferred-size: 40%;
-          flex-basis: 40%;
-}
-.realty_item_desc_features_item p {
-  font-size: 14px;
-  margin: 5px 0 ;
-}
-.realty_item_button {
-  -webkit-align-self: flex-end;
-      -ms-flex-item-align: end;
-          align-self: flex-end;
-  opacity: 0;
-  -webkit-transition: all 1s ease;
-  -o-transition: all 1s ease;
-  transition: all 1s ease;
-}
-.realty_home_href {
-  text-decoration: none;
-  color: #3c3d49;
-}
-.realty_home_href:hover {
-  text-decoration: none;
-  color: #3c3d49;
-}
-.realty_home_href:hover .realty_item_button {
-  opacity: 1;
-}
-.realty_home_href:hover .realty_item {
-  -webkit-transform: translateY(-2px);
-      -ms-transform: translateY(-2px);
-          transform: translateY(-2px);
-  -webkit-box-shadow: 0 2px 40px rgba(0, 0, 0, 0.14);
-          box-shadow: 0 2px 40px rgba(0, 0, 0, 0.14);
-}
-.realty_home_page {
-  width: 100%;
-  height: 255px;
-  position: relative;
-  background-repeat: no-repeat;
-  -webkit-background-size: cover;
-          background-size: cover;
-  background-position: center center;
-}
-.realty_home_page .header_zhk_name {
-  border-bottom: none;
-}
-.realty_home_page_adress {
-  font-size: 22px;
-  color: #3c3d49;
-  margin-top: 15px;
-  font-weight: 500;
-}
-.realty_home_page_photo_slider {
-  width: 100%;
-  height: 500px;
-}
-.realty_home_page_photo_slider_item {
-  width: 100%;
-  height: 100%;
-  -webkit-background-size: cover;
-          background-size: cover;
-  background-position: center center;
-  background-repeat: no-repeat;
-}
-.realty_home_page_features_flex {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-flex-wrap: wrap;
-      -ms-flex-wrap: wrap;
-          flex-wrap: wrap;
-  -webkit-box-pack: start;
-  -webkit-justify-content: flex-start;
-      -ms-flex-pack: start;
-          justify-content: flex-start;
-}
-.realty_home_page_features_item {
-  margin-right: 30px;
 }
 .team_item-flex {
   display: -webkit-box;
@@ -2724,103 +2523,6 @@ box-shadow: 10px 22px 66px -36px rgba(102,102,102,1);
 }
 .team_item_btn-flex .team_item_btn_vk {
   margin-bottom: 0px;
-}
-.realty_home_page_characteristics {
-  -webkit-border-radius: 6px;
-          border-radius: 6px;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-  -webkit-flex-direction: column;
-      -ms-flex-direction: column;
-          flex-direction: column;
-  margin-top: -90px;
-  background-color: #fff;
-  -webkit-box-shadow: 0 2px 40px rgba(0, 0, 0, 0.14);
-          box-shadow: 0 2px 40px rgba(0, 0, 0, 0.14);
-}
-.realty_home_page_characteristics-top {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  border-bottom: 1px solid #c2c4d0;
-}
-.realty_home_page_characteristics_area {
-  -webkit-flex-basis: 30%;
-      -ms-flex-preferred-size: 30%;
-          flex-basis: 30%;
-  border-right: 1px solid #c2c4d0;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: center;
-  -webkit-justify-content: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-  -webkit-box-align: center;
-  -webkit-align-items: center;
-      -ms-flex-align: center;
-          align-items: center;
-  font-size: 32px;
-  font-weight: 600;
-  line-height: 38px;
-}
-.realty_home_page_characteristics_price {
-  padding: 10px 15px;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-  -webkit-flex-direction: column;
-      -ms-flex-direction: column;
-          flex-direction: column;
-}
-.realty_home_page_characteristics_price .realty_item_desc_new_price {
-  font-size: 40px;
-}
-.realty_home_page_characteristics-middle {
-  padding: 25px 20px 0px 20px;
-  font-size: 14px;
-}
-.realty_home_page_characteristics-item {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: justify;
-  -webkit-justify-content: space-between;
-      -ms-flex-pack: justify;
-          justify-content: space-between;
-  margin-bottom: 15px;
-  padding-bottom: 10px;
-  border-bottom: 1px solid #c2c4d0;
-}
-.realty_home_page_characteristics-item:last-of-type {
-  border-bottom: none;
-}
-.realty_home_page_characteristics-bottom {
-  padding: 20px;
-  background-color: #ff8256;
-  text-align: center;
-  color: #fff;
-  text-decoration: none;
-  -webkit-transition: all 1s ease;
-  -o-transition: all 1s ease;
-  transition: all 1s ease;
-  -webkit-border-radius: 0 0 6px 6px;
-          border-radius: 0 0 6px 6px;
-}
-.realty_home_page_characteristics-bottom:hover {
-  background-color: #ff6f3d;
-  text-decoration: none;
-  color: #fff;
 }
 .home_page_id {
   margin: 0;
@@ -3362,16 +3064,9 @@ box-shadow: 10px 22px 66px -36px rgba(102,102,102,1);
   .modal_plan_metr_features {
     font-size: 18px;
   }
-  .realty_home_page_characteristics {
-    margin-top: 20px;
-  }
 }
 /* Small Devices, Tablets */
 @media only screen and (max-width: 768px) {
-  /**/
-  .realty_home_page_photo_slider {
-    height: 300px;
-  }
   .rewiews_item_img {
     margin-bottom: 35px;
     margin-right: 0;
@@ -3518,46 +3213,6 @@ box-shadow: 10px 22px 66px -36px rgba(102,102,102,1);
     -webkit-flex-direction: column;
         -ms-flex-direction: column;
             flex-direction: column;
-  }
-  .realty_header {
-    height: 550px!important;
-  }
-  .realty_item {
-    -webkit-box-orient: vertical;
-    -webkit-box-direction: normal;
-    -webkit-flex-direction: column;
-        -ms-flex-direction: column;
-            flex-direction: column;
-  }
-  .realty_item_photo_item {
-    width: 100%;
-    height: 250px;
-  }
-  .realty_item_desc_top {
-    -webkit-box-orient: vertical;
-    -webkit-box-direction: normal;
-    -webkit-flex-direction: column;
-        -ms-flex-direction: column;
-            flex-direction: column;
-  }
-  .realty_item_desc_name {
-    font-size: 24px;
-    line-height: 1.2;
-    margin: 10px 0;
-  }
-  .realty_item_desc_features {
-    -webkit-flex-basis: 100%;
-        -ms-flex-preferred-size: 100%;
-            flex-basis: 100%;
-  }
-  .realty_item_desc_features_item p {
-    font-size: 12px;
-  }
-  .realty_item_button {
-    -webkit-align-self: center;
-        -ms-flex-item-align: center;
-            align-self: center;
-    opacity: 1;
   }
   .zakon_doc_item {
     -webkit-flex-basis: 100%;
@@ -4051,4 +3706,20 @@ input:checked + .slider:before {
 }
 .input-group{
   margin: 10px;
+}
+.loader-50-50 {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  border: 2px solid #f3f3f3; /* Light grey */
+  border-top: 2px solid #ff8256; /* Blue */
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }

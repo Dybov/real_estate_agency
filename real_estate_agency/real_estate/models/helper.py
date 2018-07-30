@@ -10,3 +10,15 @@ def get_file_path(instance, filename):
     ext = filename.split('.')[-1]
     filename = "%s.%s" % (uuid.uuid4(), ext)
     return 'uploads/%s/%s/%s/%s' % (app, model_name, ext, filename)
+
+
+# Decorator for overriding part of the field in model subclasses
+# Source https://stackoverflow.com/questions/927729/\
+# how-to-override-the-verbose-name-of-a-superclass-model-field-in-django
+def modify_fields(**kwargs):
+    def wrap(cls):
+        for field, prop_dict in kwargs.items():
+            for prop, val in prop_dict.items():
+                setattr(cls._meta.get_field(field), prop, val)
+        return cls
+    return wrap

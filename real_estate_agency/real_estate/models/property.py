@@ -5,6 +5,8 @@ from django.contrib.auth.models import User
 from django.core.validators import MinValueValidator
 from django.utils.translation import ugettext as _
 
+from address.models import BaseAddressNoNeighbourhood, AbstractAddressModel
+
 from .helper import get_file_path
 
 
@@ -67,13 +69,22 @@ class BasePropertyModel(models.Model):
     is_active = models.BooleanField(verbose_name=_('отображать на сайте'),
                                     default=True,
                                     )
-    posted_by = models.ForeignKey(User,
-                                  verbose_name=_('разместил'),
-                                  editable=False,
-                                  default=None,
-                                  null=True,
-                                  on_delete=models.SET_DEFAULT,
-                                  )
+    created_by = models.ForeignKey(
+        User,
+        verbose_name=_('создано'),
+        default=None,
+        null=True,
+        on_delete=models.SET_DEFAULT,
+        related_name="%(app_label)s_%(class)s_created",
+    )
+    modified_by = models.ForeignKey(
+        User,
+        verbose_name=_('изменено'),
+        default=None,
+        null=True,
+        on_delete=models.SET_DEFAULT,
+        related_name="%(app_label)s_%(class)s_modified",
+    )
     date_added = models.DateTimeField(verbose_name=_('добавлено'),
                                       auto_now_add=True,
                                       )

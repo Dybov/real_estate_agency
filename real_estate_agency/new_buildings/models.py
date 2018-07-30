@@ -4,9 +4,7 @@ import re
 from django.db import models
 from django.db.models import Min, Max
 from django.contrib.staticfiles.templatetags.staticfiles import static
-from django.core.validators import MinValueValidator
 from django.core.urlresolvers import reverse
-from django.utils.safestring import mark_safe
 from django.utils.translation import ugettext as _
 from django.utils.functional import cached_property
 
@@ -16,14 +14,12 @@ from real_estate.models.image import (
     BasePropertyImage,
     spec_factory,
 )
+from real_estate.models.building import BaseBuildingWithoutNeighbourhood
 from real_estate.templatetags.real_estate_extras import morphy_by_case
-from address.models import (
-    AbstractAddressModelWithoutNeighbourhood,
-    NeighbourhoodModel
-)
+from address.models import NeighbourhoodModel
 
 from .helpers import get_quarter_verbose
-from .serializers import ExtJsonSerializer
+from real_estate.serializers import get_json_objects_with_props
 
 
 new_buildings_spec_kwargs = {
@@ -33,10 +29,6 @@ new_buildings_spec_kwargs = {
     'options__quality': 75,
     'to_fit': False,
 }
-
-
-def get_json_object(_object, props=[]):
-    return mark_safe(ExtJsonSerializer().serialize(_object, props=props))
 
 
 def get_quoted(_str):
@@ -97,48 +89,24 @@ class NewApartment(Apartment):
     # Many to many fields "stocks" will appear in future
 
 
-class NewBuilding(AbstractAddressModelWithoutNeighbourhood):
-    """it is building with concrete address,
-    but it also has a name in ResidentalComlex area
-    """
-    # Type of building material
-    TYPE_BRICK = 'BRICK'
-    TYPE_MONOLITHIC = 'MONO'
-    TYPE_FRAME = 'FRAME'
-    TYPE_PANEL = 'PANEL'
-    TYPE_MONOLITHIC_FRAME = 'MFRAME'
-    TYPE_BRICK_PANEL = 'BPANEL'
-    TYPE_REINFORCED_CONCRETE_BLOCKS = 'RCBLOCK'
-    TYPE_SILICAT_BLOCK = "SBLOCK"
-    BUILDING_TYPE_CHOICES = (
-        (TYPE_BRICK, _('кирпичный')),
-        (TYPE_MONOLITHIC, _('монолитный')),
-        (TYPE_FRAME, _('каркасный')),
-        (TYPE_PANEL, _('панельный')),
-        (TYPE_MONOLITHIC_FRAME, _('монолитно-каркасный')),
-        (TYPE_BRICK_PANEL, _('панельный-кирпичный')),
-        (TYPE_REINFORCED_CONCRETE_BLOCKS, _('блоки железобетоные')),
-        (TYPE_SILICAT_BLOCK, _('cиликатный блок')),
-    )
-
-    name = models.CharField(verbose_name=_('имя дома'),
-                            max_length=127,
-                            default=_('ГП'),
-                            )
+class BuildingWithRCMixin(models.Model):
     residental_complex = models.ForeignKey('ResidentalComplex',
                                            verbose_name=_('ЖК'),
                                            on_delete=models.CASCADE,
                                            )
-    building_type = models.CharField(max_length=127,
-                                     verbose_name=_('исполнение дома'),
-                                     choices=BUILDING_TYPE_CHOICES,
-                                     default=TYPE_MONOLITHIC,
-                                     )
-    number_of_storeys = models.PositiveSmallIntegerField(
-        verbose_name=_('количество этажей'),
-        validators=[MinValueValidator(1)],
-        default=1,
-    )
+
+    class Meta:
+        abstract = True
+
+
+class NewBuilding(BaseBuildingWithoutNeighbourhood, BuildingWithRCMixin):
+    """it is building with concrete address,
+    but it also has a name in ResidentalComlex area
+    """
+    name = models.CharField(verbose_name=_('имя дома'),
+                            max_length=127,
+                            default=_('ГП'),
+                            )
     date_of_start_of_construction = models.DateField(
         verbose_name=_('дата начала стройки'),
         null=True,
@@ -186,12 +154,9 @@ class NewBuilding(AbstractAddressModelWithoutNeighbourhood):
     def __str__(self):
         return '%s' % (self.name, )
 
-    class Meta(AbstractAddressModelWithoutNeighbourhood.Meta):
-        verbose_name = _('дом')
-        verbose_name_plural = _('дома')
-        unique_together = \
-            AbstractAddressModelWithoutNeighbourhood.Meta.unique_together + \
-            (('name', 'residental_complex'), )
+    class Meta(BaseBuildingWithoutNeighbourhood.Meta):
+        unique_together = BaseBuildingWithoutNeighbourhood.Meta.\
+            unique_together + (('name', 'residental_complex'), )
 
     def is_built(self):
         if self.date_of_construction:
@@ -361,14 +326,14 @@ class ResidentalComplex(models.Model):
                                             )
 
     def get_new_apartments_json(self):
-        return get_json_object(self.get_new_apartments())
+        return get_json_objects_with_props(self.get_new_apartments())
 
     def get_new_buildings(self):
         return self.newbuilding_set.filter(is_active=True).prefetch_related(
             'newapartment_set')
 
     def get_new_buildings_json(self):
-        return get_json_object(
+        return get_json_objects_with_props(
             self.get_new_buildings(),
             props=['get_quarter_of_construction']
         )

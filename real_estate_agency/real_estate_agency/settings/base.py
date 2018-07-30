@@ -35,12 +35,13 @@ INSTALLED_APPS = [
     'feedback',
     'company',
     'applications',
+    'resale',
+    'imagekit',
     'phonenumber_field',
     'celery',
     'django_unused_media',
     'django_bootstrap_breadcrumbs',
     'analytical',
-    'imagekit',
     'adminsortable2',
     'webpack_loader',
     'django_celery_beat',
@@ -156,6 +157,8 @@ VIBER_BOT_PRIVATE_GROUPS = []
 
 # Use viber ids
 VIBER_BOT_TEST_ADMINS = []
+
+WATERMARK_IMAGE_PATH = None
 
 WEBPACK_LOADER = {
     'DEFAULT': {
