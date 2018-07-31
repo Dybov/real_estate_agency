@@ -12,7 +12,13 @@
 	var apartment = JSON.parse(apartment);
 	window.apartment = apartment;
 </script>
-<div class="heading_short" style="background-image: url({% static 'resale/img/realty_home_search.png' %});">
+<div class="heading_short" style="background-image: url(
+	{% if apartment.photos.all.0 %}
+		{{ apartment.photos.all.0.image.url }}
+	{% else %}
+		{% static 'resale/img/realty_home_search.png' %}
+	{% endif %}
+);">
     <div class="container">
         <div class="row">
             <div class="col-md-8">
@@ -38,11 +44,11 @@
 			class="col-md-4 col-md-push-8 col-xs-12">
 				<div class="text-center loader-50-50"></div>
 			</aside>
-<!---->
-<!---->
-            <div class="col-md-8 col-md-pull-4 col-xs-12">
+
+            <div class="col-md-8 col-md-pull-4 col-xs-12 row">
                 <div class="realty_home_page_photo">
-                    <div class="zhk_headline"> Фото квартиры </div>
+                    <h2 class="zhk_headline"> Фото квартиры </h2>
+		            {% if apartment.photos.all %}
                     <div class="realty_home_page_photo_slider" data-flickity='{ "cellAlign": "left", "contain": true }'>
                         {% for photo in apartment.photos.all %}
                         <img class="realty_home_page_photo_slider_item" src="{{ photo.image_spec.url }}"
@@ -51,65 +57,54 @@
                         {# <div class="realty_home_page_photo_slider_item" style="background-image: url(img/realty_home_search.png);"></div> #}
                         {% endfor %}
                     </div>
+	                {% else %}
+					<p>Фото квартиры отсутсвуют</p>
+	                {% endif %}
                 </div>
 <!---->
-				<div class="realty_home_page_desc">
-					<div class="zhk_headline"> Описание квартиры</div>
-					<p>There’s a new hairstyle that seems to be sweeping Hollywood: what would you be willing to do to get it for yourself? How pleased would you be if getting the latest, hottest hair look were as simple as changing the styling products that you use?</p>
+				<div class="col-xs-12">
+					<h2 class="zhk_headline"> Описание квартиры</h2>
+					<p>
+						{% if apartment.description %}
+							{{apartment.description}}
+						{% else %}
+							Извините, описания еще нет.
+						{% endif %}
+					</p>
 				</div>
-				<div class="realty_home_page_features">
+				<div class="col-xs-12">
 					<div class="zhk_headline"> Характеристики квартиры</div>
 					<div class="realty_home_page_features_flex">
 						<div class="realty_home_page_features_item">
 							<i class="fa fa-check aria-hidden="true"></i> Закрытый двор
 						</div>
-												<div class="realty_home_page_features_item">
+						<div class="realty_home_page_features_item">
 							<i class="fa fa-check aria-hidden="true"></i> Закрытый двор
 						</div>
-												<div class="realty_home_page_features_item">
-							<i class="fa fa-check aria-hidden="true"></i> Закрытый двор
-						</div>
-												<div class="realty_home_page_features_item">
-							<i class="fa fa-check aria-hidden="true"></i> Закрытый двор
-						</div>
-												<div class="realty_home_page_features_item">
-							<i class="fa fa-check aria-hidden="true"></i> Закрытый двор
-						</div>
-												<div class="realty_home_page_features_item">
-							<i class="fa fa-check aria-hidden="true"></i> Закрытый двор
-						</div>
-												<div class="realty_home_page_features_item">
-							<i class="fa fa-check aria-hidden="true"></i> Закрытый двор
-						</div>
-												<div class="realty_home_page_features_item">
-							<i class="fa fa-check aria-hidden="true"></i> Закрытый двор
-						</div>
-
 					</div>
 				</div>
-		<div class="realty_home_page_spec">
-			<div class="zhk_headline"> Специалист по недвижимости</div>
-			<div class="team_item team_item-flex">
-					<div class="team_item_photo team_item_photo-flex">
-						<img src="img/team/QLls5Sm6T0E.jpg" alt="" class="img-responsive">
-					</div>
-					<div class="team_item_desc-flex">
-											<div class="team_item_name"> Задачин Игорь </div>
+				<div class="col-xs-12">
+					<div class="zhk_headline"> Специалист по недвижимости</div>
+					<div class="team_item team_item-flex">
+						<div class="team_item_photo team_item_photo-flex">
+							<img src="img/team/QLls5Sm6T0E.jpg" alt="" class="img-responsive">
+						</div>
+						<div class="team_item_desc-flex">
+												<div class="team_item_name"> Задачин Игорь </div>
 
-					<div class="team_item_desc">Телефон: <span class="team_item_phone"> +7 (3452) 58-98-81</span>
-						<br>Эл. почта: <span class="team_item_email"> domus72@bk.ru</span>
+							<div class="team_item_desc">Телефон: <span class="team_item_phone"> +7 (3452) 58-98-81</span>
+							<br>Эл. почта: <span class="team_item_email"> domus72@bk.ru</span>
+							</div>
+							<div class="team_item_btn team_item_btn-flex">
+								<a href="#" class="team_item_btn_phone">Заказать обратный звонок</a>
+							
+								<a href="#" class="team_item_btn_vk">Написать в Вконтакте</a>
+							</div>
+						</div>
 					</div>
-					<div class="team_item_btn team_item_btn-flex">
-						<a href="#" class="team_item_btn_phone">Заказать обратный звонок</a>
-					
-						<a href="#" class="team_item_btn_vk">Написать в Вконтакте</a>
-					</div>
-					</div>
-
 				</div>
-		</div>
 
-			<div class="realty_home_page_map">
+			<div class="col-xs-12">
 				<div class="zhk_headline"> Квартира на карте</div>
 				<div class="realty_map">
 					<iframe src="https://yandex.ru/map-widget/v1/?um=constructor%3Afdee7a7d9c531cc7c615125aff1ba525f2ab65af0d4d8b1b38284cd856e55e0b&amp;source=constructor" width="100%" height="400" frameborder="0"></iframe>

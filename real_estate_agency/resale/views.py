@@ -67,7 +67,8 @@ class ResaleListView(ApartmentFilterMixin, FormMixin, ListView):
 def detailed(request, pk):
     # Recude DB connections with select_related()
     # Don't use get_object_or_404 to have possibility use select_related()
-    apartments = ResaleApartment.objects.filter(pk=pk).select_related()
+    apartments = ResaleApartment.objects.filter(
+        pk=pk).select_related().prefetch_related('photos')
     if not apartments:
         raise Http404("Apartment doesn't exist")
     apartment = apartments[0]
