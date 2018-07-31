@@ -5,10 +5,17 @@ import StickyBox from "react-sticky-box";
 
 import './ResaleDetailed.css'
 
-import StickyBoxBottomLine from './StickyBoxBottomLine'
+import SimpleLine from './StickyBoxBottomLines/SimpleLine'
+import AreaLine from './StickyBoxBottomLines/AreaLine'
+import LengthLine from './StickyBoxBottomLines/LengthLine'
+
+import { Area0digits, Currency0digits } from '../localization/formats'
+
+const ResaleDetailedCurrency = Currency0digits
 
 
-class ResaleDetailed extends Component {
+
+export default class ResaleDetailed extends Component {
   render() {
     var Wrapper = 'div'
     if (gteSM()) {
@@ -20,31 +27,35 @@ class ResaleDetailed extends Component {
           <div className="shadow">
             <div className="sticky-top col-xs-12">
               <div className="sticky-top-left col-xs-4">
-                <h3 className="text-center">{Math.floor(apartment.total_area)} м²</h3>
+                <h3 className="text-center">
+                  {<Area0digits value={apartment.total_area} />}
+                </h3>
               </div>
               <div className="sticky-top-right col-xs-8">
-                <h4><s>{apartment.full_price} руб</s></h4>
-                <h3><b>{apartment.full_price} руб</b></h3>
-                <p className="text-right"><small>Цена за м²: { Math.round(apartment.price_per_square_meter)} руб</small></p>
+                <h4><s><ResaleDetailedCurrency value={apartment.full_price} /></s></h4>
+                <h3><b><ResaleDetailedCurrency value={apartment.full_price} /></b></h3>
+                <p className="text-right"><small>Цена за м²: <ResaleDetailedCurrency value={apartment.price_per_square_meter} /></small></p>
               </div>
             </div>
             <div className="sticky-bottom col-xs-12">
-              <StickyBoxBottomLine l='Район'
+              <SimpleLine l='Район'
                 r={apartment.neighbourhood} />
-              <StickyBoxBottomLine l='Материал здания'
+              <SimpleLine l='Материал здания'
                 r={apartment.get_building_type_display} />
-              <StickyBoxBottomLine l='Этаж'r={apartment.floor} />
-              <StickyBoxBottomLine l='Год постройки'
+              <SimpleLine l='Этаж'r={apartment.floor} />
+              <SimpleLine l='Год постройки'
                 r={apartment.date_of_construction} />
-              <StickyBoxBottomLine l='Высота потолка'
+              <LengthLine l='Высота потолка'
                 r={apartment.celling_height} />
-              <StickyBoxBottomLine l='Тип ремонта'
+              <SimpleLine l='Тип ремонта'
                 r={apartment.get_interior_decoration_display} />
-              <StickyBoxBottomLine l='Площадь кухни'
+              <AreaLine l='Площадь кухни'
                 r={apartment.kitchen_area} />
-              <StickyBoxBottomLine l='Площадь балкона'
+              <AreaLine l='Площадь балкона'
                 r={apartment.balcony_area} />
-              <p className='text-right'><small>Код объекта: {apartment.id}</small></p>
+              <p className='text-right'>
+                <small>Код объекта: {apartment.id}</small>
+              </p>
             </div>
             <a href="" className='callback-link callback'>
               <button className='btn btn-block btn-primary'>
@@ -57,5 +68,3 @@ class ResaleDetailed extends Component {
     )
   }
 }
-
-export default ResaleDetailed;
