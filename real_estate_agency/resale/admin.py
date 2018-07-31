@@ -58,6 +58,7 @@ class ResaleApartmentAdmin(admin.ModelAdmin):
             'related_mortgage',
             'price',
             'agency_price',
+            'agency_price_with_sales',
         )
         if request.user.has_perm('resale.can_add_change_delete_all_resale'):
             deal_status_part_fields += ('created_by', 'modified_by',)

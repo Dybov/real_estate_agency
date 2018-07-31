@@ -32,7 +32,14 @@ export default class ResaleDetailed extends Component {
                 </h3>
               </div>
               <div className="sticky-top-right col-xs-8">
-                <h4><s><ResaleDetailedCurrency value={apartment.full_price} /></s></h4>
+                <h4>
+                  {apartment.old_price ? (
+                      <s><ResaleDetailedCurrency value={apartment.old_price} /></s>
+                    ) : (
+                      <br/>
+                    )
+                  }
+                </h4>
                 <h3><b><ResaleDetailedCurrency value={apartment.full_price} /></b></h3>
                 <p className="text-right"><small>Цена за м²: <ResaleDetailedCurrency value={apartment.price_per_square_meter} /></small></p>
               </div>

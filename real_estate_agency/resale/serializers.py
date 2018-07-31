@@ -24,6 +24,7 @@ class ResaleApartmentSerializer(serializers.ModelSerializer):
             'floor',
             # 'images',
             'full_price',
+            'old_price',
             'price_per_square_meter',
             'neighbourhood',
             'get_building_type_display',

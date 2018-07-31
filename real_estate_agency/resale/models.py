@@ -59,7 +59,7 @@ class TransactionMixin(models.Model):
 
 @modify_fields(
     price={
-        'verbose_name': _('цена от продавца, рб'),
+        'verbose_name': _('стоимость квартиры от продавца, рб'),
         'help_text': _('данная цена является той суммой, которую хочет получить продавец.\
           Не отображается на сайте.'), },
     date_added={'verbose_name': _('дата размещения')},
@@ -67,7 +67,7 @@ class TransactionMixin(models.Model):
 )
 class ResaleApartment(Apartment, BaseBuilding, TransactionMixin):
     agency_price = models.DecimalField(
-        verbose_name=_('цена с комиссией от агенства, рб'),
+        verbose_name=_('начальная стоимость, рб'),
         default=1000000,
         decimal_places=0,
         max_digits=15,
@@ -76,7 +76,18 @@ class ResaleApartment(Apartment, BaseBuilding, TransactionMixin):
         ),
         ],
         help_text=_(
-            'данная цена = цена от продавца + комиссия Домус'),
+            'сюда включена комиссия агенства, отображается на сайте'),
+    )
+    agency_price_with_sales = models.DecimalField(
+        verbose_name=_('стоимость со скидкой, рб'),
+        default=None,
+        blank=True,
+        null=True,
+        decimal_places=0,
+        max_digits=15,
+        validators=[MinValueValidator(Decimal('0.0')), ],
+        help_text=_(
+            'Оставьте поле пустым, чтобы скидка не отображалась. Сюда включена комиссия агенства, отображается на сайте'),
     )
     residental_complex = models.ForeignKey(ResidentalComplex,
                                            verbose_name=_('жилой комплекс'),
@@ -125,15 +136,27 @@ class ResaleApartment(Apartment, BaseBuilding, TransactionMixin):
         # Don't allow set agency_price lower than real price.
         if self.agency_price is not None \
                 and self.price is not None \
-                and self.agency_price < self.price:
+                and self.agency_price<self.price:
             raise ValidationError(
                 {'agency_price':
-                 _('цена с комиссией от агенства %(agency_price)s \
-                    должна быть больше реальной цены %(real_price)s') % {
+                 _('начальная стоимость %(agency_price)s \
+                    должна быть больше цены от продавца %(real_price)s') % {
                      'agency_price': self.agency_price,
                      'real_price': self.price
                  }
                  }
+            )
+        if self.agency_price_with_sales is not None \
+                and self.agency_price is not None \
+                and self.agency_price_with_sales>=self.agency_price:
+            raise ValidationError(
+                {'agency_price_with_sales':
+                    _('стоимость со скидкой %(sales_price)s должна быть меньше \
+                        чем начальная стоимость %(agency_price)s') % {
+                        'sales_price': self.agency_price_with_sales,
+                        'agency_price': self.agency_price,
+                    }
+                } 
             )
 
     @property
@@ -143,7 +166,19 @@ class ResaleApartment(Apartment, BaseBuilding, TransactionMixin):
 
     @property
     def full_price(self):
+        if self.is_sales:
+            return self.agency_price_with_sales
         return self.agency_price
+
+    @property
+    def old_price(self):
+        if self.is_sales:
+            return self.agency_price
+        return None
+
+    @property
+    def is_sales(self):
+        return self.agency_price_with_sales is not None 
 
     @property
     def verbose(self):
