@@ -22,6 +22,15 @@ export default class ResaleDetailed extends Component {
       Wrapper = StickyBox
     }
     const apartment = window.apartment;
+    const floor = apartment.floor ? (
+        apartment.number_of_storeys ? (
+            apartment.floor + ' / ' + apartment.number_of_storeys
+          ) : (
+            apartment.floor
+          )
+      ) : (
+        null
+      )
     return (
         <Wrapper>
           <div className="shadow">
@@ -49,7 +58,7 @@ export default class ResaleDetailed extends Component {
                 r={apartment.neighbourhood} />
               <SimpleLine l='Материал здания'
                 r={apartment.get_building_type_display} />
-              <SimpleLine l='Этаж'r={apartment.floor} />
+              <SimpleLine l='Этаж'r={floor} />
               <SimpleLine l='Год постройки'
                 r={apartment.date_of_construction} />
               <LengthLine l='Высота потолка'

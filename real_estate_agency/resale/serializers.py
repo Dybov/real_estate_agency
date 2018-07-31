@@ -22,6 +22,7 @@ class ResaleApartmentSerializer(serializers.ModelSerializer):
             'total_area',
             'address',
             'floor',
+            'number_of_storeys',
             # 'images',
             'full_price',
             'old_price',
