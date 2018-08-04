@@ -16,10 +16,17 @@ from real_estate.models.image import (
     BasePropertyImage,
     spec_factory,
     BaseWatermarkProcessor)
+from real_estate.models import Characteristic
 from new_buildings.models import ResidentalComplex
 
 
-# Defined to add feature in the future
+class ResaleCharacteristic(Characteristic):
+    class Meta:
+        verbose_name = _('объект "характеристика вторички"')
+        verbose_name_plural = _('характеристики вторички') 
+        proxy = True       
+
+
 class ResaleWatermark(BaseWatermarkProcessor):
     pass
 
@@ -131,6 +138,12 @@ class ResaleApartment(Apartment, BaseBuilding, TransactionMixin):
                                   max_length=127,
                                   )
     owner_phone_number = PhoneNumberField(_('номер телефона продавца'))
+    characteristics = models.ManyToManyField(
+        Characteristic,
+        verbose_name=_(
+            'характеристики квартиры'),
+        blank=True,
+    )
 
     def clean(self):
         # Don't allow set agency_price lower than real price.
