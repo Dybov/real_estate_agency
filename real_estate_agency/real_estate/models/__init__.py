@@ -3,6 +3,7 @@ from .property import BasePropertyModel
 from .apartment import Apartment
 from .image import BasePropertyImage, BaseDraggapbleImage
 from .building import BaseBuildingWithoutNeighbourhood
+from .characteristic import Characteristic
 
 __all__ = [
     'get_file_path',
@@ -12,4 +13,5 @@ __all__ = [
     'BaseDraggapbleImage',
     'BaseBuildingWithoutNeighbourhood',
     'BaseBuilding',
+    'Characteristic',
 ]
