@@ -12,127 +12,101 @@
 	var apartment = JSON.parse(apartment);
 	window.apartment = apartment;
 </script>
-<div class="heading_short" style="background-image: url(
+<div class="heading_short " style="background-image: url(
 	{% if apartment.photos.all.0 %}
 		{{ apartment.photos.all.0.image.url }}
 	{% else %}
 		{% static 'resale/img/realty_home_search.png' %}
 	{% endif %}
 );">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-8">
-                <h1 class="header_ipoteka_headline">
-                    {{ apartment }}
-                </h1>
-                <h2 class="header_ipoteka_desc">
-                    {{ apartment.address }}
-                </h2>
-            </div>
-            <div class="col-md-4"></div>
-        </div>
-    </div>
+    <h1 class='header_ipoteka_headline'>{{ apartment }}</h1>
+    <h2 class='header_ipoteka_desc'>{{ apartment.address }}</h2>
 </div>
-
-
-
-<main class="">
-	<div class="container ">
-		<div class="row" id='container'> 
-			<aside
-			id='sticky-resale'
-			class="col-md-4 col-md-push-8 col-xs-12">
+<main class="container">
+		<div class="row"> 
+			<aside id='sticky-resale' class="col-md-4 col-md-push-8 col-xs-12">
 				<div class="text-center loader-50-50"></div>
 			</aside>
 
             <div class="col-md-8 col-md-pull-4 col-xs-12 row">
                 <div class="realty_home_page_photo">
-                    <h2 class="zhk_headline"> Фото квартиры </h2>
+                    <h2 class="zhk_headline">Фото квартиры</h2>
 		            {% if apartment.photos.all %}
                     <div class="realty_home_page_photo_slider" data-flickity='{ "cellAlign": "left", "contain": true }'>
                         {% for photo in apartment.photos.all %}
                         <img class="realty_home_page_photo_slider_item" src="{{ photo.image_spec.url }}"
                         height="{{ photo.image_spec.height }}"
                         width="{{ photo.image_spec.width }}">
-                        {# <div class="realty_home_page_photo_slider_item" style="background-image: url(img/realty_home_search.png);"></div> #}
                         {% endfor %}
                     </div>
 	                {% else %}
-					<p>Фото квартиры отсутсвуют</p>
+					<p>Извините, фото квартиры отсутсвуют</p>
 	                {% endif %}
                 </div>
-<!---->
 				<div class="col-xs-12">
 					<h2 class="zhk_headline"> Описание квартиры</h2>
 					<p>
 						{% if apartment.description %}
 							{{apartment.description}}
 						{% else %}
-							Извините, описания еще нет.
+							Извините, описания еще нет
 						{% endif %}
 					</p>
 				</div>
 				<div class="col-xs-12">
-					<div class="zhk_headline"> Характеристики квартиры</div>
-					<div class="realty_home_page_features_flex">
-						<div class="realty_home_page_features_item">
-							<i class="fa fa-check aria-hidden="true"></i> Закрытый двор
-						</div>
-						<div class="realty_home_page_features_item">
-							<i class="fa fa-check aria-hidden="true"></i> Закрытый двор
-						</div>
+					<h2 class="zhk_headline"> Характеристики квартиры</h2>
+					{% for characteristic in apartment.characteristics.all %}
+					<div class="col-xs-12 col-md-6 row">
+						<img class="col-xs-3 img-responsive" src="{{ characteristic.thumbnail.url }}">
+						<p class="col-xs-9">{{ characteristic }}</p>
 					</div>
+					{% empty %}
+					<p>Описание характеристик будет добавлено позднее</p>
+					{% endfor %}
 				</div>
+<!---->
 				<div class="col-xs-12">
 					<div class="zhk_headline"> Специалист по недвижимости</div>
 					<div class="team_item team_item-flex">
-						<div class="team_item_photo team_item_photo-flex">
-							<img src="img/team/QLls5Sm6T0E.jpg" alt="" class="img-responsive">
+						<div class="img-responsive">
+							<img src="{% static "img/team/QLls5Sm6T0E.jpg" %}" alt="" class="img-responsive">
 						</div>
 						<div class="team_item_desc-flex">
-												<div class="team_item_name"> Задачин Игорь </div>
-
-							<div class="team_item_desc">Телефон: <span class="team_item_phone"> +7 (3452) 58-98-81</span>
-							<br>Эл. почта: <span class="team_item_email"> domus72@bk.ru</span>
-							</div>
+							<h3><strong>Задачин Игорь</strong></h3>
+							<p class="team_item_descs">Телефон: <span class="team_item_phone"> +7 (3452) 58-98-81</span></p>
+							<p>Эл. почта: <span class="team_item_email"> domus72@bk.ru</span></p>
 							<div class="team_item_btn team_item_btn-flex">
 								<a href="#" class="team_item_btn_phone">Заказать обратный звонок</a>
-							
 								<a href="#" class="team_item_btn_vk">Написать в Вконтакте</a>
 							</div>
 						</div>
 					</div>
 				</div>
 
-			<div class="col-xs-12">
-				<div class="zhk_headline"> Квартира на карте</div>
-				<div class="realty_map">
-					<iframe src="https://yandex.ru/map-widget/v1/?um=constructor%3Afdee7a7d9c531cc7c615125aff1ba525f2ab65af0d4d8b1b38284cd856e55e0b&amp;source=constructor" width="100%" height="400" frameborder="0"></iframe>
-				</div>
-			</div>	
-			</div>
-
+				<div class="col-xs-12">
+					<div class="zhk_headline"> Квартира на карте</div>
+					{# <iframe src="https://yandex.ru/map-widget/v1/?um=constructor%3Afdee7a7d9c531cc7c615125aff1ba525f2ab65af0d4d8b1b38284cd856e55e0b&amp;source=constructor" width="100%" height="400" frameborder="0"></iframe> #}
+				</div>	
 			</div>
 		</div>
-	</div>
 </main>
 <section style="margin-bottom: 30px;">
 	<div class="container">
 		<div class="row">
 				<div class="col-md-12">
-				<div class="zhk_headline"> Почему выгодно купить квартиру с нами</div>
+				<div class="zhk_headline">Почему выгодно купить квартиру с нами</div>
 			</div>
 		</div>
 
 		<div class="row text-center">
 			<div class="col-md-3 col-xs-12">
-				<img src="{% static 'img/icon/wallet.svg' %}" alt="выгода" width="100px" height="100px">
+				<img src="{% static 'img/icon/wallet.svg' %}" alt="выгода" width="100" height="100">
 				<h4><strong>Оплата только за результат</strong></h4>
 				<p>Стоимость услуг фиксированая и прозначаная. Вы платите только после того, как мы с вами оформим все документы.</p>
 			</div>
 
 			<div class="col-md-3 col-xs-12">
-				<img src="{% static 'img/icon/booking.svg' %}" width="100px" height="100px">
+				<img src="{% static 'img/icon/booking.svg' %}" width="100" height="100">
 				<h4><strong>Заключение сделок любой сложности</strong></h4>
 				<p>Опыт и экспертность позволяет нам работать со сделками любой сложности.</p>
 			</div>
@@ -142,7 +116,7 @@
 			</div>
 
 			<div class="col-md-3 col-xs-12">
-				<img src="{% static 'img/icon/excrusion.svg' %}" alt="" width="100px" height="100px">
+				<img src="{% static 'img/icon/excrusion.svg' %}" alt="" width="100" height="100">
 				<h4><strong>Бесплатный трансфер</strong></h4>
 				<p>Мы отвезем вас на просмотр любой выбранной квартиры бесплатно.</p>
 			</div>						
