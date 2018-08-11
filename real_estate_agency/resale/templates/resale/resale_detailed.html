@@ -31,11 +31,13 @@
 			<div class="realty_home_page_photo">
 				<h2 class="zhk_headline">Фото квартиры</h2>
 				{% if apartment.photos.all %}
-				<div class="realty_home_page_photo_slider" data-flickity='{ "cellAlign": "left", "contain": true }'>
+				<div data-flickity='{ "cellAlign": "left", "contain": true }'>
 					{% for photo in apartment.photos.all %}
-					<img class="realty_home_page_photo_slider_item" src="{{ photo.image_spec.url }}"
-					height="{{ photo.image_spec.height }}"
-					width="{{ photo.image_spec.width }}">
+					<img src="{{ photo.image_spec.url }}"
+					class='img-flick img-responsive'
+					{# height="{{ photo.image_spec.height }}" #}
+					{# width="{{ photo.image_spec.width }}" #}
+					>
 					{% endfor %}
 				</div>
 				{% else %}
@@ -72,15 +74,15 @@
 						<p>Телефон: <a href='tel:+73452589881' class="team_item_phone"> +7 (3452) 58-98-81</a></p>
 						<p>Эл. почта: <a href='email:domus72@bk' class="team_item_email"> domus72@bk.ru</span></p>
 						<div class='row'>
-							<a href="#" class="btn col-xs-12 col-md-8 team_item_btn_phone">Заказать обратный звонок</a>
-							<a href="#" class="btn col-xs-12 col-md-8 team_item_btn_vk">Написать в Вконтакте</a>
+							<a href="{% url 'applications:callback' %}" class="btn col-xs-12 col-md-8 team_item_btn_phone callback-link">Заказать обратный звонок</a>
+							<a href="{{vk}}" class="btn col-xs-12 col-md-8 team_item_btn_vk">Написать в Вконтакте</a>
 						</div>
 					</div>
 				</div>
 			</div>
 
 			<div class="col-xs-12">
-				<h2 class="zhk_headline"> Квартира на карте</h2>
+				<h2 class="zhk_headline">Квартира на карте</h2>
 				<iframe src="https://yandex.ru/map-widget/v1/?um=constructor%3Afdee7a7d9c531cc7c615125aff1ba525f2ab65af0d4d8b1b38284cd856e55e0b&amp;source=constructor" width="100%" height="400" frameborder="0"></iframe>
 			</div>	
 		</div>
