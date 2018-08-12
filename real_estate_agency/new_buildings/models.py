@@ -83,6 +83,10 @@ class NewApartment(Apartment):
         if self.date_of_construction:
             return self.date_of_construction <= datetime.date.today()
 
+    @property
+    def full_price(self):
+        return self.price
+
     class Meta:
         verbose_name = _('объект "планировка"')
         verbose_name_plural = _('планировки')

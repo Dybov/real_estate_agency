@@ -174,8 +174,10 @@ class ResaleApartment(Apartment, BaseBuilding, TransactionMixin):
 
     @property
     def fee(self):
-        if self.agency_price and self.price:
-            return self.agency_price - self.price
+        full_price = self.full_price
+        if full_price and self.price:
+            return full_price - self.price
+        return 0
 
     @property
     def full_price(self):

@@ -99,7 +99,16 @@ class BasePropertyModel(models.Model):
 
     @property
     def price_per_square_meter(self):
-        return self.price / self.total_area
+        return self.full_price / self.total_area
+
+    @property
+    def full_price(self):
+        """Must be implement atleast for price_per_square_meter.
+        Cause in different types of real estate property can be:
+        self.price!=self.full_price
+        for example for price with agency fee
+        """
+        raise NotImplementedError
 
     # many to many "transactions" will be added in future releases and will
     # replace the price
