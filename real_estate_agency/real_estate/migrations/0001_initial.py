@@ -31,11 +31,11 @@ def update_contentypes_reverse(apps, schema_editor):
     qs = ContentType.objects.using(db_alias).filter(app_label='real_estate', model='characteristic')
     qs.update(app_label='new_buildings', model='residentalcomplexcharacteristic')
 
-class Migration(migrations.Migration):
 
+class Migration(migrations.Migration):
     dependencies = [
-    	('new_buildings', '0014_rename_characteristic'),
-    	('contenttypes', '0002_remove_content_type_name'),
+        ('new_buildings', '0014_rename_characteristic'),
+        ('contenttypes', '0002_remove_content_type_name'),
     ]
 
     state_operations = [
@@ -49,11 +49,9 @@ class Migration(migrations.Migration):
             options={
                 'verbose_name_plural': 'характеристики',
                 'verbose_name': 'характеристика',
+                'db_table': 'real_estate_residentalcomplexcharacteristic',
+
             },
-        ),
-        migrations.RenameModel(
-            old_name='residentalcomplexcharacteristic',
-            new_name='characteristic',
         ),
     ]
 
@@ -65,5 +63,13 @@ class Migration(migrations.Migration):
         migrations.SeparateDatabaseAndState(
             state_operations=state_operations,
             database_operations=database_operations
+        ),
+        migrations.RenameModel(
+            old_name='residentalcomplexcharacteristic',
+            new_name='Characteristic',
+        ),
+        migrations.AlterModelTable(
+            name='characteristic',
+            table=None,
         ),
     ]

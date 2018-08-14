@@ -7,10 +7,11 @@ from .image import spec_factory
 
 
 class Characteristic(models.Model):
-    characteristic = models.CharField(verbose_name=_('характеристика'),
-                                      max_length=127,
-                                      unique=True,
-                                      )
+    characteristic = models.CharField(
+        verbose_name=_('характеристика'),
+        max_length=127,
+        unique=True,
+    )
     icon = models.ImageField(verbose_name=_('иконка'),
                              upload_to=get_file_path,
                              )

@@ -225,10 +225,12 @@ class ResidentalComplex(models.Model):
                                 on_delete=models.PROTECT,
                                 )
     # one to many "photos"
-    characteristics = models.ManyToManyField('ResidentalComplexCharacteristic',
-                                             verbose_name=_(
-                                                 'характеристики ЖК'),
-                                             blank=True,)
+    characteristics = models.ManyToManyField(
+        'ResidentalComplexCharacteristic',
+        verbose_name=_(
+            'характеристики ЖК'),
+        blank=True,
+    )
     front_image = models.ImageField(verbose_name=_('основное изображение'),
                                     upload_to=get_file_path,
                                     blank=True, null=True,
@@ -479,6 +481,7 @@ class ResidentalComplexCharacteristic(Characteristic):
         verbose_name = _('характеристика комплекса')
         verbose_name_plural = _('характеристики комплексов')
         proxy = True
+
 
 class ResidentalComplexFeature(models.Model):
     title = models.CharField(verbose_name=_('заголовок'),
