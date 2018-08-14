@@ -1,7 +1,7 @@
 from decimal import Decimal
 
 from django.db import models
-from django.contrib.auth.models import User
+from django.conf import settings
 from django.core.validators import MinValueValidator
 from django.utils.translation import ugettext as _
 
@@ -70,7 +70,7 @@ class BasePropertyModel(models.Model):
                                     default=True,
                                     )
     created_by = models.ForeignKey(
-        User,
+        settings.AUTH_USER_MODEL,
         verbose_name=_('создано'),
         default=None,
         null=True,
@@ -78,7 +78,7 @@ class BasePropertyModel(models.Model):
         related_name="%(app_label)s_%(class)s_created",
     )
     modified_by = models.ForeignKey(
-        User,
+        settings.AUTH_USER_MODEL,
         verbose_name=_('изменено'),
         default=None,
         null=True,
