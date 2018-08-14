@@ -15,6 +15,7 @@ from real_estate.models.image import (
     spec_factory,
 )
 from real_estate.models.building import BaseBuildingWithoutNeighbourhood
+from real_estate.models import Characteristic
 from real_estate.templatetags.real_estate_extras import morphy_by_case
 from address.models import NeighbourhoodModel
 
@@ -81,6 +82,10 @@ class NewApartment(Apartment):
     def is_built(self):
         if self.date_of_construction:
             return self.date_of_construction <= datetime.date.today()
+
+    @property
+    def full_price(self):
+        return self.price
 
     class Meta:
         verbose_name = _('объект "планировка"')
@@ -220,10 +225,12 @@ class ResidentalComplex(models.Model):
                                 on_delete=models.PROTECT,
                                 )
     # one to many "photos"
-    characteristics = models.ManyToManyField('ResidentalComplexCharacteristic',
-                                             verbose_name=_(
-                                                 'характеристики ЖК'),
-                                             blank=True,)
+    characteristics = models.ManyToManyField(
+        'ResidentalComplexCharacteristic',
+        verbose_name=_(
+            'характеристики ЖК'),
+        blank=True,
+    )
     front_image = models.ImageField(verbose_name=_('основное изображение'),
                                     upload_to=get_file_path,
                                     blank=True, null=True,
@@ -469,22 +476,11 @@ class Builder(models.Model):
         verbose_name_plural = _('застройщики')
 
 
-class ResidentalComplexCharacteristic(models.Model):
-    characteristic = models.CharField(verbose_name=_('характеристика'),
-                                      max_length=127,
-                                      unique=True,
-                                      )
-    icon = models.ImageField(verbose_name=_('иконка'),
-                             upload_to=get_file_path,
-                             )
-    thumbnail = spec_factory(52, 52, source='icon',)
-
-    def __str__(self):
-        return self.characteristic
-
+class ResidentalComplexCharacteristic(Characteristic):
     class Meta:
         verbose_name = _('характеристика комплекса')
         verbose_name_plural = _('характеристики комплексов')
+        proxy = True
 
 
 class ResidentalComplexFeature(models.Model):

@@ -62,7 +62,6 @@ class Opacity(object):
 class Watermark(ImageSpec):
     opacity = BASE_OPACITY
     processors = [
-        ResizeToFit(1000, 1000, mat_color=(255, 255, 255, 0)),
         Opacity(opacity),
     ]
     format = 'PNG'

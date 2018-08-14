@@ -1083,7 +1083,7 @@ display: flex;
   outline: none;
 }
 .zhk_headline {
-  font-size: 38px;
+  font-size: 36px;
   font-weight: bold;
   text-align: left;
   color: #3c3d49;
@@ -2506,17 +2506,6 @@ box-shadow: 10px 22px 66px -36px rgba(102,102,102,1);
   -webkit-justify-content: space-between;
       -ms-flex-pack: justify;
           justify-content: space-between;
-}
-.team_item_btn-flex {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-  -webkit-flex-direction: column;
-      -ms-flex-direction: column;
-          flex-direction: column;
 }
 .team_item_btn-flex .team_item_btn_phone {
   margin-bottom: 10px;

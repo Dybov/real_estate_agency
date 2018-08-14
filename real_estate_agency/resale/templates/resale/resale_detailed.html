@@ -3,8 +3,8 @@
 {% load django_bootstrap_breadcrumbs %}
 {% load render_bundle from webpack_loader %}
 {% block breadcrumbs %}
-    {{ block.super }}
-    {% breadcrumb apartment.verbose "resale:detailed" %}
+	{{ block.super }}
+	{% breadcrumb apartment.verbose "resale:detailed" %}
 {% endblock %}
 {% block content %}
 <script type="text/javascript">
@@ -12,147 +12,104 @@
 	var apartment = JSON.parse(apartment);
 	window.apartment = apartment;
 </script>
-<div class="heading_short" style="background-image: url({% static 'resale/img/realty_home_search.png' %});">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-8">
-                <h1 class="header_ipoteka_headline">
-                    {{ apartment }}
-                </h1>
-                <h2 class="header_ipoteka_desc">
-                    {{ apartment.address }}
-                </h2>
-            </div>
-            <div class="col-md-4"></div>
-        </div>
-    </div>
+<div class="heading_short " style="background-image: url(
+	{% if apartment.photos.all.0 %}
+		{{ apartment.photos.all.0.image.url }}
+	{% else %}
+		{% static 'resale/img/realty_home_search.png' %}
+	{% endif %}
+);">
+	<h1 class='header_ipoteka_headline'>{{ apartment }}</h1>
+	<h2 class='header_ipoteka_desc'>{{ apartment.address }}</h2>
 </div>
-
-
-
-<main class="">
-	<div class="container ">
-		<div class="row" id='container'> 
-			<aside
-			id='sticky-resale'
-			class="col-md-4 col-md-push-8 col-xs-12">
-				<div class="text-center loader-50-50"></div>
-			</aside>
-<!---->
-<!---->
-            <div class="col-md-8 col-md-pull-4 col-xs-12">
-                <div class="realty_home_page_photo">
-                    <div class="zhk_headline"> Фото квартиры </div>
-                    <div class="realty_home_page_photo_slider" data-flickity='{ "cellAlign": "left", "contain": true }'>
-                        {% for photo in apartment.photos.all %}
-                        <img class="realty_home_page_photo_slider_item" src="{{ photo.image_spec.url }}"
-                        height="{{ photo.image_spec.height }}"
-                        width="{{ photo.image_spec.width }}">
-                        {# <div class="realty_home_page_photo_slider_item" style="background-image: url(img/realty_home_search.png);"></div> #}
-                        {% endfor %}
-                    </div>
-                </div>
-<!---->
-				<div class="realty_home_page_desc">
-					<div class="zhk_headline"> Описание квартиры</div>
-					<p>There’s a new hairstyle that seems to be sweeping Hollywood: what would you be willing to do to get it for yourself? How pleased would you be if getting the latest, hottest hair look were as simple as changing the styling products that you use?</p>
+<main class="container">
+	<div class="row"> 
+		<aside id='sticky-resale' class="col-md-4 col-md-push-8 col-xs-12">
+			<div class="text-center loader-50-50"></div>
+		</aside>
+		<div class="col-md-8 col-md-pull-4 col-xs-12 row">
+			<div class="realty_home_page_photo">
+				<h2 class="zhk_headline">Фото квартиры</h2>
+				{% if apartment.photos.all %}
+				<div data-flickity='{ "cellAlign": "left", "contain": true }'>
+					{% for photo in apartment.photos.all %}
+					<img src="{{ photo.image_spec.url }}"
+					class='img-flick img-responsive'
+					{# height="{{ photo.image_spec.height }}" #}
+					{# width="{{ photo.image_spec.width }}" #}
+					>
+					{% endfor %}
 				</div>
-				<div class="realty_home_page_features">
-					<div class="zhk_headline"> Характеристики квартиры</div>
-					<div class="realty_home_page_features_flex">
-						<div class="realty_home_page_features_item">
-							<i class="fa fa-check aria-hidden="true"></i> Закрытый двор
+				{% else %}
+				<p>Извините, фото квартиры отсутсвуют</p>
+				{% endif %}
+			</div>
+			<div class="col-xs-12">
+				<h2 class="zhk_headline"> Описание квартиры</h2>
+				<p>
+					{% if apartment.description %}
+						{{apartment.description}}
+					{% else %}
+						Извините, описания еще нет
+					{% endif %}
+				</p>
+			</div>
+			<div class="col-xs-12">
+				<h2 class="zhk_headline"> Характеристики квартиры</h2>
+				{% for characteristic in apartment.characteristics.all %}
+				<div class="col-xs-12 col-md-6 row">
+					<img class="col-xs-3 img-responsive" src="{{ characteristic.thumbnail.url }}">
+					<p class="col-xs-9">{{ characteristic }}</p>
+				</div>
+				{% empty %}
+				<p>Описание характеристик будет добавлено позднее</p>
+				{% endfor %}
+			</div>
+			<div class="col-xs-12">
+				<h2 class="zhk_headline">Специалист по недвижимости</h2>
+				<div class="row">
+					<img src="{% static "img/team/QLls5Sm6T0E.jpg" %}" alt="риэлтор" class="img-responsive col-md-5">
+					<div class="col-md-7">
+						<h3><strong>Задачин Игорь</strong></h3>
+						<p>Телефон: <a href='tel:+73452589881' class="team_item_phone"> +7 (3452) 58-98-81</a></p>
+						<p>Эл. почта: <a href='email:domus72@bk' class="team_item_email"> domus72@bk.ru</span></p>
+						<div class='row'>
+							<a href="{% url 'applications:callback' %}" class="btn col-xs-12 col-md-8 team_item_btn_phone callback-link">Заказать обратный звонок</a>
+							<a href="{{vk}}" class="btn col-xs-12 col-md-8 team_item_btn_vk">Написать в Вконтакте</a>
 						</div>
-												<div class="realty_home_page_features_item">
-							<i class="fa fa-check aria-hidden="true"></i> Закрытый двор
-						</div>
-												<div class="realty_home_page_features_item">
-							<i class="fa fa-check aria-hidden="true"></i> Закрытый двор
-						</div>
-												<div class="realty_home_page_features_item">
-							<i class="fa fa-check aria-hidden="true"></i> Закрытый двор
-						</div>
-												<div class="realty_home_page_features_item">
-							<i class="fa fa-check aria-hidden="true"></i> Закрытый двор
-						</div>
-												<div class="realty_home_page_features_item">
-							<i class="fa fa-check aria-hidden="true"></i> Закрытый двор
-						</div>
-												<div class="realty_home_page_features_item">
-							<i class="fa fa-check aria-hidden="true"></i> Закрытый двор
-						</div>
-												<div class="realty_home_page_features_item">
-							<i class="fa fa-check aria-hidden="true"></i> Закрытый двор
-						</div>
-
 					</div>
 				</div>
-		<div class="realty_home_page_spec">
-			<div class="zhk_headline"> Специалист по недвижимости</div>
-			<div class="team_item team_item-flex">
-					<div class="team_item_photo team_item_photo-flex">
-						<img src="img/team/QLls5Sm6T0E.jpg" alt="" class="img-responsive">
-					</div>
-					<div class="team_item_desc-flex">
-											<div class="team_item_name"> Задачин Игорь </div>
+			</div>
 
-					<div class="team_item_desc">Телефон: <span class="team_item_phone"> +7 (3452) 58-98-81</span>
-						<br>Эл. почта: <span class="team_item_email"> domus72@bk.ru</span>
-					</div>
-					<div class="team_item_btn team_item_btn-flex">
-						<a href="#" class="team_item_btn_phone">Заказать обратный звонок</a>
-					
-						<a href="#" class="team_item_btn_vk">Написать в Вконтакте</a>
-					</div>
-					</div>
-
-				</div>
-		</div>
-
-			<div class="realty_home_page_map">
-				<div class="zhk_headline"> Квартира на карте</div>
-				<div class="realty_map">
-					<iframe src="https://yandex.ru/map-widget/v1/?um=constructor%3Afdee7a7d9c531cc7c615125aff1ba525f2ab65af0d4d8b1b38284cd856e55e0b&amp;source=constructor" width="100%" height="400" frameborder="0"></iframe>
-				</div>
+			<div class="col-xs-12">
+				<h2 class="zhk_headline">Квартира на карте</h2>
+				<iframe src="https://yandex.ru/map-widget/v1/?um=constructor%3Afdee7a7d9c531cc7c615125aff1ba525f2ab65af0d4d8b1b38284cd856e55e0b&amp;source=constructor" width="100%" height="400" frameborder="0"></iframe>
 			</div>	
-			</div>
-
-			</div>
 		</div>
 	</div>
 </main>
-<section style="margin-bottom: 30px;">
-	<div class="container">
-		<div class="row">
-				<div class="col-md-12">
-				<div class="zhk_headline"> Почему выгодно купить квартиру с нами</div>
-			</div>
+
+<section class="container">
+	<div class="text-center">
+		<h2 class="zhk_headline">Почему выгодно купить квартиру с нами</h2>
+		<div class="col-md-3 col-xs-12">
+			<img src="{% static 'img/icon/wallet.svg' %}" alt="выгода" width="100" height="100">
+			<h4><strong>Оплата только за результат</strong></h4>
+			<p>Стоимость услуг фиксированая и прозначаная. Вы платите только после того, как мы с вами оформим все документы.</p>
 		</div>
-
-		<div class="row text-center">
-			<div class="col-md-3 col-xs-12">
-				<img src="{% static 'img/icon/wallet.svg' %}" alt="выгода" width="100px" height="100px">
-				<h4><strong>Оплата только за результат</strong></h4>
-				<p>Стоимость услуг фиксированая и прозначаная. Вы платите только после того, как мы с вами оформим все документы.</p>
-			</div>
-
-			<div class="col-md-3 col-xs-12">
-				<img src="{% static 'img/icon/booking.svg' %}" width="100px" height="100px">
-				<h4><strong>Заключение сделок любой сложности</strong></h4>
-				<p>Опыт и экспертность позволяет нам работать со сделками любой сложности.</p>
-			</div>
-
-			<div class="col-md-3 col-xs-12">
-				{% include 'company/blocks/manager.html' %}
-			</div>
-
-			<div class="col-md-3 col-xs-12">
-				<img src="{% static 'img/icon/excrusion.svg' %}" alt="" width="100px" height="100px">
-				<h4><strong>Бесплатный трансфер</strong></h4>
-				<p>Мы отвезем вас на просмотр любой выбранной квартиры бесплатно.</p>
-			</div>						
-
+		<div class="col-md-3 col-xs-12">
+			<img src="{% static 'img/icon/booking.svg' %}" width="100" height="100">
+			<h4><strong>Заключение сделок любой сложности</strong></h4>
+			<p>Опыт и экспертность позволяет нам работать со сделками любой сложности.</p>
 		</div>
+		<div class="col-md-3 col-xs-12">
+			{% include 'company/blocks/manager.html' %}
+		</div>
+		<div class="col-md-3 col-xs-12">
+			<img src="{% static 'img/icon/excrusion.svg' %}" alt="" width="100" height="100">
+			<h4><strong>Бесплатный трансфер</strong></h4>
+			<p>Мы отвезем вас на просмотр любой выбранной квартиры бесплатно.</p>
+		</div>						
 	</div>
 </section>
 

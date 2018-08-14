@@ -7,7 +7,7 @@ from PIL import Image
 
 from applications.forms import transform_russian8_phone_number
 
-from .models import ResaleApartment, ResaleApartmentImage
+from .models import ResaleApartment, ResaleApartmentImage, ResaleCharacteristic
 from .forms import ResaleApartmentForm, ResaleApartmentImageForm
 
 
@@ -33,6 +33,7 @@ class ResaleApartmentAdmin(admin.ModelAdmin):
     list_filter = list_filter_initial    
     list_display_links = list_display_initial
     readonly_fields = ['id', 'date_added', 'modified_by']
+    filter_horizontal = ['characteristics']
 
     def fee(self, obj):
         return obj.fee
@@ -58,6 +59,7 @@ class ResaleApartmentAdmin(admin.ModelAdmin):
             'related_mortgage',
             'price',
             'agency_price',
+            'agency_price_with_sales',
         )
         if request.user.has_perm('resale.can_add_change_delete_all_resale'):
             deal_status_part_fields += ('created_by', 'modified_by',)
@@ -79,7 +81,7 @@ class ResaleApartmentAdmin(admin.ModelAdmin):
             'home_series', 'date_of_construction',
             ('total_area', 'kitchen_area', 'balcony_area',),
             ('celling_height', 'interior_decoration',),
-            'layout', 'description',
+            'layout', 'description', 'characteristics'
         )
         apartment_part = (_('Информация по квартире'), {
             'classes': ('collapse',),
@@ -147,3 +149,6 @@ class ResaleApartmentAdmin(admin.ModelAdmin):
             self.list_display += ('created_by',)
             self.list_filter = ('created_by',) + self.list_filter
         return super(ResaleApartmentAdmin, self).changelist_view(request, extra_context)
+
+
+admin.site.register(ResaleCharacteristic)
