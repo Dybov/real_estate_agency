@@ -463,6 +463,7 @@ class Builder(models.Model):
     logo = models.ImageField(verbose_name=_('логотип компании'),
                              blank=True,
                              null=True,
+                             upload_to=get_file_path,
                              )
 
     def __str__(self):
@@ -490,7 +491,10 @@ class ResidentalComplexFeature(models.Model):
     description = models.TextField(verbose_name=_('описание'),
                                    max_length=500,
                                    )
-    image = models.ImageField(verbose_name=_('изображение'))
+    image = models.ImageField(
+        verbose_name=_('изображение'),
+        upload_to=get_file_path,
+    )
     image_spec = spec_factory(680, 450, to_fit=False)
     residental_complex = models.ForeignKey(ResidentalComplex,
                                            on_delete=models.CASCADE,
