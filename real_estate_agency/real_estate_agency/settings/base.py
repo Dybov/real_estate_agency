@@ -36,6 +36,7 @@ INSTALLED_APPS = [
     'company',
     'applications',
     'resale',
+    'accounts',
     'imagekit',
     'phonenumber_field',
     'celery',
@@ -162,3 +163,5 @@ WEBPACK_LOADER = {
         'STATS_FILE': os.path.join(BASE_DIR, 'webpack-stats.dev.json'),
     }
 }
+
+AUTH_USER_MODEL = 'accounts.RealEstateUser'
