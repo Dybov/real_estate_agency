@@ -211,7 +211,7 @@ class ResaleApartment(Apartment, BaseBuilding, TransactionMixin):
         verbose_name_plural = _('объекты вторички')
         permissions = (
             ("can_add_change_delete_all_resale",
-                _('Иммет доступ к чужим данным по вторичке')),
+                _('Имеет доступ к чужим данным по вторичке')),
         )
 
     thumbnail = spec_factory(
