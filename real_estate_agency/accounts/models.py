@@ -2,7 +2,8 @@ from django.db import models
 from django.contrib.auth.models import (
     AbstractBaseUser,
     PermissionsMixin,
-    UserManager
+    UserManager,
+    Group,
 )
 from django.contrib.auth.validators import (
     ASCIIUsernameValidator,
@@ -147,3 +148,9 @@ class RealEstateUser(AbstactRealEstateUser):
     def __str__(self):
         return self.get_short_name()
 
+
+class RealEstateGroup(Group):
+    class Meta:
+        proxy = True
+        verbose_name = _('группа')
+        verbose_name_plural = _('группы')
