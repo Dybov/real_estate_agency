@@ -165,3 +165,5 @@ WEBPACK_LOADER = {
 }
 
 AUTH_USER_MODEL = 'accounts.RealEstateUser'
+
+LOGIN_URL = 'admin:login'
