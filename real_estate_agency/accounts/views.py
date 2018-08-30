@@ -18,9 +18,7 @@ class ObForm(ModelForm):
 @login_required
 def change_own_profile(request):
     user = request.user
-
     if request.method == "POST":
-        print(request.POST)
         form = ObForm(request.POST, request.FILES, instance=user)
         if form.is_valid():
             form.save()
@@ -45,6 +43,7 @@ def change_own_profile(request):
         'has_delete_permission': False,
         'has_add_permission': False,
         'has_change_permission': True,
+        'has_file_field': True,
         'link': user,
         'form': form,
         'adminform': adminform,
