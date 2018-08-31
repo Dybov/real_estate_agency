@@ -77,9 +77,11 @@ def detailed(request, pk):
     # In the fututre rest API will provide json
     data = ResaleApartmentSerializer(apartment).data
     apartment_json = JSONRenderer().render(data).decode('utf-8')
+    agent = apartment.created_by.get_instance_or_default()
 
     context = {
         'apartment': apartment,
         'apartment_json': apartment_json,
+        'agent': agent,
     }
     return render(request, 'resale/resale_detailed.html', context)
