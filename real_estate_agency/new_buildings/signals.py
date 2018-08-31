@@ -12,7 +12,7 @@ def newbuilding_post_saver(sender, instance, created, **kwargs):
     """Set date of construction to NewApartment and RC objects
     if building changes date_of_construction"""
     related_apartments = NewApartment.objects.filter(buildings=instance)
-    if not hasattr(instance, 'instance'):
+    if not hasattr(instance, 'residental_complex'):
         return
     residental_complex = instance.residental_complex
     for apartment in related_apartments:
