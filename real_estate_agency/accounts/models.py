@@ -111,6 +111,18 @@ class RealEstateUser(AbstactRealEstateUser):
         _('номер телефона'),
         blank=True,
     )
+    show_phone_number = models.BooleanField(
+        _('Отображать номер телефона на сайте'),
+        default=True,
+        help_text=_('Показывать ли личный номер на сайте?\
+В противном случае будет показан номер компании')
+    )
+    show_email = models.BooleanField(
+        _('Отображать email на сайте'),
+        default=True,
+        help_text=_('Показывать ли личный email на сайте?\
+В противном случае будет показан email компании')
+    )
     photo = models.ImageField(
         verbose_name=_('фото'),
         upload_to=get_file_path,
@@ -135,7 +147,7 @@ class RealEstateUser(AbstactRealEstateUser):
     )
     bio = models.TextField(_('биография'), max_length=255, blank=True)
     show_at_company_page = models.BooleanField(
-        _('Отображать на сайте'),
+        _('Отображать профиль на сайте'),
         default=True,
         help_text=_('Показывать ли контакт на странице с контактами компании\
  и на прочих страницах, где это уместно?')
@@ -164,7 +176,9 @@ class RealEstateUser(AbstactRealEstateUser):
     get_short_name.short_description = _("Сокращенное имя")
 
     def get_phone_number(self):
-        return self.phone_number or DEFAULT_PHONE
+        if self.phone_number and self.show_phone_number:
+            return self.phone_number
+        return DEFAULT_PHONE
 
     def get_phone_number_str(self):
         return phone_stringify(self.get_phone_number())
@@ -185,7 +199,9 @@ class RealEstateUser(AbstactRealEstateUser):
         return static('img/team/placeholder_370x500.jpg')
 
     def get_email(self):
-        return self.email or DEFAULT_EMAIL
+        if self.email and self.show_email:
+            return self.email
+        return DEFAULT_EMAIL
 
     def get_instance_or_default(self):
         if self.is_active \

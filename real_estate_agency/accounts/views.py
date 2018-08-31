@@ -12,7 +12,9 @@ class ObForm(ModelForm):
         model = RealEstateUser
         fields = (
             'username', 'last_name', 'first_name', 'patronymic',
-            'email', 'phone_number', 'photo', 'bio', 'show_at_company_page')
+            'email', 'show_email',
+            'phone_number', 'show_phone_number',
+            'photo', 'bio', 'show_at_company_page')
 
 
 @login_required
@@ -29,7 +31,11 @@ def change_own_profile(request):
 
     adminform = AdminForm(
         form,
-        [(None, {'fields': form.fields, })],
+        [(None, {'fields': (
+            'username', 'last_name', 'first_name', 'patronymic',
+            ('email', 'show_email'),
+            ('phone_number', 'show_phone_number'),
+            'photo', 'bio', 'show_at_company_page'), })],
         {},  # Prepopulated fields
     )
     return render(request, 'accounts/change_profile.html', {

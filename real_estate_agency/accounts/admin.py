@@ -29,7 +29,7 @@ class RealEstateUserAdmin(UserAdmin):
         (None, {'fields': ('username', 'password')}),
         (_('Personal info'), {'fields': (
             'first_name', 'last_name', 'patronymic',
-            'email', 'phone_number',
+            ('email', 'show_email'), ('phone_number', 'show_phone_number'),
             'photo', 'bio',
         )}),
         (_('Permissions'), {'fields': (
