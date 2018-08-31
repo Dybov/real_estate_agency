@@ -1,4 +1,5 @@
 from django.db import models
+from django.conf import settings
 from django.contrib.auth.models import (
     AbstractBaseUser,
     PermissionsMixin,
@@ -9,6 +10,7 @@ from django.contrib.auth.validators import (
     ASCIIUsernameValidator,
     UnicodeUsernameValidator
 )
+from django.contrib.staticfiles.templatetags.staticfiles import static
 from django.core.mail import send_mail
 from django.utils import six, timezone
 from django.utils.translation import ugettext_lazy as _
@@ -16,6 +18,12 @@ from django.utils.translation import ugettext_lazy as _
 from phonenumber_field.modelfields import PhoneNumberField
 
 from real_estate.models.helper import get_file_path
+from real_estate.models.image import spec_factory
+from contacts.views import (
+    phone_stringify,
+    DEFAULT_PHONE,
+    DEFAULT_EMAIL,
+)
 
 
 def get_username_validator():
@@ -109,6 +117,22 @@ class RealEstateUser(AbstactRealEstateUser):
         help_text=_('Будет отображаться на сайте при определенных настройках'),
         blank=True,
     )
+    photo_300x300 = spec_factory(
+        300,
+        300,
+        source='photo',
+        to_fit=False,
+        options__quality=70,
+        format='jpeg',
+    )
+    photo_370x500 = spec_factory(
+        370,
+        500,
+        source='photo',
+        to_fit=False,
+        options__quality=80,
+        format='jpeg',
+    )
     bio = models.TextField(_('биография'), max_length=255, blank=True)
     show_at_company_page = models.BooleanField(
         _('Отображать на сайте'),
@@ -132,7 +156,7 @@ class RealEstateUser(AbstactRealEstateUser):
         "Returns the short name for the user."
         short_name = '%s %s.' % (
             self.last_name,
-            self.first_name[0],
+            self.first_name[0] if self.first_name else '',
         )
         if self.patronymic:
             short_name += ' %s.' % self.patronymic[0]
@@ -140,10 +164,51 @@ class RealEstateUser(AbstactRealEstateUser):
     get_short_name.short_description = _("Сокращенное имя")
 
     def get_phone_number(self):
-        return self.phone_number
+        return self.phone_number or DEFAULT_PHONE
+
+    def get_phone_number_str(self):
+        return phone_stringify(self.get_phone_number())
 
     def get_photo(self):
-        return self.photo
+        if self.photo:
+            return self.photo.url
+        return static('img/team/placeholder.jpg')
+
+    def get_agent_photo(self):
+        if self.photo:
+            return self.photo_300x300.url
+        return static('img/team/placeholder_300x300.jpg')
+
+    def get_contact_photo(self):
+        if self.photo:
+            return self.photo_370x500.url
+        return static('img/team/placeholder_370x500.jpg')
+
+    def get_email(self):
+        return self.email or DEFAULT_EMAIL
+
+    def get_instance_or_default(self):
+        if self.is_active \
+                and self.show_at_company_page and not self.is_superuser:
+            return self
+        default_user_id = getattr(settings, 'DEFAULT_USER_ID', None)
+        if default_user_id:
+            try:
+                default_user = RealEstateUser.objects.get(
+                    id=default_user_id,
+                    is_active=True,
+                    show_at_company_page=True,
+                    is_superuser=False)
+            except Exception:
+                pass
+            else:
+                return default_user
+        user_list = RealEstateUser.objects.filter(
+            is_active=True,
+            show_at_company_page=True,
+            is_superuser=False
+        )
+        return user_list[0]
 
     def __str__(self):
         return self.get_short_name()
