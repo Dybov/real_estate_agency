@@ -21,6 +21,9 @@
 );">
 	<h1 class='header_ipoteka_headline'>{{ apartment }}</h1>
 	<h2 class='header_ipoteka_desc'>{{ apartment.address }}</h2>
+	{% if apartment.residental_complex %}
+	<p class='header_ipoteka_desc'>{{ apartment.residental_complex.type_of_complex }} {{ apartment.residental_complex }}</p>
+	{% endif %}
 </div>
 <main class="container">
 	<div class="row"> 
