@@ -14,6 +14,7 @@ from django.contrib.staticfiles.templatetags.staticfiles import static
 from django.core.mail import send_mail
 from django.utils import six, timezone
 from django.utils.translation import ugettext_lazy as _
+from django.core.urlresolvers import reverse
 
 from phonenumber_field.modelfields import PhoneNumberField
 
@@ -225,6 +226,9 @@ class RealEstateUser(AbstactRealEstateUser):
             is_superuser=False
         )
         return user_list[0]
+
+    def get_absolute_url(self):
+        return reverse('contacts:index')
 
     def __str__(self):
         return self.get_short_name()
