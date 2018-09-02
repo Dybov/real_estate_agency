@@ -13,8 +13,6 @@
 				<div class="rewiews_header_headline_flex">
 					<h1 class="rewiews_header_headline">Контакты</h1>
 				</div>
-				
-
 			</div>
 		</div>
 	</div>
@@ -29,7 +27,6 @@
 ТЕЛЕФОН: {{global_phone_number}}<br />
 E-MAIL: {{global_email|upper}}</p>
 				</div>
-
 			</div>
 			<div class="col-md-6">
 				<iframe src="https://yandex.ru/map-widget/v1/?um=constructor%3A27cb15995d4ff29ad87c734a05d7bb632c4ced0c50ce3be5501edeaedc7ad66d&amp;source=constructor" width="100%" height="400" frameborder="0"></iframe>
@@ -45,20 +42,11 @@ E-MAIL: {{global_email|upper}}</p>
 			</div>
 		</div>
 		<div class="row col-xs-12">
+			{% for member in team %}
 			<div class="col-md-4">
-				{% include 'contacts/team_member_item.html' with img_src='img/team/QLls5Sm6T0E.jpg' name='Задачин Игорь' phone='+7 (922) 456-13-48' vk=global_chat.vk %}
+				{% include 'contacts/team_member_item.html' with img_src=member.get_contact_photo name=member.get_full_name phone=member.get_phone_number %}
 			</div>
-			<div class="col-md-4">
-				{% include 'contacts/team_member_item.html' with img_src='img/team/Chestina_dv.jpg' name='Честина Диана' phone='+7 (982) 945-05-58' %}
-			</div>
-			<div class="col-md-4">
-				{% include 'contacts/team_member_item.html' with img_src='img/team/3.jpg' name='Байнарович Дмитрий' phone='+7 (952) 340-54-48' %}
-			</div>
-			{% comment %}
-			<div class="col-md-4">
-				{% include 'contactsteam_member_item.html' with img_src='img/team/2.jpg' name='Олег Абдулахатов' phone='+7 (906) 821-78-70' %}
-			</div>
-			{% endcomment %}
+			{% endfor %}
 		</div>
 	</div>
 </section>

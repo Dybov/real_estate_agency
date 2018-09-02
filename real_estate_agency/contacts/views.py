@@ -48,4 +48,8 @@ def default_contacts_processor(request):
 
 
 def index(request):
-    return render(request, 'contacts/index.html')
+    from accounts.models import RealEstateUser
+    team = RealEstateUser.objects.filter(
+        is_active=True, is_staff=True, show_at_company_page=True,
+        is_superuser=False).order_by('id')
+    return render(request, 'contacts/index.html', {'team': team})
