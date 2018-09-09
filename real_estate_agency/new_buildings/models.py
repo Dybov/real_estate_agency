@@ -1,4 +1,5 @@
 import datetime
+import itertools
 import re
 
 from django.db import models
@@ -21,6 +22,8 @@ from address.models import NeighbourhoodModel
 
 from .helpers import get_quarter_verbose
 from real_estate.serializers import get_json_objects_with_props
+
+from uuslug import slugify
 
 
 new_buildings_spec_kwargs = {
@@ -219,6 +222,13 @@ class ResidentalComplex(models.Model):
                             max_length=127,
                             unique=True,
                             )
+    slug = models.SlugField(
+        verbose_name=_('строка запроса'),
+        max_length=127,
+        db_index=True,
+        allow_unicode=True,
+        unique=True,
+    )
     description = models.TextField(verbose_name=_('описание ЖК'),)
     builder = models.ForeignKey('Builder',
                                 verbose_name=_('застройщик'),
@@ -304,9 +314,22 @@ class ResidentalComplex(models.Model):
                                        max_digits=15,
                                        )
 
+    def set_unique_slug(self):
+        self.slug = orig = slugify(self.name)
+        for x in itertools.count(1):
+            if not ResidentalComplex.objects.filter(
+                slug=self.slug
+            ).exists():
+                break
+            self.slug = '%s-%d' % (orig, x)
+
     def save(self, *args, **kwargs):
         # self._set_date_of_construction()
-        super().save(*args, **kwargs)
+        instance = super().save(*args, **kwargs)
+        instance.set_unique_slug()
+        instance.save()
+
+        return instance
 
     def get_date_of_construction(self):
         return get_quarter_verbose(self.date_of_construction)
@@ -429,7 +452,7 @@ class ResidentalComplex(models.Model):
     def get_absolute_url(self):
         return reverse(
             'new_buildings:residental-complex-detail',
-            args=[self.id]
+            args=[self.slug]
         )
 
     def get_all_photos_url(self):

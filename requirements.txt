@@ -21,3 +21,4 @@ django-imagekit==4.0.2
 django-admin-sortable2==0.6.19
 django-webpack-loader==0.6.0
 djangorestframework==3.8.2
+django-uuslug==1.1.8
