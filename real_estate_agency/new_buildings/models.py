@@ -447,7 +447,7 @@ class ResidentalComplex(models.Model):
     class Meta:
         verbose_name = _('комплекс')
         verbose_name_plural = _('комплексы')
-        ordering = ('-is_popular',)
+        ordering = ('-id', '-is_popular',)
 
 
 class Builder(models.Model):
