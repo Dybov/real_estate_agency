@@ -179,7 +179,7 @@ class RealEstateUser(AbstactRealEstateUser):
     def get_phone_number(self):
         if self.phone_number and self.show_phone_number:
             return self.phone_number
-        return DEFAULT_PHONE
+        return ''
 
     def get_phone_number_str(self):
         return phone_stringify(self.get_phone_number())

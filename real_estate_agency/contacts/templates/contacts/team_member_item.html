@@ -1,11 +1,16 @@
 {% load static %}
 <div class="team_item row" >
     <div>
-        <img src="{{ img_src }}" class="team_photo">
+        <img src="{{ member.get_contact_photo }}" class="team_photo">
     </div>
     <div class="team_item_name ">{{ member.get_full_name }}</div>
     <div class="team_item_desc">
-        Телефон: <a class="team_item_phone" href="tel:{{ member.get_phone_number }}">{{ member.get_phone_number_str }}</a>
+        Рабочий телефон: <a class="team_item_phone" href="tel:{{ global_phone_number_orig }}">{{ global_phone_number }}</a>
+        {% if member.get_phone_number %}
+        Мобильный: <a class="team_item_phone" href="tel:{{ member.get_phone_number }}">{{ member.get_phone_number_str }}</a>
+        {% else %}
+        <br>
+        {% endif %}
         <br>
     Эл. почта: <a href="mailto:{{ member.get_email }}" class="team_item_email">{{ member.get_email }}</a>
     </div>

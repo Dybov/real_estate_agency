@@ -24,8 +24,8 @@
 			<div class="col-md-6">
 				<div class="contact_info">
 									<p>АДРЕС ОФИСА ПРОДАЖ: Г.ТЮМЕНЬ УЛ. ГЕРЦЕНА 86А ОФИС 1<br />
-ТЕЛЕФОН: {{global_phone_number}}<br />
-E-MAIL: {{global_email|upper}}</p>
+ТЕЛЕФОН: <a href="tel:{{global_phone_number_orig}}">{{global_phone_number}}</a><br />
+E-MAIL: <a href="mailto:{{global_email}}">{{global_email|upper}}</a></p>
 				</div>
 			</div>
 			<div class="col-md-6">
@@ -44,7 +44,7 @@ E-MAIL: {{global_email|upper}}</p>
 		<div class="row col-xs-12">
 			{% for member in team %}
 			<div class="col-md-4">
-				{% include 'contacts/team_member_item.html' with img_src=member.get_contact_photo name=member.get_full_name phone=member.get_phone_number %}
+				{% include 'contacts/team_member_item.html' %}
 			</div>
 			{% endfor %}
 		</div>
