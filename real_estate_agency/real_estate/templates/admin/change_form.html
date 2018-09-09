@@ -1,5 +1,6 @@
 {% extends 'admin/change_form.html' %}
 {% load static %}
+{% load render_bundle from webpack_loader %}
 
 {% block admin_change_form_document_ready %}
 {{ block.super }}
@@ -61,4 +62,5 @@ var formsets_must_be_copied = ['newbuilding_set', 'newapartment_set'];
         // $(document).bind('keydown', 'Meta+S', save_and_continue);
         // $(document).bind('keydown', 'Ctrl+S', save_and_continue);
     </script>
+{% render_bundle 'main' %}
 {% endblock %}

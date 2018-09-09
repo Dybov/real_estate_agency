@@ -7,6 +7,15 @@ from django.core.exceptions import ObjectDoesNotExist, ValidationError
 
 import geocoder
 
+from .forms import CoordinateWidget
+
+
+class CoordinateField(models.Field):
+    def formfield(self, **kwargs):
+        defaults = {'widget': CoordinateWidget}
+        defaults.update(kwargs)
+        return super().formfield(**defaults)
+
 
 class BaseUniqueModel(models.Model):
     class Meta:
@@ -114,7 +123,7 @@ class BaseAddressNoNeighbourhood(BaseUniqueModel):
                                 null=True,
                                 blank=True,
                                 )
-    coordinates = models.CharField(verbose_name=_('широта,долгота'),
+    coordinates = CoordinateField(verbose_name=_('широта,долгота'),
                                    max_length=127,
                                    null=True,
                                    blank=True,

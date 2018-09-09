@@ -1,0 +1,19 @@
+<script type="text/javascript">
+	var attrs = '{% for name, value in widget.attrs.items %}{% if value is not False %}"{{ name }}":"{{ value }}"{% endif %}{% if not forloop.last %},{% endif %}{% endfor %}';
+	var attrs = "{" + attrs + "}";
+	var attrs = JSON.parse(attrs);
+	var widget = {
+		name: '{{ widget.name }}',
+		type: '{{ widget.type }}',
+		initial_value: '{% if widget.value != None %}{{widget.value}}{% endif %}',
+		attrs,
+	}
+	if (window.coordinate_widgets === undefined){
+		window.coordinate_widgets = [];
+	}
+	window.coordinate_widgets.push(widget);
+</script>
+<div class='coordinate-widget'>
+	{% include "django/forms/widgets/text.html" %}
+	<span class="errornote">Включите Javascript и используйте современный браузер для поддержки карт</span>
+</div>
