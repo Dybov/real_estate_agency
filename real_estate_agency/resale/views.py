@@ -17,6 +17,7 @@ class ResaleListView(ApartmentFilterMixin, FormMixin, ListView):
     model = ResaleApartment
     context_object_name = 'apartments'
     template_name = 'resale/resale_list.html'
+    paginate_by = 10
     # Recude DB connections with select_related()
     queryset = model.objects.filter(
         is_active=True, status=TransactionMixin.ACTIVE).select_related()
