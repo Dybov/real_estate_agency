@@ -1982,9 +1982,6 @@ footer {
   border-bottom: 1px solid #E9EAED;
   margin-bottom: 20px;
 }
-.menu_logo_footer {
-  width: 140px;
-}
 .footer_info {
   font-size: 12px;
   display: -webkit-box;
@@ -3132,10 +3129,6 @@ box-shadow: 10px 22px 66px -36px rgba(102,102,102,1);
     -webkit-justify-content: space-between;
         -ms-flex-pack: justify;
             justify-content: space-between;
-  }
-  .menu_logo img {
-    width: 150px;
-    height: 50px;
   }
   .top_nav_logo {
     display: none;
