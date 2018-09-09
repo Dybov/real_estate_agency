@@ -2084,7 +2084,6 @@ footer {
   text-align: center;
   font-size: 26px;
   font-weight: 300;
-  margin-bottom: 30px;
 }
 .flex_header_ipoteka {
   height: 50vh;
@@ -3704,4 +3703,7 @@ input:checked + .slider:before {
 @keyframes spin {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
+}
+.advantages-block-wrapper{
+  margin: 30px 0;
 }

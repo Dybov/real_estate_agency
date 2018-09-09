@@ -14,9 +14,16 @@
     </div>
 {% endblock %}
 
+
 {% block content %}
 {% if user.has_usable_password %}
 <a class="btn btn-default" href="{% url 'admin:password_change' %}">{% trans 'Change password' %}</a>
 {% endif %}
 {{ block.super }}
+{% endblock %}
+
+{% block object-tools %}
+  <ul class="object-tools">
+    <li><a href="{{ link.get_absolute_url }}" class="viewsitelink">{% trans "View on site" %}</a></li>
+  </ul>
 {% endblock %}

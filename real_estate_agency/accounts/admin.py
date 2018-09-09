@@ -41,7 +41,9 @@ class RealEstateUserAdmin(UserAdmin):
     )
     readonly_fields = ('last_login', 'date_joined', )
     list_display = (
-        'username', 'get_short_name', 'email', 'phone_number', 'is_active', )
+        'username', 'get_short_name', 'email', 'phone_number',
+        'is_active', 'show_at_company_page', )
+    list_editable = ('is_active', 'show_at_company_page', )
     list_filter = ('is_active', 'groups')
     search_fields = ('username', 'first_name', 'last_name', 'email')
     ordering = ('username',)

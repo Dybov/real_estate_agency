@@ -1,0 +1,31 @@
+{% if is_paginated %}
+<section>
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12">
+				<div class="pagiantion">
+					<ul>
+						{% if page_obj.has_previous %}
+							<li class="prev"><a href="?page={{ page_obj.previous_page_number }}">&laquo;</a></li>
+						{% else %}
+							<li class="disabled"><span>&laquo;</span></li>
+						{% endif %}
+						{% for i in page_obj.paginator.page_range %}
+							{% if page_obj.number == i %}
+							<li class="pagiantion_active"><span>{{ i }} <span class="sr-only">Текущая</span></span></li>
+							{% else %}
+							<li><a href="?page={{ i }}">{{ i }}</a></li>
+							{% endif %}
+						{% endfor %}
+						{% if page_obj.has_next %}
+							<li class="next"><a href="?page={{ page_obj.next_page_number }}">&raquo;</a></li>
+						{% else %}
+							<li class="disabled"><span>&raquo;</span></li>
+						{% endif %}
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+{% endif %}

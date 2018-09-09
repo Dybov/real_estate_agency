@@ -23,8 +23,8 @@ from new_buildings.models import ResidentalComplex
 class ResaleCharacteristic(Characteristic):
     class Meta:
         verbose_name = _('объект "характеристика вторички"')
-        verbose_name_plural = _('характеристики вторички') 
-        proxy = True       
+        verbose_name_plural = _('характеристики вторички')
+        proxy = True
 
 
 class ResaleWatermark(BaseWatermarkProcessor):
@@ -94,7 +94,8 @@ class ResaleApartment(Apartment, BaseBuilding, TransactionMixin):
         max_digits=15,
         validators=[MinValueValidator(Decimal('0.0')), ],
         help_text=_(
-            'Оставьте поле пустым, чтобы скидка не отображалась. Сюда включена комиссия агенства, отображается на сайте'),
+            'Оставьте поле пустым, чтобы скидка не отображалась.\
+Сюда включена комиссия агенства, отображается на сайте'),
     )
     residental_complex = models.ForeignKey(ResidentalComplex,
                                            verbose_name=_('жилой комплекс'),
@@ -149,7 +150,7 @@ class ResaleApartment(Apartment, BaseBuilding, TransactionMixin):
         # Don't allow set agency_price lower than real price.
         if self.agency_price is not None \
                 and self.price is not None \
-                and self.agency_price<self.price:
+                and self.agency_price < self.price:
             raise ValidationError(
                 {'agency_price':
                  _('начальная стоимость %(agency_price)s \
@@ -161,16 +162,14 @@ class ResaleApartment(Apartment, BaseBuilding, TransactionMixin):
             )
         if self.agency_price_with_sales is not None \
                 and self.agency_price is not None \
-                and self.agency_price_with_sales>=self.agency_price:
+                and self.agency_price_with_sales >= self.agency_price:
             raise ValidationError(
                 {'agency_price_with_sales':
                     _('стоимость со скидкой %(sales_price)s должна быть меньше \
                         чем начальная стоимость %(agency_price)s') % {
                         'sales_price': self.agency_price_with_sales,
                         'agency_price': self.agency_price,
-                    }
-                } 
-            )
+                    }})
 
     @property
     def fee(self):
@@ -193,7 +192,7 @@ class ResaleApartment(Apartment, BaseBuilding, TransactionMixin):
 
     @property
     def is_sales(self):
-        return self.agency_price_with_sales is not None 
+        return self.agency_price_with_sales is not None
 
     @property
     def verbose(self):
