@@ -86,7 +86,13 @@
 
 			<div class="col-xs-12">
 				<h2 class="zhk_headline">Квартира на карте</h2>
-				<iframe src="https://yandex.ru/map-widget/v1/?um=constructor%3Afdee7a7d9c531cc7c615125aff1ba525f2ab65af0d4d8b1b38284cd856e55e0b&amp;source=constructor" width="100%" height="400" frameborder="0"></iframe>
+				<div id="resale-map" class="resale-map">
+					{% if apartment.coordinates %}
+						<div class="loader-50-50"></div>
+					{% else %}
+						<p>Извините местоположение на карте отсутствует</p>
+					{% endif %}
+				</div>
 			</div>	
 		</div>
 	</div>
@@ -118,4 +124,29 @@
 
 {% include 'applications/callback_form_implemented.html' with callback_form_title='Задать вопросы о квартире' %}
 {% render_bundle 'main' %}
+
+<script src="https://api-maps.yandex.ru/2.1/?lang=ru_RU" type="text/javascript"></script>
+<script type="text/javascript">
+
+var coordinates = '{{ apartment.coordinates }}'.split(',')
+if (coordinates.length === 2){
+	coordinates = coordinates.map(function(val){
+		return parseFloat(val);
+	})
+	ymaps.ready(init);
+}
+var content = '{{ apartment }} | {{ apartment.address }}';
+function init(){
+	var myMap = new ymaps.Map("resale-map", {
+		center: coordinates,
+		zoom: 15
+	});
+	var myPlacemark = new ymaps.Placemark(
+		coordinates, {
+		hintContent: content,
+		balloonContent: content,
+	});
+	myMap.geoObjects.add(myPlacemark);
+}
+</script>
 {% endblock %}
