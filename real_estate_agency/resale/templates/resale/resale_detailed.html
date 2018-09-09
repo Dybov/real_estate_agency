@@ -12,13 +12,7 @@
 	var apartment = JSON.parse(apartment);
 	window.apartment = apartment;
 </script>
-<div class="heading_short " style="background-image: url(
-	{% if apartment.photos.all.0 %}
-		{{ apartment.photos.all.0.image.url }}
-	{% else %}
-		{% static 'resale/img/realty_home_search.png' %}
-	{% endif %}
-);">
+<div class="heading_short " style="background-image: url({% static 'resale/img/realty_home_search.png' %});">
 	<h1 class='header_ipoteka_headline'>{{ apartment }}</h1>
 	<h2 class='header_ipoteka_desc'>{{ apartment.address }}</h2>
 	{% if apartment.residental_complex %}
