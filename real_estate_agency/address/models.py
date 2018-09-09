@@ -10,7 +10,7 @@ import geocoder
 from .forms import CoordinateWidget
 
 
-class CoordinateField(models.Field):
+class CoordinateField(models.CharField):
     def formfield(self, **kwargs):
         defaults = {'widget': CoordinateWidget}
         defaults.update(kwargs)
