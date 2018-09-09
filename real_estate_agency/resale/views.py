@@ -17,6 +17,7 @@ class ResaleListView(ApartmentFilterMixin, FormMixin, ListView):
     model = ResaleApartment
     context_object_name = 'apartments'
     template_name = 'resale/resale_list.html'
+    paginate_by = 10
     # Recude DB connections with select_related()
     queryset = model.objects.filter(
         is_active=True, status=TransactionMixin.ACTIVE).select_related()
@@ -77,9 +78,11 @@ def detailed(request, pk):
     # In the fututre rest API will provide json
     data = ResaleApartmentSerializer(apartment).data
     apartment_json = JSONRenderer().render(data).decode('utf-8')
+    agent = apartment.created_by.get_instance_or_default()
 
     context = {
         'apartment': apartment,
         'apartment_json': apartment_json,
+        'agent': agent,
     }
     return render(request, 'resale/resale_detailed.html', context)

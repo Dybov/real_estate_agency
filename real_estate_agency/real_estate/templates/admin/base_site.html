@@ -8,6 +8,10 @@
 
 {% block nav-global %}{% endblock %}
 
+{% comment %}
+<!--
+Comment it until it will be needed to client, but not now
+-->
 {% block userlinks %}
     {% if site_url %}
         <a href="{{ site_url }}">{% trans 'View site' %}</a> /
@@ -23,3 +27,4 @@
     {% endif %}
     <a href="{% url 'admin:logout' %}">{% trans 'Log out' %}</a>
 {% endblock %}
+{% endcomment %}

@@ -26,6 +26,8 @@ def change_own_profile(request):
             form.save()
             if '_save' in request.POST:
                 return redirect('admin:index')
+            else:
+                form = ObForm(instance=user)
     else:
         form = ObForm(instance=user)
 

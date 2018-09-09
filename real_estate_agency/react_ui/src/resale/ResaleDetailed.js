@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import {gteSM} from '../devices';
+import { gteSM } from '../devices';
 import StickyBox from "react-sticky-box";
 
 import './ResaleDetailed.css'
@@ -22,6 +22,12 @@ export default class ResaleDetailed extends Component {
       Wrapper = StickyBox
     }
     const apartment = window.apartment;
+
+    /* Change string to Date object */
+    apartment.date_of_construction = 
+      new Date(apartment.date_of_construction);
+
+    const year = apartment.date_of_construction.getFullYear();
     const floor = apartment.floor ? (
         apartment.number_of_storeys ? (
             apartment.floor + ' / ' + apartment.number_of_storeys
@@ -60,7 +66,7 @@ export default class ResaleDetailed extends Component {
                 r={apartment.get_building_type_display} />
               <SimpleLine l='Этаж'r={floor} />
               <SimpleLine l='Год постройки'
-                r={apartment.date_of_construction} />
+                r={ year } />
               <LengthLine l='Высота потолка'
                 r={apartment.celling_height} />
               <SimpleLine l='Тип ремонта'
@@ -78,7 +84,6 @@ export default class ResaleDetailed extends Component {
                 Записаться на просмотр
               </button>
             </a>
-            {/*<a href="" className="realty_home_page_characteristics-bottom">Записаться на просмотр</a>*/}
           </div>
         </Wrapper>
     )
