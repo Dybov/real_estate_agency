@@ -3704,3 +3704,6 @@ input:checked + .slider:before {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
 }
+.advantages-block-wrapper{
+  margin: 30px 0;
+}
