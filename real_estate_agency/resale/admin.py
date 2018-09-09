@@ -24,20 +24,30 @@ class ResaleApartmentAdmin(admin.ModelAdmin):
     inlines = [ResidentalComplexImageInline, ]
     form = ResaleApartmentForm
 
-    list_display_initial = ('id', 'rooms', 'total_area', 'agency_price',
-                    'fee', 'price', 'residental_complex')
+    list_display_initial = (
+        'id', 'status', 'is_active', 'rooms', 'total_area',
+        'full_price', 'agency_price', 'fee', 'price',
+        'residental_complex',
+    )
 
     list_filter_initial = ('rooms', 'residental_complex', )
 
     list_display = list_display_initial
-    list_filter = list_filter_initial    
-    list_display_links = list_display_initial
+    list_filter = list_filter_initial
+    list_display_links = (
+        'id', 'status', 'rooms', 'total_area'
+    )
+    list_editable = ('is_active', )
     readonly_fields = ['id', 'date_added', 'modified_by']
     filter_horizontal = ['characteristics']
 
     def fee(self, obj):
         return obj.fee
     fee.short_description = _('комиссия')
+
+    def full_price(self, obj):
+        return obj.full_price
+    full_price.short_description = _("текущая стоимость")
 
     image_inline_pattern = re.compile('^photos-\d+-(file|image)$')
     fieldsets = None
