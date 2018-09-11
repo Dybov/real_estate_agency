@@ -85,6 +85,7 @@ class ResidentalComplexList(ApartmentFilterMixin, FormMixin, ListView):
             newapartment__in=self.apartment_list,
         ).distinct()
 
+
 class ResidentalComplexDetail(DetailView):
     model = ResidentalComplex
     context_object_name = 'residental_complex'

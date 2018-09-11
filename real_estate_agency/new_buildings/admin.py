@@ -174,10 +174,12 @@ class ResidentalComplexAdmin(
     list_filter = ['is_active']
     search_fields = ['name']
     filter_horizontal = ['characteristics']
+    # readonly_fields = ('slug', )
     fieldsets = (
         (None, {
             'fields': ('type_of_complex',
                        'name',
+                       # 'slug',
                        'neighbourhood',
                        'is_active',
                        'is_popular',
