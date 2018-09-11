@@ -4,7 +4,7 @@
 {% load render_bundle from webpack_loader %}
 {% block breadcrumbs %}
 	{{ block.super }}
-	{% breadcrumb apartment.verbose "resale:detailed" %}
+	{% breadcrumb apartment.pk "resale:detailed" %}
 {% endblock %}
 {% block content %}
 <script type="text/javascript">
