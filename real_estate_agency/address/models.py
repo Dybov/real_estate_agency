@@ -12,9 +12,8 @@ from .forms import CoordinateWidget
 
 class CoordinateField(models.CharField):
     def formfield(self, **kwargs):
-        defaults = {'widget': CoordinateWidget}
-        defaults.update(kwargs)
-        return super().formfield(**defaults)
+        kwargs['widget'] = CoordinateWidget
+        return super().formfield(**kwargs)
 
 
 class BaseUniqueModel(models.Model):
