@@ -227,8 +227,7 @@ class ResidentalComplex(models.Model):
         max_length=127,
         db_index=True,
         allow_unicode=True,
-        unique=True,
-    )
+     )
     description = models.TextField(verbose_name=_('описание ЖК'),)
     builder = models.ForeignKey('Builder',
                                 verbose_name=_('застройщик'),
@@ -324,12 +323,8 @@ class ResidentalComplex(models.Model):
             self.slug = '%s-%d' % (orig, x)
 
     def save(self, *args, **kwargs):
-        # self._set_date_of_construction()
-        instance = super().save(*args, **kwargs)
-        instance.set_unique_slug()
-        instance.save()
-
-        return instance
+        self.set_unique_slug()
+        return super().save(*args, **kwargs)
 
     def get_date_of_construction(self):
         return get_quarter_verbose(self.date_of_construction)

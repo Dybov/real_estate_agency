@@ -43,7 +43,6 @@ class Migration(migrations.Migration):
             field=models.SlugField(
                 allow_unicode=True,
                 max_length=127,
-                unique=True,
                 verbose_name='строка запроса',
             ),
         ),
