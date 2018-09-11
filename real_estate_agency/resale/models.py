@@ -212,6 +212,7 @@ class ResaleApartment(Apartment, BaseBuilding, TransactionMixin):
             ("can_add_change_delete_all_resale",
                 _('Имеет доступ к чужим данным по вторичке')),
         )
+        ordering = ('-id',)
 
     thumbnail = spec_factory(
         370,
