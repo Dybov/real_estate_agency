@@ -28,7 +28,7 @@
 			<div class="realty_home_page_photo col-xs-12">
 				<h2 class="zhk_headline">Фото квартиры</h2>
 				{% if apartment.photos.all %}
-				<div data-flickity='{ "cellAlign": "left", "contain": true }'>
+				<div data-flickity='{ "cellAlign": "left", "contain": true, "wrapAround": true, "imagesLoaded": true }'>
 					{% for photo in apartment.photos.all %}
 					<img src="{{ photo.image_spec.url }}"
 					class='img-flick img-responsive'
@@ -65,7 +65,7 @@
 			<div class="col-xs-12">
 				<h2 class="zhk_headline">Специалист по недвижимости</h2>
 				<div class="row">
-					<img src="{{ agent.get_agent_photo }}" alt="риэлтор" class="img-responsive col-md-5 agent-photo">
+					<img src="{{ agent.get_contact_photo }}" alt="риэлтор" class="img-responsive col-md-5 agent-photo">
 					<div class="col-md-7">
 						<h3><strong>{{ agent.get_full_name }}</strong></h3>
 						<p>Рабочий телефон: <a class="team_item_phone" href="tel:{{ global_phone_number_orig }}">{{ global_phone_number }}</a><p>
