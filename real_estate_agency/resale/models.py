@@ -1,6 +1,7 @@
 import copy
 from decimal import Decimal
 
+from django.contrib.staticfiles.templatetags.staticfiles import static
 from django.core.exceptions import ValidationError
 from django.core.validators import MinValueValidator
 from django.core.urlresolvers import reverse
@@ -42,6 +43,12 @@ resale_image_spec = spec_factory(
 
 layout_image_spec = copy.deepcopy(resale_image_spec)
 layout_image_spec.source = 'layout'
+front_image_spec = spec_factory(
+    370,
+    320,
+    pre_processors=[ResaleWatermark()],
+    format='jpeg',
+)
 
 
 class TransactionMixin(models.Model):
@@ -83,7 +90,8 @@ class TransactionMixin(models.Model):
         'help_text': _('данная цена является той суммой, которую хочет получить продавец.\
           Не отображается на сайте.'), },
     date_added={'verbose_name': _('дата размещения')},
-    created_by={'verbose_name': _('сотрудник Компании')}
+    created_by={'verbose_name': _('сотрудник Компании')},
+    layout={'blank': True},
 )
 class ResaleApartment(Apartment, BaseBuilding, TransactionMixin):
     agency_price = models.DecimalField(
@@ -228,6 +236,12 @@ class ResaleApartment(Apartment, BaseBuilding, TransactionMixin):
             ]
         return photos
 
+    def get_front_image(self):
+        photos = self.photos.all()
+        if photos:
+            return photos[0].front_image.url
+        return static('img/logo.png')
+
     class Meta:
         verbose_name = _('объект вторичка')
         verbose_name_plural = _('объекты вторички')
@@ -237,13 +251,6 @@ class ResaleApartment(Apartment, BaseBuilding, TransactionMixin):
         )
         ordering = ('-id',)
 
-    thumbnail = spec_factory(
-        370,
-        320,
-        pre_processors=[ResaleWatermark()],
-        source='layout',
-        format='jpeg',
-    )
     layout_spec = layout_image_spec
 
 
@@ -253,3 +260,4 @@ class ResaleApartmentImage(BasePropertyImage):
                                   related_name='photos',
                                   )
     image_spec = resale_image_spec
+    front_image = front_image_spec
