@@ -1,3 +1,4 @@
+import copy
 from decimal import Decimal
 
 from django.core.exceptions import ValidationError
@@ -29,6 +30,18 @@ class ResaleCharacteristic(Characteristic):
 
 class ResaleWatermark(BaseWatermarkProcessor):
     pass
+
+
+resale_image_spec = spec_factory(
+    750,
+    500,
+    pre_processors=[ResaleWatermark()],
+    options__quality=70,
+    format='jpeg'
+)
+
+layout_image_spec = copy.deepcopy(resale_image_spec)
+layout_image_spec.source = 'layout'
 
 
 class TransactionMixin(models.Model):
@@ -205,6 +218,16 @@ class ResaleApartment(Apartment, BaseBuilding, TransactionMixin):
     def get_absolute_url(self):
         return reverse('resale:detailed', args=[self.pk])
 
+    def get_images(self):
+        photos = self.photos.all()
+        if self.layout:
+            return list(photos) + [
+                # dict wrapper is necessary for compatibility
+                # with other objects from photos (ResaleApartmentImage)
+                {'image_spec': self.layout_spec}
+            ]
+        return photos
+
     class Meta:
         verbose_name = _('объект вторичка')
         verbose_name_plural = _('объекты вторички')
@@ -221,6 +244,7 @@ class ResaleApartment(Apartment, BaseBuilding, TransactionMixin):
         source='layout',
         format='jpeg',
     )
+    layout_spec = layout_image_spec
 
 
 class ResaleApartmentImage(BasePropertyImage):
@@ -228,10 +252,4 @@ class ResaleApartmentImage(BasePropertyImage):
                                   on_delete=models.CASCADE,
                                   related_name='photos',
                                   )
-    image_spec = spec_factory(
-        750,
-        500,
-        pre_processors=[ResaleWatermark()],
-        options__quality=70,
-        format='jpeg'
-    )
+    image_spec = resale_image_spec

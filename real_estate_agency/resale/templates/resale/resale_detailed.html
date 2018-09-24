@@ -27,13 +27,11 @@
 		<div class="col-md-8 col-md-pull-4 col-xs-12 row">
 			<div class="realty_home_page_photo col-xs-12">
 				<h2 class="zhk_headline">Фото квартиры</h2>
-				{% if apartment.photos.all %}
+				{% if apartment.get_images %}
 				<div data-flickity='{ "cellAlign": "left", "contain": true, "wrapAround": true, "imagesLoaded": true }'>
-					{% for photo in apartment.photos.all %}
+					{% for photo in apartment.get_images %}
 					<img src="{{ photo.image_spec.url }}"
-					class='img-flick img-responsive'
-					{# height="{{ photo.image_spec.height }}" #}
-					{# width="{{ photo.image_spec.width }}" #}
+					class='img-flick img-responsive' alt="Изображение {{ forloop.counter }}"
 					>
 					{% endfor %}
 				</div>
@@ -55,7 +53,7 @@
 				<h2 class="zhk_headline"> Характеристики квартиры</h2>
 				{% for characteristic in apartment.characteristics.all %}
 				<div class="col-xs-12 col-md-6 row">
-					<img class="col-xs-3 img-responsive" src="{{ characteristic.thumbnail.url }}">
+					<img class="col-xs-3 img-responsive" src="{{ characteristic.thumbnail.url }}" alt="характеристика {{forloop.counter}} квартиры">
 					<p class="col-xs-9">{{ characteristic }}</p>
 				</div>
 				{% empty %}
@@ -105,7 +103,7 @@
 				<p>Стоимость услуг фиксированая и прозрачная. Вы платите только после того, как мы с вами оформим все документы.</p>
 			</div>
 			<div class="col-md-3 col-xs-12">
-				<img src="{% static 'img/icon/booking.svg' %}" width="100" height="100">
+				<img src="{% static 'img/icon/booking.svg' %}" alt="опыт" width="100" height="100">
 				<h4><strong>Заключение сделок любой сложности</strong></h4>
 				<p>Опыт и экспертность позволяет нам работать со сделками любой сложности.</p>
 			</div>
@@ -113,7 +111,7 @@
 				{% include 'company/blocks/manager.html' %}
 			</div>
 			<div class="col-md-3 col-xs-12">
-				<img src="{% static 'img/icon/excrusion.svg' %}" alt="" width="100" height="100">
+				<img src="{% static 'img/icon/excrusion.svg' %}" alt="трансфер" width="100" height="100">
 				<h4><strong>Бесплатный трансфер</strong></h4>
 				<p>Мы отвезем вас на просмотр любой выбранной квартиры бесплатно.</p>
 			</div>
@@ -124,8 +122,8 @@
 {% include 'applications/callback_form_implemented.html' with callback_form_title='Задать вопросы о квартире' %}
 {% render_bundle 'main' %}
 
-<script src="https://api-maps.yandex.ru/2.1/?lang=ru_RU" type="text/javascript"></script>
-<script type="text/javascript">
+<script src="https://api-maps.yandex.ru/2.1/?lang=ru_RU"></script>
+<script>
 
 var coordinates = '{{ apartment.coordinates }}'.split(',')
 if (coordinates.length === 2){
