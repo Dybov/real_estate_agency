@@ -5,7 +5,7 @@ from django.utils.text import mark_safe
 
 from adminsortable2.admin import SortableInlineAdminMixin
 
-from real_estate.admin import AdminInlineImages
+from real_estate.admin import AdminInlineImages, MultiuploadInlinesContainerMixin
 
 from .models import ResaleApartment, ResaleApartmentImage, ResaleCharacteristic
 from .forms import ResaleApartmentForm, ResaleApartmentImageForm
@@ -23,7 +23,7 @@ class ResaleImageInline(
 
 
 @admin.register(ResaleApartment)
-class ResaleApartmentAdmin(admin.ModelAdmin):
+class ResaleApartmentAdmin(MultiuploadInlinesContainerMixin, admin.ModelAdmin):
     inlines = [ResaleImageInline, ]
     form = ResaleApartmentForm
 
@@ -52,8 +52,11 @@ class ResaleApartmentAdmin(admin.ModelAdmin):
         return obj.full_price
     full_price.short_description = _("текущая стоимость")
 
-    image_inline_pattern = re.compile('^photos-\d+-(file|image)$')
     fieldsets = None
+
+    # For multiupload by MultiuploadInlinesContainerMixin
+    related_inline_form = ResaleImageInline
+    related_inline_fk = 'apartment'
 
     def get_fieldsets(self, request, obj=None):
         self.fieldsets = self.dynamic_fieldset(request)
@@ -120,33 +123,6 @@ class ResaleApartmentAdmin(admin.ModelAdmin):
         if 'modified_by' not in form.changed_data:
             obj.modified_by = request.user
         obj.save()
-
-        for i in request.FILES:
-            # only for appropriate formsets:
-            m = self.image_inline_pattern.search(i)
-            if m:
-                for afile in request.FILES.getlist(i)[:-1]:
-                    img_form = ResaleApartmentImageForm(
-                        {'apartment': obj.id}, {'image': afile}
-                    )
-                    if img_form.is_valid():
-                        img_form.save()
-                    else:
-                        message_text = _(
-                            '<div>Файл "%(file_name)s" не загружен<ul>') \
-                            % {'file_name': afile.name}
-                        for field, errors in img_form.errors.items():
-                            for error in errors:
-                                message_text += '<li class="{message_class}">{field}:\
-                                 {error}</li>'.format(
-                                    field=field,
-                                    error=error,
-                                    message_class=messages.DEFAULT_TAGS.get(
-                                        messages.WARNING),
-                                )
-                        message_text += "</ul></div>"
-                        messages.add_message(
-                            request, messages.WARNING, mark_safe(message_text))
 
     def get_queryset(self, request):
         qs = super(ResaleApartmentAdmin, self).get_queryset(request)
