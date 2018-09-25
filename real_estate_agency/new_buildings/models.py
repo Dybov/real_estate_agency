@@ -227,7 +227,7 @@ class ResidentalComplex(models.Model):
         max_length=127,
         db_index=True,
         allow_unicode=True,
-     )
+    )
     description = models.TextField(verbose_name=_('описание ЖК'),)
     builder = models.ForeignKey('Builder',
                                 verbose_name=_('застройщик'),
@@ -514,6 +514,7 @@ class ResidentalComplexFeature(models.Model):
         upload_to=get_file_path,
     )
     image_spec = spec_factory(680, 450, to_fit=False)
+    thumbnail_admin = spec_factory(100, 100)
     residental_complex = models.ForeignKey(ResidentalComplex,
                                            on_delete=models.CASCADE,
                                            related_name='features',

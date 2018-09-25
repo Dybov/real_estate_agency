@@ -177,6 +177,7 @@ class BasePropertyImage(models.Model):
     """
     image = models.ImageField(verbose_name=_('изображение'),
                               upload_to=get_file_path)
+    thumbnail_admin = spec_factory(100, 100)
 
     def __str__(self):
         return _('изображение')

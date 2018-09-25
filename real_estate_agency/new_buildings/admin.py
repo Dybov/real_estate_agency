@@ -5,7 +5,10 @@ from django.forms.models import BaseInlineFormSet
 
 from imagekit.admin import AdminThumbnail
 
-from real_estate.admin import MultiuploadInlinesContainerMixin
+from real_estate.admin import (
+    MultiuploadInlinesContainerMixin,
+    AdminInlineImages,
+)
 
 from .forms import (
     standart_formfield_overrides,
@@ -140,12 +143,14 @@ class ResidentalComplexImageForm(forms.ModelForm):
         fields = '__all__'
 
 
-class ResidentalComplexImageInline(admin.TabularInline):
+class ResidentalComplexImageInline(admin.TabularInline, AdminInlineImages):
     model = ResidentalComplexImage
     form = ResidentalComplexImageForm
     extra = 0
     min_num = 0
     classes = ['collapse', ]
+    fields = ('thumbnail', 'image')
+    readonly_fields = ('thumbnail', )
 
 
 class ResidentalComplexFeatureInline(admin.TabularInline):

@@ -3,20 +3,20 @@ from django.contrib import admin, messages
 from django.utils.translation import ugettext_lazy as _
 from django.utils.text import mark_safe
 
-from PIL import Image
-
-from applications.forms import transform_russian8_phone_number
+from real_estate.admin import AdminInlineImages
 
 from .models import ResaleApartment, ResaleApartmentImage, ResaleCharacteristic
 from .forms import ResaleApartmentForm, ResaleApartmentImageForm
 
 
-class ResidentalComplexImageInline(admin.TabularInline):
+class ResidentalComplexImageInline(admin.TabularInline, AdminInlineImages):
     model = ResaleApartmentImage
     form = ResaleApartmentImageForm
     classes = ['collapse', ]
     extra = 0
     min_num = 0
+    fields = ('thumbnail', 'image')
+    readonly_fields = ('thumbnail', )
 
 
 @admin.register(ResaleApartment)
@@ -144,7 +144,6 @@ class ResaleApartmentAdmin(admin.ModelAdmin):
                         message_text += "</ul></div>"
                         messages.add_message(
                             request, messages.WARNING, mark_safe(message_text))
-    
 
     def get_queryset(self, request):
         qs = super(ResaleApartmentAdmin, self).get_queryset(request)
@@ -158,7 +157,8 @@ class ResaleApartmentAdmin(admin.ModelAdmin):
         if request.user.has_perm('resale.can_add_change_delete_all_resale'):
             self.list_display += ('created_by',)
             self.list_filter = ('created_by',) + self.list_filter
-        return super(ResaleApartmentAdmin, self).changelist_view(request, extra_context)
+        return super(ResaleApartmentAdmin, self).changelist_view(
+            request, extra_context)
 
 
 admin.site.register(ResaleCharacteristic)
