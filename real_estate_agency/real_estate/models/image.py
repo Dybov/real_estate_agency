@@ -199,7 +199,7 @@ class BaseDraggapbleImage(BasePropertyImage):
         null=False,
     )
 
-    class Meta:
+    class Meta(BasePropertyImage.Meta):
         abstract = True
         ordering = ('position',)
 

@@ -15,7 +15,7 @@ from real_estate.models.apartment import Apartment
 from real_estate.models.building import BaseBuilding
 from real_estate.models.helper import modify_fields
 from real_estate.models.image import (
-    BasePropertyImage,
+    BaseDraggapbleImage,
     spec_factory,
     BaseWatermarkProcessor)
 from real_estate.models import Characteristic
@@ -254,7 +254,7 @@ class ResaleApartment(Apartment, BaseBuilding, TransactionMixin):
     layout_spec = layout_image_spec
 
 
-class ResaleApartmentImage(BasePropertyImage):
+class ResaleApartmentImage(BaseDraggapbleImage):
     apartment = models.ForeignKey(ResaleApartment,
                                   on_delete=models.CASCADE,
                                   related_name='photos',

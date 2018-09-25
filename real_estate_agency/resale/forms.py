@@ -5,7 +5,8 @@ from django.forms import (
     NumberInput,
     DateField,
     ModelChoiceField,
-    Select
+    Select,
+    IntegerField,
 )
 from django.forms.widgets import ClearableFileInput
 from django.core.validators import MinValueValidator, MaxValueValidator
@@ -82,6 +83,8 @@ class ResaleApartmentForm(RussianPhoneNumberFormMixin, ModelForm):
 
 
 class ResaleApartmentImageForm(ModelForm):
+    position = IntegerField(required=False)
+
     class Meta:
         model = ResaleApartmentImage
         fields = '__all__'

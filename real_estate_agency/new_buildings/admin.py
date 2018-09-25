@@ -135,6 +135,8 @@ class BuildingInline(admin.StackedInline):
 
 
 class ResidentalComplexImageForm(forms.ModelForm):
+    position = forms.IntegerField(required=False)
+
     class Meta:
         model = ResidentalComplexImage
         widgets = {

@@ -12,7 +12,7 @@ from django.utils.functional import cached_property
 from real_estate.models.apartment import Apartment
 from real_estate.models.helper import get_file_path
 from real_estate.models.image import (
-    BasePropertyImage,
+    BaseDraggapbleImage,
     spec_factory,
 )
 from real_estate.models.building import BaseBuildingWithoutNeighbourhood
@@ -528,7 +528,7 @@ class ResidentalComplexFeature(models.Model):
         verbose_name_plural = _('особенности комплекса')
 
 
-class ResidentalComplexImage(BasePropertyImage):
+class ResidentalComplexImage(BaseDraggapbleImage):
     residental_complex = models.ForeignKey(ResidentalComplex,
                                            on_delete=models.CASCADE,
                                            related_name='photos',
