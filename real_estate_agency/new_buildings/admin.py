@@ -3,6 +3,8 @@ from django.contrib import admin
 from django.utils.translation import ugettext as _
 from django.forms.models import BaseInlineFormSet
 
+
+from adminsortable2.admin import SortableInlineAdminMixin
 from imagekit.admin import AdminThumbnail
 
 from real_estate.admin import (
@@ -145,7 +147,8 @@ class ResidentalComplexImageForm(forms.ModelForm):
         fields = '__all__'
 
 
-class ResidentalComplexImageInline(admin.TabularInline, AdminInlineImages):
+class ResidentalComplexImageInline(
+        SortableInlineAdminMixin, admin.TabularInline, AdminInlineImages):
     model = ResidentalComplexImage
     form = ResidentalComplexImageForm
     extra = 0

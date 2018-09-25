@@ -3,13 +3,16 @@ from django.contrib import admin, messages
 from django.utils.translation import ugettext_lazy as _
 from django.utils.text import mark_safe
 
+from adminsortable2.admin import SortableInlineAdminMixin
+
 from real_estate.admin import AdminInlineImages
 
 from .models import ResaleApartment, ResaleApartmentImage, ResaleCharacteristic
 from .forms import ResaleApartmentForm, ResaleApartmentImageForm
 
 
-class ResidentalComplexImageInline(admin.TabularInline, AdminInlineImages):
+class ResaleImageInline(
+        SortableInlineAdminMixin, admin.TabularInline, AdminInlineImages):
     model = ResaleApartmentImage
     form = ResaleApartmentImageForm
     classes = ['collapse', ]
@@ -21,7 +24,7 @@ class ResidentalComplexImageInline(admin.TabularInline, AdminInlineImages):
 
 @admin.register(ResaleApartment)
 class ResaleApartmentAdmin(admin.ModelAdmin):
-    inlines = [ResidentalComplexImageInline, ]
+    inlines = [ResaleImageInline, ]
     form = ResaleApartmentForm
 
     list_display_initial = (
