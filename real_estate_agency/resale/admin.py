@@ -55,7 +55,7 @@ class ResaleApartmentAdmin(MultiuploadInlinesContainerMixin, admin.ModelAdmin):
     fieldsets = None
 
     # For multiupload by MultiuploadInlinesContainerMixin
-    related_inline_form = ResaleImageInline
+    related_inline_form = ResaleApartmentImageForm
     related_inline_fk = 'apartment'
 
     def get_fieldsets(self, request, obj=None):
