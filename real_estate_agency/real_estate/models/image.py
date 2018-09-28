@@ -1,3 +1,4 @@
+import functools
 import os
 
 from django.conf import settings
@@ -67,6 +68,33 @@ class Watermark(ImageSpec):
     format = 'PNG'
 
 
+class EXIFRotationPreventor(object):
+    """Prevents images with EXIF rotation from
+    unexcpected rotation when process them
+
+    About EXIF: https://en.wikipedia.org/wiki/Exif"""
+    def process(self, im):
+        exif_orientation_tag = 0x0112  # contains an integer, 1 through 8
+        exif_transpose_sequences = [  # corresponding to the following
+            [],
+            [Image.FLIP_LEFT_RIGHT],
+            [Image.ROTATE_180],
+            [Image.FLIP_TOP_BOTTOM],
+            [Image.FLIP_LEFT_RIGHT, Image.ROTATE_90],
+            [Image.ROTATE_270],
+            [Image.FLIP_TOP_BOTTOM, Image.ROTATE_90],
+            [Image.ROTATE_90],
+        ]
+
+        try:
+            seq = exif_transpose_sequences[
+                im._getexif()[exif_orientation_tag] - 1]
+        except Exception:
+            return im
+        else:
+            return functools.reduce(lambda im, op: im.transpose(op), seq, im)
+
+
 if _watermark_path and os.path.exists(_watermark_path):
     source_file = open(_watermark_path, 'rb')
 
@@ -92,8 +120,10 @@ def spec_factory(
             width,
             height,
         )
-    processors = kwargs.pop('pre_processors', []) \
-        + [main_processor] + kwargs.pop('extra_processors', [])
+    processors = [EXIFRotationPreventor()] \
+        + kwargs.pop('pre_processors', []) \
+        + [main_processor] \
+        + kwargs.pop('extra_processors', [])
     return ImageSpecField(
         processors=processors,
         source=source,
