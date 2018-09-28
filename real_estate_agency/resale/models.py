@@ -167,30 +167,44 @@ class ResaleApartment(Apartment, BaseBuilding, TransactionMixin):
         blank=True,
     )
 
+    def __must_be_gte(
+            self,
+            big_price_field, low_price_field,
+            set_error_to=None):
+        big_price = getattr(self, big_price_field, None)
+        low_price = getattr(self, low_price_field, None)
+
+        if None in (big_price, low_price):
+            return
+
+        # [:-4] to chunk currency at the end
+        big_price_name = self._meta.get_field(
+            big_price_field).verbose_name[:-4]
+        low_price_name = self._meta.get_field(
+            low_price_field).verbose_name[:-4]
+
+        if set_error_to is None:
+            set_error_to = big_price_field
+
+        if low_price > big_price:
+            raise ValidationError(
+                {set_error_to:
+                    _('%(big_price_name)s %(big_price)s \
+                    должна быть не меньше чем \
+                    %(low_price_name)s %(low_price)s') % {
+                        'big_price_name': big_price_name,
+                        'big_price': big_price,
+                        'low_price_name': low_price_name,
+                        'low_price': low_price}})
+
     def clean(self):
         # Don't allow set agency_price lower than real price.
-        if self.agency_price is not None \
-                and self.price is not None \
-                and self.agency_price < self.price:
-            raise ValidationError(
-                {'agency_price':
-                 _('начальная стоимость %(agency_price)s \
-                    должна быть больше цены от продавца %(real_price)s') % {
-                     'agency_price': self.agency_price,
-                     'real_price': self.price
-                 }
-                 }
-            )
-        if self.agency_price_with_sales is not None \
-                and self.agency_price is not None \
-                and self.agency_price_with_sales >= self.agency_price:
-            raise ValidationError(
-                {'agency_price_with_sales':
-                    _('стоимость со скидкой %(sales_price)s должна быть меньше \
-                        чем начальная стоимость %(agency_price)s') % {
-                        'sales_price': self.agency_price_with_sales,
-                        'agency_price': self.agency_price,
-                    }})
+        self.__must_be_gte('agency_price', 'price')
+        # Don't allow set agency_price lower than real agency_price_with_sales.
+        self.__must_be_gte('agency_price', 'agency_price_with_sales')
+        # Don't allow set agency_price_with_sales lower than real price.
+        self.__must_be_gte('agency_price_with_sales', 'price')
+        return super().clean()
 
     @property
     def fee(self):
