@@ -1,18 +1,22 @@
 {% load static %}
 <div class="team_item row" >
     <div>
-        <img src="{% static img_src %}" class="team_photo">
+        <img src="{{ member.get_contact_photo }}" class="team_photo">
     </div>
-    <div class="team_item_name ">{{ name }}</div>
+    <div class="team_item_name ">{{ member.get_full_name }}</div>
     <div class="team_item_desc">
-        Телефон: <span class="team_item_phone">{{ phone }}</span>
+        {% if member.get_phone_number %}
+        Мобильный: <a class="team_item_phone" href="tel:{{ member.get_phone_number }}">{{ member.get_phone_number_str }}</a>
+        {% else %}
         <br>
-    Эл. почта: <a href="mailto:domus72@bk.ru" class="team_item_email">domus72@bk.ru</a>
+        {% endif %}
+        <br>
+        Рабочий телефон: <a class="team_item_phone" href="tel:{{ global_phone_number_orig }}">{{ global_phone_number }}</a>
+        <br>
+    Эл. почта: <a href="mailto:{{ member.get_email }}" class="team_item_email">{{ member.get_email }}</a>
     </div>
     <div class="team_item_btn">
         <a href="{% url 'applications:callback' %}" class="team_item_btn_phone callback-link">Заказать обратный звонок</a>
-        {% if vk %}
-            <a href="{{vk}}" class="team_item_btn_vk">Написать в Вконтакте</a>
-        {% endif %}
+        <a href="{{global_chat.vk}}" class="team_item_btn_vk">Написать в Вконтакте</a>
     </div>
 </div>

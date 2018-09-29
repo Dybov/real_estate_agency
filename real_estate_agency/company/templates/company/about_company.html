@@ -6,12 +6,13 @@
     {% breadcrumb "О компании" "about" %}
 {% endblock %}
 {% block content %}
-<section style="background-image: url({% static 'img/about.png' %});">
-	<div class="container">
+<section class="rewiews_header" style="background-image: url({% static 'img/about.png' %});">
+	<div class="container rewiews_header_headline_flex">
 		<h1 class="rewiews_header_headline">О компании</h1>
 	</div>
 </section>
 <div class="container">
+	<br/>
 	<p><strong>Компания «Домус»</strong> — официальный представитель ведущих строительных компаний г. Тюмени.</p>
 	<p><strong>Название «Домус»</strong> выбрано не случайно — в переводе с латинского означает дом, особняк. Самое главное в жизни человека — это место, где любят и ждут, где царит идеальная гармония, куда хочется возвращаться каждый день. Своим клиентам мы предлагаем помощь в решении жилищного вопроса, предлагая новый уровень качественных услуг. </p>
 	<p><strong>Миссия:</strong> Мы помогаем найти и приобрести квартиру вашей мечты.</p>
@@ -29,24 +30,22 @@
 
 <div class="container">
 	<h2 class="zhk_headline">Приемущества компании</h3>
-	<div class="row text-center">
+	<div class="advantages-block-wrapper row text-center">
 		<div class="col-md-3 col-xs-12">
-			<img src="{% static 'img/icon/about/wallet.svg' %}" width="100px" height="100px">
+			<img src="{% static 'img/icon/wallet.svg' %}" width="100px" height="100px">
 			<h4><strong>Новостройки без комиссии</strong></h4>
 			<p>Мы являемся представителями застройщиков, поэтому наши услуги 	бесплатны</p>
 		</div>
 		<div class="col-md-3 col-xs-12">
-			<img src="{% static 'img/icon/about/booking.svg' %}" width="100px" height="100px">
+			<img src="{% static 'img/icon/booking.svg' %}" width="100px" height="100px">
 			<h4><strong>Бронирование</strong></h4>
 			<p>Мы бесплатно забронируем для вас квартиру в новостройке</p>
 		</div>
 		<div class="col-md-3 col-xs-12">
-			<img src="{% static 'img/icon/about/manager.svg' %}" width="100px" height="100px">
-			<h4><strong>Персональный менеджер</strong></h4>
-			<p>У вас будет персональный специалист по недвижимости который поможет вам с оформлением квартиры</p>
+			{% include 'company/blocks/manager.html' %}
 		</div>
 		<div class="col-md-3 col-xs-12">
-			<img src="{% static 'img/icon/about/excrusion.svg' %}" width="100px" height="100px">
+			<img src="{% static 'img/icon/excrusion.svg' %}" width="100px" height="100px">
 			<h4><strong>Экскурсии</strong></h4>
 			<p>Мы предоставим вам трансфер по всем новостройкам</p>
 		</div>

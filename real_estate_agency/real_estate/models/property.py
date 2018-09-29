@@ -1,9 +1,11 @@
 from decimal import Decimal
 
 from django.db import models
-from django.contrib.auth.models import User
+from django.conf import settings
 from django.core.validators import MinValueValidator
 from django.utils.translation import ugettext as _
+
+from address.models import BaseAddressNoNeighbourhood, AbstractAddressModel
 
 from .helper import get_file_path
 
@@ -67,13 +69,22 @@ class BasePropertyModel(models.Model):
     is_active = models.BooleanField(verbose_name=_('отображать на сайте'),
                                     default=True,
                                     )
-    posted_by = models.ForeignKey(User,
-                                  verbose_name=_('разместил'),
-                                  editable=False,
-                                  default=None,
-                                  null=True,
-                                  on_delete=models.SET_DEFAULT,
-                                  )
+    created_by = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        verbose_name=_('создано'),
+        default=None,
+        null=True,
+        on_delete=models.SET_DEFAULT,
+        related_name="%(app_label)s_%(class)s_created",
+    )
+    modified_by = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        verbose_name=_('изменено'),
+        default=None,
+        null=True,
+        on_delete=models.SET_DEFAULT,
+        related_name="%(app_label)s_%(class)s_modified",
+    )
     date_added = models.DateTimeField(verbose_name=_('добавлено'),
                                       auto_now_add=True,
                                       )
@@ -88,7 +99,16 @@ class BasePropertyModel(models.Model):
 
     @property
     def price_per_square_meter(self):
-        return self.price / self.total_area
+        return self.full_price / self.total_area
+
+    @property
+    def full_price(self):
+        """Must be implement atleast for price_per_square_meter.
+        Cause in different types of real estate property can be:
+        self.price!=self.full_price
+        for example for price with agency fee
+        """
+        raise NotImplementedError
 
     # many to many "transactions" will be added in future releases and will
     # replace the price

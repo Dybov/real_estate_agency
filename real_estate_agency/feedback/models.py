@@ -1,11 +1,9 @@
 from django.db import models
 from django.utils.translation import ugettext as _
 
-from imagekit.models.fields import ImageSpecField
-from imagekit.processors import ResizeToFill
-
 from new_buildings.models import ResidentalComplex
 from real_estate.models.helper import get_file_path
+from real_estate.models.image import spec_factory
 from contacts.models import SocialLink
 
 
@@ -30,14 +28,11 @@ class Feedback(models.Model):
     is_active = models.BooleanField(verbose_name=_('отображать на сайте'),
                                     default=True,
                                     )
-    image_250_250 = ImageSpecField(
-        processors=[ResizeToFill(250, 250,), ],
-        source='image',
+    image_250_250 = spec_factory(
+        250, 250,
         format='JPEG',
-        options={
-            'quality': 70,
-            'progressive': True,
-        }
+        options__quality=70,
+        to_fit=False,
     )
     # social_media_links - one to many field
 

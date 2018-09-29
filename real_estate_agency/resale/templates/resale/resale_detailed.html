@@ -1,0 +1,149 @@
+{% extends 'resale/resale_list.html'%}
+{% load static %}
+{% load django_bootstrap_breadcrumbs %}
+{% load render_bundle from webpack_loader %}
+{% block breadcrumbs %}
+	{{ block.super }}
+	{% breadcrumb apartment.pk "resale:detailed" %}
+{% endblock %}
+{% block content %}
+<script type="text/javascript">
+	var apartment = '{{ apartment_json|safe }}';
+	var apartment = JSON.parse(apartment);
+	window.apartment = apartment;
+</script>
+<div class="heading_short " style="background-image: url({% static 'resale/img/realty_home_search.png' %});">
+	<h1 class='header_ipoteka_headline'>{{ apartment }}</h1>
+	<h2 class='header_ipoteka_desc'>{{ apartment.address }}</h2>
+	{% if apartment.residental_complex %}
+	<p class='header_ipoteka_desc'>{{ apartment.residental_complex.type_of_complex }} {{ apartment.residental_complex }}</p>
+	{% endif %}
+</div>
+<main class="container">
+	<div class="row"> 
+		<aside id='sticky-resale' class="col-md-4 col-md-push-8 col-xs-12">
+			<div class="text-center loader-50-50"></div>
+		</aside>
+		<div class="col-md-8 col-md-pull-4 col-xs-12 row">
+			<div class="realty_home_page_photo col-xs-12">
+				<h2 class="zhk_headline">Фото квартиры</h2>
+				{% if apartment.get_images %}
+				<div data-flickity='{ "cellAlign": "left", "contain": true, "wrapAround": true, "imagesLoaded": true }'>
+					{% for photo in apartment.get_images %}
+					<img src="{{ photo.image_spec.url }}"
+					class='img-flick img-responsive' alt="Изображение {{ forloop.counter }}"
+					>
+					{% endfor %}
+				</div>
+				{% else %}
+				<p>Извините, фото квартиры отсутсвуют</p>
+				{% endif %}
+			</div>
+			<div class="col-xs-12">
+				<h2 class="zhk_headline"> Описание квартиры</h2>
+				<p>
+					{% if apartment.description %}
+						{{apartment.description}}
+					{% else %}
+						Извините, описания еще нет
+					{% endif %}
+				</p>
+			</div>
+			<div class="col-xs-12">
+				<h2 class="zhk_headline"> Характеристики квартиры</h2>
+				{% for characteristic in apartment.characteristics.all %}
+				<div class="col-xs-12 col-md-6 row">
+					<img class="col-xs-3 img-responsive" src="{{ characteristic.thumbnail.url }}" alt="характеристика {{forloop.counter}} квартиры">
+					<p class="col-xs-9">{{ characteristic }}</p>
+				</div>
+				{% empty %}
+				<p>Описание характеристик будет добавлено позднее</p>
+				{% endfor %}
+			</div>
+			<div class="col-xs-12">
+				<h2 class="zhk_headline">Специалист по недвижимости</h2>
+				<div class="row">
+					<img src="{{ agent.get_contact_photo }}" alt="риэлтор" class="img-responsive col-md-5 agent-photo">
+					<div class="col-md-7">
+						<h3><strong>{{ agent.get_full_name }}</strong></h3>
+        				{% if agent.get_phone_number %}
+							<p>Мобильный: <a href='tel:{{ agent.get_phone_number }}' class="team_item_phone">{{ agent.get_phone_number_str }}</a></p>
+				        {% endif %}
+						<p>Рабочий телефон: <a class="team_item_phone" href="tel:{{ global_phone_number_orig }}">{{ global_phone_number }}</a><p>
+						<p>Эл. почта: <a href='email:{{ agent.get_email }}' class="team_item_email">{{ agent.get_email }}</a></p>
+						<div class='row'>
+							<a href="{% url 'applications:callback' %}" class="btn col-xs-12 col-md-8 team_item_btn_phone callback-link">Заказать обратный звонок</a>
+							<a href="{{global_chat.vk}}" class="btn col-xs-12 col-md-8 team_item_btn_vk" target="_blank">Написать в Вконтакте</a>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="col-xs-12">
+				<h2 class="zhk_headline">Квартира на карте</h2>
+				<div id="resale-map" class="resale-map">
+					{% if apartment.coordinates %}
+						<div class="loader-50-50"></div>
+					{% else %}
+						<p>Извините местоположение на карте отсутствует</p>
+					{% endif %}
+				</div>
+			</div>	
+		</div>
+	</div>
+</main>
+
+<section class="container">
+	<div class="text-center">
+		<h2 class="zhk_headline">Почему выгодно купить квартиру с нами</h2>
+		<div class="advantages-block-wrapper row">
+			<div class="col-md-3 col-xs-12">
+				<img src="{% static 'img/icon/wallet.svg' %}" alt="выгода" width="100" height="100">
+				<h4><strong>Оплата только за результат</strong></h4>
+				<p>Стоимость услуг фиксированая и прозрачная. Вы платите только после того, как мы с вами оформим все документы.</p>
+			</div>
+			<div class="col-md-3 col-xs-12">
+				<img src="{% static 'img/icon/booking.svg' %}" alt="опыт" width="100" height="100">
+				<h4><strong>Заключение сделок любой сложности</strong></h4>
+				<p>Опыт и экспертность позволяет нам работать со сделками любой сложности.</p>
+			</div>
+			<div class="col-md-3 col-xs-12">
+				{% include 'company/blocks/manager.html' %}
+			</div>
+			<div class="col-md-3 col-xs-12">
+				<img src="{% static 'img/icon/excrusion.svg' %}" alt="трансфер" width="100" height="100">
+				<h4><strong>Бесплатный трансфер</strong></h4>
+				<p>Мы отвезем вас на просмотр любой выбранной квартиры бесплатно.</p>
+			</div>
+		</div>
+	</div>
+</section>
+
+{% include 'applications/callback_form_implemented.html' with callback_form_title='Задать вопросы о квартире' %}
+{% render_bundle 'main' %}
+
+<script src="https://api-maps.yandex.ru/2.1/?lang=ru_RU"></script>
+<script>
+
+var coordinates = '{{ apartment.coordinates }}'.split(',')
+if (coordinates.length === 2){
+	coordinates = coordinates.map(function(val){
+		return parseFloat(val);
+	})
+	ymaps.ready(init);
+}
+var content = '{{ apartment }} | {{ apartment.address }}';
+function init(){
+	var myMap = new ymaps.Map("resale-map", {
+		center: coordinates,
+		zoom: 15
+	});
+	var myPlacemark = new ymaps.Placemark(
+		coordinates, {
+		hintContent: content,
+		balloonContent: content,
+	});
+	myMap.geoObjects.add(myPlacemark);
+}
+</script>
+{% endblock %}

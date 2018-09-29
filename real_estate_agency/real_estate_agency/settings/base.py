@@ -24,6 +24,7 @@ BASE_DIR = os.path.dirname(
 # dal is django-autocomplete-light
 # https://github.com/yourlabs/django-autocomplete-light
 INSTALLED_APPS = [
+    'rest_framework',
     'dal',
     'dal_select2',
     'address',
@@ -34,13 +35,16 @@ INSTALLED_APPS = [
     'feedback',
     'company',
     'applications',
+    'resale',
+    'accounts',
+    'imagekit',
     'phonenumber_field',
     'celery',
     'django_unused_media',
     'django_bootstrap_breadcrumbs',
     'analytical',
-    'imagekit',
     'adminsortable2',
+    'webpack_loader',
     'django_celery_beat',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -93,20 +97,16 @@ WSGI_APPLICATION = 'real_estate_agency.wsgi.application'
 
 AUTH_PASSWORD_VALIDATORS = [
     {
-        'NAME': 'django.contrib.auth.password_validation\
-            .UserAttributeSimilarityValidator',
+        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
     },
     {
-        'NAME': 'django.contrib.auth.password_validation\
-            .MinimumLengthValidator',
+        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
     },
     {
-        'NAME': 'django.contrib.auth.password_validation\
-            .CommonPasswordValidator',
+        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
     },
     {
-        'NAME': 'django.contrib.auth.password_validation\
-            .NumericPasswordValidator',
+        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
 
@@ -154,3 +154,16 @@ VIBER_BOT_PRIVATE_GROUPS = []
 
 # Use viber ids
 VIBER_BOT_TEST_ADMINS = []
+
+WATERMARK_IMAGE_PATH = None
+
+WEBPACK_LOADER = {
+    'DEFAULT': {
+        'BUNDLE_DIR_NAME': 'bundles/',
+        'STATS_FILE': os.path.join(BASE_DIR, 'webpack-stats.dev.json'),
+    }
+}
+
+AUTH_USER_MODEL = 'accounts.RealEstateUser'
+
+LOGIN_URL = 'admin:login'

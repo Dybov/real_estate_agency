@@ -4,9 +4,9 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
-                    <div class="top_nav">
+                    <div class="top_nav row">
                         <div class="top_nav_logo col-md-2">
-                            <a href="{% url 'index' %}"><img src="{% static 'real_estate/images/logo/logo.svg' %}" alt="" class="img-responsive" width="200px"></a>
+                            <a href="{% url 'index' %}"><img src="{% static 'img/logo.png' %}" width="150"></a>
                         </div>
                         <div class="col-md-6 hidden-xs">
                         
@@ -34,12 +34,13 @@
                 <div class="col-md-12">
                     <div class="menu">
                             <div class="menu_logo">
-                            <img src="{% static 'real_estate/images/logo/logo.svg' %}" alt="" class="img-responsive">
-                                        <a href="#" class="toggle-mnu hidden-lg"><span></span></a>
+                                <img src="{% static 'img/logo.png' %}" alt="logo" height="50">
+                            <a href="#" class="toggle-mnu hidden-lg"><span></span></a>
                             </div>
 
                         <ul class="menu_container">
                             <li><a href="{% url 'new_buildings:residental-complex-list' %}">Новостройки без комиссии</a></li>
+                            <li><a href="{% url 'resale:index' %}">Каталог квартир</a></li>
                             <li><a href="{% url 'mortgage:index' %}">Ипотека</a></li>
                             <li><a href="{% url 'corporation_benefit_plan' %}">Корпоративная программа</a></li>
                             <li><a href="{% url 'feedback:index' %}">Отзывы</a></li>
