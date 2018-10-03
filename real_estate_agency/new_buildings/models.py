@@ -318,7 +318,7 @@ class ResidentalComplex(models.Model):
         for x in itertools.count(1):
             if not ResidentalComplex.objects.filter(
                 slug=self.slug
-            ).exists():
+            ).exclude(id=self.id).exists():
                 break
             self.slug = '%s-%d' % (orig, x)
 
