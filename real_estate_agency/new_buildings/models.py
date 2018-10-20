@@ -173,6 +173,10 @@ class NewBuilding(BaseBuildingWithoutNeighbourhood, BuildingWithRCMixin):
     is_built.boolean = True
 
 
+LOCT_AND_GENT_HELP_TXT = _('Определяется автоматически при первом сохранении.<br/>\
+Измените, если автоматическое значение не подходит.')
+
+
 class TypeOfComplex(models.Model):
     """ it prefixes for ResidentalComplexes.
     Such as 'Жилой комплекс' or 'Микрорайон'.
@@ -186,6 +190,22 @@ class TypeOfComplex(models.Model):
             'Необходимо писать в нижнем регистре. \
             Преобразование к верхнему регистру происходит автоматически'),
     )
+    loct = models.CharField(
+        verbose_name=_('в предложном падеже'),
+        max_length=127,
+        blank=True,
+        help_text=_(
+            'Отвечает на вопросы: О ком, о чем? (О комплексе).<br/>'
+        ) + LOCT_AND_GENT_HELP_TXT,
+    )
+    gent = models.CharField(
+        verbose_name=_('в родительном падеже'),
+        max_length=127,
+        blank=True,
+        help_text=_(
+            'Отвечает на вопросы: Кого, Чего? (комплекса)<br/>'
+        ) + LOCT_AND_GENT_HELP_TXT,
+    )
 
     def __str__(self):
         return self.name.capitalize()
@@ -193,13 +213,18 @@ class TypeOfComplex(models.Model):
     def get_cased(self, case):
         return morphy_by_case(self.name, case)
 
-    @cached_property
     def get_loct(self):
-        return self.get_cased('loct')
+        return self.loct or self.get_cased('loct')
 
-    @cached_property
     def get_gent(self):
-        return self.get_cased('gent')
+        return self.gent or self.get_cased('gent')
+
+    def save(self, *args, **kwargs):
+        if not self.loct:
+            self.loct = self.get_cased('loct')
+        if not self.gent:
+            self.gent = self.get_cased('gent')
+        return super().save(*args, **kwargs)
 
     class Meta:
         verbose_name = _('тип комплекса')
