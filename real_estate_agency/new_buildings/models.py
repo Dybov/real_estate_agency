@@ -17,6 +17,7 @@ from real_estate.models.image import (
 )
 from real_estate.models.building import BaseBuildingWithoutNeighbourhood
 from real_estate.models import Characteristic
+from real_estate.models.property import Decoration
 from real_estate.templatetags.real_estate_extras import morphy_by_case
 from address.models import NeighbourhoodModel
 
@@ -561,3 +562,10 @@ class ResidentalComplexImage(BaseDraggapbleImage):
     image_spec = spec_factory(
         **new_buildings_spec_kwargs
     )
+
+
+class NewBuildingsDecoration(Decoration):
+    class Meta:
+        proxy = True
+        verbose_name = Decoration._meta.verbose_name
+        verbose_name_plural = Decoration._meta.verbose_name_plural

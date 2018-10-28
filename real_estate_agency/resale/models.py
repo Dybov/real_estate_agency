@@ -17,6 +17,7 @@ from real_estate.models.image import (
     BaseDraggapbleImage,
     spec_factory,
     BaseWatermarkProcessor)
+from real_estate.models.property import Decoration
 from real_estate.models import Characteristic
 from new_buildings.models import ResidentalComplex
 
@@ -235,3 +236,10 @@ class ResaleApartmentImage(BaseDraggapbleImage):
                                   )
     image_spec = resale_image_spec
     front_image = front_image_spec
+
+
+class ResaleDecoration(Decoration):
+    class Meta:
+        proxy = True
+        verbose_name = Decoration._meta.verbose_name
+        verbose_name_plural = Decoration._meta.verbose_name_plural
