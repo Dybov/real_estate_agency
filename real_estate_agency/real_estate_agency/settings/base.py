@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'applications',
     'resale',
     'accounts',
+    'commercial',
     'imagekit',
     'phonenumber_field',
     'celery',
