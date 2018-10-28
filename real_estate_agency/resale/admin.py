@@ -1,13 +1,19 @@
-import re
-from django.contrib import admin, messages
+from django.contrib import admin
 from django.utils.translation import ugettext_lazy as _
-from django.utils.text import mark_safe
 
 from adminsortable2.admin import SortableInlineAdminMixin
 
-from real_estate.admin import AdminInlineImages, MultiuploadInlinesContainerMixin
+from real_estate.admin import (
+    AdminInlineImages,
+    MultiuploadInlinesContainerMixin,
+)
 
-from .models import ResaleApartment, ResaleApartmentImage, ResaleCharacteristic
+from .models import (
+    ResaleApartment,
+    ResaleApartmentImage,
+    ResaleCharacteristic,
+    ResaleDecoration,
+)
 from .forms import ResaleApartmentForm, ResaleApartmentImageForm
 
 
@@ -90,14 +96,36 @@ class ResaleApartmentAdmin(MultiuploadInlinesContainerMixin, admin.ModelAdmin):
         })
 
         apartment_part_fields = (
-            'neighbourhood', 'residental_complex', 'street',
-            ('building', 'building_block',), 'coordinates',
-            'rooms', ('floor', 'number_of_storeys'),
-            'section', 'apartment_number', 'building_type',
-            'home_series', 'date_of_construction',
-            ('total_area', 'kitchen_area', 'balcony_area',),
-            ('celling_height', 'interior_decoration',),
-            'layout', 'description', 'characteristics'
+            'neighbourhood',
+            'residental_complex',
+            'street',
+            (
+                'building',
+                'building_block',
+            ),
+            'coordinates',
+            'rooms',
+            (
+                'floor',
+                'number_of_storeys',
+            ),
+            'section',
+            'apartment_number',
+            'building_type',
+            'home_series',
+            'date_of_construction',
+            (
+                'total_area',
+                'kitchen_area',
+                'balcony_area',
+            ),
+            (
+                'celling_height',
+                'decoration',
+            ),
+            'layout',
+            'description',
+            'characteristics'
         )
         apartment_part = (_('Информация по квартире'), {
             'classes': ('collapse',),
@@ -141,3 +169,4 @@ class ResaleApartmentAdmin(MultiuploadInlinesContainerMixin, admin.ModelAdmin):
 
 
 admin.site.register(ResaleCharacteristic)
+admin.site.register(ResaleDecoration)

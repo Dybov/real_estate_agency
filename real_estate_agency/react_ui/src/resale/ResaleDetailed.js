@@ -70,7 +70,7 @@ export default class ResaleDetailed extends Component {
               <LengthLine l='Высота потолка'
                 r={apartment.celling_height} />
               <SimpleLine l='Тип ремонта'
-                r={apartment.get_interior_decoration_display} />
+                r={apartment.decoration} />
               <AreaLine l='Площадь кухни'
                 r={apartment.kitchen_area} />
               <AreaLine l='Площадь балкона'

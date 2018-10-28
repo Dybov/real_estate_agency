@@ -27,7 +27,7 @@
         <div class="col-xs-12 col-md-6">
             <p>Материал стен: {{ apartment.get_building_type_display }}</p>
             <p>Этаж: {{ apartment.floor }} / {{ apartment.number_of_storeys }}</p>
-            <p>Ремонт: {{ apartment.get_interior_decoration_display }}</p>
+            <p>Ремонт: {{ apartment.decoration }}</p>
         </div>
         <div class="col-xs-12 text-right">
             <button class="item-info-btn">Подробнее о квартире</button>

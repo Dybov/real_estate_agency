@@ -26,11 +26,13 @@ from .models import (
     TypeOfComplex,
     ResidentalComplexCharacteristic,
     ResidentalComplexFeature,
+    NewBuildingsDecoration
 )
 
 admin.site.register(Builder)
 admin.site.register(TypeOfComplex)
 admin.site.register(ResidentalComplexCharacteristic)
+admin.site.register(NewBuildingsDecoration)
 
 
 class NewApartmentInline(admin.StackedInline):
@@ -44,7 +46,7 @@ class NewApartmentInline(admin.StackedInline):
         'thumbnail',
         'layout',
         'total_area',
-        'interior_decoration',
+        'decoration',
         'price',
         'celling_height',
         'is_active',

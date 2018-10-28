@@ -12,7 +12,6 @@ class ResaleApartmentImageSerializer(serializers.ModelSerializer):
 class ResaleApartmentSerializer(serializers.ModelSerializer):
     # images = ResaleApartmentImageSerializer(source='photos', many=True)
     get_building_type_display = serializers.ReadOnlyField()
-    get_interior_decoration_display = serializers.ReadOnlyField()
     price_per_square_meter = serializers.ReadOnlyField()
     neighbourhood = serializers.StringRelatedField()
 
@@ -32,8 +31,7 @@ class ResaleApartmentSerializer(serializers.ModelSerializer):
             'number_of_storeys',
             'date_of_construction',
             'celling_height',
-            'interior_decoration',
-            'get_interior_decoration_display',
+            'decoration',
             'kitchen_area',
             'balcony_area',
             'id',
