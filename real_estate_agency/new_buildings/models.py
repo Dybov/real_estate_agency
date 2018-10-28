@@ -12,11 +12,12 @@ from django.utils.functional import cached_property
 from real_estate.models.apartment import Apartment
 from real_estate.models.helper import get_file_path
 from real_estate.models.image import (
-    BasePropertyImage,
+    BaseDraggapbleImage,
     spec_factory,
 )
 from real_estate.models.building import BaseBuildingWithoutNeighbourhood
 from real_estate.models import Characteristic
+from real_estate.models.property import Decoration
 from real_estate.templatetags.real_estate_extras import morphy_by_case
 from address.models import NeighbourhoodModel
 
@@ -173,6 +174,10 @@ class NewBuilding(BaseBuildingWithoutNeighbourhood, BuildingWithRCMixin):
     is_built.boolean = True
 
 
+LOCT_AND_GENT_HELP_TXT = _('Определяется автоматически при первом сохранении.<br/>\
+Измените, если автоматическое значение не подходит.')
+
+
 class TypeOfComplex(models.Model):
     """ it prefixes for ResidentalComplexes.
     Such as 'Жилой комплекс' or 'Микрорайон'.
@@ -186,6 +191,22 @@ class TypeOfComplex(models.Model):
             'Необходимо писать в нижнем регистре. \
             Преобразование к верхнему регистру происходит автоматически'),
     )
+    loct = models.CharField(
+        verbose_name=_('в предложном падеже'),
+        max_length=127,
+        blank=True,
+        help_text=_(
+            'Отвечает на вопросы: О ком, о чем? (О комплексе).<br/>'
+        ) + LOCT_AND_GENT_HELP_TXT,
+    )
+    gent = models.CharField(
+        verbose_name=_('в родительном падеже'),
+        max_length=127,
+        blank=True,
+        help_text=_(
+            'Отвечает на вопросы: Кого, Чего? (комплекса)<br/>'
+        ) + LOCT_AND_GENT_HELP_TXT,
+    )
 
     def __str__(self):
         return self.name.capitalize()
@@ -193,13 +214,18 @@ class TypeOfComplex(models.Model):
     def get_cased(self, case):
         return morphy_by_case(self.name, case)
 
-    @cached_property
     def get_loct(self):
-        return self.get_cased('loct')
+        return self.loct or self.get_cased('loct')
 
-    @cached_property
     def get_gent(self):
-        return self.get_cased('gent')
+        return self.gent or self.get_cased('gent')
+
+    def save(self, *args, **kwargs):
+        if not self.loct:
+            self.loct = self.get_cased('loct')
+        if not self.gent:
+            self.gent = self.get_cased('gent')
+        return super().save(*args, **kwargs)
 
     class Meta:
         verbose_name = _('тип комплекса')
@@ -227,7 +253,7 @@ class ResidentalComplex(models.Model):
         max_length=127,
         db_index=True,
         allow_unicode=True,
-     )
+    )
     description = models.TextField(verbose_name=_('описание ЖК'),)
     builder = models.ForeignKey('Builder',
                                 verbose_name=_('застройщик'),
@@ -318,7 +344,7 @@ class ResidentalComplex(models.Model):
         for x in itertools.count(1):
             if not ResidentalComplex.objects.filter(
                 slug=self.slug
-            ).exists():
+            ).exclude(id=self.id).exists():
                 break
             self.slug = '%s-%d' % (orig, x)
 
@@ -514,6 +540,7 @@ class ResidentalComplexFeature(models.Model):
         upload_to=get_file_path,
     )
     image_spec = spec_factory(680, 450, to_fit=False)
+    thumbnail_admin = spec_factory(100, 100)
     residental_complex = models.ForeignKey(ResidentalComplex,
                                            on_delete=models.CASCADE,
                                            related_name='features',
@@ -527,7 +554,7 @@ class ResidentalComplexFeature(models.Model):
         verbose_name_plural = _('особенности комплекса')
 
 
-class ResidentalComplexImage(BasePropertyImage):
+class ResidentalComplexImage(BaseDraggapbleImage):
     residental_complex = models.ForeignKey(ResidentalComplex,
                                            on_delete=models.CASCADE,
                                            related_name='photos',
@@ -535,3 +562,10 @@ class ResidentalComplexImage(BasePropertyImage):
     image_spec = spec_factory(
         **new_buildings_spec_kwargs
     )
+
+
+class NewBuildingsDecoration(Decoration):
+    class Meta:
+        proxy = True
+        verbose_name = Decoration._meta.verbose_name
+        verbose_name_plural = Decoration._meta.verbose_name_plural

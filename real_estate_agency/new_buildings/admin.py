@@ -3,9 +3,14 @@ from django.contrib import admin
 from django.utils.translation import ugettext as _
 from django.forms.models import BaseInlineFormSet
 
+
+from adminsortable2.admin import SortableInlineAdminMixin
 from imagekit.admin import AdminThumbnail
 
-from real_estate.admin import MultiuploadInlinesContainerMixin
+from real_estate.admin import (
+    MultiuploadInlinesContainerMixin,
+    AdminInlineImages,
+)
 
 from .forms import (
     standart_formfield_overrides,
@@ -21,11 +26,13 @@ from .models import (
     TypeOfComplex,
     ResidentalComplexCharacteristic,
     ResidentalComplexFeature,
+    NewBuildingsDecoration
 )
 
 admin.site.register(Builder)
 admin.site.register(TypeOfComplex)
 admin.site.register(ResidentalComplexCharacteristic)
+admin.site.register(NewBuildingsDecoration)
 
 
 class NewApartmentInline(admin.StackedInline):
@@ -39,7 +46,7 @@ class NewApartmentInline(admin.StackedInline):
         'thumbnail',
         'layout',
         'total_area',
-        'interior_decoration',
+        'decoration',
         'price',
         'celling_height',
         'is_active',
@@ -132,6 +139,8 @@ class BuildingInline(admin.StackedInline):
 
 
 class ResidentalComplexImageForm(forms.ModelForm):
+    position = forms.IntegerField(required=False)
+
     class Meta:
         model = ResidentalComplexImage
         widgets = {
@@ -140,12 +149,15 @@ class ResidentalComplexImageForm(forms.ModelForm):
         fields = '__all__'
 
 
-class ResidentalComplexImageInline(admin.TabularInline):
+class ResidentalComplexImageInline(
+        SortableInlineAdminMixin, admin.TabularInline, AdminInlineImages):
     model = ResidentalComplexImage
     form = ResidentalComplexImageForm
     extra = 0
     min_num = 0
     classes = ['collapse', ]
+    fields = ('thumbnail', 'image')
+    readonly_fields = ('thumbnail', )
 
 
 class ResidentalComplexFeatureInline(admin.TabularInline):

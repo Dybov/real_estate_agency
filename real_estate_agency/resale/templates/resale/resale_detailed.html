@@ -27,13 +27,11 @@
 		<div class="col-md-8 col-md-pull-4 col-xs-12 row">
 			<div class="realty_home_page_photo col-xs-12">
 				<h2 class="zhk_headline">Фото квартиры</h2>
-				{% if apartment.photos.all %}
-				<div data-flickity='{ "cellAlign": "left", "contain": true }'>
-					{% for photo in apartment.photos.all %}
+				{% if apartment.get_images %}
+				<div data-flickity='{ "cellAlign": "left", "contain": true, "wrapAround": true, "imagesLoaded": true }'>
+					{% for photo in apartment.get_images %}
 					<img src="{{ photo.image_spec.url }}"
-					class='img-flick img-responsive'
-					{# height="{{ photo.image_spec.height }}" #}
-					{# width="{{ photo.image_spec.width }}" #}
+					class='img-flick img-responsive' alt="Изображение {{ forloop.counter }}"
 					>
 					{% endfor %}
 				</div>
@@ -55,7 +53,7 @@
 				<h2 class="zhk_headline"> Характеристики квартиры</h2>
 				{% for characteristic in apartment.characteristics.all %}
 				<div class="col-xs-12 col-md-6 row">
-					<img class="col-xs-3 img-responsive" src="{{ characteristic.thumbnail.url }}">
+					<img class="col-xs-3 img-responsive" src="{{ characteristic.thumbnail.url }}" alt="характеристика {{forloop.counter}} квартиры">
 					<p class="col-xs-9">{{ characteristic }}</p>
 				</div>
 				{% empty %}
@@ -65,14 +63,14 @@
 			<div class="col-xs-12">
 				<h2 class="zhk_headline">Специалист по недвижимости</h2>
 				<div class="row">
-					<img src="{{ agent.get_agent_photo }}" alt="риэлтор" class="img-responsive col-md-5 agent-photo">
+					<img src="{{ agent.get_contact_photo }}" alt="риэлтор" class="img-responsive col-md-5 agent-photo">
 					<div class="col-md-7">
 						<h3><strong>{{ agent.get_full_name }}</strong></h3>
-						<p>Рабочий телефон: <a class="team_item_phone" href="tel:{{ global_phone_number_orig }}">{{ global_phone_number }}</a><p>
         				{% if agent.get_phone_number %}
 							<p>Мобильный: <a href='tel:{{ agent.get_phone_number }}' class="team_item_phone">{{ agent.get_phone_number_str }}</a></p>
 				        {% endif %}
-						<p>Эл. почта: <a href='email:{{ agent.get_email }}' class="team_item_email">{{ agent.get_email }}</span></p>
+						<p>Рабочий телефон: <a class="team_item_phone" href="tel:{{ global_phone_number_orig }}">{{ global_phone_number }}</a><p>
+						<p>Эл. почта: <a href='email:{{ agent.get_email }}' class="team_item_email">{{ agent.get_email }}</a></p>
 						<div class='row'>
 							<a href="{% url 'applications:callback' %}" class="btn col-xs-12 col-md-8 team_item_btn_phone callback-link">Заказать обратный звонок</a>
 							<a href="{{global_chat.vk}}" class="btn col-xs-12 col-md-8 team_item_btn_vk" target="_blank">Написать в Вконтакте</a>
@@ -102,10 +100,10 @@
 			<div class="col-md-3 col-xs-12">
 				<img src="{% static 'img/icon/wallet.svg' %}" alt="выгода" width="100" height="100">
 				<h4><strong>Оплата только за результат</strong></h4>
-				<p>Стоимость услуг фиксированая и прозначаная. Вы платите только после того, как мы с вами оформим все документы.</p>
+				<p>Стоимость услуг фиксированая и прозрачная. Вы платите только после того, как мы с вами оформим все документы.</p>
 			</div>
 			<div class="col-md-3 col-xs-12">
-				<img src="{% static 'img/icon/booking.svg' %}" width="100" height="100">
+				<img src="{% static 'img/icon/booking.svg' %}" alt="опыт" width="100" height="100">
 				<h4><strong>Заключение сделок любой сложности</strong></h4>
 				<p>Опыт и экспертность позволяет нам работать со сделками любой сложности.</p>
 			</div>
@@ -113,7 +111,7 @@
 				{% include 'company/blocks/manager.html' %}
 			</div>
 			<div class="col-md-3 col-xs-12">
-				<img src="{% static 'img/icon/excrusion.svg' %}" alt="" width="100" height="100">
+				<img src="{% static 'img/icon/excrusion.svg' %}" alt="трансфер" width="100" height="100">
 				<h4><strong>Бесплатный трансфер</strong></h4>
 				<p>Мы отвезем вас на просмотр любой выбранной квартиры бесплатно.</p>
 			</div>
@@ -124,8 +122,8 @@
 {% include 'applications/callback_form_implemented.html' with callback_form_title='Задать вопросы о квартире' %}
 {% render_bundle 'main' %}
 
-<script src="https://api-maps.yandex.ru/2.1/?lang=ru_RU" type="text/javascript"></script>
-<script type="text/javascript">
+<script src="https://api-maps.yandex.ru/2.1/?lang=ru_RU"></script>
+<script>
 
 var coordinates = '{{ apartment.coordinates }}'.split(',')
 if (coordinates.length === 2){

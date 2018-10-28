@@ -1,11 +1,13 @@
 from datetime import date
 
+from django.core.exceptions import ValidationError
 from django.forms import (
     ModelForm,
     NumberInput,
     DateField,
     ModelChoiceField,
-    Select
+    Select,
+    IntegerField,
 )
 from django.forms.widgets import ClearableFileInput
 from django.core.validators import MinValueValidator, MaxValueValidator
@@ -80,8 +82,55 @@ class ResaleApartmentForm(RussianPhoneNumberFormMixin, ModelForm):
         ],
     )
 
+    def __must_be_gte(
+            self,
+            big_price_field, low_price_field,
+            set_error_to=None):
+        # big_price = getattr(self, big_price_field, None)
+        # low_price = getattr(self, low_price_field, None)
+        big_price = self.cleaned_data.get(big_price_field)
+        low_price = self.cleaned_data.get(low_price_field)
+
+        if None in (big_price, low_price):
+            return
+
+        # [:-4] to chunk currency at the end
+        big_price_name = self.fields.get(big_price_field).label[:-4]
+        low_price_name = self.fields.get(low_price_field).label[:-4]
+
+        if set_error_to is None:
+            set_error_to = big_price_field
+
+        if low_price > big_price:
+            self.validation_errors[set_error_to] = \
+                _('%(big_price_name)s (%(big_price)s) \
+                должна быть не меньше чем \
+                %(low_price_name)s (%(low_price)s)') % {
+                    'big_price_name': big_price_name,
+                    'big_price': big_price,
+                    'low_price_name': low_price_name,
+                    'low_price': low_price}
+
+    def clean(self):
+        cleaned_data = super().clean()
+        if not hasattr(self, 'validation_errors'):
+            self.validation_errors = {}
+        # Don't allow set agency_price lower than real price.
+        self.__must_be_gte('agency_price', 'price')
+        # Don't allow set agency_price lower than real agency_price_with_sales.
+        self.__must_be_gte('agency_price', 'agency_price_with_sales')
+        # Don't allow set agency_price_with_sales lower than real price.
+        self.__must_be_gte('agency_price_with_sales', 'price')
+
+        if self.validation_errors:
+            # It allows to show all errors
+            raise ValidationError(self.validation_errors)
+        return cleaned_data
+
 
 class ResaleApartmentImageForm(ModelForm):
+    position = IntegerField(required=False)
+
     class Meta:
         model = ResaleApartmentImage
         fields = '__all__'

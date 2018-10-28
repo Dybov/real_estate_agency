@@ -1,6 +1,7 @@
+import copy
 from decimal import Decimal
 
-from django.core.exceptions import ValidationError
+from django.contrib.staticfiles.templatetags.staticfiles import static
 from django.core.validators import MinValueValidator
 from django.core.urlresolvers import reverse
 from django.db import models
@@ -13,9 +14,10 @@ from real_estate.models.apartment import Apartment
 from real_estate.models.building import BaseBuilding
 from real_estate.models.helper import modify_fields
 from real_estate.models.image import (
-    BasePropertyImage,
+    BaseDraggapbleImage,
     spec_factory,
     BaseWatermarkProcessor)
+from real_estate.models.property import Decoration
 from real_estate.models import Characteristic
 from new_buildings.models import ResidentalComplex
 
@@ -29,6 +31,24 @@ class ResaleCharacteristic(Characteristic):
 
 class ResaleWatermark(BaseWatermarkProcessor):
     pass
+
+
+resale_image_spec = spec_factory(
+    750,
+    500,
+    pre_processors=[ResaleWatermark()],
+    options__quality=70,
+    format='jpeg'
+)
+
+layout_image_spec = copy.deepcopy(resale_image_spec)
+layout_image_spec.source = 'layout'
+front_image_spec = spec_factory(
+    370,
+    320,
+    pre_processors=[ResaleWatermark()],
+    format='jpeg',
+)
 
 
 class TransactionMixin(models.Model):
@@ -70,7 +90,8 @@ class TransactionMixin(models.Model):
         'help_text': _('данная цена является той суммой, которую хочет получить продавец.\
           Не отображается на сайте.'), },
     date_added={'verbose_name': _('дата размещения')},
-    created_by={'verbose_name': _('сотрудник Компании')}
+    created_by={'verbose_name': _('сотрудник Компании')},
+    layout={'blank': True},
 )
 class ResaleApartment(Apartment, BaseBuilding, TransactionMixin):
     agency_price = models.DecimalField(
@@ -146,31 +167,6 @@ class ResaleApartment(Apartment, BaseBuilding, TransactionMixin):
         blank=True,
     )
 
-    def clean(self):
-        # Don't allow set agency_price lower than real price.
-        if self.agency_price is not None \
-                and self.price is not None \
-                and self.agency_price < self.price:
-            raise ValidationError(
-                {'agency_price':
-                 _('начальная стоимость %(agency_price)s \
-                    должна быть больше цены от продавца %(real_price)s') % {
-                     'agency_price': self.agency_price,
-                     'real_price': self.price
-                 }
-                 }
-            )
-        if self.agency_price_with_sales is not None \
-                and self.agency_price is not None \
-                and self.agency_price_with_sales >= self.agency_price:
-            raise ValidationError(
-                {'agency_price_with_sales':
-                    _('стоимость со скидкой %(sales_price)s должна быть меньше \
-                        чем начальная стоимость %(agency_price)s') % {
-                        'sales_price': self.agency_price_with_sales,
-                        'agency_price': self.agency_price,
-                    }})
-
     @property
     def fee(self):
         full_price = self.full_price
@@ -205,6 +201,22 @@ class ResaleApartment(Apartment, BaseBuilding, TransactionMixin):
     def get_absolute_url(self):
         return reverse('resale:detailed', args=[self.pk])
 
+    def get_images(self):
+        photos = self.photos.all()
+        if self.layout:
+            return list(photos) + [
+                # dict wrapper is necessary for compatibility
+                # with other objects from photos (ResaleApartmentImage)
+                {'image_spec': self.layout_spec}
+            ]
+        return photos
+
+    def get_front_image(self):
+        photos = self.photos.all()
+        if photos:
+            return photos[0].front_image.url
+        return static('img/logo.png')
+
     class Meta:
         verbose_name = _('объект вторичка')
         verbose_name_plural = _('объекты вторички')
@@ -214,24 +226,20 @@ class ResaleApartment(Apartment, BaseBuilding, TransactionMixin):
         )
         ordering = ('-id',)
 
-    thumbnail = spec_factory(
-        370,
-        320,
-        pre_processors=[ResaleWatermark()],
-        source='layout',
-        format='jpeg',
-    )
+    layout_spec = layout_image_spec
 
 
-class ResaleApartmentImage(BasePropertyImage):
+class ResaleApartmentImage(BaseDraggapbleImage):
     apartment = models.ForeignKey(ResaleApartment,
                                   on_delete=models.CASCADE,
                                   related_name='photos',
                                   )
-    image_spec = spec_factory(
-        750,
-        500,
-        pre_processors=[ResaleWatermark()],
-        options__quality=70,
-        format='jpeg'
-    )
+    image_spec = resale_image_spec
+    front_image = front_image_spec
+
+
+class ResaleDecoration(Decoration):
+    class Meta:
+        proxy = True
+        verbose_name = Decoration._meta.verbose_name
+        verbose_name_plural = Decoration._meta.verbose_name_plural

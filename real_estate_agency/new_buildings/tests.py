@@ -105,7 +105,7 @@ class RCBaseTest(TestCase):
 
 
 @tag('get_lowest_price')
-class ResidentalComplexLowestPricesMethodTests(RCBaseTest):
+class ResidentalComplexOnSaveSignalsTests(RCBaseTest):
     def test_get_lowest_price_without_apartment(self):
         """
         test_get_lowest_price() should minimal price of apartments which
@@ -193,6 +193,12 @@ class ResidentalComplexLowestPricesMethodTests(RCBaseTest):
 
         price = self.RC.get_lowest_price()
         self.assertEqual(price, 666)
+
+    def test_not_change_slug_on_every_save(self):
+        first_time_slug = self.RC.slug
+        self.RC.save()
+        second_time_slug = self.RC.slug
+        self.assertEqual(first_time_slug, second_time_slug)
 
 
 @tag('get_date_of_construction')

@@ -5,9 +5,22 @@ from django.conf import settings
 from django.core.validators import MinValueValidator
 from django.utils.translation import ugettext as _
 
-from address.models import BaseAddressNoNeighbourhood, AbstractAddressModel
-
 from .helper import get_file_path
+
+
+class Decoration(models.Model):
+    name = models.CharField(
+        verbose_name=_('тип отделки/ремонта'),
+        max_length=127,
+        unique=True,
+    )
+
+    def __str__(self):
+        return self.name.lower()
+
+    class Meta:
+        verbose_name = _('тип отделки/ремонта')
+        verbose_name_plural = _('типы отделки/ремонта')
 
 
 class BasePropertyModel(models.Model):
@@ -39,11 +52,11 @@ class BasePropertyModel(models.Model):
                                                  ),
                                                  ],
                                      )
-    interior_decoration = models.CharField(verbose_name=_('вид отделки'),
-                                           max_length=31,
-                                           choices=INTERIOR_DECORATION_CHOICES,
-                                           default=UNFURNISHED,
-                                           )
+    decoration = models.ForeignKey(
+        Decoration,
+        verbose_name=_('вид отделки'),
+        null=True,
+    )
     price = models.DecimalField(verbose_name=_('цена, рб'),
                                 default=1000000,
                                 decimal_places=0,
@@ -115,6 +128,10 @@ class BasePropertyModel(models.Model):
     def __str__(self):
         return "%s_%s" % (self.TYPE, self.id)
         return "%s по адресу %s" % (self.TYPE.capitalize(), self.address)
+
+    def get_interior_decoration_display(self):
+        """For compatibility"""
+        return self.decoration
 
     class Meta:
         abstract = True

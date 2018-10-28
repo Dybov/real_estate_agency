@@ -1,27 +1,36 @@
-import re
-from django.contrib import admin, messages
+from django.contrib import admin
 from django.utils.translation import ugettext_lazy as _
-from django.utils.text import mark_safe
 
-from PIL import Image
+from adminsortable2.admin import SortableInlineAdminMixin
 
-from applications.forms import transform_russian8_phone_number
+from real_estate.admin import (
+    AdminInlineImages,
+    MultiuploadInlinesContainerMixin,
+)
 
-from .models import ResaleApartment, ResaleApartmentImage, ResaleCharacteristic
+from .models import (
+    ResaleApartment,
+    ResaleApartmentImage,
+    ResaleCharacteristic,
+    ResaleDecoration,
+)
 from .forms import ResaleApartmentForm, ResaleApartmentImageForm
 
 
-class ResidentalComplexImageInline(admin.TabularInline):
+class ResaleImageInline(
+        SortableInlineAdminMixin, admin.TabularInline, AdminInlineImages):
     model = ResaleApartmentImage
     form = ResaleApartmentImageForm
     classes = ['collapse', ]
     extra = 0
     min_num = 0
+    fields = ('thumbnail', 'image')
+    readonly_fields = ('thumbnail', )
 
 
 @admin.register(ResaleApartment)
-class ResaleApartmentAdmin(admin.ModelAdmin):
-    inlines = [ResidentalComplexImageInline, ]
+class ResaleApartmentAdmin(MultiuploadInlinesContainerMixin, admin.ModelAdmin):
+    inlines = [ResaleImageInline, ]
     form = ResaleApartmentForm
 
     list_display_initial = (
@@ -49,8 +58,11 @@ class ResaleApartmentAdmin(admin.ModelAdmin):
         return obj.full_price
     full_price.short_description = _("текущая стоимость")
 
-    image_inline_pattern = re.compile('^photos-\d+-(file|image)$')
     fieldsets = None
+
+    # For multiupload by MultiuploadInlinesContainerMixin
+    related_inline_form = ResaleApartmentImageForm
+    related_inline_fk = 'apartment'
 
     def get_fieldsets(self, request, obj=None):
         self.fieldsets = self.dynamic_fieldset(request)
@@ -84,14 +96,36 @@ class ResaleApartmentAdmin(admin.ModelAdmin):
         })
 
         apartment_part_fields = (
-            'neighbourhood', 'residental_complex', 'street',
-            ('building', 'building_block',), 'coordinates',
-            'rooms', ('floor', 'number_of_storeys'),
-            'section', 'apartment_number', 'building_type',
-            'home_series', 'date_of_construction',
-            ('total_area', 'kitchen_area', 'balcony_area',),
-            ('celling_height', 'interior_decoration',),
-            'layout', 'description', 'characteristics'
+            'neighbourhood',
+            'residental_complex',
+            'street',
+            (
+                'building',
+                'building_block',
+            ),
+            'coordinates',
+            'rooms',
+            (
+                'floor',
+                'number_of_storeys',
+            ),
+            'section',
+            'apartment_number',
+            'building_type',
+            'home_series',
+            'date_of_construction',
+            (
+                'total_area',
+                'kitchen_area',
+                'balcony_area',
+            ),
+            (
+                'celling_height',
+                'decoration',
+            ),
+            'layout',
+            'description',
+            'characteristics'
         )
         apartment_part = (_('Информация по квартире'), {
             'classes': ('collapse',),
@@ -118,34 +152,6 @@ class ResaleApartmentAdmin(admin.ModelAdmin):
             obj.modified_by = request.user
         obj.save()
 
-        for i in request.FILES:
-            # only for appropriate formsets:
-            m = self.image_inline_pattern.search(i)
-            if m:
-                for afile in request.FILES.getlist(i)[:-1]:
-                    img_form = ResaleApartmentImageForm(
-                        {'apartment': obj.id}, {'image': afile}
-                    )
-                    if img_form.is_valid():
-                        img_form.save()
-                    else:
-                        message_text = _(
-                            '<div>Файл "%(file_name)s" не загружен<ul>') \
-                            % {'file_name': afile.name}
-                        for field, errors in img_form.errors.items():
-                            for error in errors:
-                                message_text += '<li class="{message_class}">{field}:\
-                                 {error}</li>'.format(
-                                    field=field,
-                                    error=error,
-                                    message_class=messages.DEFAULT_TAGS.get(
-                                        messages.WARNING),
-                                )
-                        message_text += "</ul></div>"
-                        messages.add_message(
-                            request, messages.WARNING, mark_safe(message_text))
-    
-
     def get_queryset(self, request):
         qs = super(ResaleApartmentAdmin, self).get_queryset(request)
         if request.user.has_perm('resale.can_add_change_delete_all_resale'):
@@ -158,7 +164,9 @@ class ResaleApartmentAdmin(admin.ModelAdmin):
         if request.user.has_perm('resale.can_add_change_delete_all_resale'):
             self.list_display += ('created_by',)
             self.list_filter = ('created_by',) + self.list_filter
-        return super(ResaleApartmentAdmin, self).changelist_view(request, extra_context)
+        return super(ResaleApartmentAdmin, self).changelist_view(
+            request, extra_context)
 
 
 admin.site.register(ResaleCharacteristic)
+admin.site.register(ResaleDecoration)

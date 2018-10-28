@@ -4,6 +4,8 @@ from django.contrib import admin, messages
 from django.utils.translation import ugettext_lazy as _
 from django.utils.text import mark_safe
 
+from imagekit.admin import AdminThumbnail
+
 
 class DontShowInAdmin(admin.ModelAdmin):
 
@@ -95,3 +97,11 @@ class MustBeSetError(Exception):
     def __init__(self, arg):
         msg = '"%s" must be set for MultiuploadInlinesContainerMixin' % arg
         super(MustBeSetError, self).__init__(msg)
+
+
+class AdminInlineImages(object):
+    thumbnail = AdminThumbnail(
+        image_field='thumbnail_admin',
+        template='admin/display_link_thumbnail.html',
+    )
+    thumbnail.short_description = _('миниатюра')
