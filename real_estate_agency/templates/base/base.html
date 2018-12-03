@@ -38,7 +38,6 @@
     <script src='{% static "js/scripts_libs.min.js"%}'></script>
     <script src='{% static "js/common.js"%}'></script>
     <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jqueryui-touch-punch/0.2.3/jquery.ui.touch-punch.min.js"></script>
-    {% yandex_metrica %}
     {% extra_head 'base/extra_production_head.html' %}
 </head>
 
@@ -63,5 +62,6 @@ Comment until use React inside it
 <div id='root'></div>
 {% render_bundle 'main' %}
 {% endcomment %}
+{% yandex_metrica %}
 </body>
 </html>
