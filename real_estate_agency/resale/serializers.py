@@ -14,6 +14,7 @@ class ResaleApartmentSerializer(serializers.ModelSerializer):
     get_building_type_display = serializers.ReadOnlyField()
     price_per_square_meter = serializers.ReadOnlyField()
     neighbourhood = serializers.StringRelatedField()
+    decoration = serializers.ReadOnlyField(source='decoration.name')
 
     class Meta:
         model = ResaleApartment
