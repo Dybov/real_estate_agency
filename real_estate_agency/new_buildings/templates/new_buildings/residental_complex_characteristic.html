@@ -1,17 +1,12 @@
-
-    {% for characteristic in residental_complex.get_characteristic %}
-    	<div class="item_characteristics col-xs-12 col-md-3">
-					<div class="item_characteristics_icon">
-						<img
-                        src="{{ characteristic.thumbnail.url }}"
-                        width="{{ characteristic.thumbnail.width }}"
-                        height="{{ characteristic.thumbnail.height }}">
-					</div>
-					<div class="item_characteristics_text">
-						{{ characteristic }}
-					</div>
-			</div>
-
-    {% empty %}
-    <p>Описание характеристик будет добавлено позднее</p>
-    {% endfor %}
+{% for characteristic in residental_complex.get_characteristic %}
+  <div class="item_characteristics col-xs-12 col-md-3">
+      <div class="item_characteristics_icon">
+        <img src="{{ characteristic.thumbnail.url }}" width="{{ characteristic.thumbnail.width }}" height="{{ characteristic.thumbnail.height }}" alt="">
+      </div>
+      <div class="item_characteristics_text">
+        {{ characteristic }}
+      </div>
+  </div>
+{% empty %}
+<p>Описание характеристик будет добавлено позднее</p>
+{% endfor %}

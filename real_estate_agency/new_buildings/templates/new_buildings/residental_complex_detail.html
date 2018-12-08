@@ -3,438 +3,436 @@
 {% load static %}
 {% load django_bootstrap_breadcrumbs %}
 {% block breadcrumbs %}
-	{{ block.super }}
-	{% breadcrumb residental_complex "new_buildings:residental-complex-detail" residental_complex.id %}
+  {{ block.super }}
+  {% breadcrumb residental_complex "new_buildings:residental-complex-detail" residental_complex.id %}
 {% endblock %}
 {% block content %}
 <div>
-	<div class="header_zhk">
-		<div class="header_zhk_img" style='background-image: url({{ residental_complex.get_title_photo_url }});'>
-			<div class="header_zhk_filter" style="  background-image: linear-gradient(to bottom, rgba(60, 61, 73, 0.27), rgba(0, 0, 0, 0.0));">
-				<div class="container">
-					<div class="row">
-						<div class="col-md-12">
-							<div class="header_zhk_name">
-							<h1>{{residental_complex.type_of_complex|capfirst}} {{ residental_complex|capfirst }}</h1>
-							<h2>Застройщик {{ residental_complex.builder }}</h2>
-							</div>
-							<div>
-								{% if residental_complex.presentation %}
-								<a href="{{ residental_complex.presentation.url }}" class="btn btn-primary" download>скачать презентацию</a>
-								{% endif %}
-							</div>
-						</div>
-					</div>
-			</div>
-								<div class="container">
-								<div class="header_zhk_description ">
-								<div class="header_zhk_description_item-frist">
-									<p class="header_zhk_description_p">Материал стен<br> <span> {{ building_types }}</span></p>
-								</div>
-								<div class="header_zhk_description_item">
+  <div class="header_zhk">
+    <div class="header_zhk_img" style='background-image: url({{ residental_complex.get_title_photo_url }});'>
+      <div class="header_zhk_filter" style="  background-image: linear-gradient(to bottom, rgba(60, 61, 73, 0.27), rgba(0, 0, 0, 0.0));">
+        <div class="container">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="header_zhk_name">
+              <h1>{{residental_complex.type_of_complex|capfirst}} {{ residental_complex|capfirst }}</h1>
+              <h2>Застройщик {{ residental_complex.builder }}</h2>
+              </div>
+              <div>
+                {% if residental_complex.presentation %}
+                <a href="{{ residental_complex.presentation.url }}" class="btn btn-primary" download>скачать презентацию</a>
+                {% endif %}
+              </div>
+            </div>
+          </div>
+      </div>
+                <div class="container">
+                <div class="header_zhk_description ">
+                <div class="header_zhk_description_item-frist">
+                  <p class="header_zhk_description_p">Материал стен<br> <span> {{ building_types }}</span></p>
+                </div>
+                <div class="header_zhk_description_item">
 <p class="header_zhk_description_p">Квартир в ЖК<br> <span>{{ residental_complex.count_flats }}</span></p>
-								</div>
-								<div class="header_zhk_description_item">
+                </div>
+                <div class="header_zhk_description_item">
 <p class="header_zhk_description_p">Срок сдачи<br> <span> {{ residental_complex.get_latest_date_of_building}}</span></p>
-								</div>
-								<div class="header_zhk_description_item-last">
+                </div>
+                <div class="header_zhk_description_item-last">
 <p class="header_zhk_description_p">Количество домов<br> <span>{{ residental_complex.count_buildings }}</span></p>
-								</div>															  
-							</div>
-							</div>
-				</div>
+                </div>                                
+              </div>
+              </div>
+        </div>
 
-		</div>
-	</div>
+    </div>
+  </div>
 </div>
 
 <section class="map_and_cta"> 
-	<div id="myMap" class="map">
-		{% if yandex_grid_center_json %}
-			{% include 'new_buildings/api-yandex-map.html' %}
-		{% else %}
-			<h2 class="container">Местоположение не доступно</h2>
-		{% endif %}
-	</div>
-	<div class="cta_header">
-		<p class="cta_header_headline">
-			Записаться на экскурсию с менеджером DОМУС
-		</p>
-		<form method="post" action="{% url 'applications:callback' %}">{% csrf_token %}
-			<input name="{{ callback_form.phone_number.name }}" type="text" class="medium_input" placeholder="Телефон">
-			<br>
-			<input name="{{ callback_form.extra_info.name }}" type="hidden" value="Интересует экскурсия" />
-			<button type="submit" class="cta_header_btn"> Записатьcя</button>
-		</form>
-		<div class="info_form">
-			Нажимая на кнопку, вы даете согласие на обработку своих персональных данных DОМУС
-			<br>
-			<a href="{% url 'privacy-policy' %}">Пользовательское соглашение DОМУС</a>
-		</div>
-	</div>
+  <div id="myMap" class="map">
+    {% if yandex_grid_center_json %}
+      {% include 'new_buildings/api-yandex-map.html' %}
+    {% else %}
+      <h2 class="container">Местоположение не доступно</h2>
+    {% endif %}
+  </div>
+  <div class="cta_header">
+    <p class="cta_header_headline">
+      Записаться на экскурсию с менеджером DОМУС
+    </p>
+    <form method="post" action="{% url 'applications:callback' %}">{% csrf_token %}
+      <input name="{{ callback_form.phone_number.name }}" type="text" class="medium_input" placeholder="Телефон">
+      <br>
+      <input name="{{ callback_form.extra_info.name }}" type="hidden" value="Интересует экскурсия" />
+      <button type="submit" class="cta_header_btn"> Записатьcя</button>
+    </form>
+    <div class="info_form">
+      Нажимая на кнопку, вы даете согласие на обработку своих персональных данных DОМУС
+      <br>
+      <a href="{% url 'privacy-policy' %}">Пользовательское соглашение DОМУС</a>
+    </div>
+  </div>
 </section>
 
 <section class="zhk_description">
-	<div class="container">
-		<div class="row">
-			<div class="col-md-12 col-xs-12">
-			<div class="zhk_headline">
-				О <!--комплексе--> {{residental_complex.type_of_complex.get_loct}} 
-			</div>
-				<div class="zhk_description_advantage">
-				<p>{{ residental_complex.description }}</p>
-				</div>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12 col-xs-12">
+      <div class="zhk_headline">
+        О <!--комплексе--> {{residental_complex.type_of_complex.get_loct}} 
+      </div>
+        <div class="zhk_description_advantage">
+        <p>{{ residental_complex.description }}</p>
+        </div>
 
-			</div>
-		</div>
-		<h2 class="zhk_description_headline">Характеристики <!--'комплекса'-->{{residental_complex.type_of_complex.get_gent}}</h2>
-		<div class="zhk_characteristics">
-			{% include "new_buildings/residental_complex_characteristic.html"%}
-		</div>
-		
-		
-		<!-- JS, который срабатывает при нажатии должен подхватывать url тот же, что и ниже -->
+      </div>
+    </div>
+    <h2 class="zhk_description_headline">Характеристики <!--'комплекса'-->{{residental_complex.type_of_complex.get_gent}}</h2>
+    <div class="zhk_characteristics">
+      {% include "new_buildings/residental_complex_characteristic.html"%}
+    </div>
+    
+    
+    <!-- JS, который срабатывает при нажатии должен подхватывать url тот же, что и ниже -->
 
-	<div class="carousel zhk_slider"   data-flickity='{"wrapAround": true }'>
-		{% for img_url in residental_complex.get_all_photos_url %}
-		<a href="{{img_url}}" class="slider_item" style="background-image: url({{img_url}});">
-			<div class="slider_item_hover">
-				 <div class="slider_icon_search">
-						Увеличить фотографию <br><i class="fa fa-search-plus " aria-hidden="true"></i>		  
-				 </div>
-			</div>		  
-		</a>
-		{% endfor %}
-	</div>
+  <div class="carousel zhk_slider"   data-flickity='{"wrapAround": true }'>
+    {% for img_url in residental_complex.get_all_photos_url %}
+    <a href="{{img_url}}" class="slider_item" style="background-image: url({{img_url}});">
+      <div class="slider_item_hover">
+         <div class="slider_icon_search">
+            Увеличить фотографию <br><i class="fa fa-search-plus " aria-hidden="true"></i>      
+         </div>
+      </div>      
+    </a>
+    {% endfor %}
+  </div>
 
 
-		<div class="row">
-			<div class="col-md-10 col-xs-12">
-				<div class="zhk_description_headline">
-					Особенности <!--жилого комплекса-->{{residental_complex.type_of_complex.get_gent}} {{residental_complex}}
-				</div>
-			</div>
-			<div class="col-md-12 col-xs-12">
-				{% include "new_buildings/residental_complex_feature.html"%}
-			</div>
-		</div>
+    <div class="row">
+      <div class="col-md-10 col-xs-12">
+        <div class="zhk_description_headline">
+          Особенности <!--жилого комплекса-->{{residental_complex.type_of_complex.get_gent}} {{residental_complex}}
+        </div>
+      </div>
+      <div class="col-md-12 col-xs-12">
+        {% include "new_buildings/residental_complex_feature.html"%}
+      </div>
+    </div>
 
-	{% if residental_complex.video_link %}
-		<div class="row" style="margin-top: 50px;">
-			<div class="col-md-12 col-xs-12">
-				<a href="{{residental_complex.video_link}}" class="popup_video">
-					<div  class="zhk_video" style="background-image: url({{ residental_complex.front_image_spec_normal.url }});">
-						<div class="zhk_video_filter">
-							<div class="zhk_video_headline">
-								Посмотрите видео о {{residental_complex.type_of_complex.get_loct}} {{residental_complex}}
-							</div>
-							<div class="zhk_video_cta">
-								Смотреть видео <i class="fa fa-play-circle-o" aria-hidden="true"></i>
-							</div>
-						</div>
-					</div>
-				</a>
-			</div>
-		</div>
-	{% endif %}
+  {% if residental_complex.video_link %}
+    <div class="row" style="margin-top: 50px;">
+      <div class="col-md-12 col-xs-12">
+        <a href="{{residental_complex.video_link}}" class="popup_video">
+          <div  class="zhk_video" style="background-image: url({{ residental_complex.front_image_spec_normal.url }});">
+            <div class="zhk_video_filter">
+              <div class="zhk_video_headline">
+                Посмотрите видео о {{residental_complex.type_of_complex.get_loct}} {{residental_complex}}
+              </div>
+              <div class="zhk_video_cta">
+                Смотреть видео <i class="fa fa-play-circle-o" aria-hidden="true"></i>
+              </div>
+            </div>
+          </div>
+        </a>
+      </div>
+    </div>
+  {% endif %}
 </section>
 
 {% with 'Задать вопросы о '|add:residental_complex.type_of_complex.get_loct as callback_form_title %}
-	{% include 'applications/callback_form_implemented.html' %}
+  {% include 'applications/callback_form_implemented.html' %}
 {% endwith %}
 <!--
 <section class="special_offers">
-	<div class="container">
-		<div class="row">
-			<div class="col-md-8 col-xs-12">
-				<div class="zhk_headline" style="margin-bottom: 50px;">
-					Специальные предложения
-				</div>
-			</div>
-		</div>
-		<div class="row">
-			<div class="col-md-3 col-xs-12">
-				<div class="sale">
-					<p class="special_offers_headline">
-						Скидки
-					</p>
-					<p class="special_offers_numbers">
-						2%
-					</p>
-					<p class="special_offers_description">
-						При 100% оплате квартиры 
-					</p>
-				</div>
-			</div>
-			<div class="col-md-4 col-xs-12">
-				<div class="installment">
-					<p class="special_offers_headline">
-						Рассрочка  <br>на
-					
-					<span class="special_offers_numbers">
-						36 
-					</span>
-					 месяцев
-					</p>
-					<p class="special_offers_description">
-						При 100% оплате квартиры 
-					</p>
-				</div>
-			</div>
-			<div class="col-md-5 col-xs-12">
-				<div class="special_offers_more">
-					<p class="special_offers_headline">Узнать больше</p>
-					<form class="special_offers_form" method="post" action="{% url 'applications:callback' %}">{% csrf_token %}
-						<input name="{{ callback_form.phone_number.name }}" type="text" class="small_input" placeholder="Телефон">
-						<input name="{{ callback_form.extra_info.name }}" type="hidden" value="Интересуют специальные предложения" />
-						<button type="submit" class="btn_small">Узнать</button>
-					</form>
-				</div>
-			</div>
-		</div>
-	</div>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-8 col-xs-12">
+        <div class="zhk_headline" style="margin-bottom: 50px;">
+          Специальные предложения
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-3 col-xs-12">
+        <div class="sale">
+          <p class="special_offers_headline">
+            Скидки
+          </p>
+          <p class="special_offers_numbers">
+            2%
+          </p>
+          <p class="special_offers_description">
+            При 100% оплате квартиры 
+          </p>
+        </div>
+      </div>
+      <div class="col-md-4 col-xs-12">
+        <div class="installment">
+          <p class="special_offers_headline">
+            Рассрочка  <br>на
+          
+          <span class="special_offers_numbers">
+            36 
+          </span>
+           месяцев
+          </p>
+          <p class="special_offers_description">
+            При 100% оплате квартиры 
+          </p>
+        </div>
+      </div>
+      <div class="col-md-5 col-xs-12">
+        <div class="special_offers_more">
+          <p class="special_offers_headline">Узнать больше</p>
+          <form class="special_offers_form" method="post" action="{% url 'applications:callback' %}">{% csrf_token %}
+            <input name="{{ callback_form.phone_number.name }}" type="text" class="small_input" placeholder="Телефон">
+            <input name="{{ callback_form.extra_info.name }}" type="hidden" value="Интересуют специальные предложения" />
+            <button type="submit" class="btn_small">Узнать</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
 </section>  
 -->
 <section >
-	<div class="rooms">
-	<div class="container">
-		<div class="row">
-			<div class="col-md-12 col-xs-12">
-				<div class="zhk_headline">Выбрать квартиру в <!--жилом комплексе--> {{residental_complex.type_of_complex.get_loct}}<br>{{residental_complex}}</div>
-			</div>
-		</div>
-	</div>
+  <div class="rooms">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12 col-xs-12">
+        <div class="zhk_headline">Выбрать квартиру в <!--жилом комплексе--> {{residental_complex.type_of_complex.get_loct}}<br>{{residental_complex}}</div>
+      </div>
+    </div>
+  </div>
 
-		<div class="container">
+    <div class="container">
 
-			<div class="row">
-				<div class="col-md-12 apartment-filter">
-					<div class="search_room-flex">
-						<div class="search-form-room-flex">
-						<div class="search-form-name">Количество комнат</div>
-						<div class="btn-group search-room-btn-flex">
-						<label class="search-btn">
-							<label for="id_rooms_B">
-								<input name="rooms" value="B" id="id_rooms_B" class="checkbox" type="checkbox"/>
-								C
-							</label>
-						</label>
-						{% for i in '123'%}
-							<label class="search-btn button">
-								<label for="id_rooms_{{i}}">
-									<input name="rooms" value="{{i}}" id="id_rooms_{{i}}" class="checkbox" type="checkbox"/>
-									{{i}}
-								</label>
-							</label>
-						{% endfor %}
-						<label class="search-btn button">
-							<label for="id_rooms_4+">
-								<input name="rooms" value="4+" id="id_rooms_4+" class="checkbox" type="checkbox"/>
-								4+
-							</label>
-						</label>
-						</div>
-					</div>
-
-
-						<div class="search_price-flex search_price-flex-border-right-none">
-						<div class="search-form-name">Стоимость</div>
-						<div class="search_form_price_container search_price-flex-border-bottom">
-						<div class="search_form_price">
-
-						<input id="price_from" type="text" name='price' placeholder="от">
-					</div>
-						<div class="search_form_price">
-							<input id="price_to" type="text" name='price' placeholder="до">
-						</div>
-						</div>
-					</div>
+      <div class="row">
+        <div class="col-md-12 apartment-filter">
+          <div class="search_room-flex">
+            <div class="search-form-room-flex">
+            <div class="search-form-name">Количество комнат</div>
+            <div class="btn-group search-room-btn-flex">
+            <label class="search-btn">
+              <label for="id_rooms_B">
+                <input name="rooms" value="B" id="id_rooms_B" class="checkbox" type="checkbox"/>
+                C
+              </label>
+            </label>
+            {% for i in '123'%}
+              <label class="search-btn button">
+                <label for="id_rooms_{{i}}">
+                  <input name="rooms" value="{{i}}" id="id_rooms_{{i}}" class="checkbox" type="checkbox"/>
+                  {{i}}
+                </label>
+              </label>
+            {% endfor %}
+            <label class="search-btn button">
+              <label for="id_rooms_4+">
+                <input name="rooms" value="4+" id="id_rooms_4+" class="checkbox" type="checkbox"/>
+                4+
+              </label>
+            </label>
+            </div>
+          </div>
 
 
-						<div class="search_price-flex">
-						<div class="search-form-name">Количество метров</div>
-						<div class="search_form_price_container ">
-						<div class="search_form_price">
+            <div class="search_price-flex search_price-flex-border-right-none">
+            <div class="search-form-name">Стоимость</div>
+            <div class="search_form_price_container search_price-flex-border-bottom">
+            <div class="search_form_price">
 
-						<input type="text" id='total_area_from' name='area' class="" placeholder="от">
-					</div>
-						<div class="search_form_price">
-						<input type="text" id='total_area_to' name='area' class="" placeholder="до">
-						</div>
-						</div>
-					</div>
+            <input id="price_from" type="text" name='price' placeholder="от">
+          </div>
+            <div class="search_form_price">
+              <input id="price_to" type="text" name='price' placeholder="до">
+            </div>
+            </div>
+          </div>
 
 
-					<div class="select_home-flex">
-					<div class="search-form-name">Выбор дома</div>
-						<div class="search_form_select">
-							<select class='search_form_select-select building-selects'>
-								<option value="">Все дома</option>
-								{% for building in residental_complex.get_new_buildings %}
-									<option value="{{building.id}}">
-										{{building}}
-									</option>
-								{% endfor %}
-							</select>
-						</div>
-					</div>
-				</div>		  
-			</div>
-		</div>
-	</div>
+            <div class="search_price-flex">
+            <div class="search-form-name">Количество метров</div>
+            <div class="search_form_price_container ">
+            <div class="search_form_price">
+
+            <input type="text" id='total_area_from' name='area' class="" placeholder="от">
+          </div>
+            <div class="search_form_price">
+            <input type="text" id='total_area_to' name='area' class="" placeholder="до">
+            </div>
+            </div>
+          </div>
+
+
+          <div class="select_home-flex">
+          <div class="search-form-name">Выбор дома</div>
+            <div class="search_form_select">
+              <select class='search_form_select-select building-selects'>
+                <option value="">Все дома</option>
+                {% for building in residental_complex.get_new_buildings %}
+                  <option value="{{building.id}}">
+                    {{building}}
+                  </option>
+                {% endfor %}
+              </select>
+            </div>
+          </div>
+        </div>      
+      </div>
+    </div>
+  </div>
 </div>
-	<div class="container">
-		<div class="row grid">
-		{% for apartment in residental_complex.get_new_apartments %}
-			{% include "new_buildings/apartment_short.html"%}
-		{% endfor %}
-		<div class="col-xs-12 element-item" id="empty-filter-result" hidden>
-			<p>Подходящие квартиры не найдены</p>
-		</div>
-		</div>
-	</div>
+  <div class="container">
+    <div class="row grid">
+    {% for apartment in residental_complex.get_new_apartments %}
+      {% include "new_buildings/apartment_short.html"%}
+    {% endfor %}
+    <div class="col-xs-12 element-item" id="empty-filter-result" hidden>
+      <p>Подходящие квартиры не найдены</p>
+    </div>
+    </div>
+  </div>
 
 </section>
 
 <section style="margin-bottom: 50px;">
-	<div class="container">
-		<div class="row">
-			<div class="col-md-8 col-xs-12">
-				<div class="zhk_headline"> Способы покупки</div>
-			</div>
-		</div>
-		<div class="row">
-			<div class="col-md-3">
-				<div class="method_purchase_item">
-					<div class="method_purchase_item_img">
-						<img  src="{% static 'img/icon/method_purchase_item4.svg' %}" alt="" width="100">
-					</div>
-					<div class="method_purchase_item_headline">
-						Наличный расчёт
-					</div>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-8 col-xs-12">
+        <div class="zhk_headline"> Способы покупки</div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-3">
+        <div class="method_purchase_item">
+          <div class="method_purchase_item_img">
+            <img  src="{% static 'img/icon/method_purchase_item4.svg' %}" alt="" width="100">
+          </div>
+          <div class="method_purchase_item_headline">
+            Наличный расчёт
+          </div>
 
-				</div>
-			</div>
-			<div class="col-md-3">
-				<div class="method_purchase_item">
-					<div class="method_purchase_item_img">
-						<img  src="{% static 'img/icon/method_purchase_item3.svg' %}" alt="" width="100">
-					</div>					
-					<div class="method_purchase_item_headline">
-						Рассрочка
-					</div>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="method_purchase_item">
+          <div class="method_purchase_item_img">
+            <img  src="{% static 'img/icon/method_purchase_item3.svg' %}" alt="" width="100">
+          </div>          
+          <div class="method_purchase_item_headline">
+            Рассрочка
+          </div>
 
-				</div>
-			</div>
-			<div class="col-md-3">
-				<div class="method_purchase_item">
-					<div class="method_purchase_item_img">
-						<img  src="{% static 'img/icon/method_purchase_item2.svg' %}" alt="" width="100">
-					</div>
-					<div class="method_purchase_item_headline">
-						Ипотека
-					</div>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="method_purchase_item">
+          <div class="method_purchase_item_img">
+            <img  src="{% static 'img/icon/method_purchase_item2.svg' %}" alt="" width="100">
+          </div>
+          <div class="method_purchase_item_headline">
+            Ипотека
+          </div>
 
-				</div>
-			</div>
-			<div class="col-md-3">
-				<div class="method_purchase_item">
-					<div class="method_purchase_item_img">
-						<img  src="{% static 'img/icon/method_purchase_item1.svg' %}" alt="" width="100">
-					</div>					
-					<div class="method_purchase_item_headline">
-						Социальные программы
-					</div>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="method_purchase_item">
+          <div class="method_purchase_item_img">
+            <img  src="{% static 'img/icon/method_purchase_item1.svg' %}" alt="" width="100">
+          </div>          
+          <div class="method_purchase_item_headline">
+            Социальные программы
+          </div>
 
-				</div>
-			</div>
-		</div>
-	</div>
+        </div>
+      </div>
+    </div>
+  </div>
 </section>
 
 
 <section class="ipoteka" style="background-image: url({% static 'mortgage/img/ipoteka.png' %});">
-	<div class="container">
-		<div class="row">
-			<div class="col-md-8 col-xs-12">
-				<div class="zhk_headline">Ипотека</div>
-				<div class="ipoteka_headline">от <span class="ipoteka_percent"> 6%</span></div>
-				<div class="ipoteka_description">
-					Мы работаем с 10 ведущими банками
-				</div>
-			</div>
-			<div class="col-md-12 col-xs-12">
-				<div class="slider_ipoteka scrollyeah" data-shadows="false">
-				{% for bank in banks %}
-					<div class="slider_ipoteka_item">
-						<div class="slider_ipoteka_item_logo">
-							<img
-							src="{{ bank.thumbnail_34_34.url }}"
-							height="{{ bank.thumbnail_34_34.height }}">
-						</div>
-						<div>
-							{{ bank.title }}
-						</div>
-					</div>
-				{% endfor %}		
-				</div>
-				<a href="{% url 'mortgage:index' %}">
-					<button class="btn_large">Рассчитать ипотеку</button>
-				</a>
-			</div>
-		</div>
-	</div>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-8 col-xs-12">
+        <div class="zhk_headline">Ипотека</div>
+        <div class="ipoteka_headline">от <span class="ipoteka_percent"> 6%</span></div>
+        <div class="ipoteka_description">
+          Мы работаем с 10 ведущими банками
+        </div>
+      </div>
+      <div class="col-md-12 col-xs-12">
+        <div class="slider_ipoteka scrollyeah" data-shadows="false">
+        {% for bank in banks %}
+          <div class="slider_ipoteka_item">
+            <div class="slider_ipoteka_item_logo">
+              <img src="{{ bank.thumbnail_34_34.url }}" height="{{ bank.thumbnail_34_34.height }}" alt="{{ bank.title }} logo">
+            </div>
+            <div>
+              {{ bank.title }}
+            </div>
+          </div>
+        {% endfor %}    
+        </div>
+        <a href="{% url 'mortgage:index' %}">
+          <button class="btn_large">Рассчитать ипотеку</button>
+        </a>
+      </div>
+    </div>
+  </div>
 </section>
 
 {% include 'applications/callback_form_implemented.html' with callback_form_title='Задать вопросы о ипотеке' %}
 
 <section class="soc_prog" style="background-image: url({% static 'img/shutterstock_450844792.jpg' %});">
-	<div class="container">
-		<div class="row">
-			<div class="col-md-8 col-xs-12">
-				<div class="zhk_headline">Социальные программы</div>
-				<div class="ipoteka_description">
-					Мы работаем с жилищными програмами
-				</div>
-			</div>
-			<div class="col-md-12 col-xs-12">
-				<div class="slider_soc_prog scrollyeah" data-shadows="false">
-					<a class="slider_soc_prog_item">
-						<div class="slide_soc_prog_item_name">
-							Материнский капитал
-						</div>
-					</a>
-						<a class="slider_soc_prog_item">
-						<div class="slide_soc_prog_item_name">
-							Молодая семья
-						</div>
-					</a>
-						<a class="slider_soc_prog_item">
-						<div class="slide_soc_prog_item_name">
-							Бюджетный сертификат
-						</div>
-					</a>
-						<a class="slider_soc_prog_item">
-						<div class="slide_soc_prog_item_name">
-							Сертификат на переселение из ЯНАО и ХМАО
-						</div>
-					</a>
-						<a class="slider_soc_prog_item">
-						<div class="slide_soc_prog_item_name">
-							Военная ипотека
-						</div>
-					</a>
-				</div>
-			</div>
-		</div>
-	</div>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-8 col-xs-12">
+        <div class="zhk_headline">Социальные программы</div>
+        <div class="ipoteka_description">
+          Мы работаем с жилищными програмами
+        </div>
+      </div>
+      <div class="col-md-12 col-xs-12">
+        <div class="slider_soc_prog scrollyeah" data-shadows="false">
+          <a class="slider_soc_prog_item">
+            <div class="slide_soc_prog_item_name">
+              Материнский капитал
+            </div>
+          </a>
+            <a class="slider_soc_prog_item">
+            <div class="slide_soc_prog_item_name">
+              Молодая семья
+            </div>
+          </a>
+            <a class="slider_soc_prog_item">
+            <div class="slide_soc_prog_item_name">
+              Бюджетный сертификат
+            </div>
+          </a>
+            <a class="slider_soc_prog_item">
+            <div class="slide_soc_prog_item_name">
+              Сертификат на переселение из ЯНАО и ХМАО
+            </div>
+          </a>
+            <a class="slider_soc_prog_item">
+            <div class="slide_soc_prog_item_name">
+              Военная ипотека
+            </div>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
 </section>
 
 {% include "new_buildings/building_documents.html"%}
 {% include 'new_buildings/popups/residental_complex_detail_popup.html' %}
 
 <script type="text/javascript">
-	var apartments_json = {{ residental_complex.get_new_apartments_json }};
+  var apartments_json = {{ residental_complex.get_new_apartments_json }};
 </script>
 <script src='{% static "new_buildings/js/apartment_filter.js"%}'></script>
 {% endblock %}

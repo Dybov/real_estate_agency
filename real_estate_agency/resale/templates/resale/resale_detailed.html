@@ -30,9 +30,7 @@
 				{% if apartment.get_images %}
 				<div data-flickity='{ "cellAlign": "left", "contain": true, "wrapAround": true, "imagesLoaded": true }'>
 					{% for photo in apartment.get_images %}
-					<img src="{{ photo.image_spec.url }}"
-					class='img-flick img-responsive' alt="Изображение {{ forloop.counter }}"
-					>
+					<img src="{{ photo.image_spec.url }}" class='img-flick img-responsive' alt="{{ forloop.counter }} logo">
 					{% endfor %}
 				</div>
 				{% else %}
