@@ -62,7 +62,8 @@ $(document).ready(function() {
   })  
 
   $(".checkbox").click(function(e) {
-    $(this).parent(this).parent(this).toggleClass('active-checkbox')
+    // classList for working with IE
+    $(this).parent(this)[0].classList.toggle('active-checkbox');
   })
 
 

@@ -21,8 +21,9 @@
                     {{ form.rooms.errors }}
                     <div class="btn-group search-room-btn-flex" data-toggle="buttons">
                         {% for room in form.rooms %}
-                            <label class="search-btn {% if room.data.selected %}active-checkbox{% endif %}">
-                                {{room}}
+                            <label class="search-btn {% if room.data.selected %}active-checkbox{% endif %}" for="{{ room.id_for_label }}">
+                              {{room.tag}}
+                              {{room.choice_label}}
                             </label>
                         {% endfor %}
                     </div>
