@@ -29,15 +29,15 @@
 </div>
 
 <div class="container">
-	<h2 class="zhk_headline">Приемущества компании</h3>
+	<h2 class="zhk_headline">Преимущества компании</h2>
 	<div class="advantages-block-wrapper row text-center">
 		<div class="col-md-3 col-xs-12">
-			<img src="{% static 'img/icon/wallet.svg' %}" width="100px" height="100px">
+			<img src="{% static 'img/icon/wallet.svg' %}" width="100" height="100" alt="">
 			<h4><strong>Новостройки без комиссии</strong></h4>
 			<p>Мы являемся представителями застройщиков, поэтому наши услуги 	бесплатны</p>
 		</div>
 		<div class="col-md-3 col-xs-12">
-			<img src="{% static 'img/icon/booking.svg' %}" width="100px" height="100px">
+			<img src="{% static 'img/icon/booking.svg' %}" width="100" height="100" alt="">
 			<h4><strong>Бронирование</strong></h4>
 			<p>Мы бесплатно забронируем для вас квартиру в новостройке</p>
 		</div>
@@ -45,7 +45,7 @@
 			{% include 'company/blocks/manager.html' %}
 		</div>
 		<div class="col-md-3 col-xs-12">
-			<img src="{% static 'img/icon/excrusion.svg' %}" width="100px" height="100px">
+			<img src="{% static 'img/icon/excrusion.svg' %}" width="100" height="100" alt="">
 			<h4><strong>Экскурсии</strong></h4>
 			<p>Мы предоставим вам трансфер по всем новостройкам</p>
 		</div>
@@ -77,12 +77,10 @@
 <section class="slider_diplom">
 	<div class="container">
 		<h2 class="zhk_headline">Благодарственные письма от партнеров</h2>
-		<div class="sleder_diplom_container" data-flickity='{ "groupCells": true, "wrapAround": true }'>
+		<div class="sleder_diplom_container" data-flickity='{ "groupCells": true, "wrapAround": true, "imagesLoaded": true }'>
 			{% for award in awards %}
-				{# <a href="{{award.image.url}}" class="slider_item" style="background-image: url({{award.image.url}});"> #}
-			{# </a> #}
 			<a href="{{award.image.url}}" class="slider_diplom_item">
-				<img src="{{award.image_thumbnail.url}}" height="{{award.image_thumbnail.height}}">
+				<img src="{{award.image_thumbnail.url}}" height="{{award.image_thumbnail.height}}" alt="">
 			</a>
 			{% endfor %}
 		</div>
