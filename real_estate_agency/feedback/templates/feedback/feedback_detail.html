@@ -9,7 +9,7 @@
             {% endif %}
             Приобретена квартира в {{feedback.bought.type_of_complex.get_loct}} {{feedback.bought}}<br>
             {% for social in feedback.get_social_media_links %}
-                <a href="{{social.url}}" target="_blank"><img src='{{social.get_img.url}}' width="16px" height="16px" t]>{{social.get_type}}</a><br>
+                <a href="{{social.url}}" target="_blank"><img src='{{social.get_img.url}}' width="16" height="16" alt="{{social.get_type}} logo">{{social.get_type}}</a><br>
             {% endfor %}
         </div>
     </div>

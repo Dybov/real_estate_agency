@@ -1,7 +1,7 @@
 {% load static %}
 <div class="team_item row" >
     <div>
-        <img src="{{ member.get_contact_photo }}" class="team_photo">
+        <img src="{{ member.get_contact_photo }}" class="team_photo" alt="{{ member.get_full_name }} photo">
     </div>
     <div class="team_item_name ">{{ member.get_full_name }}</div>
     <div class="team_item_desc">

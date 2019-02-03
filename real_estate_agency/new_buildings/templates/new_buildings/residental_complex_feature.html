@@ -1,25 +1,19 @@
 {% for feature in residental_complex.get_features %}
-
-            <div class="features">
-                <div class="features_img">
-                    <img
-                    src="{{ feature.image_spec.url }}"
-                    alt="Изображение {{ feature.title }}"
-                    height="{{ feature.image_spec.height }}"
-                    width="{{ feature.image_spec.width }}">
-                </div>
-                <div class="features_description">
-                    <div class="zhk_description_headline">
-                         {{ feature.title }}
-                    </div>
-                    <div class="zhk_description_text">
-                         {{ feature.description }}
-                    </div>
-                </div>
-            </div>
-
+  <div class="features">
+    <div class="features_img">
+      <img src="{{ feature.image_spec.url }}" alt="{{ feature.title }} logo" height="{{ feature.image_spec.height }}" width="{{ feature.image_spec.width }}">
+    </div>
+    <div class="features_description">
+      <div class="zhk_description_headline">
+        {{ feature.title }}
+      </div>
+      <div class="zhk_description_text">
+        {{ feature.description }}
+      </div>
+    </div>
+  </div>
 {% empty %}
-<p>Описание особенностей будет добавлено позднее</p>
+  <p>Описание особенностей будет добавлено позднее</p>
 {% endfor %}
 
 
