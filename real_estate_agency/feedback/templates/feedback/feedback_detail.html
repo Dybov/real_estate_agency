@@ -7,7 +7,16 @@
             {% if feedback.work_at %}
                 <span style="font-size: 14px; font-weight: 300;">Место работы: {{feedback.work_at}} </span>
             {% endif %}
-            Приобретена квартира в {{feedback.bought.type_of_complex.get_loct}} {{feedback.bought}}<br>
+            {% if feedback.residental_complex or feedback.is_resale %}
+              Приобретена квартира 
+              {% if feedback.residental_complex %}
+                в {{feedback.residental_complex.type_of_complex.get_loct}} {{feedback.residental_complex}}
+              {% endif %}
+              {% if feedback.is_resale %}
+                на вторичном рынке
+              {% endif %}
+              <br>
+            {% endif %}
             {% for social in feedback.get_social_media_links %}
                 <a href="{{social.url}}" target="_blank"><img src='{{social.get_img.url}}' width="16" height="16" alt="{{social.get_type}} logo">{{social.get_type}}</a><br>
             {% endfor %}

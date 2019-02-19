@@ -8,26 +8,40 @@ from contacts.models import SocialLink
 
 
 class Feedback(models.Model):
-    author = models.CharField(verbose_name=_('клиент'),
-                              max_length=127,
-                              )
-    bought = models.ForeignKey(ResidentalComplex,
-                               verbose_name=_('где купили'),
-                               )
-    date = models.DateField(verbose_name=_('когда совершили сделку'),
-                            blank=True, null=True,
-                            )
+    author = models.CharField(
+        verbose_name=_('клиент'),
+        max_length=127,
+    )
+    residental_complex = models.ForeignKey(
+        ResidentalComplex,
+        verbose_name=_('ЖК'),
+        blank=True,
+        null=True,
+    )
+    is_resale = models.BooleanField(
+        verbose_name=_('приобретено на вторичном рынке'),
+        default=False,
+    )
+    date = models.DateField(
+        verbose_name=_('когда совершили сделку'),
+        blank=True,
+        null=True,
+    )
     message = models.TextField(verbose_name=_('текст отзыва'))
-    work_at = models.CharField(verbose_name=_('место работы'),
-                               max_length=127,
-                               blank=True,
-                               null=True,
-                               )
-    image = models.ImageField(verbose_name=_('фото'),
-                              upload_to=get_file_path)
-    is_active = models.BooleanField(verbose_name=_('отображать на сайте'),
-                                    default=True,
-                                    )
+    work_at = models.CharField(
+        verbose_name=_('место работы'),
+        max_length=127,
+        blank=True,
+        null=True,
+    )
+    image = models.ImageField(
+        verbose_name=_('фото'),
+        upload_to=get_file_path
+    )
+    is_active = models.BooleanField(
+        verbose_name=_('отображать на сайте'),
+        default=True,
+    )
     image_250_250 = spec_factory(
         250, 250,
         format='JPEG',
@@ -57,4 +71,3 @@ class SocialLinkForFeedback(SocialLink):
                                  related_name='social_media_links',
                                  on_delete=models.CASCADE,
                                  )
- 
