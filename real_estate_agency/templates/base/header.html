@@ -17,7 +17,12 @@
               Звоните ежедневно с 8:00 до 22:00
             </div>
             <div class="phone_number">
-              {{global_phone_number}}
+              <span class="hidden-xs hidden-sm">
+                  {{global_phone_number}}
+              </span>
+              <a class="hidden-md hidden-lg hidden-xl" href="tel:{{global_phone_number_orig}}">
+                  {{global_phone_number}}
+              </a>
             </div>
             <a href="{% url 'applications:callback' %}" class="callback callback-link item-info-btn">Заказать обратный звонок</a>
           </div>
