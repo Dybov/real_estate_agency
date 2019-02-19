@@ -51,10 +51,14 @@ class Feedback(models.Model):
     # social_media_links - one to many field
 
     def __str__(self):
-        return _("{author} из {company}").format(
+        text = "{author}".format(
             author=self.author,
-            company=self.work_at
         )
+        if self.work_at:
+            text += _(" из {company}").format(
+                company=self.work_at
+            )
+        return text
 
     def get_social_media_links(self):
         return self.social_media_links.all()
