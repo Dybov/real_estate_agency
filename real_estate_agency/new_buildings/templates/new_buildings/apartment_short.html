@@ -1,5 +1,9 @@
+{% load l10n %}
+
+{% localize off %}
 <div class="col-md-3 col-xs-12 element-item" id='apartment-{{apartment.id}}'> 
 <a href="#apartment_{{apartment.id}}_popup" class="pop_up_plan">
+{% endlocalize %}
 	<div class="item_rooms">
 		<div class='rooms' hidden>{{ apartment.rooms }}</div>
 		<div
@@ -21,9 +25,10 @@
 
 
 
-
+{% localize off %}
 <div class="hidden">
 <div id="apartment_{{apartment.id}}_popup" class="animate_popup apartment_modal_plan">
+{% endlocalize %}
 	<div class="modal_plan_img" style="background-image: url({{ apartment.layout_large.url }});">
 	</div>
 	<div class="modal_plan_description">
