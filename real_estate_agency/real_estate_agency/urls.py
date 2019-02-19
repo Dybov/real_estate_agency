@@ -42,6 +42,8 @@ urlpatterns = [
     url(r'^politika/', privacy_policy, name='privacy-policy'),
     url(r'^spasibo/', thanks, name='thanks'),
     url(r'^katalog-kvartir/', include('resale.urls', namespace='resale')),
+    url(r'^rosfinmonitoring/',
+        include('rosfinmonitor.urls', namespace='rosfin')),
 ]
 
 
