@@ -1,15 +1,17 @@
 from django.contrib import admin
-from django.contrib.admin import TabularInline, StackedInline
+from django.contrib.admin import StackedInline
 
 from .models import Feedback, SocialLinkForFeedback
 
 
-class SocialLinkForFeedbackInline(admin.StackedInline):
+class SocialLinkForFeedbackInline(StackedInline):
     model = SocialLinkForFeedback
     extra = 1
-    fields = ('link_type',
-              'url',
+    fields = (
+        'link_type',
+        'url',
     )
+
 
 @admin.register(Feedback)
 class FeedbackAdmin(admin.ModelAdmin):
