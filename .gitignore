@@ -19,7 +19,7 @@ real_estate_agency/media/*
 *.sass-cache
 
 #For temporary db (for development)
-*/db.sqlite3
+*.sqlite3
 real_estate_agency/static/img/.DS_Store
 
 #For node packages and dynamic webpack files
