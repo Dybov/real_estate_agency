@@ -755,6 +755,10 @@ display: flex;
           border-radius: 6px;
   margin-bottom: 10px;
 }
+.btn-shadow {
+  border: none;
+  box-shadow: 5px 5px 40px 0px rgba(255,130,86,0.5);
+}
 .item-info-btn:hover {
   border: none;
   color: #fff;
