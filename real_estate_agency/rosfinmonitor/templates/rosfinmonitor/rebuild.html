@@ -15,10 +15,10 @@
 {% endblock %}
 
 {% block content %}
-<div class="intro row finmonitor-dark finmonitor-block">
+<div class="intro row finmonitor-dark">
   <div class="col-md-7 intro-left">
     <p>Работаем по всей Тюменской области</p>
-    <h2>Bы займемся выполнением всех
+    <h2>Мы займемся выполнением всех
 требований под/фт/фрому,
 а вы своим бизнесом</h2>
     <button class="btn-shadow large-text callback-link item-info-btn intro-btn">Заказать услугу</button>
@@ -30,7 +30,7 @@
 </div>
 <div class="finmonitor-block">
   <h1>Наши услуги</h1>
-  <ol class="row finmonitor-ol">
+  <ol class="finmonitor-ol">
     <li class="finmonitor-ol-li">
       <h3>Консультация</h3>
       <p>От организации внутреннего контроля до предоставления отчетности в Росфинмониторинг</p>
@@ -43,7 +43,7 @@
       <h3>Абонентское обслуживание</h3>
       <p>При изменении законодательства подготовим для Вас актуальную редакцию правил внутреннего контроля. Помощь при отправки отчетности в Росфинмониторинг</p>
     </li>
-    <li class="finmonitor-ol-li">
+    <li class="finmonitor-ol-li ">
       <h3>Разработка документации</h3>
       <p>Проведение аудита Вашей системы внутреннего контроля, разработка всей необходимой документации</p>
     </li>
@@ -52,6 +52,49 @@
       <p>Проведенение дополнительного обучения Ваших сотрудников в установленые нормативными документами сроки</p>
     </li>
   </ol>  
+</div>
+<div class="contact row finmonitor-dark finmonitor-block">
+  <h2 id="contact">Запишитесь на консультацию
+cо специалистом</h2>
+  <div class="col-md-6 contact-left">
+     <div class="wrap-contact100">
+      <form class="contact100-form validate-form">
+        <div class="wrap-input100 validate-input" data-validate="Введите Ваше Имя">
+          <span class="label-input100">Имя</span>
+          <input class="input100" type="text" name="name" placeholder="Иванов Иван">
+          <span class="focus-input100"></span>
+        </div>
+
+        <div class="wrap-input100 validate-input" data-validate = "Введите Ваш email">
+          <span class="label-input100">Ваш емайл</span>
+          <input class="input100" type="email" name="email" placeholder="mail@example.com">
+          <span class="focus-input100"></span>
+        </div>
+
+        <div class="wrap-input100">
+          <span class="label-input100">Ваш телефон</span>
+          <input class="input100" type="tel" name="phone" placeholder="+7 (999) 999 99 99">
+          <span class="focus-input100"></span>
+        </div>
+
+        <div class="wrap-contact100-form-btn">
+          <button class="btn-shadow large-text callback-link item-info-btn intro-btn">Записаться
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+  <div class="col-md-1"></div>
+  <div class="col-md-5 contact-right">
+    <img src="{% static 'rosfinmonitor/images/photo1.jpeg'%}">
+    <h3>Анастасия</h3>
+    <p class="contact-right-p">Специалист</p>
+    <a href="tel:+73452589881">+7 (3452) 58-98-81</a>
+    <p class="contact-right-p">Опыт работы: специалист по
+противодействию легализации преступных
+доходов, опыт работы в данной сфере более 12
+лет.</p>
+  </div>
 </div>
 </div>
 {% endblock %}
