@@ -48,7 +48,6 @@ def sendViberMassMessage(recievers, msg, remove_tags=True):
     for reciever in recievers:
         response = sendViberMessage.delay(reciever, msg)
         responses.append(response)
-    return responses
 
 
 @app.task

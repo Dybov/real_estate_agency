@@ -1,6 +1,7 @@
 from django.views.generic import FormView
 from django.conf import settings
 from django.core.urlresolvers import reverse_lazy
+from django.core.mail import mail_managers
 from django.utils.translation import ugettext_lazy as _
 from django.http import JsonResponse
 
@@ -88,8 +89,19 @@ class Callback(FormView):
         msg = self.addMarketingInfoToMessage(msg)
         title = get_msg_title(self.request)
 
-        sendMailToTheManagers(title=title, message=msg)
         sendViberTextMessageToTheAdmins(msg)
+        self.sendMail(title, msg)
+
+    def sendMail(self, title, message):
+        mail_managers(
+            title,
+            '',
+            html_message=message.replace('\n', '<br/>'),
+            fail_silently=True,
+        )
+
+        # Delayed task:
+        # sendMailToTheManagers(title=title, message=msg)
 
     def addMarketingInfoToMessage(self, text):
         if UTM_PARAMS[0] in self.request.COOKIES:
