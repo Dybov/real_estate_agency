@@ -9,9 +9,10 @@ from django.utils.translation import ugettext as _
 from imagekit import ImageSpec
 from imagekit.models.fields import ImageSpecField
 from imagekit.processors import ResizeToFit, ResizeToFill
-from PIL import Image, ImageEnhance
+from PIL import Image, ImageEnhance, ImageFile
 
 from .helper import get_file_path
+
 
 # opacity ratio from 0 to 1
 BASE_OPACITY = 0.7
@@ -194,6 +195,10 @@ def add_watermark(image, wmk_image, size_ratio, pos):
     watermark = wmk_image.resize(new_size)
 
     tranparent = Image.new('RGBA', (width, height), (255, 255, 255, 0))
+    
+    # To prevent IOError from truncated images
+    imageFile.LOAD_TRUNCATED_IMAGES = True
+    
     tranparent.paste(image, (0, 0))
 
     new_pos = get_position_by_shortcut(pos, (width, height), new_size)
