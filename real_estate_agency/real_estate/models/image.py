@@ -196,10 +196,10 @@ def add_watermark(image, wmk_image, size_ratio, pos):
 
     tranparent = Image.new('RGBA', (width, height), (255, 255, 255, 0))
     
-    # To prevent IOError from truncated images
-    imageFile.LOAD_TRUNCATED_IMAGES = True
-    
-    tranparent.paste(image, (0, 0))
+    try:
+        tranparent.paste(image, (0, 0))
+    except:
+        return image
 
     new_pos = get_position_by_shortcut(pos, (width, height), new_size)
     tranparent.paste(watermark, new_pos, mask=watermark)
